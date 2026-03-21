@@ -1,0 +1,108 @@
+openapi: 3.1.0
+info:
+  title: ElevenLabs Audio Isolation API
+  description: >-
+    The ElevenLabs Audio Isolation API removes background noise from audio
+    recordings, isolating vocal tracks from ambient sounds and interference.
+    This is useful for cleaning up recordings, improving audio quality for
+    podcasts and interviews, and preparing audio files for further processing
+    such as voice cloning or transcription.
+  version: '1.0'
+  contact:
+    name: ElevenLabs Support
+    url: https://help.elevenlabs.io
+  termsOfService: https://elevenlabs.io/terms-of-service
+externalDocs:
+  description: ElevenLabs Audio Isolation API Documentation
+  url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation
+servers:
+  - url: https://api.elevenlabs.io
+    description: Production Server
+tags:
+  - name: Audio Isolation
+    description: >-
+      Endpoints for isolating vocals from background noise in audio
+      recordings.
+security:
+  - apiKeyAuth: []
+paths:
+  /v1/audio-isolation:
+    post:
+      operationId: isolateAudio
+      summary: Isolate audio
+      description: >-
+        Removes background noise from an audio file, isolating the vocal
+        content. Processes the uploaded audio and returns a cleaned version
+        with background noise removed while preserving the vocal track.
+      tags:
+        - Audio Isolation
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AudioIsolationRequest'
+      responses:
+        '200':
+          description: Audio isolation completed successfully
+          content:
+            audio/mpeg:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Bad request - invalid audio file
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '422':
+          description: Unprocessable entity - audio file could not be processed
+  /v1/audio-isolation/stream:
+    post:
+      operationId: isolateAudioStream
+      summary: Isolate audio with streaming
+      description: >-
+        Removes background noise from an audio file and streams the cleaned
+        audio back using chunked transfer encoding. Useful for processing
+        larger files where streaming output is preferred.
+      tags:
+        - Audio Isolation
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AudioIsolationRequest'
+      responses:
+        '200':
+          description: Streaming isolated audio response
+          content:
+            audio/mpeg:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Bad request - invalid audio file
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '422':
+          description: Unprocessable entity - audio file could not be processed
+components:
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: xi-api-key
+      description: >-
+        ElevenLabs API key passed in the xi-api-key header for authentication.
+  schemas:
+    AudioIsolationRequest:
+      type: object
+      required:
+        - audio
+      properties:
+        audio:
+          type: string
+          format: binary
+          description: >-
+            The audio file to process for vocal isolation. Supports common
+            audio formats including MP3, WAV, FLAC, and OGG.

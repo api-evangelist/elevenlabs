@@ -1,0 +1,167 @@
+openapi: 3.1.0
+info:
+  title: ElevenLabs Voice Cloning API
+  description: >-
+    The ElevenLabs Voice Cloning API allows developers to create custom AI
+    voices from audio recordings. Instant Voice Cloning requires as little as
+    60 seconds of clean audio to generate a usable voice clone, while
+    Professional Voice Cloning produces higher fidelity results from a minimum
+    of 30 minutes of recordings. Cloned voices can then be used with the Text
+    to Speech API for generating speech that closely matches the original
+    speaker.
+  version: '1.0'
+  contact:
+    name: ElevenLabs Support
+    url: https://help.elevenlabs.io
+  termsOfService: https://elevenlabs.io/terms-of-service
+externalDocs:
+  description: ElevenLabs Voice Cloning API Documentation
+  url: https://elevenlabs.io/docs/api-reference/voices/ivc/create
+servers:
+  - url: https://api.elevenlabs.io
+    description: Production Server
+tags:
+  - name: Instant Voice Cloning
+    description: >-
+      Endpoints for creating voice clones from short audio samples with
+      instant processing.
+  - name: Professional Voice Cloning
+    description: >-
+      Endpoints for creating high-fidelity voice clones from longer audio
+      recordings with professional-grade processing.
+security:
+  - apiKeyAuth: []
+paths:
+  /v1/voices/add:
+    post:
+      operationId: createInstantVoiceClone
+      summary: Create instant voice clone
+      description: >-
+        Creates a new voice clone from uploaded audio samples using instant
+        voice cloning. Requires a minimum of 60 seconds of clean audio. The
+        cloned voice is immediately available for use with speech generation
+        endpoints.
+      tags:
+        - Instant Voice Cloning
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/InstantVoiceCloneRequest'
+      responses:
+        '200':
+          description: Voice clone created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VoiceCloneResponse'
+        '400':
+          description: Bad request - invalid audio or parameters
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '422':
+          description: Unprocessable entity - audio too short or low quality
+  /v1/voices/{voice_id}/professional:
+    post:
+      operationId: createProfessionalVoiceClone
+      summary: Create professional voice clone
+      description: >-
+        Initiates professional voice cloning from uploaded audio samples.
+        Requires a minimum of 30 minutes of high-quality recordings. The
+        cloning process takes longer than instant cloning but produces
+        higher fidelity results.
+      tags:
+        - Professional Voice Cloning
+      parameters:
+        - $ref: '#/components/parameters/voiceId'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProfessionalVoiceCloneRequest'
+      responses:
+        '200':
+          description: Professional voice clone initiated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VoiceCloneResponse'
+        '400':
+          description: Bad request - invalid audio or parameters
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '422':
+          description: Unprocessable entity - insufficient audio quality or duration
+components:
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: xi-api-key
+      description: >-
+        ElevenLabs API key passed in the xi-api-key header for authentication.
+  parameters:
+    voiceId:
+      name: voice_id
+      in: path
+      required: true
+      description: >-
+        The identifier of the voice to apply professional cloning to.
+      schema:
+        type: string
+  schemas:
+    InstantVoiceCloneRequest:
+      type: object
+      required:
+        - name
+        - files
+      properties:
+        name:
+          type: string
+          description: >-
+            The name for the cloned voice.
+        description:
+          type: string
+          description: >-
+            Description of the cloned voice and its intended use.
+        labels:
+          type: string
+          description: >-
+            JSON string of key-value label pairs describing the voice
+            characteristics such as accent, age, and gender.
+        files:
+          type: array
+          description: >-
+            Audio sample files for cloning. A minimum of 60 seconds of
+            clean audio is recommended for best results.
+          items:
+            type: string
+            format: binary
+    ProfessionalVoiceCloneRequest:
+      type: object
+      required:
+        - files
+      properties:
+        files:
+          type: array
+          description: >-
+            High-quality audio recordings for professional voice cloning.
+            A minimum of 30 minutes of recordings is required.
+          items:
+            type: string
+            format: binary
+        consent:
+          type: string
+          format: binary
+          description: >-
+            A signed consent form or audio consent from the voice owner
+            authorizing the creation of the voice clone.
+    VoiceCloneResponse:
+      type: object
+      properties:
+        voice_id:
+          type: string
+          description: >-
+            The unique identifier of the newly created voice clone.

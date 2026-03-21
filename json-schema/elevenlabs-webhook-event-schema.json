@@ -1,0 +1,190 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://elevenlabs.io/schemas/elevenlabs/webhook-event.json",
+  "title": "ElevenLabs Webhook Event",
+  "description": "Represents a webhook event payload delivered by ElevenLabs to configured endpoints. Covers post-call transcriptions, audio recordings, call failures, and workspace events.",
+  "type": "object",
+  "required": ["event_type"],
+  "discriminator": {
+    "propertyName": "event_type"
+  },
+  "properties": {
+    "event_type": {
+      "type": "string",
+      "description": "The type of webhook event being delivered.",
+      "enum": [
+        "post_call_transcription",
+        "post_call_audio",
+        "call_initiation_failure",
+        "workspace_event"
+      ]
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the event occurred."
+    }
+  },
+  "oneOf": [
+    {
+      "$ref": "#/$defs/PostCallTranscriptionEvent"
+    },
+    {
+      "$ref": "#/$defs/PostCallAudioEvent"
+    },
+    {
+      "$ref": "#/$defs/CallInitiationFailureEvent"
+    },
+    {
+      "$ref": "#/$defs/WorkspaceEvent"
+    }
+  ],
+  "$defs": {
+    "PostCallTranscriptionEvent": {
+      "type": "object",
+      "description": "Webhook event containing the full transcript of a completed Conversational AI conversation.",
+      "required": ["event_type", "conversation_id", "agent_id", "transcript"],
+      "properties": {
+        "event_type": {
+          "type": "string",
+          "const": "post_call_transcription",
+          "description": "Event type identifier for post-call transcriptions."
+        },
+        "conversation_id": {
+          "type": "string",
+          "description": "Unique identifier for the completed conversation."
+        },
+        "agent_id": {
+          "type": "string",
+          "description": "Identifier of the agent that participated in the conversation."
+        },
+        "transcript": {
+          "type": "array",
+          "description": "Ordered list of conversation turns with speaker roles and timestamps.",
+          "items": {
+            "$ref": "#/$defs/TranscriptTurn"
+          }
+        },
+        "metadata": {
+          "$ref": "#/$defs/ConversationMetadata"
+        }
+      }
+    },
+    "PostCallAudioEvent": {
+      "type": "object",
+      "description": "Webhook event containing the audio recording of a completed conversation, delivered via chunked transfer encoding.",
+      "required": ["event_type", "conversation_id", "agent_id"],
+      "properties": {
+        "event_type": {
+          "type": "string",
+          "const": "post_call_audio",
+          "description": "Event type identifier for post-call audio."
+        },
+        "conversation_id": {
+          "type": "string",
+          "description": "Unique identifier for the completed conversation."
+        },
+        "agent_id": {
+          "type": "string",
+          "description": "Identifier of the agent that participated in the conversation."
+        },
+        "audio_format": {
+          "type": "string",
+          "description": "The format of the audio data."
+        }
+      }
+    },
+    "CallInitiationFailureEvent": {
+      "type": "object",
+      "description": "Webhook event sent when a Conversational AI call fails to initiate.",
+      "required": ["event_type", "agent_id", "error"],
+      "properties": {
+        "event_type": {
+          "type": "string",
+          "const": "call_initiation_failure",
+          "description": "Event type identifier for call initiation failures."
+        },
+        "agent_id": {
+          "type": "string",
+          "description": "Identifier of the agent that failed to start a call."
+        },
+        "error": {
+          "type": "string",
+          "description": "Description of the error that prevented call initiation."
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the failure occurred."
+        }
+      }
+    },
+    "WorkspaceEvent": {
+      "type": "object",
+      "description": "Webhook event for workspace-level notifications.",
+      "required": ["event_type", "workspace_id"],
+      "properties": {
+        "event_type": {
+          "type": "string",
+          "const": "workspace_event",
+          "description": "Event type identifier for workspace events."
+        },
+        "workspace_id": {
+          "type": "string",
+          "description": "Identifier of the workspace."
+        },
+        "data": {
+          "type": "object",
+          "description": "Event-specific data payload.",
+          "additionalProperties": true
+        }
+      }
+    },
+    "TranscriptTurn": {
+      "type": "object",
+      "description": "A single turn in a conversation transcript.",
+      "required": ["role", "message"],
+      "properties": {
+        "role": {
+          "type": "string",
+          "description": "The speaker role in the conversation.",
+          "enum": ["agent", "user"]
+        },
+        "message": {
+          "type": "string",
+          "description": "The spoken message content."
+        },
+        "timestamp": {
+          "type": "number",
+          "description": "Timestamp in seconds from the start of the conversation."
+        }
+      }
+    },
+    "ConversationMetadata": {
+      "type": "object",
+      "description": "Metadata about a completed conversation.",
+      "properties": {
+        "duration_seconds": {
+          "type": "number",
+          "description": "Total duration of the conversation in seconds.",
+          "minimum": 0
+        },
+        "started_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the conversation started."
+        },
+        "ended_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the conversation ended."
+        },
+        "end_reason": {
+          "type": "string",
+          "description": "The reason the conversation ended.",
+          "enum": ["user_ended", "agent_ended", "timeout", "error"]
+        }
+      }
+    }
+  }
+}

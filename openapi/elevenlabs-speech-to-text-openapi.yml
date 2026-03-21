@@ -1,0 +1,233 @@
+openapi: 3.1.0
+info:
+  title: ElevenLabs Speech to Text API
+  description: >-
+    The ElevenLabs Speech to Text API provides state-of-the-art transcription
+    capabilities, converting spoken audio into accurate text. It supports
+    multiple audio formats and languages, enabling developers to build
+    applications that require reliable audio transcription. The API supports
+    both synchronous and asynchronous processing modes.
+  version: '1.0'
+  contact:
+    name: ElevenLabs Support
+    url: https://help.elevenlabs.io
+  termsOfService: https://elevenlabs.io/terms-of-service
+externalDocs:
+  description: ElevenLabs Speech to Text API Documentation
+  url: https://elevenlabs.io/docs/api-reference/speech-to-text/convert
+servers:
+  - url: https://api.elevenlabs.io
+    description: Production Server
+tags:
+  - name: Speech to Text
+    description: >-
+      Endpoints for converting audio into text transcriptions with support
+      for multiple languages and audio formats.
+security:
+  - apiKeyAuth: []
+paths:
+  /v1/speech-to-text:
+    post:
+      operationId: convertSpeechToText
+      summary: Convert speech to text
+      description: >-
+        Transcribes an audio file into text. Supports multiple audio formats
+        and languages. Returns the transcribed text along with optional
+        word-level timing information.
+      tags:
+        - Speech to Text
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SpeechToTextRequest'
+      responses:
+        '200':
+          description: Transcription completed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TranscriptionResponse'
+        '400':
+          description: Bad request - invalid audio file or parameters
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '422':
+          description: Unprocessable entity - validation error
+  /v1/speech-to-text/async:
+    post:
+      operationId: convertSpeechToTextAsync
+      summary: Convert speech to text asynchronously
+      description: >-
+        Submits an audio file for asynchronous transcription. Returns a task
+        identifier that can be used to poll for the transcription result or
+        receive it via webhook callback.
+      tags:
+        - Speech to Text
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SpeechToTextAsyncRequest'
+      responses:
+        '200':
+          description: Transcription task submitted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AsyncTranscriptionResponse'
+        '400':
+          description: Bad request - invalid audio file or parameters
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '422':
+          description: Unprocessable entity - validation error
+components:
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: xi-api-key
+      description: >-
+        ElevenLabs API key passed in the xi-api-key header for authentication.
+  schemas:
+    SpeechToTextRequest:
+      type: object
+      required:
+        - file
+      properties:
+        file:
+          type: string
+          format: binary
+          description: >-
+            The audio file to transcribe. Supports formats including MP3, WAV,
+            FLAC, OGG, and M4A.
+        model_id:
+          type: string
+          description: >-
+            The identifier of the speech-to-text model to use for
+            transcription.
+        language_code:
+          type: string
+          description: >-
+            Language code in ISO 639-1 format to hint the expected language
+            of the audio content.
+        tag_audio_events:
+          type: boolean
+          description: >-
+            Whether to tag non-speech audio events such as music, laughter,
+            or applause in the transcription output.
+          default: false
+        timestamps_granularity:
+          type: string
+          description: >-
+            The level of timestamp granularity to include in the response.
+          enum:
+            - none
+            - word
+            - character
+    SpeechToTextAsyncRequest:
+      type: object
+      required:
+        - file
+      properties:
+        file:
+          type: string
+          format: binary
+          description: >-
+            The audio file to transcribe asynchronously.
+        model_id:
+          type: string
+          description: >-
+            The identifier of the speech-to-text model to use.
+        language_code:
+          type: string
+          description: >-
+            Language code in ISO 639-1 format.
+        webhook_url:
+          type: string
+          format: uri
+          description: >-
+            A URL to receive a webhook notification when the transcription
+            is complete.
+    TranscriptionResponse:
+      type: object
+      properties:
+        text:
+          type: string
+          description: >-
+            The full transcribed text.
+        language_code:
+          type: string
+          description: >-
+            The detected language of the audio content.
+        language_probability:
+          type: number
+          description: >-
+            Confidence score for the detected language.
+        words:
+          type: array
+          description: >-
+            Word-level timing information when timestamps are requested.
+          items:
+            $ref: '#/components/schemas/TranscriptionWord'
+        audio_events:
+          type: array
+          description: >-
+            Non-speech audio events detected in the recording.
+          items:
+            $ref: '#/components/schemas/AudioEvent'
+    AsyncTranscriptionResponse:
+      type: object
+      properties:
+        task_id:
+          type: string
+          description: >-
+            The identifier of the asynchronous transcription task.
+        status:
+          type: string
+          description: >-
+            The current status of the transcription task.
+          enum:
+            - pending
+            - processing
+            - completed
+            - failed
+    TranscriptionWord:
+      type: object
+      properties:
+        text:
+          type: string
+          description: >-
+            The transcribed word.
+        start:
+          type: number
+          description: >-
+            Start time of the word in seconds.
+        end:
+          type: number
+          description: >-
+            End time of the word in seconds.
+        confidence:
+          type: number
+          description: >-
+            Confidence score for the word transcription.
+          minimum: 0
+          maximum: 1
+    AudioEvent:
+      type: object
+      properties:
+        type:
+          type: string
+          description: >-
+            The type of audio event detected.
+        start:
+          type: number
+          description: >-
+            Start time of the event in seconds.
+        end:
+          type: number
+          description: >-
+            End time of the event in seconds.

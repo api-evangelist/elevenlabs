@@ -1,0 +1,188 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "elevenlabs": "https://elevenlabs.io/ns/",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+
+    "Voice": {
+      "@id": "elevenlabs:Voice",
+      "@context": {
+        "voice_id": "elevenlabs:voiceId",
+        "name": "schema:name",
+        "description": "schema:description",
+        "category": "elevenlabs:voiceCategory",
+        "preview_url": {
+          "@id": "schema:contentUrl",
+          "@type": "@id"
+        },
+        "labels": "elevenlabs:voiceLabels",
+        "settings": "elevenlabs:voiceSettings",
+        "samples": "elevenlabs:voiceSamples",
+        "high_quality_base_model_ids": "elevenlabs:compatibleModels"
+      }
+    },
+
+    "VoiceSettings": {
+      "@id": "elevenlabs:VoiceSettings",
+      "@context": {
+        "stability": "elevenlabs:stability",
+        "similarity_boost": "elevenlabs:similarityBoost",
+        "style": "elevenlabs:style",
+        "use_speaker_boost": "elevenlabs:useSpeakerBoost"
+      }
+    },
+
+    "Agent": {
+      "@id": "elevenlabs:Agent",
+      "@context": {
+        "agent_id": "elevenlabs:agentId",
+        "name": "schema:name",
+        "conversation_config": "elevenlabs:conversationConfig",
+        "tools": {
+          "@id": "elevenlabs:agentTools",
+          "@container": "@set"
+        },
+        "knowledge_base": {
+          "@id": "elevenlabs:knowledgeBase",
+          "@container": "@set"
+        },
+        "created_at": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "Conversation": {
+      "@id": "elevenlabs:Conversation",
+      "@context": {
+        "conversation_id": "elevenlabs:conversationId",
+        "agent_id": "elevenlabs:agentId",
+        "status": "elevenlabs:conversationStatus",
+        "transcript": {
+          "@id": "elevenlabs:transcript",
+          "@container": "@list"
+        },
+        "started_at": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        },
+        "duration_seconds": "elevenlabs:durationSeconds"
+      }
+    },
+
+    "DubbingProject": {
+      "@id": "elevenlabs:DubbingProject",
+      "@context": {
+        "dubbing_id": "elevenlabs:dubbingId",
+        "name": "schema:name",
+        "status": "elevenlabs:dubbingStatus",
+        "source_language": {
+          "@id": "schema:inLanguage"
+        },
+        "target_languages": {
+          "@id": "elevenlabs:targetLanguages",
+          "@container": "@set"
+        },
+        "created_at": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "StudioProject": {
+      "@id": "elevenlabs:StudioProject",
+      "@context": {
+        "project_id": "elevenlabs:projectId",
+        "name": "schema:name",
+        "state": "elevenlabs:projectState",
+        "default_voice_id": "elevenlabs:defaultVoiceId",
+        "chapters": {
+          "@id": "elevenlabs:chapters",
+          "@container": "@list"
+        },
+        "created_at": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "Chapter": {
+      "@id": "elevenlabs:Chapter",
+      "@context": {
+        "chapter_id": "elevenlabs:chapterId",
+        "name": "schema:name",
+        "content": "schema:text",
+        "voice_id": "elevenlabs:voiceId",
+        "state": "elevenlabs:chapterState"
+      }
+    },
+
+    "KnowledgeBaseDocument": {
+      "@id": "elevenlabs:KnowledgeBaseDocument",
+      "@context": {
+        "document_id": "elevenlabs:documentId",
+        "name": "schema:name",
+        "type": "elevenlabs:documentType",
+        "source_url": {
+          "@id": "schema:url",
+          "@type": "@id"
+        },
+        "created_at": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "Tool": {
+      "@id": "elevenlabs:Tool",
+      "@context": {
+        "tool_id": "elevenlabs:toolId",
+        "name": "schema:name",
+        "type": "elevenlabs:toolType",
+        "description": "schema:description",
+        "webhook_url": {
+          "@id": "elevenlabs:webhookUrl",
+          "@type": "@id"
+        },
+        "created_at": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "Model": {
+      "@id": "elevenlabs:Model",
+      "@context": {
+        "model_id": "elevenlabs:modelId",
+        "name": "schema:name",
+        "description": "schema:description",
+        "can_do_text_to_speech": "elevenlabs:canDoTextToSpeech",
+        "can_do_voice_conversion": "elevenlabs:canDoVoiceConversion",
+        "languages": {
+          "@id": "schema:availableLanguage",
+          "@container": "@set"
+        }
+      }
+    },
+
+    "PronunciationDictionary": {
+      "@id": "elevenlabs:PronunciationDictionary",
+      "@context": {
+        "pronunciation_dictionary_id": "elevenlabs:dictionaryId",
+        "version_id": "elevenlabs:dictionaryVersionId",
+        "name": "schema:name",
+        "created_at": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        }
+      }
+    }
+  }
+}

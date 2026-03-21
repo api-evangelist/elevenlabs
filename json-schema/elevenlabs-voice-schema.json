@@ -1,0 +1,138 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://elevenlabs.io/schemas/elevenlabs/voice.json",
+  "title": "ElevenLabs Voice",
+  "description": "Represents a voice in the ElevenLabs platform, including pre-built, cloned, and designed voices with their associated metadata, settings, and audio samples.",
+  "type": "object",
+  "required": ["voice_id", "name"],
+  "properties": {
+    "voice_id": {
+      "type": "string",
+      "description": "Unique identifier for the voice."
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name of the voice.",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "category": {
+      "type": "string",
+      "description": "The category indicating how the voice was created.",
+      "enum": ["premade", "cloned", "designed", "professional"]
+    },
+    "description": {
+      "type": "string",
+      "description": "Human-readable description of the voice characteristics and intended use."
+    },
+    "labels": {
+      "type": "object",
+      "description": "Key-value labels describing voice characteristics such as accent, age, gender, and use case.",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "preview_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL to a preview audio sample of the voice."
+    },
+    "settings": {
+      "$ref": "#/$defs/VoiceSettings"
+    },
+    "samples": {
+      "type": "array",
+      "description": "Audio samples associated with the voice, used for cloning and preview.",
+      "items": {
+        "$ref": "#/$defs/VoiceSample"
+      }
+    },
+    "sharing": {
+      "type": "object",
+      "description": "Sharing and publication status of the voice.",
+      "properties": {
+        "status": {
+          "type": "string",
+          "description": "Whether the voice is shared publicly.",
+          "enum": ["enabled", "disabled"]
+        },
+        "public_owner_id": {
+          "type": "string",
+          "description": "Public identifier of the voice owner."
+        },
+        "cloned_by_count": {
+          "type": "integer",
+          "description": "Number of users who have cloned or added this voice.",
+          "minimum": 0
+        }
+      }
+    },
+    "high_quality_base_model_ids": {
+      "type": "array",
+      "description": "List of model identifiers that produce the best results with this voice.",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "$defs": {
+    "VoiceSettings": {
+      "type": "object",
+      "description": "Configuration parameters that control the voice's speech synthesis characteristics.",
+      "properties": {
+        "stability": {
+          "type": "number",
+          "description": "Controls the consistency of the voice output. Higher values produce more stable, predictable speech. Lower values introduce more variation.",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "similarity_boost": {
+          "type": "number",
+          "description": "Controls how closely the generated speech matches the original voice. Higher values increase fidelity to the target voice.",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "style": {
+          "type": "number",
+          "description": "Controls the expressiveness and stylistic variation of the speech delivery.",
+          "minimum": 0,
+          "maximum": 1,
+          "default": 0
+        },
+        "use_speaker_boost": {
+          "type": "boolean",
+          "description": "Enables speaker boost processing to increase voice clarity and reduce artifacts.",
+          "default": true
+        }
+      }
+    },
+    "VoiceSample": {
+      "type": "object",
+      "description": "An audio sample associated with a voice, used for cloning and demonstration.",
+      "properties": {
+        "sample_id": {
+          "type": "string",
+          "description": "Unique identifier for the audio sample."
+        },
+        "file_name": {
+          "type": "string",
+          "description": "Original file name of the uploaded sample."
+        },
+        "mime_type": {
+          "type": "string",
+          "description": "MIME type of the audio sample.",
+          "pattern": "^audio/"
+        },
+        "size_bytes": {
+          "type": "integer",
+          "description": "Size of the audio sample file in bytes.",
+          "minimum": 0
+        },
+        "hash": {
+          "type": "string",
+          "description": "Hash of the audio sample content for integrity verification."
+        }
+      }
+    }
+  }
+}

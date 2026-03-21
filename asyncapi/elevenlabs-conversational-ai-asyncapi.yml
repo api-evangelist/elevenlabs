@@ -1,0 +1,337 @@
+asyncapi: 2.6.0
+info:
+  title: ElevenLabs Conversational AI Events
+  description: >-
+    The ElevenLabs Conversational AI WebSocket API enables real-time,
+    interactive voice conversations with AI agents. It supports bidirectional
+    audio streaming, text events, and conversation lifecycle management
+    through WebSocket connections. Clients send audio input and receive
+    audio responses, transcriptions, and metadata events in real time.
+  version: '1.0'
+  contact:
+    name: ElevenLabs Support
+    url: https://help.elevenlabs.io
+servers:
+  production:
+    url: wss://api.elevenlabs.io/v1/convai/conversation
+    protocol: wss
+    description: >-
+      ElevenLabs Conversational AI WebSocket server for real-time voice
+      agent interactions.
+    security:
+      - apiKeyQuery: []
+channels:
+  /conversation:
+    description: >-
+      Bidirectional WebSocket channel for real-time conversational AI
+      interactions. Clients send audio input and receive agent audio
+      responses, transcriptions, and conversation events.
+    publish:
+      operationId: receiveConversationEvent
+      summary: Receive conversation events from the agent
+      description: >-
+        Events sent from the server to the client during a conversation,
+        including audio responses, transcriptions, agent messages, and
+        conversation lifecycle events.
+      message:
+        oneOf:
+          - $ref: '#/components/messages/ConversationInitiationMetadata'
+          - $ref: '#/components/messages/AgentAudioEvent'
+          - $ref: '#/components/messages/AgentResponseEvent'
+          - $ref: '#/components/messages/UserTranscriptEvent'
+          - $ref: '#/components/messages/ConversationEndEvent'
+          - $ref: '#/components/messages/AgentInterruptionEvent'
+          - $ref: '#/components/messages/PingEvent'
+    subscribe:
+      operationId: sendConversationInput
+      summary: Send input to the conversation
+      description: >-
+        Events sent from the client to the server, including audio input
+        from the user's microphone and control messages.
+      message:
+        oneOf:
+          - $ref: '#/components/messages/UserAudioInput'
+          - $ref: '#/components/messages/PongResponse'
+  /monitoring:
+    description: >-
+      WebSocket channel for real-time monitoring of active agent
+      conversations. Provides text events and metadata for live
+      observation and intervention.
+    publish:
+      operationId: receiveMonitoringEvent
+      summary: Receive monitoring events
+      description: >-
+        Events streamed during real-time monitoring of active conversations,
+        including transcriptions, agent responses, and control events.
+      message:
+        oneOf:
+          - $ref: '#/components/messages/MonitoringTranscriptEvent'
+          - $ref: '#/components/messages/MonitoringAgentResponseEvent'
+components:
+  securitySchemes:
+    apiKeyQuery:
+      type: httpApiKey
+      in: query
+      name: agent_id
+      description: >-
+        The agent_id query parameter identifies which agent to start a
+        conversation with. For private agents, a signed URL obtained via
+        the REST API is required instead.
+  messages:
+    ConversationInitiationMetadata:
+      name: conversation_initiation_metadata
+      title: Conversation Initiation Metadata
+      summary: Metadata sent when the WebSocket connection is established
+      description: >-
+        Contains initialization data including the conversation ID, agent
+        configuration, and available features. Sent once at the start of
+        each conversation.
+      payload:
+        $ref: '#/components/schemas/ConversationInitiationMetadataPayload'
+    AgentAudioEvent:
+      name: audio
+      title: Agent Audio
+      summary: Audio chunk from the agent's speech output
+      description: >-
+        Contains a base64-encoded audio chunk from the agent's speech
+        response. Audio is streamed in small chunks for low-latency playback.
+      payload:
+        $ref: '#/components/schemas/AgentAudioPayload'
+    AgentResponseEvent:
+      name: agent_response
+      title: Agent Response
+      summary: Text of the agent's response
+      description: >-
+        Contains the text content of the agent's response, streamed as
+        start, delta, and stop events for real-time text display.
+      payload:
+        $ref: '#/components/schemas/AgentResponsePayload'
+    UserTranscriptEvent:
+      name: user_transcript
+      title: User Transcript
+      summary: Transcription of the user's speech input
+      description: >-
+        Contains the transcribed text of the user's spoken input, updated
+        in real time as the speech-to-text model processes the audio.
+      payload:
+        $ref: '#/components/schemas/UserTranscriptPayload'
+    ConversationEndEvent:
+      name: conversation_end
+      title: Conversation End
+      summary: Signals the end of the conversation
+      description: >-
+        Sent when the conversation has ended, either by user action,
+        agent decision, or timeout. Includes summary and analysis data.
+      payload:
+        $ref: '#/components/schemas/ConversationEndPayload'
+    AgentInterruptionEvent:
+      name: interruption
+      title: Agent Interruption
+      summary: Signals that the agent was interrupted
+      description: >-
+        Sent when the user begins speaking while the agent is still
+        responding, indicating the agent's current response should be
+        truncated.
+      payload:
+        $ref: '#/components/schemas/InterruptionPayload'
+    PingEvent:
+      name: ping
+      title: Ping
+      summary: Server ping for connection keep-alive
+      description: >-
+        Periodic ping sent by the server to keep the WebSocket connection
+        alive. The client should respond with a pong message.
+      payload:
+        $ref: '#/components/schemas/PingPayload'
+    UserAudioInput:
+      name: user_audio_chunk
+      title: User Audio Input
+      summary: Audio chunk from the user's microphone
+      description: >-
+        Contains a base64-encoded audio chunk from the user's microphone
+        input for real-time speech processing.
+      payload:
+        $ref: '#/components/schemas/UserAudioInputPayload'
+    PongResponse:
+      name: pong
+      title: Pong Response
+      summary: Client pong response to server ping
+      description: >-
+        Sent by the client in response to a server ping to maintain the
+        WebSocket connection.
+      payload:
+        $ref: '#/components/schemas/PongPayload'
+    MonitoringTranscriptEvent:
+      name: monitoring_transcript
+      title: Monitoring Transcript
+      summary: Live transcript event during monitoring
+      description: >-
+        Real-time transcript of the conversation being monitored.
+      payload:
+        $ref: '#/components/schemas/MonitoringTranscriptPayload'
+    MonitoringAgentResponseEvent:
+      name: monitoring_agent_response
+      title: Monitoring Agent Response
+      summary: Agent response during monitoring
+      description: >-
+        Text of the agent's response as observed during real-time monitoring.
+      payload:
+        $ref: '#/components/schemas/MonitoringAgentResponsePayload'
+  schemas:
+    ConversationInitiationMetadataPayload:
+      type: object
+      properties:
+        type:
+          type: string
+          const: conversation_initiation_metadata
+          description: >-
+            The event type identifier.
+        conversation_id:
+          type: string
+          description: >-
+            Unique identifier for the conversation session.
+        agent_output_audio_format:
+          type: string
+          description: >-
+            The audio format used for agent output.
+    AgentAudioPayload:
+      type: object
+      properties:
+        type:
+          type: string
+          const: audio
+          description: >-
+            The event type identifier.
+        audio:
+          type: string
+          description: >-
+            Base64-encoded audio data chunk.
+    AgentResponsePayload:
+      type: object
+      properties:
+        type:
+          type: string
+          const: agent_response
+          description: >-
+            The event type identifier.
+        agent_response_type:
+          type: string
+          description: >-
+            The sub-type of the response event.
+          enum:
+            - start
+            - delta
+            - stop
+        text:
+          type: string
+          description: >-
+            The text content of the agent's response or delta.
+    UserTranscriptPayload:
+      type: object
+      properties:
+        type:
+          type: string
+          const: user_transcript
+          description: >-
+            The event type identifier.
+        text:
+          type: string
+          description: >-
+            The transcribed text of the user's speech.
+        is_final:
+          type: boolean
+          description: >-
+            Whether this is the final transcription for the current
+            utterance.
+    ConversationEndPayload:
+      type: object
+      properties:
+        type:
+          type: string
+          const: conversation_end
+          description: >-
+            The event type identifier.
+        reason:
+          type: string
+          description: >-
+            The reason the conversation ended.
+          enum:
+            - user_ended
+            - agent_ended
+            - timeout
+            - error
+    InterruptionPayload:
+      type: object
+      properties:
+        type:
+          type: string
+          const: interruption
+          description: >-
+            The event type identifier.
+    PingPayload:
+      type: object
+      properties:
+        type:
+          type: string
+          const: ping
+          description: >-
+            The event type identifier.
+        ping_id:
+          type: string
+          description: >-
+            Identifier for the ping, to be echoed in the pong response.
+    UserAudioInputPayload:
+      type: object
+      properties:
+        type:
+          type: string
+          const: user_audio_chunk
+          description: >-
+            The event type identifier.
+        audio:
+          type: string
+          description: >-
+            Base64-encoded audio data from the user's microphone.
+    PongPayload:
+      type: object
+      properties:
+        type:
+          type: string
+          const: pong
+          description: >-
+            The event type identifier.
+        ping_id:
+          type: string
+          description: >-
+            The ping_id from the original ping event.
+    MonitoringTranscriptPayload:
+      type: object
+      properties:
+        type:
+          type: string
+          const: monitoring_transcript
+          description: >-
+            The event type identifier.
+        text:
+          type: string
+          description: >-
+            The transcript text being monitored.
+        role:
+          type: string
+          description: >-
+            The speaker role.
+          enum:
+            - agent
+            - user
+    MonitoringAgentResponsePayload:
+      type: object
+      properties:
+        type:
+          type: string
+          const: monitoring_agent_response
+          description: >-
+            The event type identifier.
+        text:
+          type: string
+          description: >-
+            The agent's response text.

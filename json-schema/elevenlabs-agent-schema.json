@@ -1,0 +1,221 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://elevenlabs.io/schemas/elevenlabs/agent.json",
+  "title": "ElevenLabs Conversational AI Agent",
+  "description": "Represents a conversational AI agent in the ElevenLabs platform, including its configuration for voice, language model, tools, and knowledge base.",
+  "type": "object",
+  "required": ["agent_id"],
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Unique identifier for the conversational AI agent."
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name of the agent.",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "conversation_config": {
+      "$ref": "#/$defs/ConversationConfig"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Custom metadata key-value pairs associated with the agent.",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "tools": {
+      "type": "array",
+      "description": "List of tools the agent can invoke during conversations.",
+      "items": {
+        "$ref": "#/$defs/AgentTool"
+      }
+    },
+    "knowledge_base": {
+      "type": "array",
+      "description": "Knowledge base documents available to the agent for answering questions.",
+      "items": {
+        "$ref": "#/$defs/KnowledgeBaseDocument"
+      }
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the agent was created."
+    }
+  },
+  "$defs": {
+    "ConversationConfig": {
+      "type": "object",
+      "description": "Full configuration defining the agent's conversational behavior.",
+      "properties": {
+        "agent": {
+          "type": "object",
+          "description": "Agent behavior and personality configuration.",
+          "properties": {
+            "prompt": {
+              "type": "object",
+              "description": "System prompt configuration.",
+              "properties": {
+                "prompt": {
+                  "type": "string",
+                  "description": "The system instructions that define agent behavior, personality, and conversation goals."
+                }
+              }
+            },
+            "first_message": {
+              "type": "string",
+              "description": "The initial greeting or message the agent sends when a conversation starts."
+            },
+            "language": {
+              "type": "string",
+              "description": "The primary language for the agent in ISO 639-1 format."
+            }
+          }
+        },
+        "tts": {
+          "type": "object",
+          "description": "Text-to-speech configuration for the agent's voice output.",
+          "properties": {
+            "voice_id": {
+              "type": "string",
+              "description": "The voice identifier used for the agent's speech."
+            },
+            "model_id": {
+              "type": "string",
+              "description": "The TTS model used for speech synthesis."
+            },
+            "voice_settings": {
+              "type": "object",
+              "description": "Voice settings overrides for the agent.",
+              "properties": {
+                "stability": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "similarity_boost": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                }
+              }
+            }
+          }
+        },
+        "stt": {
+          "type": "object",
+          "description": "Speech-to-text configuration for processing user audio input.",
+          "properties": {
+            "model_id": {
+              "type": "string",
+              "description": "The STT model used for transcription."
+            }
+          }
+        },
+        "llm": {
+          "type": "object",
+          "description": "Language model configuration for generating conversation responses.",
+          "properties": {
+            "model_id": {
+              "type": "string",
+              "description": "The language model identifier."
+            },
+            "temperature": {
+              "type": "number",
+              "description": "Controls randomness in the model's responses. Lower values produce more deterministic output.",
+              "minimum": 0,
+              "maximum": 2,
+              "default": 0.7
+            },
+            "max_tokens": {
+              "type": "integer",
+              "description": "Maximum number of tokens in the model's response.",
+              "minimum": 1
+            }
+          }
+        },
+        "turn_detection": {
+          "type": "object",
+          "description": "Configuration for detecting when the user has finished speaking.",
+          "properties": {
+            "mode": {
+              "type": "string",
+              "description": "The turn detection mode.",
+              "enum": ["server_vad", "manual"]
+            },
+            "silence_duration_ms": {
+              "type": "integer",
+              "description": "Duration of silence in milliseconds before the system determines the user has finished speaking.",
+              "minimum": 100
+            }
+          }
+        }
+      }
+    },
+    "AgentTool": {
+      "type": "object",
+      "description": "A tool that the agent can invoke during conversations to access external services or data.",
+      "required": ["tool_id", "name", "type"],
+      "properties": {
+        "tool_id": {
+          "type": "string",
+          "description": "Unique identifier for the tool."
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name of the tool."
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of tool integration.",
+          "enum": ["webhook", "mcp", "client"]
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of what the tool does, used by the LLM to determine when to invoke it."
+        },
+        "webhook_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "The endpoint URL for webhook-type tools."
+        },
+        "parameters": {
+          "type": "object",
+          "description": "JSON Schema defining the parameters the tool accepts."
+        }
+      }
+    },
+    "KnowledgeBaseDocument": {
+      "type": "object",
+      "description": "A document in the agent's knowledge base used to provide context for answering questions.",
+      "properties": {
+        "document_id": {
+          "type": "string",
+          "description": "Unique identifier for the knowledge base document."
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name of the document."
+        },
+        "type": {
+          "type": "string",
+          "description": "The source type of the document.",
+          "enum": ["file", "url", "text"]
+        },
+        "source_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL source for the document, if type is url."
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the document was added to the knowledge base."
+        }
+      }
+    }
+  }
+}

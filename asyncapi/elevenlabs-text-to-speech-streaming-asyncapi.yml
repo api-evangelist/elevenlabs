@@ -1,0 +1,250 @@
+asyncapi: 2.6.0
+info:
+  title: ElevenLabs Text to Speech Streaming Events
+  description: >-
+    The ElevenLabs Text to Speech WebSocket API enables bidirectional
+    streaming for text-to-speech conversion. Clients send text chunks
+    incrementally and receive audio chunks as they are generated, enabling
+    ultra-low latency speech synthesis for real-time applications.
+  version: '1.0'
+  contact:
+    name: ElevenLabs Support
+    url: https://help.elevenlabs.io
+servers:
+  production:
+    url: wss://api.elevenlabs.io/v1/text-to-speech/{voice_id}/stream-input
+    protocol: wss
+    description: >-
+      ElevenLabs Text to Speech WebSocket server for bidirectional
+      streaming synthesis.
+    security:
+      - apiKeyHeader: []
+channels:
+  /stream-input:
+    description: >-
+      Bidirectional WebSocket channel for streaming text-to-speech. Clients
+      send text chunks and receive audio chunks in real time as the model
+      generates speech.
+    publish:
+      operationId: receiveAudioChunk
+      summary: Receive generated audio chunks
+      description: >-
+        Audio chunks sent from the server as the text-to-speech model
+        generates speech from the provided text input.
+      message:
+        oneOf:
+          - $ref: '#/components/messages/AudioChunkEvent'
+          - $ref: '#/components/messages/AlignmentEvent'
+          - $ref: '#/components/messages/FinalEvent'
+    subscribe:
+      operationId: sendTextChunk
+      summary: Send text chunks for synthesis
+      description: >-
+        Text chunks sent from the client for incremental speech synthesis.
+        Includes the initial configuration message and subsequent text
+        input messages.
+      message:
+        oneOf:
+          - $ref: '#/components/messages/InitMessage'
+          - $ref: '#/components/messages/TextChunkMessage'
+          - $ref: '#/components/messages/FlushMessage'
+          - $ref: '#/components/messages/CloseMessage'
+components:
+  securitySchemes:
+    apiKeyHeader:
+      type: httpApiKey
+      in: header
+      name: xi-api-key
+      description: >-
+        ElevenLabs API key for WebSocket authentication.
+  messages:
+    AudioChunkEvent:
+      name: audio_chunk
+      title: Audio Chunk
+      summary: Generated audio data chunk
+      description: >-
+        Contains a base64-encoded chunk of generated audio. Chunks are
+        sent as they are produced by the model for low-latency playback.
+      payload:
+        $ref: '#/components/schemas/AudioChunkPayload'
+    AlignmentEvent:
+      name: alignment
+      title: Alignment Data
+      summary: Word-level timing alignment data
+      description: >-
+        Contains timing information mapping generated audio to the input
+        text, enabling synchronized text highlighting.
+      payload:
+        $ref: '#/components/schemas/AlignmentPayload'
+    FinalEvent:
+      name: final
+      title: Final Event
+      summary: Signals the end of audio generation
+      description: >-
+        Sent when the server has finished generating all audio for the
+        provided text input.
+      payload:
+        $ref: '#/components/schemas/FinalPayload'
+    InitMessage:
+      name: init
+      title: Initialization Message
+      summary: Initial configuration for the streaming session
+      description: >-
+        The first message sent by the client to configure the streaming
+        session, including model selection, voice settings, and output
+        format preferences.
+      payload:
+        $ref: '#/components/schemas/InitPayload'
+    TextChunkMessage:
+      name: text_chunk
+      title: Text Chunk
+      summary: Text input for speech synthesis
+      description: >-
+        Contains a chunk of text to be converted to speech. Text can be
+        sent incrementally as it becomes available.
+      payload:
+        $ref: '#/components/schemas/TextChunkPayload'
+    FlushMessage:
+      name: flush
+      title: Flush
+      summary: Forces generation of remaining audio
+      description: >-
+        Triggers the model to generate audio for any buffered text that
+        has not yet been processed. Useful for ensuring all pending text
+        is synthesized.
+      payload:
+        $ref: '#/components/schemas/FlushPayload'
+    CloseMessage:
+      name: close
+      title: Close
+      summary: Signals the end of text input
+      description: >-
+        Sent by the client to indicate that no more text will be sent,
+        triggering final audio generation and connection cleanup.
+      payload:
+        $ref: '#/components/schemas/ClosePayload'
+  schemas:
+    AudioChunkPayload:
+      type: object
+      properties:
+        audio:
+          type: string
+          description: >-
+            Base64-encoded audio data chunk.
+        isFinal:
+          type: boolean
+          description: >-
+            Whether this is the final audio chunk.
+    AlignmentPayload:
+      type: object
+      properties:
+        chars:
+          type: array
+          description: >-
+            Character-level alignment data.
+          items:
+            type: string
+        charStartTimesMs:
+          type: array
+          description: >-
+            Start times in milliseconds for each character.
+          items:
+            type: number
+        charDurationsMs:
+          type: array
+          description: >-
+            Durations in milliseconds for each character.
+          items:
+            type: number
+    FinalPayload:
+      type: object
+      properties:
+        isFinal:
+          type: boolean
+          const: true
+          description: >-
+            Indicates this is the final message for the session.
+    InitPayload:
+      type: object
+      required:
+        - text
+      properties:
+        text:
+          type: string
+          description: >-
+            Initial text to begin generation. Can be a space to start
+            an empty session.
+        voice_settings:
+          type: object
+          description: >-
+            Voice settings for the session.
+          properties:
+            stability:
+              type: number
+              description: >-
+                Voice stability setting.
+              minimum: 0
+              maximum: 1
+            similarity_boost:
+              type: number
+              description: >-
+                Voice similarity boost setting.
+              minimum: 0
+              maximum: 1
+        generation_config:
+          type: object
+          description: >-
+            Generation configuration.
+          properties:
+            chunk_length_schedule:
+              type: array
+              description: >-
+                Schedule of chunk lengths for audio generation.
+              items:
+                type: integer
+        xi_api_key:
+          type: string
+          description: >-
+            API key for authentication if not provided in headers.
+        model_id:
+          type: string
+          description: >-
+            The TTS model to use for generation.
+        output_format:
+          type: string
+          description: >-
+            The desired audio output format.
+    TextChunkPayload:
+      type: object
+      required:
+        - text
+      properties:
+        text:
+          type: string
+          description: >-
+            A chunk of text to convert to speech.
+        try_trigger_generation:
+          type: boolean
+          description: >-
+            Whether to attempt immediate generation of available text.
+    FlushPayload:
+      type: object
+      properties:
+        text:
+          type: string
+          const: ""
+          description: >-
+            Empty text string signals a flush.
+        flush:
+          type: boolean
+          const: true
+          description: >-
+            Flag to trigger flushing of buffered text.
+    ClosePayload:
+      type: object
+      properties:
+        text:
+          type: string
+          const: ""
+          description: >-
+            Empty text string.

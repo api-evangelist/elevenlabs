@@ -1,0 +1,417 @@
+openapi: 3.1.0
+info:
+  title: ElevenLabs Text to Speech API
+  description: >-
+    The ElevenLabs Text to Speech API converts text into lifelike spoken audio
+    with nuanced intonation, pacing, and emotional awareness. It supports
+    multiple output formats including MP3, PCM, and mu-law, and offers a range
+    of models such as Eleven v3, Flash v2.5 for ultra-low latency real-time
+    applications, and Multilingual v2 for support across 70+ languages.
+    Developers can select from thousands of pre-built voices or use custom
+    cloned voices to generate speech that sounds natural and expressive.
+  version: '1.0'
+  contact:
+    name: ElevenLabs Support
+    url: https://help.elevenlabs.io
+  termsOfService: https://elevenlabs.io/terms-of-service
+externalDocs:
+  description: ElevenLabs Text to Speech API Documentation
+  url: https://elevenlabs.io/docs/api-reference/text-to-speech/convert
+servers:
+  - url: https://api.elevenlabs.io
+    description: Production Server
+tags:
+  - name: Text to Speech
+    description: >-
+      Endpoints for converting text into speech audio with configurable voice,
+      model, and output format settings.
+  - name: Text to Dialogue
+    description: >-
+      Endpoints for converting text scripts with multiple speakers into
+      dialogue audio.
+security:
+  - apiKeyAuth: []
+paths:
+  /v1/text-to-speech/{voice_id}:
+    post:
+      operationId: createSpeech
+      summary: Create speech
+      description: >-
+        Converts text into speech using a specified voice. Returns audio in the
+        requested format. Supports voice settings overrides and pronunciation
+        dictionary locators for fine-tuned output.
+      tags:
+        - Text to Speech
+      parameters:
+        - $ref: '#/components/parameters/voiceId'
+        - $ref: '#/components/parameters/outputFormat'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TextToSpeechRequest'
+      responses:
+        '200':
+          description: Audio file generated successfully
+          content:
+            audio/mpeg:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Bad request - invalid parameters
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '422':
+          description: Unprocessable entity - validation error
+  /v1/text-to-speech/{voice_id}/stream:
+    post:
+      operationId: streamSpeech
+      summary: Stream speech
+      description: >-
+        Converts text into speech and streams the audio back as chunked
+        transfer encoding. Useful for real-time playback scenarios where
+        latency is important.
+      tags:
+        - Text to Speech
+      parameters:
+        - $ref: '#/components/parameters/voiceId'
+        - $ref: '#/components/parameters/outputFormat'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TextToSpeechRequest'
+      responses:
+        '200':
+          description: Streaming audio response
+          content:
+            audio/mpeg:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Bad request - invalid parameters
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '422':
+          description: Unprocessable entity - validation error
+  /v1/text-to-speech/{voice_id}/with-timestamps:
+    post:
+      operationId: createSpeechWithTimestamps
+      summary: Create speech with timing
+      description: >-
+        Converts text into speech and returns both the audio and word-level
+        timing information. Useful for applications that need to synchronize
+        text display with audio playback.
+      tags:
+        - Text to Speech
+      parameters:
+        - $ref: '#/components/parameters/voiceId'
+        - $ref: '#/components/parameters/outputFormat'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TextToSpeechRequest'
+      responses:
+        '200':
+          description: Audio with timestamp data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimestampedAudioResponse'
+        '400':
+          description: Bad request - invalid parameters
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '422':
+          description: Unprocessable entity - validation error
+  /v1/text-to-speech/{voice_id}/stream/with-timestamps:
+    post:
+      operationId: streamSpeechWithTimestamps
+      summary: Stream speech with timing
+      description: >-
+        Converts text into speech and streams the audio along with word-level
+        timing information. Combines the benefits of streaming delivery with
+        timestamp synchronization data.
+      tags:
+        - Text to Speech
+      parameters:
+        - $ref: '#/components/parameters/voiceId'
+        - $ref: '#/components/parameters/outputFormat'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TextToSpeechRequest'
+      responses:
+        '200':
+          description: Streaming audio with timestamp data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimestampedAudioResponse'
+        '400':
+          description: Bad request - invalid parameters
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '422':
+          description: Unprocessable entity - validation error
+  /v1/text-to-dialogue:
+    post:
+      operationId: createDialogue
+      summary: Create dialogue
+      description: >-
+        Converts a dialogue script with multiple speakers into audio. Each
+        segment of the script can be assigned a different voice, enabling
+        multi-speaker audio generation from a single request.
+      tags:
+        - Text to Dialogue
+      parameters:
+        - $ref: '#/components/parameters/outputFormat'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TextToDialogueRequest'
+      responses:
+        '200':
+          description: Dialogue audio generated successfully
+          content:
+            audio/mpeg:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Bad request - invalid parameters
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '422':
+          description: Unprocessable entity - validation error
+  /v1/text-to-dialogue/with-timestamps:
+    post:
+      operationId: createDialogueWithTimestamps
+      summary: Create dialogue with timestamps
+      description: >-
+        Converts a dialogue script with multiple speakers into audio and
+        returns word-level timing information alongside the generated audio.
+      tags:
+        - Text to Dialogue
+      parameters:
+        - $ref: '#/components/parameters/outputFormat'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TextToDialogueRequest'
+      responses:
+        '200':
+          description: Dialogue audio with timestamp data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimestampedAudioResponse'
+        '400':
+          description: Bad request - invalid parameters
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '422':
+          description: Unprocessable entity - validation error
+components:
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: xi-api-key
+      description: >-
+        ElevenLabs API key passed in the xi-api-key header for authentication.
+  parameters:
+    voiceId:
+      name: voice_id
+      in: path
+      required: true
+      description: >-
+        The identifier of the voice to use for speech synthesis. Use the
+        Voices API to list available voices.
+      schema:
+        type: string
+    outputFormat:
+      name: output_format
+      in: query
+      required: false
+      description: >-
+        The desired output audio format. Supported values include mp3_44100_128,
+        mp3_44100_192, pcm_16000, pcm_22050, pcm_24000, pcm_44100, ulaw_8000.
+      schema:
+        type: string
+        default: mp3_44100_128
+        enum:
+          - mp3_22050_32
+          - mp3_44100_32
+          - mp3_44100_64
+          - mp3_44100_96
+          - mp3_44100_128
+          - mp3_44100_192
+          - pcm_16000
+          - pcm_22050
+          - pcm_24000
+          - pcm_44100
+          - ulaw_8000
+  schemas:
+    TextToSpeechRequest:
+      type: object
+      required:
+        - text
+      properties:
+        text:
+          type: string
+          description: >-
+            The text to convert to speech. Maximum length varies by model.
+        model_id:
+          type: string
+          description: >-
+            The identifier of the model to use. Use GET /v1/models to list
+            available models. The model must support text to speech.
+          default: eleven_monolingual_v1
+        voice_settings:
+          $ref: '#/components/schemas/VoiceSettings'
+        pronunciation_dictionary_locators:
+          type: array
+          description: >-
+            A list of pronunciation dictionary locators to apply to the text.
+            Applied in order, with a maximum of 3 locators per request.
+          items:
+            $ref: '#/components/schemas/PronunciationDictionaryLocator'
+          maxItems: 3
+        seed:
+          type: integer
+          description: >-
+            A seed value for deterministic generation. Using the same seed
+            with the same parameters produces the same audio output.
+        previous_text:
+          type: string
+          description: >-
+            Text that came before the current text for context continuity.
+        next_text:
+          type: string
+          description: >-
+            Text that comes after the current text for context continuity.
+        language_code:
+          type: string
+          description: >-
+            Language code for the text, in ISO 639-1 format. Helps the model
+            produce more accurate pronunciation for the specified language.
+    TextToDialogueRequest:
+      type: object
+      required:
+        - segments
+      properties:
+        model_id:
+          type: string
+          description: >-
+            The identifier of the model to use for dialogue generation.
+        segments:
+          type: array
+          description: >-
+            An array of dialogue segments, each with a speaker voice and text.
+          items:
+            $ref: '#/components/schemas/DialogueSegment'
+    DialogueSegment:
+      type: object
+      required:
+        - voice_id
+        - text
+      properties:
+        voice_id:
+          type: string
+          description: >-
+            The voice identifier for this segment of dialogue.
+        text:
+          type: string
+          description: >-
+            The text content for this segment of dialogue.
+        voice_settings:
+          $ref: '#/components/schemas/VoiceSettings'
+    VoiceSettings:
+      type: object
+      description: >-
+        Voice settings that override the stored settings for the given voice.
+        Applied only on the current request.
+      properties:
+        stability:
+          type: number
+          description: >-
+            Controls the stability of the generated voice. Higher values
+            produce more consistent output, lower values add variability.
+          minimum: 0
+          maximum: 1
+        similarity_boost:
+          type: number
+          description: >-
+            Controls how closely the AI adheres to the original voice.
+            Higher values increase similarity to the target voice.
+          minimum: 0
+          maximum: 1
+        style:
+          type: number
+          description: >-
+            Controls the expressiveness and style of the speech delivery.
+            Higher values produce more expressive speech.
+          minimum: 0
+          maximum: 1
+          default: 0
+        use_speaker_boost:
+          type: boolean
+          description: >-
+            Enables speaker boost to increase voice clarity and reduce
+            background artifacts.
+          default: true
+    PronunciationDictionaryLocator:
+      type: object
+      required:
+        - pronunciation_dictionary_id
+        - version_id
+      properties:
+        pronunciation_dictionary_id:
+          type: string
+          description: >-
+            The identifier of the pronunciation dictionary.
+        version_id:
+          type: string
+          description: >-
+            The version identifier of the pronunciation dictionary.
+    TimestampedAudioResponse:
+      type: object
+      properties:
+        audio_base64:
+          type: string
+          description: >-
+            Base64 encoded audio data.
+        alignment:
+          type: object
+          description: >-
+            Word-level timing information for the generated audio.
+          properties:
+            characters:
+              type: array
+              description: >-
+                Array of characters with their timing information.
+              items:
+                type: object
+                properties:
+                  character:
+                    type: string
+                    description: The character.
+                  start_time:
+                    type: number
+                    description: Start time in seconds.
+                  end_time:
+                    type: number
+                    description: End time in seconds.

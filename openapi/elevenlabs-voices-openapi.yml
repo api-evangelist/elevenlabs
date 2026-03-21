@@ -1,0 +1,514 @@
+openapi: 3.1.0
+info:
+  title: ElevenLabs Voices API
+  description: >-
+    The ElevenLabs Voices API provides management capabilities for the voice
+    library, including listing, retrieving, creating, editing, and deleting
+    voices. Developers can access a library of over 5,000 pre-built voices
+    and manage their own custom voices. The API also supports voice design,
+    voice settings management, and voice library sharing.
+  version: '1.0'
+  contact:
+    name: ElevenLabs Support
+    url: https://help.elevenlabs.io
+  termsOfService: https://elevenlabs.io/terms-of-service
+externalDocs:
+  description: ElevenLabs Voices API Documentation
+  url: https://elevenlabs.io/docs/api-reference/voices/get
+servers:
+  - url: https://api.elevenlabs.io
+    description: Production Server
+tags:
+  - name: Voices
+    description: >-
+      Endpoints for managing voices including listing, creating, editing,
+      and deleting voices in the library.
+  - name: Voice Settings
+    description: >-
+      Endpoints for managing voice-specific settings such as stability,
+      similarity boost, and style parameters.
+  - name: Voice Library
+    description: >-
+      Endpoints for browsing and adding shared voices from the public
+      voice library.
+security:
+  - apiKeyAuth: []
+paths:
+  /v1/voices:
+    get:
+      operationId: listVoices
+      summary: List voices
+      description: >-
+        Returns a list of all available voices, including pre-built and
+        custom voices. Each voice includes metadata such as name, labels,
+        description, and available settings.
+      tags:
+        - Voices
+      parameters:
+        - name: show_legacy
+          in: query
+          required: false
+          description: >-
+            Whether to include legacy voices in the response.
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: List of voices retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VoiceListResponse'
+        '401':
+          description: Unauthorized - invalid or missing API key
+  /v1/voices/{voice_id}:
+    get:
+      operationId: getVoice
+      summary: Get voice
+      description: >-
+        Returns metadata about a specific voice including its settings,
+        samples, labels, and description.
+      tags:
+        - Voices
+      parameters:
+        - $ref: '#/components/parameters/voiceId'
+        - name: with_settings
+          in: query
+          required: false
+          description: >-
+            Whether to include the voice settings in the response.
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Voice details retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Voice'
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Voice not found
+    delete:
+      operationId: deleteVoice
+      summary: Delete voice
+      description: >-
+        Deletes a voice from the user's voice library. This action is
+        irreversible and removes all associated samples and settings.
+      tags:
+        - Voices
+      parameters:
+        - $ref: '#/components/parameters/voiceId'
+      responses:
+        '200':
+          description: Voice deleted successfully
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Voice not found
+  /v1/voices/{voice_id}/edit:
+    post:
+      operationId: editVoice
+      summary: Edit voice
+      description: >-
+        Updates the metadata and settings for an existing voice. Allows
+        changing the name, description, labels, and uploading new samples.
+      tags:
+        - Voices
+      parameters:
+        - $ref: '#/components/parameters/voiceId'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/EditVoiceRequest'
+      responses:
+        '200':
+          description: Voice updated successfully
+        '400':
+          description: Bad request - invalid parameters
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Voice not found
+  /v1/voices/add:
+    post:
+      operationId: addVoice
+      summary: Add voice
+      description: >-
+        Creates a new voice from uploaded audio samples. The voice can then
+        be used with text-to-speech and other audio generation endpoints.
+      tags:
+        - Voices
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AddVoiceRequest'
+      responses:
+        '200':
+          description: Voice created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddVoiceResponse'
+        '400':
+          description: Bad request - invalid parameters
+        '401':
+          description: Unauthorized - invalid or missing API key
+  /v1/voices/{voice_id}/settings:
+    get:
+      operationId: getVoiceSettings
+      summary: Get voice settings
+      description: >-
+        Returns the settings for a specific voice including stability,
+        similarity boost, and style parameters.
+      tags:
+        - Voice Settings
+      parameters:
+        - $ref: '#/components/parameters/voiceId'
+      responses:
+        '200':
+          description: Voice settings retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VoiceSettings'
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Voice not found
+  /v1/voices/{voice_id}/settings/edit:
+    post:
+      operationId: editVoiceSettings
+      summary: Edit voice settings
+      description: >-
+        Updates the default settings for a specific voice. These settings
+        are used when no per-request overrides are provided.
+      tags:
+        - Voice Settings
+      parameters:
+        - $ref: '#/components/parameters/voiceId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VoiceSettings'
+      responses:
+        '200':
+          description: Voice settings updated successfully
+        '400':
+          description: Bad request - invalid parameters
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Voice not found
+  /v1/voices/settings/default:
+    get:
+      operationId: getDefaultVoiceSettings
+      summary: Get default voice settings
+      description: >-
+        Returns the default voice settings that are applied when no
+        voice-specific or per-request settings are provided.
+      tags:
+        - Voice Settings
+      responses:
+        '200':
+          description: Default voice settings retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VoiceSettings'
+        '401':
+          description: Unauthorized - invalid or missing API key
+  /v1/voice-library:
+    get:
+      operationId: listSharedVoices
+      summary: List shared voices
+      description: >-
+        Returns a paginated list of voices from the public voice library
+        that can be added to the user's voice collection.
+      tags:
+        - Voice Library
+      parameters:
+        - name: page_size
+          in: query
+          required: false
+          description: >-
+            Number of voices to return per page.
+          schema:
+            type: integer
+            default: 30
+        - name: gender
+          in: query
+          required: false
+          description: >-
+            Filter voices by gender.
+          schema:
+            type: string
+            enum:
+              - male
+              - female
+              - neutral
+        - name: language
+          in: query
+          required: false
+          description: >-
+            Filter voices by language.
+          schema:
+            type: string
+        - name: search
+          in: query
+          required: false
+          description: >-
+            Search term to filter voices by name or description.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Shared voices retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedVoiceListResponse'
+        '401':
+          description: Unauthorized - invalid or missing API key
+  /v1/voice-library/{public_user_id}/{voice_id}/add:
+    post:
+      operationId: addSharedVoice
+      summary: Add shared voice
+      description: >-
+        Adds a voice from the public library to the user's personal voice
+        collection. The voice can then be used with speech generation endpoints.
+      tags:
+        - Voice Library
+      parameters:
+        - name: public_user_id
+          in: path
+          required: true
+          description: >-
+            The public user ID of the voice owner.
+          schema:
+            type: string
+        - $ref: '#/components/parameters/voiceId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - new_name
+              properties:
+                new_name:
+                  type: string
+                  description: >-
+                    The name to give the voice in the user's collection.
+      responses:
+        '200':
+          description: Voice added to collection successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddVoiceResponse'
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Voice not found in public library
+components:
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: xi-api-key
+      description: >-
+        ElevenLabs API key passed in the xi-api-key header for authentication.
+  parameters:
+    voiceId:
+      name: voice_id
+      in: path
+      required: true
+      description: >-
+        The identifier of the voice.
+      schema:
+        type: string
+  schemas:
+    VoiceListResponse:
+      type: object
+      properties:
+        voices:
+          type: array
+          description: >-
+            List of available voices.
+          items:
+            $ref: '#/components/schemas/Voice'
+    Voice:
+      type: object
+      properties:
+        voice_id:
+          type: string
+          description: >-
+            Unique identifier for the voice.
+        name:
+          type: string
+          description: >-
+            Display name of the voice.
+        category:
+          type: string
+          description: >-
+            Category of the voice such as premade, cloned, or designed.
+          enum:
+            - premade
+            - cloned
+            - designed
+            - professional
+        labels:
+          type: object
+          description: >-
+            Key-value labels describing voice characteristics such as
+            accent, age, gender, and use case.
+          additionalProperties:
+            type: string
+        description:
+          type: string
+          description: >-
+            Human-readable description of the voice.
+        preview_url:
+          type: string
+          format: uri
+          description: >-
+            URL to a preview audio sample of the voice.
+        settings:
+          $ref: '#/components/schemas/VoiceSettings'
+        samples:
+          type: array
+          description: >-
+            Audio samples associated with the voice.
+          items:
+            $ref: '#/components/schemas/VoiceSample'
+    VoiceSample:
+      type: object
+      properties:
+        sample_id:
+          type: string
+          description: >-
+            Unique identifier for the audio sample.
+        file_name:
+          type: string
+          description: >-
+            Original file name of the uploaded sample.
+        mime_type:
+          type: string
+          description: >-
+            MIME type of the audio sample.
+        size_bytes:
+          type: integer
+          description: >-
+            Size of the audio sample in bytes.
+    VoiceSettings:
+      type: object
+      properties:
+        stability:
+          type: number
+          description: >-
+            Controls the stability of the generated voice output.
+          minimum: 0
+          maximum: 1
+        similarity_boost:
+          type: number
+          description: >-
+            Controls how closely the AI adheres to the original voice.
+          minimum: 0
+          maximum: 1
+        style:
+          type: number
+          description: >-
+            Controls the expressiveness and style of the speech delivery.
+          minimum: 0
+          maximum: 1
+          default: 0
+        use_speaker_boost:
+          type: boolean
+          description: >-
+            Enables speaker boost to increase voice clarity.
+          default: true
+    EditVoiceRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: >-
+            The new name for the voice.
+        description:
+          type: string
+          description: >-
+            Updated description of the voice.
+        labels:
+          type: string
+          description: >-
+            JSON string of key-value label pairs for the voice.
+        files:
+          type: array
+          description: >-
+            New audio sample files to add to the voice.
+          items:
+            type: string
+            format: binary
+    AddVoiceRequest:
+      type: object
+      required:
+        - name
+        - files
+      properties:
+        name:
+          type: string
+          description: >-
+            The name for the new voice.
+        description:
+          type: string
+          description: >-
+            Description of the voice.
+        labels:
+          type: string
+          description: >-
+            JSON string of key-value label pairs for the voice.
+        files:
+          type: array
+          description: >-
+            Audio sample files for creating the voice. Minimum 60 seconds
+            of clean audio recommended.
+          items:
+            type: string
+            format: binary
+    AddVoiceResponse:
+      type: object
+      properties:
+        voice_id:
+          type: string
+          description: >-
+            The identifier of the newly created or added voice.
+    SharedVoiceListResponse:
+      type: object
+      properties:
+        voices:
+          type: array
+          description: >-
+            List of shared voices from the public library.
+          items:
+            $ref: '#/components/schemas/Voice'
+        has_more:
+          type: boolean
+          description: >-
+            Whether there are more voices available in subsequent pages.
+        last_sort_id:
+          type: string
+          description: >-
+            Cursor for pagination to retrieve the next page of results.

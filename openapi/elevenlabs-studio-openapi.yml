@@ -1,0 +1,556 @@
+openapi: 3.1.0
+info:
+  title: ElevenLabs Studio API
+  description: >-
+    The ElevenLabs Studio API provides programmatic access to the ElevenLabs
+    Studio project management system. Developers can create, manage, and
+    render long-form audio content projects through the API, organizing text
+    into chapters and assigning different voices to different sections. The
+    Studio is designed for producing audiobooks, podcasts, and other
+    long-form audio content at scale.
+  version: '1.0'
+  contact:
+    name: ElevenLabs Support
+    url: https://help.elevenlabs.io
+  termsOfService: https://elevenlabs.io/terms-of-service
+externalDocs:
+  description: ElevenLabs Studio Documentation
+  url: https://elevenlabs.io/docs/overview/capabilities/projects
+servers:
+  - url: https://api.elevenlabs.io
+    description: Production Server
+tags:
+  - name: Projects
+    description: >-
+      Endpoints for managing Studio projects including creation, editing,
+      and rendering of long-form audio content.
+  - name: Chapters
+    description: >-
+      Endpoints for managing chapters within Studio projects.
+  - name: Pronunciation Dictionaries
+    description: >-
+      Endpoints for managing pronunciation dictionaries used in Studio
+      projects.
+  - name: Audio Native
+    description: >-
+      Endpoints for creating and managing Audio Native embedded players
+      for web content.
+security:
+  - apiKeyAuth: []
+paths:
+  /v1/studio/projects:
+    get:
+      operationId: listProjects
+      summary: List projects
+      description: >-
+        Returns a list of all Studio projects for the authenticated
+        account, including metadata and status.
+      tags:
+        - Projects
+      responses:
+        '200':
+          description: Projects listed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectListResponse'
+        '401':
+          description: Unauthorized - invalid or missing API key
+    post:
+      operationId: createProject
+      summary: Create project
+      description: >-
+        Creates a new Studio project for long-form audio content. The
+        project can include multiple chapters, voice assignments, and
+        pronunciation dictionaries.
+      tags:
+        - Projects
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProjectRequest'
+      responses:
+        '200':
+          description: Project created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '400':
+          description: Bad request - invalid parameters
+        '401':
+          description: Unauthorized - invalid or missing API key
+  /v1/studio/projects/{project_id}:
+    get:
+      operationId: getProject
+      summary: Get project
+      description: >-
+        Retrieves the full details of a Studio project including chapters,
+        voice assignments, and rendering status.
+      tags:
+        - Projects
+      parameters:
+        - $ref: '#/components/parameters/projectId'
+      responses:
+        '200':
+          description: Project details retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Project not found
+    delete:
+      operationId: deleteProject
+      summary: Delete project
+      description: >-
+        Deletes a Studio project and all associated content.
+      tags:
+        - Projects
+      parameters:
+        - $ref: '#/components/parameters/projectId'
+      responses:
+        '200':
+          description: Project deleted successfully
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Project not found
+  /v1/studio/projects/{project_id}/convert:
+    post:
+      operationId: renderProject
+      summary: Render project
+      description: >-
+        Initiates rendering of a Studio project, generating the final
+        audio output from all chapters and voice assignments.
+      tags:
+        - Projects
+      parameters:
+        - $ref: '#/components/parameters/projectId'
+      responses:
+        '200':
+          description: Project rendering initiated successfully
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Project not found
+  /v1/studio/projects/{project_id}/snapshots:
+    get:
+      operationId: listProjectSnapshots
+      summary: List project snapshots
+      description: >-
+        Returns a list of rendered snapshots for a Studio project. Each
+        snapshot represents a completed rendering of the project.
+      tags:
+        - Projects
+      parameters:
+        - $ref: '#/components/parameters/projectId'
+      responses:
+        '200':
+          description: Snapshots listed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SnapshotListResponse'
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Project not found
+  /v1/studio/projects/{project_id}/chapters:
+    get:
+      operationId: listChapters
+      summary: List chapters
+      description: >-
+        Returns a list of chapters in a Studio project.
+      tags:
+        - Chapters
+      parameters:
+        - $ref: '#/components/parameters/projectId'
+      responses:
+        '200':
+          description: Chapters listed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChapterListResponse'
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Project not found
+  /v1/studio/projects/{project_id}/chapters/{chapter_id}:
+    get:
+      operationId: getChapter
+      summary: Get chapter
+      description: >-
+        Retrieves the full details of a specific chapter in a Studio
+        project.
+      tags:
+        - Chapters
+      parameters:
+        - $ref: '#/components/parameters/projectId'
+        - $ref: '#/components/parameters/chapterId'
+      responses:
+        '200':
+          description: Chapter details retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Chapter'
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Chapter not found
+    delete:
+      operationId: deleteChapter
+      summary: Delete chapter
+      description: >-
+        Deletes a chapter from a Studio project.
+      tags:
+        - Chapters
+      parameters:
+        - $ref: '#/components/parameters/projectId'
+        - $ref: '#/components/parameters/chapterId'
+      responses:
+        '200':
+          description: Chapter deleted successfully
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Chapter not found
+  /v1/studio/projects/{project_id}/pronunciation-dictionaries:
+    post:
+      operationId: createProjectPronunciationDictionaries
+      summary: Create pronunciation dictionaries
+      description: >-
+        Associates pronunciation dictionaries with a Studio project for
+        consistent pronunciation across all chapters.
+      tags:
+        - Pronunciation Dictionaries
+      parameters:
+        - $ref: '#/components/parameters/projectId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectPronunciationRequest'
+      responses:
+        '200':
+          description: Pronunciation dictionaries associated successfully
+        '400':
+          description: Bad request - invalid parameters
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Project not found
+  /v1/audio-native:
+    post:
+      operationId: createAudioNativeProject
+      summary: Create audio native project
+      description: >-
+        Creates an Audio Native embedded player project for converting
+        web content into listenable audio experiences.
+      tags:
+        - Audio Native
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAudioNativeRequest'
+      responses:
+        '200':
+          description: Audio Native project created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AudioNativeResponse'
+        '400':
+          description: Bad request - invalid parameters
+        '401':
+          description: Unauthorized - invalid or missing API key
+components:
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: xi-api-key
+      description: >-
+        ElevenLabs API key passed in the xi-api-key header for authentication.
+  parameters:
+    projectId:
+      name: project_id
+      in: path
+      required: true
+      description: >-
+        The unique identifier of the Studio project.
+      schema:
+        type: string
+    chapterId:
+      name: chapter_id
+      in: path
+      required: true
+      description: >-
+        The unique identifier of the chapter.
+      schema:
+        type: string
+  schemas:
+    ProjectListResponse:
+      type: object
+      properties:
+        projects:
+          type: array
+          description: >-
+            List of Studio projects.
+          items:
+            $ref: '#/components/schemas/ProjectSummary'
+    ProjectSummary:
+      type: object
+      properties:
+        project_id:
+          type: string
+          description: >-
+            Unique identifier for the project.
+        name:
+          type: string
+          description: >-
+            Display name of the project.
+        state:
+          type: string
+          description: >-
+            Current state of the project.
+          enum:
+            - default
+            - converting
+            - converted
+        created_at:
+          type: string
+          format: date-time
+          description: >-
+            Timestamp when the project was created.
+    Project:
+      type: object
+      properties:
+        project_id:
+          type: string
+          description: >-
+            Unique identifier for the project.
+        name:
+          type: string
+          description: >-
+            Display name of the project.
+        state:
+          type: string
+          description: >-
+            Current state of the project.
+          enum:
+            - default
+            - converting
+            - converted
+        default_voice_id:
+          type: string
+          description: >-
+            The default voice used for the project.
+        default_model_id:
+          type: string
+          description: >-
+            The default TTS model used for the project.
+        chapters:
+          type: array
+          description: >-
+            List of chapters in the project.
+          items:
+            $ref: '#/components/schemas/ChapterSummary'
+        pronunciation_dictionary_locators:
+          type: array
+          description: >-
+            Pronunciation dictionaries associated with the project.
+          items:
+            type: object
+            properties:
+              pronunciation_dictionary_id:
+                type: string
+                description: >-
+                  The dictionary identifier.
+              version_id:
+                type: string
+                description: >-
+                  The dictionary version identifier.
+        created_at:
+          type: string
+          format: date-time
+          description: >-
+            Timestamp when the project was created.
+    CreateProjectRequest:
+      type: object
+      required:
+        - name
+        - default_voice_id
+      properties:
+        name:
+          type: string
+          description: >-
+            Display name for the project.
+        default_voice_id:
+          type: string
+          description: >-
+            The default voice identifier for the project.
+        default_model_id:
+          type: string
+          description: >-
+            The default TTS model for the project.
+        from_url:
+          type: string
+          format: uri
+          description: >-
+            A URL to import content from.
+        from_document:
+          type: string
+          format: binary
+          description: >-
+            A document file to import content from.
+    SnapshotListResponse:
+      type: object
+      properties:
+        snapshots:
+          type: array
+          description: >-
+            List of rendered project snapshots.
+          items:
+            $ref: '#/components/schemas/Snapshot'
+    Snapshot:
+      type: object
+      properties:
+        snapshot_id:
+          type: string
+          description: >-
+            Unique identifier for the snapshot.
+        project_id:
+          type: string
+          description: >-
+            The project this snapshot belongs to.
+        created_at:
+          type: string
+          format: date-time
+          description: >-
+            Timestamp when the snapshot was rendered.
+    ChapterListResponse:
+      type: object
+      properties:
+        chapters:
+          type: array
+          description: >-
+            List of chapters.
+          items:
+            $ref: '#/components/schemas/ChapterSummary'
+    ChapterSummary:
+      type: object
+      properties:
+        chapter_id:
+          type: string
+          description: >-
+            Unique identifier for the chapter.
+        name:
+          type: string
+          description: >-
+            Display name of the chapter.
+        state:
+          type: string
+          description: >-
+            Current rendering state of the chapter.
+    Chapter:
+      type: object
+      properties:
+        chapter_id:
+          type: string
+          description: >-
+            Unique identifier for the chapter.
+        name:
+          type: string
+          description: >-
+            Display name of the chapter.
+        content:
+          type: string
+          description: >-
+            The text content of the chapter.
+        voice_id:
+          type: string
+          description: >-
+            The voice assigned to this chapter.
+        state:
+          type: string
+          description: >-
+            Current rendering state of the chapter.
+    ProjectPronunciationRequest:
+      type: object
+      required:
+        - pronunciation_dictionary_locators
+      properties:
+        pronunciation_dictionary_locators:
+          type: array
+          description: >-
+            List of pronunciation dictionary locators to apply.
+          items:
+            type: object
+            required:
+              - pronunciation_dictionary_id
+              - version_id
+            properties:
+              pronunciation_dictionary_id:
+                type: string
+                description: >-
+                  The pronunciation dictionary identifier.
+              version_id:
+                type: string
+                description: >-
+                  The pronunciation dictionary version identifier.
+    CreateAudioNativeRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: >-
+            Display name for the Audio Native project.
+        title:
+          type: string
+          description: >-
+            Title displayed in the embedded player.
+        body:
+          type: string
+          description: >-
+            The text content to convert to audio.
+        source_url:
+          type: string
+          format: uri
+          description: >-
+            A URL to import content from for the audio player.
+        voice_id:
+          type: string
+          description: >-
+            The voice to use for audio generation.
+        model_id:
+          type: string
+          description: >-
+            The TTS model to use.
+        auto_convert:
+          type: boolean
+          description: >-
+            Whether to automatically convert the content to audio.
+          default: false
+    AudioNativeResponse:
+      type: object
+      properties:
+        project_id:
+          type: string
+          description: >-
+            The identifier of the created Audio Native project.
+        html_snippet:
+          type: string
+          description: >-
+            HTML snippet for embedding the audio player on a web page.

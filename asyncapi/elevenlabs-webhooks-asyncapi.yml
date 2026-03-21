@@ -1,0 +1,257 @@
+asyncapi: 2.6.0
+info:
+  title: ElevenLabs Webhook Events
+  description: >-
+    The ElevenLabs Webhook system delivers event notifications to configured
+    endpoints when specific actions occur within the platform. This includes
+    post-call webhooks from Conversational AI conversations delivering
+    transcripts and audio recordings, and workspace-level event
+    notifications. Webhook payloads are signed with HMAC-SHA256 for
+    verification.
+  version: '1.0'
+  contact:
+    name: ElevenLabs Support
+    url: https://help.elevenlabs.io
+servers:
+  webhookReceiver:
+    url: '{webhookUrl}'
+    protocol: https
+    description: >-
+      The customer's webhook endpoint that receives event notifications
+      from ElevenLabs.
+    variables:
+      webhookUrl:
+        description: >-
+          The URL configured by the customer to receive webhook events.
+    security:
+      - hmacSignature: []
+channels:
+  /post-call-transcription:
+    description: >-
+      Webhook channel for receiving conversation transcription data after
+      a Conversational AI call ends. Delivers the full transcript of the
+      conversation.
+    publish:
+      operationId: receivePostCallTranscription
+      summary: Post-call transcription webhook
+      description: >-
+        Delivered after a Conversational AI conversation ends, containing
+        the full conversation transcript with speaker roles and timestamps.
+      message:
+        $ref: '#/components/messages/PostCallTranscriptionEvent'
+  /post-call-audio:
+    description: >-
+      Webhook channel for receiving conversation audio recordings after
+      a Conversational AI call ends. Audio is delivered as a streaming
+      HTTP request with chunked transfer encoding.
+    publish:
+      operationId: receivePostCallAudio
+      summary: Post-call audio webhook
+      description: >-
+        Delivered after a Conversational AI conversation ends, containing
+        the audio recording of the conversation. Uses chunked transfer
+        encoding for large audio files.
+      message:
+        $ref: '#/components/messages/PostCallAudioEvent'
+  /call-initiation-failure:
+    description: >-
+      Webhook channel for receiving notifications when a Conversational AI
+      call fails to initiate.
+    publish:
+      operationId: receiveCallInitiationFailure
+      summary: Call initiation failure webhook
+      description: >-
+        Delivered when a Conversational AI call fails to start,
+        providing error details and context.
+      message:
+        $ref: '#/components/messages/CallInitiationFailureEvent'
+  /workspace-events:
+    description: >-
+      Webhook channel for workspace-level events such as usage alerts,
+      subscription changes, and administrative notifications.
+    publish:
+      operationId: receiveWorkspaceEvent
+      summary: Workspace event webhook
+      description: >-
+        Delivered when workspace-level events occur, such as usage
+        threshold alerts or configuration changes.
+      message:
+        $ref: '#/components/messages/WorkspaceEvent'
+components:
+  securitySchemes:
+    hmacSignature:
+      type: httpApiKey
+      in: header
+      name: ElevenLabs-Signature
+      description: >-
+        HMAC-SHA256 signature for webhook payload verification. The
+        signature is computed using the shared secret generated when
+        the webhook is created. Verify this header to ensure the
+        webhook was sent by ElevenLabs.
+  messages:
+    PostCallTranscriptionEvent:
+      name: post_call_transcription
+      title: Post-Call Transcription
+      summary: Conversation transcript delivered after call completion
+      description: >-
+        Contains the full transcript of a completed Conversational AI
+        conversation, including speaker roles, timestamps, and metadata.
+        The webhook must return a 200 status code to be considered
+        successful. Webhooks that repeatedly fail are automatically
+        disabled after 10 consecutive failures.
+      payload:
+        $ref: '#/components/schemas/PostCallTranscriptionPayload'
+    PostCallAudioEvent:
+      name: post_call_audio
+      title: Post-Call Audio
+      summary: Conversation audio recording delivered after call completion
+      description: >-
+        Contains the audio recording of a completed conversation. Delivered
+        as a streaming HTTP request with the transfer-encoding chunked
+        header. Ensure the receiving endpoint can handle streaming requests
+        and has sufficient storage capacity.
+      payload:
+        $ref: '#/components/schemas/PostCallAudioPayload'
+    CallInitiationFailureEvent:
+      name: call_initiation_failure
+      title: Call Initiation Failure
+      summary: Notification that a call failed to start
+      description: >-
+        Sent when a Conversational AI call could not be initiated,
+        including the error reason and agent context.
+      payload:
+        $ref: '#/components/schemas/CallInitiationFailurePayload'
+    WorkspaceEvent:
+      name: workspace_event
+      title: Workspace Event
+      summary: Workspace-level event notification
+      description: >-
+        Generic workspace event notification for administrative and
+        operational events.
+      payload:
+        $ref: '#/components/schemas/WorkspaceEventPayload'
+  schemas:
+    PostCallTranscriptionPayload:
+      type: object
+      properties:
+        event_type:
+          type: string
+          const: post_call_transcription
+          description: >-
+            The type of webhook event.
+        conversation_id:
+          type: string
+          description: >-
+            The unique identifier of the conversation.
+        agent_id:
+          type: string
+          description: >-
+            The identifier of the agent involved in the conversation.
+        transcript:
+          type: array
+          description: >-
+            The full conversation transcript.
+          items:
+            type: object
+            properties:
+              role:
+                type: string
+                description: >-
+                  The speaker role.
+                enum:
+                  - agent
+                  - user
+              message:
+                type: string
+                description: >-
+                  The spoken message text.
+              timestamp:
+                type: number
+                description: >-
+                  Timestamp in seconds from conversation start.
+        metadata:
+          type: object
+          description: >-
+            Additional metadata about the conversation.
+          properties:
+            duration_seconds:
+              type: number
+              description: >-
+                Total conversation duration in seconds.
+            started_at:
+              type: string
+              format: date-time
+              description: >-
+                Timestamp when the conversation started.
+            ended_at:
+              type: string
+              format: date-time
+              description: >-
+                Timestamp when the conversation ended.
+    PostCallAudioPayload:
+      type: object
+      properties:
+        event_type:
+          type: string
+          const: post_call_audio
+          description: >-
+            The type of webhook event.
+        conversation_id:
+          type: string
+          description: >-
+            The unique identifier of the conversation.
+        agent_id:
+          type: string
+          description: >-
+            The identifier of the agent involved in the conversation.
+        audio_format:
+          type: string
+          description: >-
+            The format of the audio data.
+        audio_data:
+          type: string
+          description: >-
+            The audio recording data, delivered via chunked transfer
+            encoding.
+    CallInitiationFailurePayload:
+      type: object
+      properties:
+        event_type:
+          type: string
+          const: call_initiation_failure
+          description: >-
+            The type of webhook event.
+        agent_id:
+          type: string
+          description: >-
+            The identifier of the agent that failed to start a call.
+        error:
+          type: string
+          description: >-
+            Description of the error that prevented call initiation.
+        timestamp:
+          type: string
+          format: date-time
+          description: >-
+            Timestamp when the failure occurred.
+    WorkspaceEventPayload:
+      type: object
+      properties:
+        event_type:
+          type: string
+          description: >-
+            The type of workspace event.
+        workspace_id:
+          type: string
+          description: >-
+            The identifier of the workspace.
+        data:
+          type: object
+          description: >-
+            Event-specific data payload.
+          additionalProperties: true
+        timestamp:
+          type: string
+          format: date-time
+          description: >-
+            Timestamp when the event occurred.
