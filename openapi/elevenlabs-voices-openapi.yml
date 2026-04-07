@@ -19,18 +19,18 @@ servers:
   - url: https://api.elevenlabs.io
     description: Production Server
 tags:
-  - name: Voices
-    description: >-
-      Endpoints for managing voices including listing, creating, editing,
-      and deleting voices in the library.
-  - name: Voice Settings
-    description: >-
-      Endpoints for managing voice-specific settings such as stability,
-      similarity boost, and style parameters.
   - name: Voice Library
     description: >-
       Endpoints for browsing and adding shared voices from the public
       voice library.
+  - name: Voice Settings
+    description: >-
+      Endpoints for managing voice-specific settings such as stability,
+      similarity boost, and style parameters.
+  - name: Voices
+    description: >-
+      Endpoints for managing voices including listing, creating, editing,
+      and deleting voices in the library.
 security:
   - apiKeyAuth: []
 paths:

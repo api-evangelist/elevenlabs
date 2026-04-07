@@ -20,21 +20,21 @@ servers:
   - url: https://api.elevenlabs.io
     description: Production Server
 tags:
-  - name: Projects
-    description: >-
-      Endpoints for managing Studio projects including creation, editing,
-      and rendering of long-form audio content.
-  - name: Chapters
-    description: >-
-      Endpoints for managing chapters within Studio projects.
-  - name: Pronunciation Dictionaries
-    description: >-
-      Endpoints for managing pronunciation dictionaries used in Studio
-      projects.
   - name: Audio Native
     description: >-
       Endpoints for creating and managing Audio Native embedded players
       for web content.
+  - name: Chapters
+    description: >-
+      Endpoints for managing chapters within Studio projects.
+  - name: Projects
+    description: >-
+      Endpoints for managing Studio projects including creation, editing,
+      and rendering of long-form audio content.
+  - name: Pronunciation Dictionaries
+    description: >-
+      Endpoints for managing pronunciation dictionaries used in Studio
+      projects.
 security:
   - apiKeyAuth: []
 paths:

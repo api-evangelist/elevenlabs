@@ -21,14 +21,14 @@ servers:
   - url: https://api.elevenlabs.io
     description: Production Server
 tags:
-  - name: Text to Speech
-    description: >-
-      Endpoints for converting text into speech audio with configurable voice,
-      model, and output format settings.
   - name: Text to Dialogue
     description: >-
       Endpoints for converting text scripts with multiple speakers into
       dialogue audio.
+  - name: Text to Speech
+    description: >-
+      Endpoints for converting text into speech audio with configurable voice,
+      model, and output format settings.
 security:
   - apiKeyAuth: []
 paths:
