@@ -1,5 +1,6 @@
 aid: elevenlabs
-url: https://raw.githubusercontent.com/api-evangelist/elevenlabs/refs/heads/main/apis.yml
+url: 
+  https://raw.githubusercontent.com/api-evangelist/elevenlabs/refs/heads/main/apis.yml
 modified: '2026-03-20'
 common:
   - type: JSON-LD
@@ -19,7 +20,8 @@ apis:
       - Audio
       - AI
       - Speech Synthesis
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.elevenlabs.io
     humanURL: https://elevenlabs.io/docs/api-reference/text-to-speech/convert
     properties:
@@ -44,7 +46,8 @@ apis:
       - Transcription
       - Audio
       - AI
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.elevenlabs.io
     humanURL: https://elevenlabs.io/docs/api-reference/speech-to-text/convert
     properties:
@@ -65,7 +68,8 @@ apis:
       - Voice
       - AI
       - Audio
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.elevenlabs.io
     humanURL: https://elevenlabs.io/docs/api-reference/voices/ivc/create
     properties:
@@ -88,7 +92,8 @@ apis:
       - Voice Library
       - Voice Management
       - AI
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.elevenlabs.io
     humanURL: https://elevenlabs.io/docs/api-reference/voices/get
     properties:
@@ -109,7 +114,8 @@ apis:
       - Sound Effects
       - Audio Generation
       - AI
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.elevenlabs.io
     humanURL: https://elevenlabs.io/docs/api-reference/sound-generation/create
     properties:
@@ -130,11 +136,14 @@ apis:
       - Audio Isolation
       - Noise Removal
       - Audio Processing
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.elevenlabs.io
-    humanURL: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation
+    humanURL: 
+      https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation
     properties:
-      - url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation
+      - url: 
+          https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation
         type: Documentation
       - url: openapi/elevenlabs-audio-isolation-openapi.yml
         type: OpenAPI
@@ -153,11 +162,14 @@ apis:
       - Localization
       - Audio
       - Video
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.elevenlabs.io
-    humanURL: https://elevenlabs.io/docs/api-reference/dubbing/resources/dub-segment
+    humanURL: 
+      https://elevenlabs.io/docs/api-reference/dubbing/resources/dub-segment
     properties:
-      - url: https://elevenlabs.io/docs/api-reference/dubbing/resources/dub-segment
+      - url: 
+          https://elevenlabs.io/docs/api-reference/dubbing/resources/dub-segment
         type: Documentation
       - url: openapi/elevenlabs-dubbing-openapi.yml
         type: OpenAPI
@@ -174,7 +186,8 @@ apis:
       - Voice Changer
       - Voice Conversion
       - Audio Processing
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.elevenlabs.io
     humanURL: https://elevenlabs.io/docs/api-reference/speech-to-speech/convert
     properties:
@@ -195,7 +208,8 @@ apis:
       - Music
       - Audio Generation
       - AI
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.elevenlabs.io
     humanURL: https://elevenlabs.io/docs/overview/capabilities/music
     properties:
@@ -217,7 +231,8 @@ apis:
       - Voice Agents
       - Real-Time
       - AI
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.elevenlabs.io
     humanURL: https://elevenlabs.io/docs/overview/capabilities/conversational-ai
     properties:
@@ -243,7 +258,8 @@ apis:
       - Studio
       - Projects
       - Content Management
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.elevenlabs.io
     humanURL: https://elevenlabs.io/docs/overview/capabilities/projects
     properties:
@@ -258,3 +274,5 @@ apis:
       into chapters and assigning different voices to different sections. The
       Studio is designed for producing audiobooks, podcasts, and other
       long-form audio content at scale.
+description: >-
+  Converts text into speech using a voice of your choice and returns audio.
