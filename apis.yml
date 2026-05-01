@@ -1,6 +1,6 @@
 aid: elevenlabs
 url: https://raw.githubusercontent.com/api-evangelist/elevenlabs/refs/heads/main/apis.yml
-modified: '2026-03-20'
+modified: '2026-04-28'
 common:
   - type: JSON-LD
     url: json-ld/elevenlabs-context.jsonld
