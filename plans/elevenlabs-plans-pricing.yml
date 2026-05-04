@@ -1,0 +1,204 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: ElevenLabs
+providerId: elevenlabs
+created: '2026-05-04'
+modified: '2026-05-04'
+reconciled: true
+tags:
+  - AI
+  - Text-to-Speech
+  - Voice Cloning
+description: ElevenLabs credit-based pricing for TTS, voice cloning, dubbing.
+sources:
+  - https://elevenlabs.io/pricing
+plans:
+  - id: elevenlabs-free
+    name: Free
+    type: freemium
+    description: 10K credits/month.
+    entries:
+      - label: Monthly credits
+        name: credits
+        type: quota
+        metric: credit
+        limit: 10000
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+    elements:
+      - name: TTS
+      - name: STT
+      - name: Sound effects
+      - name: Voice design
+      - name: 3 Studio projects
+  - id: elevenlabs-starter
+    name: Starter
+    type: paid
+    description: $6/month, 30K credits.
+    entries:
+      - label: Monthly
+        name: monthly
+        type: subscription
+        metric: month
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '6.00'
+        userMultiplied: false
+      - label: Monthly credits
+        name: credits
+        type: quota
+        metric: credit
+        limit: 30000
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+    elements:
+      - name: Commercial license
+      - name: Instant Voice Cloning
+      - name: 20 Studio projects
+      - name: Music commercial use
+      - name: Dubbing Studio
+  - id: elevenlabs-creator
+    name: Creator
+    type: paid
+    description: $11/month (50% off first month), 121K credits.
+    entries:
+      - label: Monthly
+        name: monthly
+        type: subscription
+        metric: month
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '11.00'
+        userMultiplied: false
+      - label: Monthly credits
+        name: credits
+        type: quota
+        metric: credit
+        limit: 121000
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+    elements:
+      - name: Professional Voice Cloning
+      - name: Additional credits
+  - id: elevenlabs-pro
+    name: Pro
+    type: paid
+    description: $99/month, 600K credits.
+    entries:
+      - label: Monthly
+        name: monthly
+        type: subscription
+        metric: month
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '99.00'
+        userMultiplied: false
+      - label: Monthly credits
+        name: credits
+        type: quota
+        metric: credit
+        limit: 600000
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+    elements:
+      - name: 44.1kHz PCM via API
+      - name: 192kbps quality
+  - id: elevenlabs-scale
+    name: Scale
+    type: paid
+    description: $299/month, 1.8M credits, 3 workspace seats.
+    entries:
+      - label: Monthly
+        name: monthly
+        type: subscription
+        metric: month
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '299.00'
+        userMultiplied: false
+      - label: Monthly credits
+        name: credits
+        type: quota
+        metric: credit
+        limit: 1800000
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+    elements:
+      - name: 3 workspace seats
+      - name: Team collaboration
+      - name: 3 Professional Voice Clones
+  - id: elevenlabs-business
+    name: Business
+    type: paid
+    description: $990/month, 6M credits, 10 seats.
+    entries:
+      - label: Monthly
+        name: monthly
+        type: subscription
+        metric: month
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '990.00'
+        userMultiplied: false
+      - label: Monthly credits
+        name: credits
+        type: quota
+        metric: credit
+        limit: 6000000
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+    elements:
+      - name: Low-latency TTS as low as 5c/min
+      - name: 10 Professional Voice Clones
+      - name: 10 workspace seats
+  - id: elevenlabs-enterprise
+    name: Enterprise
+    type: enterprise
+    description: Custom pricing.
+    entries:
+      - label: Annual (custom)
+        name: custom
+        type: subscription
+        metric: year
+        limit: -1
+        timeFrame: year
+        geo: global
+        unit: 1
+        price: custom
+        userMultiplied: false
+    elements:
+      - name: Custom DPA/SLA, BAA for HIPAA
+      - name: Custom SSO
+      - name: Elevated concurrency
+      - name: Productions managed dubbing
+      - name: Significant scale discounts
+      - name: Priority support

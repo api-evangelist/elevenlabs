@@ -1,0 +1,49 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: ElevenLabs
+providerId: elevenlabs
+created: '2026-05-04'
+modified: '2026-05-04'
+reconciled: true
+tags:
+  - Rate Limiting
+  - Speech
+description: ElevenLabs concurrent request limits scale with subscription tier.
+sources:
+  - https://elevenlabs.io/pricing
+  - https://elevenlabs.io/docs/api-reference/getting-started
+headers:
+  retryAfter: Retry-After
+responseCodes:
+  throttled: 429
+  concurrencyExceeded: 429
+limits:
+  - name: Free concurrent
+    scope: user
+    metric: concurrent
+    limit: 2
+  - name: Starter concurrent
+    scope: user
+    metric: concurrent
+    limit: 3
+  - name: Creator concurrent
+    scope: user
+    metric: concurrent
+    limit: 5
+  - name: Pro concurrent
+    scope: user
+    metric: concurrent
+    limit: 10
+  - name: Scale concurrent
+    scope: user
+    metric: concurrent
+    limit: 15
+  - name: Business concurrent
+    scope: user
+    metric: concurrent
+    limit: 15
+  - name: Enterprise concurrent
+    scope: user
+    metric: concurrent
+    limit: custom
