@@ -1,0 +1,101 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: ElevenLabs Audio Isolation API
+  description: The ElevenLabs Audio Isolation API removes background noise from audio recordings, isolating vocal tracks from
+    ambient sounds and interference. This is useful for cleaning up recordings, improving audio quality for podcasts and interviews,
+    and preparing audio files for further processing such as voice cloning or transcription.
+  tags:
+  - Elevenlabs
+  - API
+  created: '2026-05-06'
+  modified: '2026-05-06'
+capability:
+  consumes:
+  - type: http
+    namespace: elevenlabs
+    baseUri: https://api.elevenlabs.io
+    description: ElevenLabs Audio Isolation API HTTP API.
+    authentication:
+      type: apikey
+      in: header
+      name: xi-api-key
+      value: '{{ELEVENLABS_TOKEN}}'
+    resources:
+    - name: v1-audio-isolation
+      path: /v1/audio-isolation
+      operations:
+      - name: isolateaudio
+        method: POST
+        description: Isolate audio
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v1-audio-isolation-stream
+      path: /v1/audio-isolation/stream
+      operations:
+      - name: isolateaudiostream
+        method: POST
+        description: Isolate audio with streaming
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  exposes:
+  - type: rest
+    port: 8080
+    namespace: elevenlabs-rest
+    description: REST adapter for ElevenLabs Audio Isolation API.
+    resources:
+    - path: /v1/audio-isolation
+      name: isolateaudio
+      operations:
+      - method: POST
+        name: isolateaudio
+        description: Isolate audio
+        call: elevenlabs.isolateaudio
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/audio-isolation/stream
+      name: isolateaudiostream
+      operations:
+      - method: POST
+        name: isolateaudiostream
+        description: Isolate audio with streaming
+        call: elevenlabs.isolateaudiostream
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    port: 9090
+    namespace: elevenlabs-mcp
+    transport: http
+    description: MCP adapter for ElevenLabs Audio Isolation API for AI agent use.
+    tools:
+    - name: isolateaudio
+      description: Isolate audio
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: elevenlabs.isolateaudio
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: isolateaudiostream
+      description: Isolate audio with streaming
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: elevenlabs.isolateaudiostream
+      outputParameters:
+      - type: object
+        mapping: $.
+binds:
+- namespace: env
+  keys:
+    ELEVENLABS_TOKEN: ELEVENLABS_TOKEN
