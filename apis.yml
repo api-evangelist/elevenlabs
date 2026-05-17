@@ -2,7 +2,7 @@ aid: elevenlabs
 url: https://raw.githubusercontent.com/api-evangelist/elevenlabs/refs/heads/main/apis.yml
 modified: '2026-05-04'
 common:
-  - type: JSON-LD
+  - type: JSONLD
     url: json-ld/elevenlabs-context.jsonld
   - type: JSONSchema
     url: json-schema/elevenlabs-voice-schema.json
