@@ -1,0 +1,139 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: ElevenLabs Dubbing API — Dubbing
+  description: 'ElevenLabs Dubbing API — Dubbing. 3 operations. Lead operation: Dub a video or audio file. Self-contained
+    Naftiko capability covering one Elevenlabs business surface.'
+  tags:
+  - Elevenlabs
+  - Dubbing
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ELEVENLABS_API_KEY: ELEVENLABS_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: dubbing-dubbing
+    baseUri: https://api.elevenlabs.io
+    description: ElevenLabs Dubbing API — Dubbing business capability. Self-contained, no shared references.
+    resources:
+    - name: v1-dubbing
+      path: /v1/dubbing
+      operations:
+      - name: createdubbing
+        method: POST
+        description: Dub a video or audio file
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: v1-dubbing-dubbing_id
+      path: /v1/dubbing/{dubbing_id}
+      operations:
+      - name: getdubbing
+        method: GET
+        description: Get dubbing metadata
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: deletedubbing
+        method: DELETE
+        description: Delete dubbing
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: xi-api-key
+      value: '{{env.ELEVENLABS_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: dubbing-dubbing-rest
+    port: 8080
+    description: REST adapter for ElevenLabs Dubbing API — Dubbing. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/v1/dubbing
+      name: v1-dubbing
+      description: REST surface for v1-dubbing.
+      operations:
+      - method: POST
+        name: createdubbing
+        description: Dub a video or audio file
+        call: dubbing-dubbing.createdubbing
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/dubbing/{dubbing-id}
+      name: v1-dubbing-dubbing-id
+      description: REST surface for v1-dubbing-dubbing_id.
+      operations:
+      - method: GET
+        name: getdubbing
+        description: Get dubbing metadata
+        call: dubbing-dubbing.getdubbing
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletedubbing
+        description: Delete dubbing
+        call: dubbing-dubbing.deletedubbing
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: dubbing-dubbing-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for ElevenLabs Dubbing API — Dubbing. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: dub-video-audio-file
+      description: Dub a video or audio file
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: dubbing-dubbing.createdubbing
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-dubbing-metadata
+      description: Get dubbing metadata
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: dubbing-dubbing.getdubbing
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-dubbing
+      description: Delete dubbing
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: dubbing-dubbing.deletedubbing
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,82 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: ElevenLabs Studio API — Pronunciation Dictionaries
+  description: 'ElevenLabs Studio API — Pronunciation Dictionaries. 1 operations. Lead operation: Create pronunciation dictionaries.
+    Self-contained Naftiko capability covering one Elevenlabs business surface.'
+  tags:
+  - Elevenlabs
+  - Pronunciation Dictionaries
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ELEVENLABS_API_KEY: ELEVENLABS_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: studio-pronunciation-dictionaries
+    baseUri: https://api.elevenlabs.io
+    description: ElevenLabs Studio API — Pronunciation Dictionaries business capability. Self-contained, no shared references.
+    resources:
+    - name: v1-studio-projects-project_id-pronunciation-dictionaries
+      path: /v1/studio/projects/{project_id}/pronunciation-dictionaries
+      operations:
+      - name: createprojectpronunciationdictionaries
+        method: POST
+        description: Create pronunciation dictionaries
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: apikey
+      key: xi-api-key
+      value: '{{env.ELEVENLABS_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: studio-pronunciation-dictionaries-rest
+    port: 8080
+    description: REST adapter for ElevenLabs Studio API — Pronunciation Dictionaries. One Spectral-compliant resource per
+      consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/v1/studio/projects/{project-id}/pronunciation-dictionaries
+      name: v1-studio-projects-project-id-pronunciation-dictionaries
+      description: REST surface for v1-studio-projects-project_id-pronunciation-dictionaries.
+      operations:
+      - method: POST
+        name: createprojectpronunciationdictionaries
+        description: Create pronunciation dictionaries
+        call: studio-pronunciation-dictionaries.createprojectpronunciationdictionaries
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: studio-pronunciation-dictionaries-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for ElevenLabs Studio API — Pronunciation Dictionaries. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: create-pronunciation-dictionaries
+      description: Create pronunciation dictionaries
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: studio-pronunciation-dictionaries.createprojectpronunciationdictionaries
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

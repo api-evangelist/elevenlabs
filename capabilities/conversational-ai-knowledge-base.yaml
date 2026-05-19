@@ -1,0 +1,191 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: ElevenLabs Conversational AI API — Knowledge Base
+  description: 'ElevenLabs Conversational AI API — Knowledge Base. 4 operations. Lead operation: List knowledge base documents.
+    Self-contained Naftiko capability covering one Elevenlabs business surface.'
+  tags:
+  - Elevenlabs
+  - Knowledge Base
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ELEVENLABS_API_KEY: ELEVENLABS_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: conversational-ai-knowledge-base
+    baseUri: https://api.elevenlabs.io
+    description: ElevenLabs Conversational AI API — Knowledge Base business capability. Self-contained, no shared references.
+    resources:
+    - name: v1-convai-knowledge-base
+      path: /v1/convai/knowledge-base
+      operations:
+      - name: listknowledgebase
+        method: GET
+        description: List knowledge base documents
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: addknowledgebasedocument
+        method: POST
+        description: Add knowledge base document
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: v1-convai-knowledge-base-document_id
+      path: /v1/convai/knowledge-base/{document_id}
+      operations:
+      - name: deleteknowledgebasedocument
+        method: DELETE
+        description: Delete knowledge base document
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: document_id
+          in: path
+          type: string
+          description: The identifier of the document to delete.
+          required: true
+    - name: v1-convai-knowledge-base-document_id-dependent-agents
+      path: /v1/convai/knowledge-base/{document_id}/dependent-agents
+      operations:
+      - name: getdependentagents
+        method: GET
+        description: Get dependent agents
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: document_id
+          in: path
+          type: string
+          description: The identifier of the knowledge base document.
+          required: true
+    authentication:
+      type: apikey
+      key: xi-api-key
+      value: '{{env.ELEVENLABS_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: conversational-ai-knowledge-base-rest
+    port: 8080
+    description: REST adapter for ElevenLabs Conversational AI API — Knowledge Base. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/v1/convai/knowledge-base
+      name: v1-convai-knowledge-base
+      description: REST surface for v1-convai-knowledge-base.
+      operations:
+      - method: GET
+        name: listknowledgebase
+        description: List knowledge base documents
+        call: conversational-ai-knowledge-base.listknowledgebase
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: addknowledgebasedocument
+        description: Add knowledge base document
+        call: conversational-ai-knowledge-base.addknowledgebasedocument
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/convai/knowledge-base/{document-id}
+      name: v1-convai-knowledge-base-document-id
+      description: REST surface for v1-convai-knowledge-base-document_id.
+      operations:
+      - method: DELETE
+        name: deleteknowledgebasedocument
+        description: Delete knowledge base document
+        call: conversational-ai-knowledge-base.deleteknowledgebasedocument
+        with:
+          document_id: rest.document_id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/convai/knowledge-base/{document-id}/dependent-agents
+      name: v1-convai-knowledge-base-document-id-dependent-agents
+      description: REST surface for v1-convai-knowledge-base-document_id-dependent-agents.
+      operations:
+      - method: GET
+        name: getdependentagents
+        description: Get dependent agents
+        call: conversational-ai-knowledge-base.getdependentagents
+        with:
+          document_id: rest.document_id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: conversational-ai-knowledge-base-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for ElevenLabs Conversational AI API — Knowledge Base. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: list-knowledge-base-documents
+      description: List knowledge base documents
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: conversational-ai-knowledge-base.listknowledgebase
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: add-knowledge-base-document
+      description: Add knowledge base document
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: conversational-ai-knowledge-base.addknowledgebasedocument
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-knowledge-base-document
+      description: Delete knowledge base document
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: conversational-ai-knowledge-base.deleteknowledgebasedocument
+      with:
+        document_id: tools.document_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-dependent-agents
+      description: Get dependent agents
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: conversational-ai-knowledge-base.getdependentagents
+      with:
+        document_id: tools.document_id
+      outputParameters:
+      - type: object
+        mapping: $.

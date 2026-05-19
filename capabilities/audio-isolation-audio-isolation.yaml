@@ -1,0 +1,124 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: ElevenLabs Audio Isolation API — Audio Isolation
+  description: 'ElevenLabs Audio Isolation API — Audio Isolation. 2 operations. Lead operation: Isolate audio. Self-contained
+    Naftiko capability covering one Elevenlabs business surface.'
+  tags:
+  - Elevenlabs
+  - Audio Isolation
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ELEVENLABS_API_KEY: ELEVENLABS_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: audio-isolation-audio-isolation
+    baseUri: https://api.elevenlabs.io
+    description: ElevenLabs Audio Isolation API — Audio Isolation business capability. Self-contained, no shared references.
+    resources:
+    - name: v1-audio-isolation
+      path: /v1/audio-isolation
+      operations:
+      - name: isolateaudio
+        method: POST
+        description: Isolate audio
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: v1-audio-isolation-stream
+      path: /v1/audio-isolation/stream
+      operations:
+      - name: isolateaudiostream
+        method: POST
+        description: Isolate audio with streaming
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: apikey
+      key: xi-api-key
+      value: '{{env.ELEVENLABS_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: audio-isolation-audio-isolation-rest
+    port: 8080
+    description: REST adapter for ElevenLabs Audio Isolation API — Audio Isolation. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/v1/audio-isolation
+      name: v1-audio-isolation
+      description: REST surface for v1-audio-isolation.
+      operations:
+      - method: POST
+        name: isolateaudio
+        description: Isolate audio
+        call: audio-isolation-audio-isolation.isolateaudio
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/audio-isolation/stream
+      name: v1-audio-isolation-stream
+      description: REST surface for v1-audio-isolation-stream.
+      operations:
+      - method: POST
+        name: isolateaudiostream
+        description: Isolate audio with streaming
+        call: audio-isolation-audio-isolation.isolateaudiostream
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: audio-isolation-audio-isolation-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for ElevenLabs Audio Isolation API — Audio Isolation. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: isolate-audio
+      description: Isolate audio
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: audio-isolation-audio-isolation.isolateaudio
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: isolate-audio-streaming
+      description: Isolate audio with streaming
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: audio-isolation-audio-isolation.isolateaudiostream
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

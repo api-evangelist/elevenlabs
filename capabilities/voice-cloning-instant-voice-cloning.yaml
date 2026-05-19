@@ -1,0 +1,82 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: ElevenLabs Voice Cloning API — Instant Voice Cloning
+  description: 'ElevenLabs Voice Cloning API — Instant Voice Cloning. 1 operations. Lead operation: Create instant voice clone.
+    Self-contained Naftiko capability covering one Elevenlabs business surface.'
+  tags:
+  - Elevenlabs
+  - Instant Voice Cloning
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ELEVENLABS_API_KEY: ELEVENLABS_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: voice-cloning-instant-voice-cloning
+    baseUri: https://api.elevenlabs.io
+    description: ElevenLabs Voice Cloning API — Instant Voice Cloning business capability. Self-contained, no shared references.
+    resources:
+    - name: v1-voices-add
+      path: /v1/voices/add
+      operations:
+      - name: createinstantvoiceclone
+        method: POST
+        description: Create instant voice clone
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: apikey
+      key: xi-api-key
+      value: '{{env.ELEVENLABS_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: voice-cloning-instant-voice-cloning-rest
+    port: 8080
+    description: REST adapter for ElevenLabs Voice Cloning API — Instant Voice Cloning. One Spectral-compliant resource per
+      consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/v1/voices/add
+      name: v1-voices-add
+      description: REST surface for v1-voices-add.
+      operations:
+      - method: POST
+        name: createinstantvoiceclone
+        description: Create instant voice clone
+        call: voice-cloning-instant-voice-cloning.createinstantvoiceclone
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: voice-cloning-instant-voice-cloning-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for ElevenLabs Voice Cloning API — Instant Voice Cloning. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: create-instant-voice-clone
+      description: Create instant voice clone
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: voice-cloning-instant-voice-cloning.createinstantvoiceclone
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

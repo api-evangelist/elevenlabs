@@ -1,0 +1,124 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: ElevenLabs Voice Changer API — Speech to Speech
+  description: 'ElevenLabs Voice Changer API — Speech to Speech. 2 operations. Lead operation: Voice changer. Self-contained
+    Naftiko capability covering one Elevenlabs business surface.'
+  tags:
+  - Elevenlabs
+  - Speech to Speech
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ELEVENLABS_API_KEY: ELEVENLABS_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: voice-changer-speech-to-speech
+    baseUri: https://api.elevenlabs.io
+    description: ElevenLabs Voice Changer API — Speech to Speech business capability. Self-contained, no shared references.
+    resources:
+    - name: v1-speech-to-speech-voice_id
+      path: /v1/speech-to-speech/{voice_id}
+      operations:
+      - name: convertvoice
+        method: POST
+        description: Voice changer
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: v1-speech-to-speech-voice_id-stream
+      path: /v1/speech-to-speech/{voice_id}/stream
+      operations:
+      - name: streamconvertedvoice
+        method: POST
+        description: Voice changer stream
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: apikey
+      key: xi-api-key
+      value: '{{env.ELEVENLABS_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: voice-changer-speech-to-speech-rest
+    port: 8080
+    description: REST adapter for ElevenLabs Voice Changer API — Speech to Speech. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/v1/speech-to-speech/{voice-id}
+      name: v1-speech-to-speech-voice-id
+      description: REST surface for v1-speech-to-speech-voice_id.
+      operations:
+      - method: POST
+        name: convertvoice
+        description: Voice changer
+        call: voice-changer-speech-to-speech.convertvoice
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/speech-to-speech/{voice-id}/stream
+      name: v1-speech-to-speech-voice-id-stream
+      description: REST surface for v1-speech-to-speech-voice_id-stream.
+      operations:
+      - method: POST
+        name: streamconvertedvoice
+        description: Voice changer stream
+        call: voice-changer-speech-to-speech.streamconvertedvoice
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: voice-changer-speech-to-speech-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for ElevenLabs Voice Changer API — Speech to Speech. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: voice-changer
+      description: Voice changer
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: voice-changer-speech-to-speech.convertvoice
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: voice-changer-stream
+      description: Voice changer stream
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: voice-changer-speech-to-speech.streamconvertedvoice
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

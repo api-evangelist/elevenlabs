@@ -1,0 +1,256 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: ElevenLabs Conversational AI API — Agents
+  description: 'ElevenLabs Conversational AI API — Agents. 6 operations. Lead operation: List agents. Self-contained Naftiko
+    capability covering one Elevenlabs business surface.'
+  tags:
+  - Elevenlabs
+  - Agents
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ELEVENLABS_API_KEY: ELEVENLABS_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: conversational-ai-agents
+    baseUri: https://api.elevenlabs.io
+    description: ElevenLabs Conversational AI API — Agents business capability. Self-contained, no shared references.
+    resources:
+    - name: v1-convai-agents
+      path: /v1/convai/agents
+      operations:
+      - name: listagents
+        method: GET
+        description: List agents
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: page_size
+          in: query
+          type: integer
+          description: Number of agents to return per page.
+        - name: cursor
+          in: query
+          type: string
+          description: Pagination cursor for retrieving the next page of results.
+      - name: createagent
+        method: POST
+        description: Create agent
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: v1-convai-agents-agent_id
+      path: /v1/convai/agents/{agent_id}
+      operations:
+      - name: getagent
+        method: GET
+        description: Get agent
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updateagent
+        method: PATCH
+        description: Update agent
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deleteagent
+        method: DELETE
+        description: Delete agent
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v1-convai-agents-agent_id-simulate
+      path: /v1/convai/agents/{agent_id}/simulate
+      operations:
+      - name: simulateconversation
+        method: POST
+        description: Simulate conversation
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: apikey
+      key: xi-api-key
+      value: '{{env.ELEVENLABS_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: conversational-ai-agents-rest
+    port: 8080
+    description: REST adapter for ElevenLabs Conversational AI API — Agents. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/v1/convai/agents
+      name: v1-convai-agents
+      description: REST surface for v1-convai-agents.
+      operations:
+      - method: GET
+        name: listagents
+        description: List agents
+        call: conversational-ai-agents.listagents
+        with:
+          page_size: rest.page_size
+          cursor: rest.cursor
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createagent
+        description: Create agent
+        call: conversational-ai-agents.createagent
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/convai/agents/{agent-id}
+      name: v1-convai-agents-agent-id
+      description: REST surface for v1-convai-agents-agent_id.
+      operations:
+      - method: GET
+        name: getagent
+        description: Get agent
+        call: conversational-ai-agents.getagent
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: updateagent
+        description: Update agent
+        call: conversational-ai-agents.updateagent
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteagent
+        description: Delete agent
+        call: conversational-ai-agents.deleteagent
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/convai/agents/{agent-id}/simulate
+      name: v1-convai-agents-agent-id-simulate
+      description: REST surface for v1-convai-agents-agent_id-simulate.
+      operations:
+      - method: POST
+        name: simulateconversation
+        description: Simulate conversation
+        call: conversational-ai-agents.simulateconversation
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: conversational-ai-agents-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for ElevenLabs Conversational AI API — Agents. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: list-agents
+      description: List agents
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: conversational-ai-agents.listagents
+      with:
+        page_size: tools.page_size
+        cursor: tools.cursor
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-agent
+      description: Create agent
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: conversational-ai-agents.createagent
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-agent
+      description: Get agent
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: conversational-ai-agents.getagent
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-agent
+      description: Update agent
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: conversational-ai-agents.updateagent
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-agent
+      description: Delete agent
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: conversational-ai-agents.deleteagent
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: simulate-conversation
+      description: Simulate conversation
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: conversational-ai-agents.simulateconversation
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
