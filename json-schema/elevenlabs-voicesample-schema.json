@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/VoiceSample",
+  "title": "VoiceSample",
+  "type": "object",
+  "properties": {
+    "sample_id": {
+      "type": "string",
+      "description": "Unique identifier for the audio sample."
+    },
+    "file_name": {
+      "type": "string",
+      "description": "Original file name of the uploaded sample."
+    },
+    "mime_type": {
+      "type": "string",
+      "description": "MIME type of the audio sample."
+    },
+    "size_bytes": {
+      "type": "integer",
+      "description": "Size of the audio sample in bytes."
+    }
+  }
+}

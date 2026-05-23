@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/KnowledgeBaseDocument",
+  "title": "KnowledgeBaseDocument",
+  "type": "object",
+  "properties": {
+    "document_id": {
+      "type": "string",
+      "description": "Unique identifier for the document."
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name of the document."
+    },
+    "type": {
+      "type": "string",
+      "description": "The type of the knowledge base document.",
+      "enum": [
+        "file",
+        "url",
+        "text"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the document was added."
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/AddKnowledgeBaseRequest",
+  "title": "AddKnowledgeBaseRequest",
+  "type": "object",
+  "properties": {
+    "file": {
+      "type": "string",
+      "format": "binary",
+      "description": "A document file to upload. Supports PDF, TXT, and DOCX."
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "A URL to a web page to add as a knowledge source."
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name for the knowledge base document."
+    }
+  }
+}

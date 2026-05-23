@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/TextToSpeechRequest",
+  "title": "TextToSpeechRequest",
+  "type": "object",
+  "required": [
+    "text"
+  ],
+  "properties": {
+    "text": {
+      "type": "string",
+      "description": "The text to convert to speech. Maximum length varies by model."
+    },
+    "model_id": {
+      "type": "string",
+      "description": "The identifier of the model to use. Use GET /v1/models to list available models. The model must support text to speech.",
+      "default": "eleven_monolingual_v1"
+    },
+    "voice_settings": {
+      "$ref": "#/components/schemas/VoiceSettings"
+    },
+    "pronunciation_dictionary_locators": {
+      "type": "array",
+      "description": "A list of pronunciation dictionary locators to apply to the text. Applied in order, with a maximum of 3 locators per request.",
+      "items": {
+        "$ref": "#/components/schemas/PronunciationDictionaryLocator"
+      },
+      "maxItems": 3
+    },
+    "seed": {
+      "type": "integer",
+      "description": "A seed value for deterministic generation. Using the same seed with the same parameters produces the same audio output."
+    },
+    "previous_text": {
+      "type": "string",
+      "description": "Text that came before the current text for context continuity."
+    },
+    "next_text": {
+      "type": "string",
+      "description": "Text that comes after the current text for context continuity."
+    },
+    "language_code": {
+      "type": "string",
+      "description": "Language code for the text, in ISO 639-1 format. Helps the model produce more accurate pronunciation for the specified language."
+    }
+  }
+}

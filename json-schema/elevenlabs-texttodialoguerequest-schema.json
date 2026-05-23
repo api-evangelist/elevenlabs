@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/TextToDialogueRequest",
+  "title": "TextToDialogueRequest",
+  "type": "object",
+  "required": [
+    "segments"
+  ],
+  "properties": {
+    "model_id": {
+      "type": "string",
+      "description": "The identifier of the model to use for dialogue generation."
+    },
+    "segments": {
+      "type": "array",
+      "description": "An array of dialogue segments, each with a speaker voice and text.",
+      "items": {
+        "$ref": "#/components/schemas/DialogueSegment"
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/SimulationResult",
+  "title": "SimulationResult",
+  "type": "object",
+  "properties": {
+    "conversation_id": {
+      "type": "string",
+      "description": "Identifier for the simulated conversation."
+    },
+    "transcript": {
+      "type": "array",
+      "description": "Full transcript of the simulated conversation.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "role": {
+            "type": "string",
+            "description": "The speaker role in the conversation.",
+            "enum": [
+              "agent",
+              "user"
+            ]
+          },
+          "message": {
+            "type": "string",
+            "description": "The spoken message content."
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/MusicGenerationRequest",
+  "title": "MusicGenerationRequest",
+  "type": "object",
+  "required": [
+    "prompt"
+  ],
+  "properties": {
+    "prompt": {
+      "type": "string",
+      "description": "A natural language description of the music to generate. Include details about genre, mood, tempo, instrumentation, and any other desired characteristics.",
+      "maxLength": 1000
+    },
+    "duration_seconds": {
+      "type": "number",
+      "description": "The desired duration of the generated music in seconds.",
+      "minimum": 1
+    },
+    "loop": {
+      "type": "boolean",
+      "description": "Whether the generated music should be designed to loop seamlessly.",
+      "default": false
+    },
+    "instrumental": {
+      "type": "boolean",
+      "description": "Whether to generate instrumental-only music without vocals or lyrics.",
+      "default": false
+    }
+  }
+}

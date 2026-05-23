@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/SimulateConversationRequest",
+  "title": "SimulateConversationRequest",
+  "type": "object",
+  "properties": {
+    "simulated_user_config": {
+      "type": "object",
+      "description": "Configuration for the simulated user in the test conversation.",
+      "properties": {
+        "prompt": {
+          "type": "string",
+          "description": "Instructions defining the simulated user's behavior."
+        },
+        "first_message": {
+          "type": "string",
+          "description": "The initial message from the simulated user."
+        }
+      }
+    },
+    "max_turns": {
+      "type": "integer",
+      "description": "Maximum number of conversation turns for the simulation.",
+      "minimum": 1
+    }
+  }
+}

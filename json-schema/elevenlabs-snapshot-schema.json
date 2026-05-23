@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Snapshot",
+  "title": "Snapshot",
+  "type": "object",
+  "properties": {
+    "snapshot_id": {
+      "type": "string",
+      "description": "Unique identifier for the snapshot."
+    },
+    "project_id": {
+      "type": "string",
+      "description": "The project this snapshot belongs to."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the snapshot was rendered."
+    }
+  }
+}

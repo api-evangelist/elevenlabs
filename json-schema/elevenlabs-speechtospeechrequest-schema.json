@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/SpeechToSpeechRequest",
+  "title": "SpeechToSpeechRequest",
+  "type": "object",
+  "required": [
+    "audio"
+  ],
+  "properties": {
+    "audio": {
+      "type": "string",
+      "format": "binary",
+      "description": "The source audio file containing the speech to convert. Supports common audio formats including MP3, WAV, and OGG."
+    },
+    "model_id": {
+      "type": "string",
+      "description": "The identifier of the model to use for voice conversion."
+    },
+    "voice_settings": {
+      "type": "object",
+      "description": "Voice settings to override the default settings for the target voice.",
+      "properties": {
+        "stability": {
+          "type": "number",
+          "description": "Controls the stability of the converted voice output.",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "similarity_boost": {
+          "type": "number",
+          "description": "Controls how closely the output matches the target voice.",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "style": {
+          "type": "number",
+          "description": "Controls the expressiveness of the converted speech.",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "use_speaker_boost": {
+          "type": "boolean",
+          "description": "Enables speaker boost for increased clarity."
+        }
+      }
+    },
+    "seed": {
+      "type": "integer",
+      "description": "A seed value for deterministic generation."
+    }
+  }
+}

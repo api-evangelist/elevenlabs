@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ProjectSummary",
+  "title": "ProjectSummary",
+  "type": "object",
+  "properties": {
+    "project_id": {
+      "type": "string",
+      "description": "Unique identifier for the project."
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name of the project."
+    },
+    "state": {
+      "type": "string",
+      "description": "Current state of the project.",
+      "enum": [
+        "default",
+        "converting",
+        "converted"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the project was created."
+    }
+  }
+}

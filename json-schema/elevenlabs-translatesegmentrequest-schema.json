@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/TranslateSegmentRequest",
+  "title": "TranslateSegmentRequest",
+  "type": "object",
+  "required": [
+    "segment_id",
+    "target_lang"
+  ],
+  "properties": {
+    "segment_id": {
+      "type": "string",
+      "description": "The identifier of the segment to translate."
+    },
+    "target_lang": {
+      "type": "string",
+      "description": "The target language code for the translation."
+    }
+  }
+}

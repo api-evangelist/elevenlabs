@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/SoundEffectRequest",
+  "title": "SoundEffectRequest",
+  "type": "object",
+  "required": [
+    "text"
+  ],
+  "properties": {
+    "text": {
+      "type": "string",
+      "description": "A natural language description of the sound effect to generate. Be specific about the type of sound, its characteristics, and any environmental context.",
+      "maxLength": 1000
+    },
+    "duration_seconds": {
+      "type": "number",
+      "description": "The desired duration of the generated sound effect in seconds. If not provided, the model determines an appropriate length.",
+      "minimum": 0.5,
+      "maximum": 22
+    },
+    "prompt_influence": {
+      "type": "number",
+      "description": "Controls how closely the generation follows the text prompt. Higher values produce output more faithful to the description, while lower values allow more creative interpretation.",
+      "minimum": 0,
+      "maximum": 1,
+      "default": 0.3
+    }
+  }
+}

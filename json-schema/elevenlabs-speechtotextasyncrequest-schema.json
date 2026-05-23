@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/SpeechToTextAsyncRequest",
+  "title": "SpeechToTextAsyncRequest",
+  "type": "object",
+  "required": [
+    "file"
+  ],
+  "properties": {
+    "file": {
+      "type": "string",
+      "format": "binary",
+      "description": "The audio file to transcribe asynchronously."
+    },
+    "model_id": {
+      "type": "string",
+      "description": "The identifier of the speech-to-text model to use."
+    },
+    "language_code": {
+      "type": "string",
+      "description": "Language code in ISO 639-1 format."
+    },
+    "webhook_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "A URL to receive a webhook notification when the transcription is complete."
+    }
+  }
+}

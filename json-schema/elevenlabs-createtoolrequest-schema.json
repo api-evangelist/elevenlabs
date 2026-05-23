@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/CreateToolRequest",
+  "title": "CreateToolRequest",
+  "type": "object",
+  "required": [
+    "name",
+    "type"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Display name for the tool."
+    },
+    "type": {
+      "type": "string",
+      "description": "The type of tool to create.",
+      "enum": [
+        "webhook",
+        "mcp",
+        "client"
+      ]
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of what the tool does."
+    },
+    "webhook_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "The webhook endpoint URL for webhook-type tools."
+    },
+    "parameters": {
+      "type": "object",
+      "description": "JSON Schema defining the parameters the tool accepts."
+    }
+  }
+}

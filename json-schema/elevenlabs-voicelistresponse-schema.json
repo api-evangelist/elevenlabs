@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/VoiceListResponse",
+  "title": "VoiceListResponse",
+  "type": "object",
+  "properties": {
+    "voices": {
+      "type": "array",
+      "description": "List of available voices.",
+      "items": {
+        "$ref": "#/components/schemas/Voice"
+      }
+    }
+  }
+}

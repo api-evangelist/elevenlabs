@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/TranscriptionWord",
+  "title": "TranscriptionWord",
+  "type": "object",
+  "properties": {
+    "text": {
+      "type": "string",
+      "description": "The transcribed word."
+    },
+    "start": {
+      "type": "number",
+      "description": "Start time of the word in seconds."
+    },
+    "end": {
+      "type": "number",
+      "description": "End time of the word in seconds."
+    },
+    "confidence": {
+      "type": "number",
+      "description": "Confidence score for the word transcription.",
+      "minimum": 0,
+      "maximum": 1
+    }
+  }
+}

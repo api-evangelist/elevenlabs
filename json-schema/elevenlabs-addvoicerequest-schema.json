@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/AddVoiceRequest",
+  "title": "AddVoiceRequest",
+  "type": "object",
+  "required": [
+    "name",
+    "files"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name for the new voice."
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the voice."
+    },
+    "labels": {
+      "type": "string",
+      "description": "JSON string of key-value label pairs for the voice."
+    },
+    "files": {
+      "type": "array",
+      "description": "Audio sample files for creating the voice. Minimum 60 seconds of clean audio recommended.",
+      "items": {
+        "type": "string",
+        "format": "binary"
+      }
+    }
+  }
+}

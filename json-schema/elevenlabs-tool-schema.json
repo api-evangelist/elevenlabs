@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Tool",
+  "title": "Tool",
+  "type": "object",
+  "properties": {
+    "tool_id": {
+      "type": "string",
+      "description": "Unique identifier for the tool."
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name of the tool."
+    },
+    "type": {
+      "type": "string",
+      "description": "The type of tool integration.",
+      "enum": [
+        "webhook",
+        "mcp",
+        "client"
+      ]
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of what the tool does."
+    },
+    "webhook_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "The webhook URL for webhook-type tools."
+    },
+    "parameters": {
+      "type": "object",
+      "description": "JSON Schema defining the parameters the tool accepts."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the tool was created."
+    }
+  }
+}

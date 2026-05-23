@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Project",
+  "title": "Project",
+  "type": "object",
+  "properties": {
+    "project_id": {
+      "type": "string",
+      "description": "Unique identifier for the project."
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name of the project."
+    },
+    "state": {
+      "type": "string",
+      "description": "Current state of the project.",
+      "enum": [
+        "default",
+        "converting",
+        "converted"
+      ]
+    },
+    "default_voice_id": {
+      "type": "string",
+      "description": "The default voice used for the project."
+    },
+    "default_model_id": {
+      "type": "string",
+      "description": "The default TTS model used for the project."
+    },
+    "chapters": {
+      "type": "array",
+      "description": "List of chapters in the project.",
+      "items": {
+        "$ref": "#/components/schemas/ChapterSummary"
+      }
+    },
+    "pronunciation_dictionary_locators": {
+      "type": "array",
+      "description": "Pronunciation dictionaries associated with the project.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "pronunciation_dictionary_id": {
+            "type": "string",
+            "description": "The dictionary identifier."
+          },
+          "version_id": {
+            "type": "string",
+            "description": "The dictionary version identifier."
+          }
+        }
+      }
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the project was created."
+    }
+  }
+}

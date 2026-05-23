@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/CreateDubbingRequest",
+  "title": "CreateDubbingRequest",
+  "type": "object",
+  "properties": {
+    "file": {
+      "type": "string",
+      "format": "binary",
+      "description": "The audio or video file to dub. Supports common formats including MP3, WAV, MP4, and MOV."
+    },
+    "source_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "A URL to the source audio or video file to dub. Used as an alternative to uploading a file directly."
+    },
+    "source_lang": {
+      "type": "string",
+      "description": "The language code of the source audio content.",
+      "default": "auto"
+    },
+    "target_lang": {
+      "type": "string",
+      "description": "The target language code for the dubbed output."
+    },
+    "num_speakers": {
+      "type": "integer",
+      "description": "The number of speakers in the source audio. Helps improve speaker diarization accuracy.",
+      "minimum": 0
+    },
+    "watermark": {
+      "type": "boolean",
+      "description": "Whether to add a watermark to the dubbed output.",
+      "default": false
+    },
+    "name": {
+      "type": "string",
+      "description": "A name for the dubbing project."
+    }
+  }
+}

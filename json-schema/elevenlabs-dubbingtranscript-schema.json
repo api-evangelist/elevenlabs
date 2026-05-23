@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/DubbingTranscript",
+  "title": "DubbingTranscript",
+  "type": "object",
+  "properties": {
+    "segments": {
+      "type": "array",
+      "description": "Transcript segments with timing information.",
+      "items": {
+        "$ref": "#/components/schemas/TranscriptSegment"
+      }
+    }
+  }
+}

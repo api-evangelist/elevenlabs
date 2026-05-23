@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/AgentListResponse",
+  "title": "AgentListResponse",
+  "type": "object",
+  "properties": {
+    "agents": {
+      "type": "array",
+      "description": "List of agents.",
+      "items": {
+        "$ref": "#/components/schemas/AgentSummary"
+      }
+    },
+    "has_more": {
+      "type": "boolean",
+      "description": "Whether there are more agents available."
+    },
+    "next_cursor": {
+      "type": "string",
+      "description": "Cursor for retrieving the next page."
+    }
+  }
+}

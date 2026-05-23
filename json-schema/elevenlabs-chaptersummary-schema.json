@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ChapterSummary",
+  "title": "ChapterSummary",
+  "type": "object",
+  "properties": {
+    "chapter_id": {
+      "type": "string",
+      "description": "Unique identifier for the chapter."
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name of the chapter."
+    },
+    "state": {
+      "type": "string",
+      "description": "Current rendering state of the chapter."
+    }
+  }
+}

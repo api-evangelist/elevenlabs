@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ToolListResponse",
+  "title": "ToolListResponse",
+  "type": "object",
+  "properties": {
+    "tools": {
+      "type": "array",
+      "description": "List of configured tools.",
+      "items": {
+        "$ref": "#/components/schemas/Tool"
+      }
+    }
+  }
+}

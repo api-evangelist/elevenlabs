@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/DubbingResource",
+  "title": "DubbingResource",
+  "type": "object",
+  "properties": {
+    "dubbing_id": {
+      "type": "string",
+      "description": "The unique identifier of the dubbing project."
+    },
+    "segments": {
+      "type": "array",
+      "description": "All segments in the dubbing project.",
+      "items": {
+        "$ref": "#/components/schemas/TranscriptSegment"
+      }
+    },
+    "speakers": {
+      "type": "array",
+      "description": "List of detected speakers in the source audio.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "speaker_id": {
+            "type": "string",
+            "description": "Unique identifier for the detected speaker."
+          },
+          "name": {
+            "type": "string",
+            "description": "Assigned name for the speaker."
+          }
+        }
+      }
+    }
+  }
+}

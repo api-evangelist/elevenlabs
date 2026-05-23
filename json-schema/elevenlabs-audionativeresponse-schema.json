@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/AudioNativeResponse",
+  "title": "AudioNativeResponse",
+  "type": "object",
+  "properties": {
+    "project_id": {
+      "type": "string",
+      "description": "The identifier of the created Audio Native project."
+    },
+    "html_snippet": {
+      "type": "string",
+      "description": "HTML snippet for embedding the audio player on a web page."
+    }
+  }
+}

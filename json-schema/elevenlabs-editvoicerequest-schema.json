@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/EditVoiceRequest",
+  "title": "EditVoiceRequest",
+  "type": "object",
+  "required": [
+    "name"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The new name for the voice."
+    },
+    "description": {
+      "type": "string",
+      "description": "Updated description of the voice."
+    },
+    "labels": {
+      "type": "string",
+      "description": "JSON string of key-value label pairs for the voice."
+    },
+    "files": {
+      "type": "array",
+      "description": "New audio sample files to add to the voice.",
+      "items": {
+        "type": "string",
+        "format": "binary"
+      }
+    }
+  }
+}

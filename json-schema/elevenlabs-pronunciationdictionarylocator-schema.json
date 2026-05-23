@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/PronunciationDictionaryLocator",
+  "title": "PronunciationDictionaryLocator",
+  "type": "object",
+  "required": [
+    "pronunciation_dictionary_id",
+    "version_id"
+  ],
+  "properties": {
+    "pronunciation_dictionary_id": {
+      "type": "string",
+      "description": "The identifier of the pronunciation dictionary."
+    },
+    "version_id": {
+      "type": "string",
+      "description": "The version identifier of the pronunciation dictionary."
+    }
+  }
+}

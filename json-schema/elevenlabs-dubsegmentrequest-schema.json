@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/DubSegmentRequest",
+  "title": "DubSegmentRequest",
+  "type": "object",
+  "required": [
+    "segment_id",
+    "language_code"
+  ],
+  "properties": {
+    "segment_id": {
+      "type": "string",
+      "description": "The identifier of the segment to dub."
+    },
+    "language_code": {
+      "type": "string",
+      "description": "The language code for the dubbed output."
+    }
+  }
+}

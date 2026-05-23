@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ConversationListResponse",
+  "title": "ConversationListResponse",
+  "type": "object",
+  "properties": {
+    "conversations": {
+      "type": "array",
+      "description": "List of conversations.",
+      "items": {
+        "$ref": "#/components/schemas/ConversationSummary"
+      }
+    },
+    "has_more": {
+      "type": "boolean",
+      "description": "Whether there are more conversations available."
+    },
+    "next_cursor": {
+      "type": "string",
+      "description": "Cursor for pagination."
+    }
+  }
+}

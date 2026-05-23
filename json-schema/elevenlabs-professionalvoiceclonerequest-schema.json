@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ProfessionalVoiceCloneRequest",
+  "title": "ProfessionalVoiceCloneRequest",
+  "type": "object",
+  "required": [
+    "files"
+  ],
+  "properties": {
+    "files": {
+      "type": "array",
+      "description": "High-quality audio recordings for professional voice cloning. A minimum of 30 minutes of recordings is required.",
+      "items": {
+        "type": "string",
+        "format": "binary"
+      }
+    },
+    "consent": {
+      "type": "string",
+      "format": "binary",
+      "description": "A signed consent form or audio consent from the voice owner authorizing the creation of the voice clone."
+    }
+  }
+}

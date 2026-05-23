@@ -1,0 +1,13 @@
+name: Elevenlabs Domain Vocabulary
+provider: Elevenlabs
+providerId: elevenlabs
+description: Tag-derived vocabulary for the Elevenlabs API surface; sourced from openapi/ tags.
+terms:
+- term: Agents
+  description: Endpoints for creating, managing, and configuring conversational AI agents with voice capabilities.
+- term: Conversations
+  description: Endpoints for retrieving and managing conversation sessions and their associated data.
+- term: Knowledge Base
+  description: Endpoints for managing knowledge base documents that agents use to answer questions.
+- term: Tools
+  description: Endpoints for managing external tools and webhook integrations that agents can invoke during conversations.

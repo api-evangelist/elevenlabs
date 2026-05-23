@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/InstantVoiceCloneRequest",
+  "title": "InstantVoiceCloneRequest",
+  "type": "object",
+  "required": [
+    "name",
+    "files"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name for the cloned voice."
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the cloned voice and its intended use."
+    },
+    "labels": {
+      "type": "string",
+      "description": "JSON string of key-value label pairs describing the voice characteristics such as accent, age, and gender."
+    },
+    "files": {
+      "type": "array",
+      "description": "Audio sample files for cloning. A minimum of 60 seconds of clean audio is recommended for best results.",
+      "items": {
+        "type": "string",
+        "format": "binary"
+      }
+    }
+  }
+}

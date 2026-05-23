@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/TimestampedAudioResponse",
+  "title": "TimestampedAudioResponse",
+  "type": "object",
+  "properties": {
+    "audio_base64": {
+      "type": "string",
+      "description": "Base64 encoded audio data."
+    },
+    "alignment": {
+      "type": "object",
+      "description": "Word-level timing information for the generated audio.",
+      "properties": {
+        "characters": {
+          "type": "array",
+          "description": "Array of characters with their timing information.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "character": {
+                "type": "string",
+                "description": "The character."
+              },
+              "start_time": {
+                "type": "number",
+                "description": "Start time in seconds."
+              },
+              "end_time": {
+                "type": "number",
+                "description": "End time in seconds."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

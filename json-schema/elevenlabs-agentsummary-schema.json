@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/AgentSummary",
+  "title": "AgentSummary",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Unique identifier for the agent."
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name of the agent."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the agent was created."
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/AddVoiceResponse",
+  "title": "AddVoiceResponse",
+  "type": "object",
+  "properties": {
+    "voice_id": {
+      "type": "string",
+      "description": "The identifier of the newly created or added voice."
+    }
+  }
+}

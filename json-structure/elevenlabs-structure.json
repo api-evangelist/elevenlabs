@@ -1,0 +1,278 @@
+{
+  "provider": "Elevenlabs",
+  "providerId": "elevenlabs",
+  "kind": "json-structure",
+  "description": "Structural overview of the Elevenlabs API surface; extracted from openapi/.",
+  "schemaCount": 18,
+  "operationCount": 17,
+  "schemas": [
+    {
+      "name": "AgentListResponse",
+      "type": "object",
+      "propertyCount": 3,
+      "required": []
+    },
+    {
+      "name": "AgentSummary",
+      "type": "object",
+      "propertyCount": 3,
+      "required": []
+    },
+    {
+      "name": "Agent",
+      "type": "object",
+      "propertyCount": 5,
+      "required": []
+    },
+    {
+      "name": "ConversationConfig",
+      "type": "object",
+      "propertyCount": 4,
+      "required": []
+    },
+    {
+      "name": "CreateAgentRequest",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "conversation_config"
+      ]
+    },
+    {
+      "name": "UpdateAgentRequest",
+      "type": "object",
+      "propertyCount": 3,
+      "required": []
+    },
+    {
+      "name": "AgentResponse",
+      "type": "object",
+      "propertyCount": 1,
+      "required": []
+    },
+    {
+      "name": "SimulateConversationRequest",
+      "type": "object",
+      "propertyCount": 2,
+      "required": []
+    },
+    {
+      "name": "SimulationResult",
+      "type": "object",
+      "propertyCount": 2,
+      "required": []
+    },
+    {
+      "name": "ConversationListResponse",
+      "type": "object",
+      "propertyCount": 3,
+      "required": []
+    },
+    {
+      "name": "ConversationSummary",
+      "type": "object",
+      "propertyCount": 5,
+      "required": []
+    },
+    {
+      "name": "Conversation",
+      "type": "object",
+      "propertyCount": 6,
+      "required": []
+    },
+    {
+      "name": "KnowledgeBaseListResponse",
+      "type": "object",
+      "propertyCount": 1,
+      "required": []
+    },
+    {
+      "name": "KnowledgeBaseDocument",
+      "type": "object",
+      "propertyCount": 4,
+      "required": []
+    },
+    {
+      "name": "AddKnowledgeBaseRequest",
+      "type": "object",
+      "propertyCount": 3,
+      "required": []
+    },
+    {
+      "name": "ToolListResponse",
+      "type": "object",
+      "propertyCount": 1,
+      "required": []
+    },
+    {
+      "name": "Tool",
+      "type": "object",
+      "propertyCount": 7,
+      "required": []
+    },
+    {
+      "name": "CreateToolRequest",
+      "type": "object",
+      "propertyCount": 5,
+      "required": [
+        "name",
+        "type"
+      ]
+    }
+  ],
+  "operations": [
+    {
+      "method": "GET",
+      "path": "/v1/convai/agents",
+      "operationId": "listAgents",
+      "summary": "List agents",
+      "tags": [
+        "Agents"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v1/convai/agents",
+      "operationId": "createAgent",
+      "summary": "Create agent",
+      "tags": [
+        "Agents"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v1/convai/agents/{agent_id}",
+      "operationId": "getAgent",
+      "summary": "Get agent",
+      "tags": [
+        "Agents"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1/convai/agents/{agent_id}",
+      "operationId": "deleteAgent",
+      "summary": "Delete agent",
+      "tags": [
+        "Agents"
+      ]
+    },
+    {
+      "method": "PATCH",
+      "path": "/v1/convai/agents/{agent_id}",
+      "operationId": "updateAgent",
+      "summary": "Update agent",
+      "tags": [
+        "Agents"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v1/convai/agents/{agent_id}/simulate",
+      "operationId": "simulateConversation",
+      "summary": "Simulate conversation",
+      "tags": [
+        "Agents"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v1/convai/conversations",
+      "operationId": "listConversations",
+      "summary": "List conversations",
+      "tags": [
+        "Conversations"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v1/convai/conversations/{conversation_id}",
+      "operationId": "getConversation",
+      "summary": "Get conversation",
+      "tags": [
+        "Conversations"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1/convai/conversations/{conversation_id}",
+      "operationId": "deleteConversation",
+      "summary": "Delete conversation",
+      "tags": [
+        "Conversations"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v1/convai/conversations/{conversation_id}/audio",
+      "operationId": "getConversationAudio",
+      "summary": "Get conversation audio",
+      "tags": [
+        "Conversations"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v1/convai/knowledge-base",
+      "operationId": "listKnowledgeBase",
+      "summary": "List knowledge base documents",
+      "tags": [
+        "Knowledge Base"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v1/convai/knowledge-base",
+      "operationId": "addKnowledgeBaseDocument",
+      "summary": "Add knowledge base document",
+      "tags": [
+        "Knowledge Base"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1/convai/knowledge-base/{document_id}",
+      "operationId": "deleteKnowledgeBaseDocument",
+      "summary": "Delete knowledge base document",
+      "tags": [
+        "Knowledge Base"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v1/convai/knowledge-base/{document_id}/dependent-agents",
+      "operationId": "getDependentAgents",
+      "summary": "Get dependent agents",
+      "tags": [
+        "Knowledge Base"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/v1/convai/tools",
+      "operationId": "listTools",
+      "summary": "List tools",
+      "tags": [
+        "Tools"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v1/convai/tools",
+      "operationId": "createTool",
+      "summary": "Create tool",
+      "tags": [
+        "Tools"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/v1/convai/tools/{tool_id}",
+      "operationId": "deleteTool",
+      "summary": "Delete tool",
+      "tags": [
+        "Tools"
+      ]
+    }
+  ]
+}

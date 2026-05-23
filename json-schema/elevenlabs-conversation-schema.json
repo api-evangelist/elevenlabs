@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Conversation",
+  "title": "Conversation",
+  "type": "object",
+  "properties": {
+    "conversation_id": {
+      "type": "string",
+      "description": "Unique identifier for the conversation."
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "The agent involved in the conversation."
+    },
+    "status": {
+      "type": "string",
+      "description": "Current status of the conversation."
+    },
+    "transcript": {
+      "type": "array",
+      "description": "Full conversation transcript.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "role": {
+            "type": "string",
+            "enum": [
+              "agent",
+              "user"
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "number",
+            "description": "Timestamp in seconds from the start of the conversation."
+          }
+        }
+      }
+    },
+    "analysis": {
+      "type": "object",
+      "description": "Post-conversation analysis and metrics.",
+      "properties": {
+        "summary": {
+          "type": "string",
+          "description": "AI-generated summary of the conversation."
+        },
+        "sentiment": {
+          "type": "string",
+          "description": "Overall sentiment of the conversation."
+        },
+        "successful": {
+          "type": "boolean",
+          "description": "Whether the conversation achieved its intended goal."
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Additional metadata about the conversation.",
+      "additionalProperties": {
+        "type": "string"
+      }
+    }
+  }
+}

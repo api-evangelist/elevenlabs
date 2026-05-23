@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/VoiceCloneResponse",
+  "title": "VoiceCloneResponse",
+  "type": "object",
+  "properties": {
+    "voice_id": {
+      "type": "string",
+      "description": "The unique identifier of the newly created voice clone."
+    }
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ConversationConfig",
+  "title": "ConversationConfig",
+  "type": "object",
+  "description": "Configuration defining the agent's conversational behavior, voice settings, and language model parameters.",
+  "properties": {
+    "agent": {
+      "type": "object",
+      "description": "Agent behavior configuration.",
+      "properties": {
+        "prompt": {
+          "type": "object",
+          "description": "The system prompt and instructions for the agent.",
+          "properties": {
+            "prompt": {
+              "type": "string",
+              "description": "The system instructions that define agent behavior."
+            }
+          }
+        },
+        "first_message": {
+          "type": "string",
+          "description": "The initial message the agent sends when a conversation starts."
+        },
+        "language": {
+          "type": "string",
+          "description": "The primary language for the agent."
+        }
+      }
+    },
+    "tts": {
+      "type": "object",
+      "description": "Text-to-speech configuration for the agent's voice.",
+      "properties": {
+        "voice_id": {
+          "type": "string",
+          "description": "The voice to use for the agent's speech output."
+        },
+        "model_id": {
+          "type": "string",
+          "description": "The TTS model to use."
+        }
+      }
+    },
+    "stt": {
+      "type": "object",
+      "description": "Speech-to-text configuration for processing user input.",
+      "properties": {
+        "model_id": {
+          "type": "string",
+          "description": "The STT model to use for transcription."
+        }
+      }
+    },
+    "llm": {
+      "type": "object",
+      "description": "Language model configuration for conversation generation.",
+      "properties": {
+        "model_id": {
+          "type": "string",
+          "description": "The language model to use."
+        },
+        "temperature": {
+          "type": "number",
+          "description": "Controls randomness in the model's responses.",
+          "minimum": 0,
+          "maximum": 2
+        }
+      }
+    }
+  }
+}

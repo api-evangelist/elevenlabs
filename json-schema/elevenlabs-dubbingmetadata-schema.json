@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/DubbingMetadata",
+  "title": "DubbingMetadata",
+  "type": "object",
+  "properties": {
+    "dubbing_id": {
+      "type": "string",
+      "description": "The unique identifier of the dubbing project."
+    },
+    "name": {
+      "type": "string",
+      "description": "The name of the dubbing project."
+    },
+    "status": {
+      "type": "string",
+      "description": "The current processing status of the dubbing project.",
+      "enum": [
+        "dubbing",
+        "dubbed",
+        "failed"
+      ]
+    },
+    "target_languages": {
+      "type": "array",
+      "description": "List of target languages for the dubbing.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "source_language": {
+      "type": "string",
+      "description": "The detected or specified source language."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the dubbing project was created."
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ChapterListResponse",
+  "title": "ChapterListResponse",
+  "type": "object",
+  "properties": {
+    "chapters": {
+      "type": "array",
+      "description": "List of chapters.",
+      "items": {
+        "$ref": "#/components/schemas/ChapterSummary"
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/CreateAgentRequest",
+  "title": "CreateAgentRequest",
+  "type": "object",
+  "required": [
+    "conversation_config"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Display name for the agent."
+    },
+    "conversation_config": {
+      "$ref": "#/components/schemas/ConversationConfig"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Additional metadata for the agent.",
+      "additionalProperties": {
+        "type": "string"
+      }
+    }
+  }
+}

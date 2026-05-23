@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/AudioIsolationRequest",
+  "title": "AudioIsolationRequest",
+  "type": "object",
+  "required": [
+    "audio"
+  ],
+  "properties": {
+    "audio": {
+      "type": "string",
+      "format": "binary",
+      "description": "The audio file to process for vocal isolation. Supports common audio formats including MP3, WAV, FLAC, and OGG."
+    }
+  }
+}

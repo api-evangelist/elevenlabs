@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/DubbingResponse",
+  "title": "DubbingResponse",
+  "type": "object",
+  "properties": {
+    "dubbing_id": {
+      "type": "string",
+      "description": "The unique identifier of the created dubbing project."
+    },
+    "expected_duration_sec": {
+      "type": "number",
+      "description": "The estimated processing duration in seconds."
+    }
+  }
+}

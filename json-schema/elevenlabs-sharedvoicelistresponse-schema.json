@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/SharedVoiceListResponse",
+  "title": "SharedVoiceListResponse",
+  "type": "object",
+  "properties": {
+    "voices": {
+      "type": "array",
+      "description": "List of shared voices from the public library.",
+      "items": {
+        "$ref": "#/components/schemas/Voice"
+      }
+    },
+    "has_more": {
+      "type": "boolean",
+      "description": "Whether there are more voices available in subsequent pages."
+    },
+    "last_sort_id": {
+      "type": "string",
+      "description": "Cursor for pagination to retrieve the next page of results."
+    }
+  }
+}

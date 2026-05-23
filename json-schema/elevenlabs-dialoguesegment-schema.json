@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/DialogueSegment",
+  "title": "DialogueSegment",
+  "type": "object",
+  "required": [
+    "voice_id",
+    "text"
+  ],
+  "properties": {
+    "voice_id": {
+      "type": "string",
+      "description": "The voice identifier for this segment of dialogue."
+    },
+    "text": {
+      "type": "string",
+      "description": "The text content for this segment of dialogue."
+    },
+    "voice_settings": {
+      "$ref": "#/components/schemas/VoiceSettings"
+    }
+  }
+}

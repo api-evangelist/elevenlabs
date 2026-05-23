@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/UpdateAgentRequest",
+  "title": "UpdateAgentRequest",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Updated display name for the agent."
+    },
+    "conversation_config": {
+      "$ref": "#/components/schemas/ConversationConfig"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Updated metadata for the agent.",
+      "additionalProperties": {
+        "type": "string"
+      }
+    }
+  }
+}

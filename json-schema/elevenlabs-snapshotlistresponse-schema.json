@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/SnapshotListResponse",
+  "title": "SnapshotListResponse",
+  "type": "object",
+  "properties": {
+    "snapshots": {
+      "type": "array",
+      "description": "List of rendered project snapshots.",
+      "items": {
+        "$ref": "#/components/schemas/Snapshot"
+      }
+    }
+  }
+}
