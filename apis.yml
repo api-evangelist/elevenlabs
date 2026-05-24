@@ -35,6 +35,8 @@ common:
     sources:
     - https://elevenlabs.io/pricing
     updated: '2026-05-04'
+  - type: LLMsTxt
+    url: https://elevenlabs.io/llms.txt
 apis:
   - aid: elevenlabs:text-to-speech
     name: ElevenLabs Text to Speech API
