@@ -1,0 +1,1010 @@
+"""
+ElevenLabs GraphQL Schema
+Conceptual schema representing the ElevenLabs AI voice and speech synthesis platform.
+Based on the ElevenLabs REST API: https://elevenlabs.io/docs/api-reference/
+"""
+
+# ─── Scalars ────────────────────────────────────────────────────────────────
+
+scalar DateTime
+scalar JSON
+scalar Upload
+
+# ─── Enums ──────────────────────────────────────────────────────────────────
+
+enum VoiceCategory {
+  PREMADE
+  CLONED
+  GENERATED
+  PROFESSIONAL
+}
+
+enum OutputFormat {
+  MP3_22050_32
+  MP3_44100_32
+  MP3_44100_64
+  MP3_44100_96
+  MP3_44100_128
+  MP3_44100_192
+  PCM_16000
+  PCM_22050
+  PCM_24000
+  PCM_44100
+  ULAW_8000
+}
+
+enum LatencyOptimization {
+  DEFAULT
+  NORMAL
+  STRONG
+  MAX
+  MAX_TEXT_NORMALIZER
+}
+
+enum DubLanguage {
+  EN
+  ES
+  FR
+  DE
+  IT
+  PT
+  PL
+  HI
+  AR
+  ZH
+  JA
+  KO
+  NL
+  SV
+  TR
+  RU
+  ID
+  MS
+  TH
+  VI
+  UK
+  CS
+  SK
+  RO
+  HR
+  BG
+  DA
+  FI
+  NO
+  HU
+}
+
+enum SubscriptionPlan {
+  FREE
+  STARTER
+  CREATOR
+  PRO
+  SCALE
+  BUSINESS
+  ENTERPRISE
+}
+
+enum WebhookEventType {
+  VOICE_ADDED
+  VOICE_DELETED
+  TTS_COMPLETED
+  STS_COMPLETED
+  DUBBING_COMPLETED
+  STUDIO_PROJECT_COMPLETED
+  AGENT_CONVERSATION_STARTED
+  AGENT_CONVERSATION_ENDED
+}
+
+enum AgentStatus {
+  ACTIVE
+  INACTIVE
+  DRAFT
+}
+
+enum ConversationStatus {
+  ACTIVE
+  COMPLETED
+  FAILED
+}
+
+enum ProjectStatus {
+  DRAFT
+  RENDERING
+  COMPLETED
+  FAILED
+}
+
+# ─── Voice Types ─────────────────────────────────────────────────────────────
+
+"""Unique identifier for a voice."""
+scalar VoiceID
+
+"""Display name for a voice."""
+scalar VoiceName
+
+"""A label key-value pair describing voice attributes."""
+type VoiceLabels {
+  accent: String
+  description: String
+  age: String
+  gender: String
+  useCase: String
+}
+
+"""A short audio sample associated with a voice."""
+type VoiceSample {
+  sampleId: SampleID!
+  fileName: String!
+  mimeType: String!
+  sizeBytes: Int!
+  hash: String!
+}
+
+"""Unique identifier for a voice sample."""
+scalar SampleID
+
+"""Fine-tuning parameters controlling synthesis behavior."""
+type VoiceSettings {
+  stability: Stability!
+  similarityBoost: SimilarityBoost!
+  style: Style
+  useSpeakerBoost: SpeakerBoost
+}
+
+"""Stability value (0.0–1.0). Higher = more consistent delivery."""
+scalar Stability
+
+"""Similarity boost value (0.0–1.0). Higher = closer to original voice."""
+scalar SimilarityBoost
+
+"""Style exaggeration value (0.0–1.0)."""
+scalar Style
+
+"""Whether speaker boost is enabled to enhance voice likeness."""
+scalar SpeakerBoost
+
+"""Full voice resource with metadata and samples."""
+type Voice {
+  voiceId: VoiceID!
+  name: VoiceName!
+  category: VoiceCategory!
+  description: String
+  labels: VoiceLabels
+  samples: [VoiceSample!]
+  settings: VoiceSettings
+  sharingEnabled: VoiceSharingEnabled!
+  previewUrl: String
+  createdAtUnix: Int
+  fineTuning: VoiceFineTuning
+  safetyControl: String
+  voiceVerification: VoiceVerification
+}
+
+"""Detailed metadata for a single voice."""
+type VoiceDetails {
+  voiceId: VoiceID!
+  name: VoiceName!
+  category: VoiceCategory!
+  description: String
+  labels: VoiceLabels
+  samples: [VoiceSample!]
+  settings: VoiceSettings
+  sharing: VoiceSharing
+  highQualityBaseModelIds: [String!]
+  safetyControl: String
+  voiceVerification: VoiceVerification
+  permissionsOnResource: String
+}
+
+"""Whether a voice can be shared publicly."""
+scalar VoiceSharingEnabled
+
+"""Sharing metadata for a voice in the shared library."""
+type VoiceSharing {
+  status: String!
+  historyItemSampleId: String
+  originalVoiceId: String
+  publicOwnerId: String
+  likedByCount: Int!
+  clonedByCount: Int!
+  name: String!
+  description: String
+  labels: VoiceLabels
+  reviewStatus: String
+  reviewMessage: String
+  enabled: Boolean!
+  enabledInLibrary: Boolean!
+  instagramUsername: String
+  twitterUsername: String
+  youtubeUsername: String
+  tiktokUsername: String
+}
+
+"""Fine-tuning progress and model information."""
+type VoiceFineTuning {
+  isAllowedToFineTune: Boolean!
+  fineTuningRequested: Boolean!
+  finetuningState: String
+  verificationAttempts: [VoiceVerificationAttempt!]
+  verificationFailureReason: String
+  verificationAttemptsCount: Int!
+  sliceIds: [String!]
+  modelId: ModelID
+  language: String
+}
+
+"""A single verification attempt for a voice clone."""
+type VoiceVerificationAttempt {
+  text: String!
+  dateUnix: Int!
+  accepted: Boolean!
+  similarity: Float!
+  levenshteinDistance: Float!
+  recording: VoiceSample
+}
+
+"""Verification status for a professional voice clone."""
+type VoiceVerification {
+  requiresVerification: Boolean!
+  isVerified: Boolean!
+  verificationFailureReason: String
+  verificationAttemptsCount: Int!
+  language: String
+  verificationAttempts: [VoiceVerificationAttempt!]
+}
+
+"""Parameters for designing a new AI voice from a text description."""
+type VoiceDesign {
+  name: VoiceName!
+  description: VoiceDescription!
+  gender: String
+  age: String
+  accent: String
+  accentStrength: Float
+  language: String
+}
+
+"""Natural language description of a voice's characteristics."""
+scalar VoiceDescription
+
+"""Input for creating a new voice from audio samples."""
+type VoiceCreation {
+  name: VoiceName!
+  description: VoiceDescription
+  labels: JSON
+  files: [Upload!]!
+  removeBackgroundNoise: Boolean
+}
+
+"""A cloned voice resource."""
+type ClonedVoice {
+  voiceId: VoiceID!
+  name: VoiceName!
+  description: String
+  labels: VoiceLabels
+  previewUrl: String
+  createdAtUnix: Int!
+}
+
+"""Metadata for a voice clone creation request."""
+type VoiceClone {
+  voiceId: VoiceID!
+  requiresVerification: Boolean!
+}
+
+"""Request payload for adding a new voice."""
+input AddVoiceRequest {
+  name: String!
+  description: String
+  labels: JSON
+  files: [Upload!]!
+  removeBackgroundNoise: Boolean
+}
+
+"""A voice shared publicly in the ElevenLabs voice library."""
+type SharedVoice {
+  publicOwnerId: String!
+  voiceId: VoiceID!
+  name: VoiceName!
+  category: VoiceCategory!
+  description: String
+  previewUrl: String
+  highQualityBaseModelIds: [String!]
+  language: String
+  likedByCount: Int!
+  clonedByCount: Int!
+  labels: VoiceLabels
+  shareLink: String
+}
+
+"""Paginated listing of shared voices in the public library."""
+type VoiceLibrary {
+  voices: [SharedVoice!]!
+  hasMore: Boolean!
+  lastSortId: String
+}
+
+# ─── Models ──────────────────────────────────────────────────────────────────
+
+"""Unique identifier for a synthesis model."""
+scalar ModelID
+
+"""A TTS/STS model available through the API."""
+type TTSModel {
+  modelId: ModelID!
+  name: String!
+  description: String
+  canBeFinetuned: Boolean!
+  canDoTextToSpeech: Boolean!
+  canDoVoiceConversion: Boolean!
+  canUseStyle: Boolean!
+  canUseSpeakerBoost: Boolean!
+  servesProVoices: Boolean!
+  tokenCostFactor: Float!
+  maxCharactersRequestFreeUser: Int!
+  maxCharactersRequestSubscribedUser: Int!
+  languages: [ModelLanguage!]
+  requiresAlphaAccess: Boolean
+  maxTextLengthPerRequest: Int
+}
+
+"""A language supported by a synthesis model."""
+type ModelLanguage {
+  languageId: String!
+  name: String!
+}
+
+# ─── Text-to-Speech ───────────────────────────────────────────────────────────
+
+"""A text-to-speech synthesis request."""
+type TTSRequest {
+  text: String!
+  modelId: ModelID
+  voiceSettings: VoiceSettings
+  pronunciationDictionaryLocators: [PronunciationDictionaryLocator!]
+  seed: Int
+  previousText: String
+  nextText: String
+  previousRequestIds: [String!]
+  nextRequestIds: [String!]
+  applyTextNormalization: String
+  languageCode: String
+}
+
+"""Result of a text-to-speech synthesis operation."""
+type TTSResult {
+  audioBase64: String
+  contentType: String!
+  characterCount: CharacterCount!
+  requestId: String!
+  historyItemId: String
+  outputFormat: OutputFormat!
+}
+
+"""Streaming audio output descriptor."""
+type AudioOutput {
+  url: String!
+  format: OutputFormat!
+  durationSeconds: Float
+  sizeBytes: Int
+}
+
+"""A streaming audio output session."""
+type AudioStream {
+  streamUrl: String!
+  format: OutputFormat!
+  modelId: ModelID!
+  voiceId: VoiceID!
+  latencyOptimization: LatencyOptimization!
+}
+
+# ─── Speech-to-Speech ────────────────────────────────────────────────────────
+
+"""A speech-to-speech voice conversion request."""
+type STSRequest {
+  voiceId: VoiceID!
+  audioFile: Upload!
+  modelId: ModelID
+  voiceSettings: VoiceSettings
+  seed: Int
+  removeBackgroundNoise: Boolean
+  outputFormat: OutputFormat
+}
+
+"""Result of a speech-to-speech conversion."""
+type STSResult {
+  audioBase64: String
+  contentType: String!
+  requestId: String!
+  historyItemId: String
+}
+
+"""Descriptor for an audio file submitted as input."""
+type AudioInput {
+  fileName: String!
+  mimeType: String!
+  sizeBytes: Int!
+  durationSeconds: Float
+}
+
+# ─── Dubbing ─────────────────────────────────────────────────────────────────
+
+"""A dubbing project resource."""
+type DubbingProject {
+  dubbingId: String!
+  name: String!
+  status: String!
+  targetLanguage: DubLanguage!
+  sourceLanguage: DubLanguage
+  videoUrl: String
+  createdAt: DateTime!
+  error: String
+}
+
+"""A complete dubbing resource with segment-level detail."""
+type Dubbing {
+  dubbingId: String!
+  name: String!
+  status: String!
+  targetLanguage: DubLanguage!
+  sourceLanguage: DubLanguage
+  segments: [DubSegment!]
+  createdAt: DateTime!
+  expectedDurationSec: Float
+  error: String
+}
+
+"""A timed segment within a dubbing project."""
+type DubSegment {
+  segmentId: String!
+  startTime: Float!
+  endTime: Float!
+  sourceText: String!
+  translatedText: String
+  speaker: String
+  voiceId: VoiceID
+  status: String!
+}
+
+"""Source media descriptor for a dubbing project."""
+type DubSource {
+  sourceType: String!
+  url: String
+  fileName: String
+  mimeType: String
+  durationSeconds: Float
+}
+
+# ─── Sound Effects ────────────────────────────────────────────────────────────
+
+"""Request to generate a sound effect from a text description."""
+type SoundEffectRequest {
+  text: String!
+  durationSeconds: Float
+  promptInfluence: Float
+  outputFormat: OutputFormat
+}
+
+"""A generated sound effect result."""
+type SoundEffect {
+  audioBase64: String!
+  contentType: String!
+  requestId: String!
+  durationSeconds: Float
+}
+
+# ─── Voice Generation (Design) ────────────────────────────────────────────────
+
+"""A generated voice preview from a design prompt."""
+type VoiceGeneration {
+  generatedVoiceId: String!
+  audioBase64: String!
+  contentType: String!
+  gender: String!
+  age: String!
+  accent: String!
+  accentStrength: Float!
+  name: VoiceName!
+}
+
+# ─── History ─────────────────────────────────────────────────────────────────
+
+"""Paginated generation history."""
+type GenerationHistory {
+  history: [HistoryItem!]!
+  lastHistoryItemId: String
+  hasMore: Boolean!
+}
+
+"""A single item in the generation history."""
+type HistoryItem {
+  historyItemId: String!
+  requestId: String!
+  voiceId: VoiceID!
+  voiceName: VoiceName!
+  modelId: ModelID!
+  voiceCategory: VoiceCategory
+  text: String!
+  dateUnix: Int!
+  characterCountChangeFrom: Int!
+  characterCountChangeTo: Int!
+  contentType: String!
+  state: String!
+  settings: VoiceSettings
+  feedbackScore: Int
+  shareLinkId: String
+}
+
+"""Detailed metadata for a history item."""
+type ItemDetails {
+  historyItemId: String!
+  requestId: String!
+  voiceId: VoiceID!
+  voiceName: VoiceName!
+  modelId: ModelID!
+  text: String!
+  dateUnix: Int!
+  characterCountChangeFrom: Int!
+  characterCountChangeTo: Int!
+  contentType: String!
+  state: String!
+  settings: VoiceSettings
+  feedbackScore: Int
+}
+
+"""Character usage count for a request."""
+scalar CharacterCount
+
+"""Aggregate TTS usage statistics."""
+type TTSUsage {
+  characterCount: Int!
+  requestCount: Int!
+  voiceId: VoiceID
+  modelId: ModelID
+  periodStart: DateTime!
+  periodEnd: DateTime!
+}
+
+# ─── Pronunciation Dictionaries ───────────────────────────────────────────────
+
+"""Locator for referencing a pronunciation dictionary in TTS requests."""
+type PronunciationDictionaryLocator {
+  pronunciationDictionaryId: String!
+  versionId: String!
+}
+
+"""A pronunciation dictionary resource."""
+type PronunciationDictionary {
+  pronunciationDictionaryId: String!
+  name: String!
+  createdBy: String!
+  creationTimeUnix: Int!
+  latestVersionId: String!
+  description: String
+}
+
+# ─── Subscription and Billing ─────────────────────────────────────────────────
+
+"""Current subscription information for the authenticated user."""
+type SubscriptionInfo {
+  tier: SubscriptionPlan!
+  characterCount: Int!
+  characterLimit: Int!
+  canExtendCharacterLimit: Boolean!
+  allowedToExtendCharacterLimit: Boolean!
+  nextCharacterCountResetUnix: Int!
+  voiceLimit: Int!
+  maxVoiceAddEdits: Int!
+  voiceAddEditCounter: Int!
+  professionalVoiceLimit: Int!
+  canExtendVoiceLimit: Boolean!
+  canUseInstantVoiceCloning: Boolean!
+  canUseProfessionalVoiceCloning: Boolean!
+  currency: String!
+  status: String!
+  billingPeriod: String
+  characterRefillAmount: Int
+  availableModels: [TTSModel!]
+  nextInvoice: SubscriptionInvoice
+  hasOpenInvoices: Boolean!
+}
+
+"""Quota limits for the current subscription plan."""
+type PlanQuota {
+  plan: SubscriptionPlan!
+  characterLimit: Int!
+  voiceLimit: Int!
+  professionalVoiceLimit: Int!
+  concurrentRequests: Int!
+  maxAudioLengthSeconds: Int!
+}
+
+"""Details of a subscription invoice."""
+type SubscriptionInvoice {
+  amountDueCents: Int!
+  nextPaymentAttemptUnix: Int!
+}
+
+# ─── Auth and API Keys ────────────────────────────────────────────────────────
+
+"""An ElevenLabs API key resource."""
+type APIKey {
+  apiKeyId: String!
+  name: String!
+  createdAt: DateTime!
+  isDisabled: Boolean!
+  workspaceId: String
+}
+
+"""An authentication token for session-based access."""
+type Token {
+  token: String!
+  expiresAt: DateTime!
+}
+
+# ─── Webhooks ────────────────────────────────────────────────────────────────
+
+"""A registered webhook endpoint."""
+type Webhook {
+  webhookId: String!
+  url: String!
+  secret: String
+  events: [WebhookEventType!]!
+  isActive: Boolean!
+  createdAt: DateTime!
+  lastDeliveredAt: DateTime
+}
+
+"""An event payload delivered to a webhook endpoint."""
+type WebhookEvent {
+  eventId: String!
+  type: WebhookEventType!
+  payload: JSON!
+  deliveredAt: DateTime!
+  statusCode: Int
+  attempt: Int!
+}
+
+# ─── Conversational AI ────────────────────────────────────────────────────────
+
+"""A conversational AI agent configuration."""
+type ConversationalAgent {
+  agentId: String!
+  name: String!
+  status: AgentStatus!
+  voiceId: VoiceID!
+  prompt: AgentPrompt!
+  language: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  callsCount: Int!
+}
+
+"""System prompt and configuration for an agent."""
+type AgentPrompt {
+  prompt: String!
+  llm: String!
+  temperature: Float
+  maxTokens: Int
+  tools: [AgentTool!]
+  knowledgeBase: [KnowledgeBaseDocument!]
+}
+
+"""A tool available to a conversational agent."""
+type AgentTool {
+  toolId: String!
+  name: String!
+  description: String!
+  parameters: JSON
+  webhookUrl: String
+}
+
+"""A document in an agent's knowledge base."""
+type KnowledgeBaseDocument {
+  documentId: String!
+  name: String!
+  type: String!
+  url: String
+  sizeBytes: Int
+  createdAt: DateTime!
+}
+
+"""A conversation session with a conversational AI agent."""
+type Conversation {
+  conversationId: String!
+  agentId: String!
+  status: ConversationStatus!
+  startedAt: DateTime!
+  endedAt: DateTime
+  durationSeconds: Float
+  turnCount: Int!
+  transcript: [ConversationTurn!]
+  metadata: JSON
+}
+
+"""A single turn in a conversation."""
+type ConversationTurn {
+  role: String!
+  message: String!
+  timestamp: DateTime!
+  audioUrl: String
+}
+
+# ─── Studio Projects ──────────────────────────────────────────────────────────
+
+"""A Studio long-form audio project."""
+type StudioProject {
+  projectId: String!
+  name: String!
+  status: ProjectStatus!
+  defaultVoiceId: VoiceID
+  defaultModelId: ModelID
+  chapters: [ProjectChapter!]
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  targetAudioFormat: OutputFormat
+}
+
+"""A chapter within a Studio project."""
+type ProjectChapter {
+  chapterId: String!
+  name: String!
+  order: Int!
+  content: String
+  voiceId: VoiceID
+  modelId: ModelID
+  status: ProjectStatus!
+  audioUrl: String
+  durationSeconds: Float
+}
+
+# ─── Queries ─────────────────────────────────────────────────────────────────
+
+type Query {
+  """Retrieve all available voices for the authenticated user."""
+  voices(showLegacy: Boolean): [Voice!]!
+
+  """Retrieve a single voice by ID."""
+  voice(voiceId: VoiceID!): VoiceDetails
+
+  """Default voice settings."""
+  defaultVoiceSettings: VoiceSettings!
+
+  """Search the public voice library."""
+  voiceLibrary(
+    page: Int
+    pageSize: Int
+    gender: String
+    language: String
+    accent: String
+    age: String
+    useCase: String
+    featured: Boolean
+    search: String
+    sort: String
+    sortDirection: String
+  ): VoiceLibrary!
+
+  """List all available synthesis models."""
+  models: [TTSModel!]!
+
+  """Retrieve generation history."""
+  history(
+    pageSize: Int
+    startAfterHistoryItemId: String
+    voiceId: VoiceID
+  ): GenerationHistory!
+
+  """Retrieve a single history item."""
+  historyItem(historyItemId: String!): ItemDetails
+
+  """Current subscription and usage information."""
+  subscription: SubscriptionInfo!
+
+  """Available plan quotas."""
+  planQuota(plan: SubscriptionPlan!): PlanQuota
+
+  """List API keys for the authenticated user."""
+  apiKeys: [APIKey!]!
+
+  """List registered webhooks."""
+  webhooks: [Webhook!]!
+
+  """Retrieve a dubbing project."""
+  dubbingProject(dubbingId: String!): Dubbing
+
+  """List all Studio projects."""
+  studioProjects: [StudioProject!]!
+
+  """Retrieve a Studio project."""
+  studioProject(projectId: String!): StudioProject
+
+  """List pronunciation dictionaries."""
+  pronunciationDictionaries: [PronunciationDictionary!]!
+
+  """List conversational agents."""
+  conversationalAgents: [ConversationalAgent!]!
+
+  """Retrieve a conversational agent."""
+  conversationalAgent(agentId: String!): ConversationalAgent
+
+  """Retrieve a conversation session."""
+  conversation(conversationId: String!): Conversation
+}
+
+# ─── Mutations ───────────────────────────────────────────────────────────────
+
+type Mutation {
+  """Convert text to speech and return audio."""
+  textToSpeech(
+    voiceId: VoiceID!
+    text: String!
+    modelId: ModelID
+    voiceSettings: VoiceSettingsInput
+    outputFormat: OutputFormat
+    latencyOptimization: LatencyOptimization
+    seed: Int
+    previousText: String
+    nextText: String
+    applyTextNormalization: String
+    languageCode: String
+  ): TTSResult!
+
+  """Convert speech audio to a different voice."""
+  speechToSpeech(
+    voiceId: VoiceID!
+    audioFile: Upload!
+    modelId: ModelID
+    voiceSettings: VoiceSettingsInput
+    seed: Int
+    removeBackgroundNoise: Boolean
+    outputFormat: OutputFormat
+  ): STSResult!
+
+  """Generate a sound effect from a text description."""
+  generateSoundEffect(
+    text: String!
+    durationSeconds: Float
+    promptInfluence: Float
+    outputFormat: OutputFormat
+  ): SoundEffect!
+
+  """Design and preview a new AI voice."""
+  designVoice(
+    gender: String!
+    age: String!
+    accent: String!
+    accentStrength: Float!
+    language: String!
+    text: String!
+  ): [VoiceGeneration!]!
+
+  """Save a designed voice to the voice library."""
+  saveDesignedVoice(
+    generatedVoiceId: String!
+    voiceName: String!
+    voiceDescription: String
+  ): Voice!
+
+  """Add a new voice from audio samples (instant voice cloning)."""
+  addVoice(
+    name: String!
+    description: String
+    labels: JSON
+    removeBackgroundNoise: Boolean
+  ): ClonedVoice!
+
+  """Edit an existing voice."""
+  editVoice(
+    voiceId: VoiceID!
+    name: String
+    description: String
+    labels: JSON
+  ): Voice!
+
+  """Delete a voice."""
+  deleteVoice(voiceId: VoiceID!): Boolean!
+
+  """Share a voice to the public library."""
+  shareVoice(voiceId: VoiceID!, enabled: Boolean!): Voice!
+
+  """Add a voice from the shared library to the user's collection."""
+  addSharedVoice(publicUserId: String!, voiceId: VoiceID!, newName: String!): Voice!
+
+  """Update voice settings."""
+  updateVoiceSettings(
+    voiceId: VoiceID!
+    settings: VoiceSettingsInput!
+  ): VoiceSettings!
+
+  """Create a dubbing project."""
+  createDubbing(
+    name: String!
+    sourceUrl: String
+    targetLanguage: DubLanguage!
+    sourceLanguage: DubLanguage
+    numSpeakers: Int
+    watermark: Boolean
+    highestResolution: Boolean
+    dubbingStudio: Boolean
+  ): DubbingProject!
+
+  """Delete a dubbing project."""
+  deleteDubbing(dubbingId: String!): Boolean!
+
+  """Isolate audio (remove background noise)."""
+  isolateAudio(audioFile: Upload!): AudioOutput!
+
+  """Delete history items."""
+  deleteHistoryItems(historyItemIds: [String!]!): Boolean!
+
+  """Create a Studio project."""
+  createStudioProject(
+    name: String!
+    defaultVoiceId: VoiceID
+    defaultModelId: ModelID
+    targetAudioFormat: OutputFormat
+  ): StudioProject!
+
+  """Add a chapter to a Studio project."""
+  addProjectChapter(
+    projectId: String!
+    name: String!
+    content: String
+    voiceId: VoiceID
+  ): ProjectChapter!
+
+  """Convert a Studio project to audio."""
+  convertProject(projectId: String!): StudioProject!
+
+  """Create a conversational agent."""
+  createConversationalAgent(
+    name: String!
+    voiceId: VoiceID!
+    prompt: String!
+    llm: String
+    language: String
+  ): ConversationalAgent!
+
+  """Update a conversational agent."""
+  updateConversationalAgent(
+    agentId: String!
+    name: String
+    voiceId: VoiceID
+    prompt: String
+    language: String
+  ): ConversationalAgent!
+
+  """Delete a conversational agent."""
+  deleteConversationalAgent(agentId: String!): Boolean!
+
+  """Register a webhook endpoint."""
+  createWebhook(
+    url: String!
+    events: [WebhookEventType!]!
+  ): Webhook!
+
+  """Delete a webhook."""
+  deleteWebhook(webhookId: String!): Boolean!
+
+  """Create an API key."""
+  createAPIKey(name: String!): APIKey!
+
+  """Delete an API key."""
+  deleteAPIKey(apiKeyId: String!): Boolean!
+
+  """Create or update a pronunciation dictionary from a file."""
+  createPronunciationDictionary(
+    name: String!
+    description: String
+  ): PronunciationDictionary!
+}
+
+# ─── Input Types ──────────────────────────────────────────────────────────────
+
+input VoiceSettingsInput {
+  stability: Float!
+  similarityBoost: Float!
+  style: Float
+  useSpeakerBoost: Boolean
+}
