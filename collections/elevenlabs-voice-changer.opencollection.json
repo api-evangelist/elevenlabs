@@ -1,0 +1,84 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ElevenLabs Voice Changer API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "xi-api-key",
+      "value": "{{xi-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Speech to Speech",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Voice changer",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elevenlabs.io/v1/speech-to-speech/:voice_id",
+            "params": [
+              {
+                "name": "voice_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the target voice to convert the audio to."
+              },
+              {
+                "name": "output_format",
+                "value": "",
+                "type": "query",
+                "description": "The desired output audio format."
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Converts an audio recording to use a different voice while preserving the original speech content, timing, and emotional delivery. The target voice can be any voice available in the user's library."
+        },
+        {
+          "info": {
+            "name": "Voice changer stream",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elevenlabs.io/v1/speech-to-speech/:voice_id/stream",
+            "params": [
+              {
+                "name": "voice_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the target voice to convert the audio to."
+              },
+              {
+                "name": "output_format",
+                "value": "",
+                "type": "query",
+                "description": "The desired output audio format."
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Converts an audio recording to use a different voice and streams the result using chunked transfer encoding. Useful for real-time processing and playback scenarios."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

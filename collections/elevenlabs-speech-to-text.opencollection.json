@@ -1,0 +1,56 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ElevenLabs Speech to Text API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "xi-api-key",
+      "value": "{{xi-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Speech to Text",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Convert speech to text",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elevenlabs.io/v1/speech-to-text",
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Transcribes an audio file into text. Supports multiple audio formats and languages. Returns the transcribed text along with optional word-level timing information."
+        },
+        {
+          "info": {
+            "name": "Convert speech to text asynchronously",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elevenlabs.io/v1/speech-to-text/async",
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Submits an audio file for asynchronous transcription. Returns a task identifier that can be used to poll for the transcription result or receive it via webhook callback."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

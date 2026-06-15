@@ -1,0 +1,262 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ElevenLabs Voices API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "xi-api-key",
+      "value": "{{xi-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Voices",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List voices",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elevenlabs.io/v1/voices",
+            "params": [
+              {
+                "name": "show_legacy",
+                "value": "",
+                "type": "query",
+                "description": "Whether to include legacy voices in the response."
+              }
+            ]
+          },
+          "docs": "Returns a list of all available voices, including pre-built and custom voices. Each voice includes metadata such as name, labels, description, and available settings."
+        },
+        {
+          "info": {
+            "name": "Get voice",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elevenlabs.io/v1/voices/:voice_id",
+            "params": [
+              {
+                "name": "voice_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the voice."
+              },
+              {
+                "name": "with_settings",
+                "value": "",
+                "type": "query",
+                "description": "Whether to include the voice settings in the response."
+              }
+            ]
+          },
+          "docs": "Returns metadata about a specific voice including its settings, samples, labels, and description."
+        },
+        {
+          "info": {
+            "name": "Delete voice",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.elevenlabs.io/v1/voices/:voice_id",
+            "params": [
+              {
+                "name": "voice_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the voice."
+              }
+            ]
+          },
+          "docs": "Deletes a voice from the user's voice library. This action is irreversible and removes all associated samples and settings."
+        },
+        {
+          "info": {
+            "name": "Edit voice",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elevenlabs.io/v1/voices/:voice_id/edit",
+            "params": [
+              {
+                "name": "voice_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the voice."
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Updates the metadata and settings for an existing voice. Allows changing the name, description, labels, and uploading new samples."
+        },
+        {
+          "info": {
+            "name": "Add voice",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elevenlabs.io/v1/voices/add",
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Creates a new voice from uploaded audio samples. The voice can then be used with text-to-speech and other audio generation endpoints."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Voice Settings",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get voice settings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elevenlabs.io/v1/voices/:voice_id/settings",
+            "params": [
+              {
+                "name": "voice_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the voice."
+              }
+            ]
+          },
+          "docs": "Returns the settings for a specific voice including stability, similarity boost, and style parameters."
+        },
+        {
+          "info": {
+            "name": "Edit voice settings",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elevenlabs.io/v1/voices/:voice_id/settings/edit",
+            "params": [
+              {
+                "name": "voice_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the voice."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the default settings for a specific voice. These settings are used when no per-request overrides are provided."
+        },
+        {
+          "info": {
+            "name": "Get default voice settings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elevenlabs.io/v1/voices/settings/default"
+          },
+          "docs": "Returns the default voice settings that are applied when no voice-specific or per-request settings are provided."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Voice Library",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List shared voices",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elevenlabs.io/v1/voice-library",
+            "params": [
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of voices to return per page."
+              },
+              {
+                "name": "gender",
+                "value": "",
+                "type": "query",
+                "description": "Filter voices by gender."
+              },
+              {
+                "name": "language",
+                "value": "",
+                "type": "query",
+                "description": "Filter voices by language."
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Search term to filter voices by name or description."
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of voices from the public voice library that can be added to the user's voice collection."
+        },
+        {
+          "info": {
+            "name": "Add shared voice",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elevenlabs.io/v1/voice-library/:public_user_id/:voice_id/add",
+            "params": [
+              {
+                "name": "public_user_id",
+                "value": "",
+                "type": "path",
+                "description": "The public user ID of the voice owner."
+              },
+              {
+                "name": "voice_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the voice."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Adds a voice from the public library to the user's personal voice collection. The voice can then be used with speech generation endpoints."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

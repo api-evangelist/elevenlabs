@@ -1,0 +1,56 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ElevenLabs Audio Isolation API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "xi-api-key",
+      "value": "{{xi-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Audio Isolation",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Isolate audio",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elevenlabs.io/v1/audio-isolation",
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Removes background noise from an audio file, isolating the vocal content. Processes the uploaded audio and returns a cleaned version with background noise removed while preserving the vocal track."
+        },
+        {
+          "info": {
+            "name": "Isolate audio with streaming",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elevenlabs.io/v1/audio-isolation/stream",
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Removes background noise from an audio file and streams the cleaned audio back using chunked transfer encoding. Useful for processing larger files where streaming output is preferred."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

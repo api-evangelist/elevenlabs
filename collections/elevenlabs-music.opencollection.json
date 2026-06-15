@@ -1,0 +1,41 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ElevenLabs Music Generation API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "xi-api-key",
+      "value": "{{xi-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Music Generation",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create music",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elevenlabs.io/v1/music",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generates an original musical composition from a text prompt describing the desired genre, mood, tempo, instrumentation, and other characteristics. Returns generated audio in the specified format."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

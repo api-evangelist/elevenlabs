@@ -1,0 +1,880 @@
+{
+  "item": [
+    {
+      "id": "09e38256-a589-4e1f-853b-813f30b502e5",
+      "name": "Speech to Text",
+      "description": {
+        "content": "Endpoints for converting audio into text transcriptions with support for multiple languages and audio formats.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "0b10b284-3784-4121-a748-d8a2c4b6e2a2",
+          "name": "Convert speech to text",
+          "request": {
+            "name": "Convert speech to text",
+            "description": {
+              "content": "Transcribes an audio file into text. Supports multiple audio formats and languages. Returns the transcribed text along with optional word-level timing information.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "speech-to-text"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "description": "(Required) The audio file to transcribe. Supports formats including MP3, WAV, FLAC, OGG, and M4A."
+                },
+                {
+                  "key": "model_id",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "The identifier of the speech-to-text model to use for transcription."
+                },
+                {
+                  "key": "language_code",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Language code in ISO 639-1 format to hint the expected language of the audio content."
+                },
+                {
+                  "key": "tag_audio_events",
+                  "value": "false",
+                  "type": "text",
+                  "description": "Whether to tag non-speech audio events such as music, laughter, or applause in the transcription output."
+                },
+                {
+                  "key": "timestamps_granularity",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "The level of timestamp granularity to include in the response. (This can only be one of none,word,character)"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "1ce36968-d001-4636-a038-1f39610341ad",
+              "name": "Transcription completed successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "speech-to-text"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) The audio file to transcribe. Supports formats including MP3, WAV, FLAC, OGG, and M4A.",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "The identifier of the speech-to-text model to use for transcription.",
+                        "type": "text/plain"
+                      },
+                      "key": "model_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Language code in ISO 639-1 format to hint the expected language of the audio content.",
+                        "type": "text/plain"
+                      },
+                      "key": "language_code",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Whether to tag non-speech audio events such as music, laughter, or applause in the transcription output.",
+                        "type": "text/plain"
+                      },
+                      "key": "tag_audio_events",
+                      "value": "false",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "The level of timestamp granularity to include in the response. (This can only be one of none,word,character)",
+                        "type": "text/plain"
+                      },
+                      "key": "timestamps_granularity",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"text\": \"string\",\n  \"language_code\": \"string\",\n  \"language_probability\": 3417.9419424380685,\n  \"words\": [\n    {\n      \"text\": \"string\",\n      \"start\": 5613.2194688770705,\n      \"end\": 1216.9759405909697,\n      \"confidence\": 0.8992429254505024\n    },\n    {\n      \"text\": \"string\",\n      \"start\": 4517.025107013929,\n      \"end\": 9734.43608685132,\n      \"confidence\": 0.5279713486194975\n    }\n  ],\n  \"audio_events\": [\n    {\n      \"type\": \"string\",\n      \"start\": 9619.141691486526,\n      \"end\": 3125.065771186627\n    },\n    {\n      \"type\": \"string\",\n      \"start\": 3982.391499815886,\n      \"end\": 2755.966018500643\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7f122c3b-e7b3-4361-a5bd-b70f4fc87e5c",
+              "name": "Bad request - invalid audio file or parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "speech-to-text"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) The audio file to transcribe. Supports formats including MP3, WAV, FLAC, OGG, and M4A.",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "The identifier of the speech-to-text model to use for transcription.",
+                        "type": "text/plain"
+                      },
+                      "key": "model_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Language code in ISO 639-1 format to hint the expected language of the audio content.",
+                        "type": "text/plain"
+                      },
+                      "key": "language_code",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Whether to tag non-speech audio events such as music, laughter, or applause in the transcription output.",
+                        "type": "text/plain"
+                      },
+                      "key": "tag_audio_events",
+                      "value": "false",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "The level of timestamp granularity to include in the response. (This can only be one of none,word,character)",
+                        "type": "text/plain"
+                      },
+                      "key": "timestamps_granularity",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c56b9b9d-6983-4523-a1e6-a338bea49338",
+              "name": "Unauthorized - invalid or missing API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "speech-to-text"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) The audio file to transcribe. Supports formats including MP3, WAV, FLAC, OGG, and M4A.",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "The identifier of the speech-to-text model to use for transcription.",
+                        "type": "text/plain"
+                      },
+                      "key": "model_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Language code in ISO 639-1 format to hint the expected language of the audio content.",
+                        "type": "text/plain"
+                      },
+                      "key": "language_code",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Whether to tag non-speech audio events such as music, laughter, or applause in the transcription output.",
+                        "type": "text/plain"
+                      },
+                      "key": "tag_audio_events",
+                      "value": "false",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "The level of timestamp granularity to include in the response. (This can only be one of none,word,character)",
+                        "type": "text/plain"
+                      },
+                      "key": "timestamps_granularity",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "320b599b-daa4-41d6-bea8-af3a86499e03",
+              "name": "Unprocessable entity - validation error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "speech-to-text"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) The audio file to transcribe. Supports formats including MP3, WAV, FLAC, OGG, and M4A.",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "The identifier of the speech-to-text model to use for transcription.",
+                        "type": "text/plain"
+                      },
+                      "key": "model_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Language code in ISO 639-1 format to hint the expected language of the audio content.",
+                        "type": "text/plain"
+                      },
+                      "key": "language_code",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Whether to tag non-speech audio events such as music, laughter, or applause in the transcription output.",
+                        "type": "text/plain"
+                      },
+                      "key": "tag_audio_events",
+                      "value": "false",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "The level of timestamp granularity to include in the response. (This can only be one of none,word,character)",
+                        "type": "text/plain"
+                      },
+                      "key": "timestamps_granularity",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b2b71f51-ea8f-451c-b245-f9698f37392b",
+          "name": "Convert speech to text asynchronously",
+          "request": {
+            "name": "Convert speech to text asynchronously",
+            "description": {
+              "content": "Submits an audio file for asynchronous transcription. Returns a task identifier that can be used to poll for the transcription result or receive it via webhook callback.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "speech-to-text",
+                "async"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "description": "(Required) The audio file to transcribe asynchronously."
+                },
+                {
+                  "key": "model_id",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "The identifier of the speech-to-text model to use."
+                },
+                {
+                  "key": "language_code",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Language code in ISO 639-1 format."
+                },
+                {
+                  "key": "webhook_url",
+                  "value": "<uri>",
+                  "type": "text",
+                  "description": "A URL to receive a webhook notification when the transcription is complete."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "0af53816-21d6-49ae-94bc-ca7c44194723",
+              "name": "Transcription task submitted successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "speech-to-text",
+                    "async"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) The audio file to transcribe asynchronously.",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "The identifier of the speech-to-text model to use.",
+                        "type": "text/plain"
+                      },
+                      "key": "model_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Language code in ISO 639-1 format.",
+                        "type": "text/plain"
+                      },
+                      "key": "language_code",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "A URL to receive a webhook notification when the transcription is complete.",
+                        "type": "text/plain"
+                      },
+                      "key": "webhook_url",
+                      "value": "<uri>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"task_id\": \"string\",\n  \"status\": \"pending\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "14a395e1-a7fd-4e63-b9eb-205f40958021",
+              "name": "Bad request - invalid audio file or parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "speech-to-text",
+                    "async"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) The audio file to transcribe asynchronously.",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "The identifier of the speech-to-text model to use.",
+                        "type": "text/plain"
+                      },
+                      "key": "model_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Language code in ISO 639-1 format.",
+                        "type": "text/plain"
+                      },
+                      "key": "language_code",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "A URL to receive a webhook notification when the transcription is complete.",
+                        "type": "text/plain"
+                      },
+                      "key": "webhook_url",
+                      "value": "<uri>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c1665eac-982e-4a7f-818c-304351be71a1",
+              "name": "Unauthorized - invalid or missing API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "speech-to-text",
+                    "async"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) The audio file to transcribe asynchronously.",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "The identifier of the speech-to-text model to use.",
+                        "type": "text/plain"
+                      },
+                      "key": "model_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Language code in ISO 639-1 format.",
+                        "type": "text/plain"
+                      },
+                      "key": "language_code",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "A URL to receive a webhook notification when the transcription is complete.",
+                        "type": "text/plain"
+                      },
+                      "key": "webhook_url",
+                      "value": "<uri>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "0fa24ee0-1566-4fc6-b744-9e989274afbe",
+              "name": "Unprocessable entity - validation error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "speech-to-text",
+                    "async"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) The audio file to transcribe asynchronously.",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "The identifier of the speech-to-text model to use.",
+                        "type": "text/plain"
+                      },
+                      "key": "model_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Language code in ISO 639-1 format.",
+                        "type": "text/plain"
+                      },
+                      "key": "language_code",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "A URL to receive a webhook notification when the transcription is complete.",
+                        "type": "text/plain"
+                      },
+                      "key": "webhook_url",
+                      "value": "<uri>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.elevenlabs.io",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "xi-api-key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "9d09a323-9016-456e-ae1e-4afec559e705",
+    "name": "ElevenLabs Speech to Text API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The ElevenLabs Speech to Text API provides state-of-the-art transcription capabilities, converting spoken audio into accurate text. It supports multiple audio formats and languages, enabling developers to build applications that require reliable audio transcription. The API supports both synchronous and asynchronous processing modes.\n\nContact Support:\n Name: ElevenLabs Support",
+      "type": "text/plain"
+    }
+  }
+}

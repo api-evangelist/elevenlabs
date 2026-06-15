@@ -1,0 +1,2230 @@
+{
+  "item": [
+    {
+      "id": "e3ff1662-c0af-448d-847b-1c4554e50cb9",
+      "name": "Dubbing",
+      "description": {
+        "content": "Endpoints for creating, managing, and retrieving dubbed audio and video content across languages.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e56e722b-41ca-4955-972d-77196481b765",
+          "name": "Dub a video or audio file",
+          "request": {
+            "name": "Dub a video or audio file",
+            "description": {
+              "content": "Creates a new dubbing project from an uploaded audio or video file or a source URL. The dubbing process transcribes, translates, and re-synthesizes the audio content in the target language while preserving the original speakers' voice characteristics.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "dubbing"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "description": "The audio or video file to dub. Supports common formats including MP3, WAV, MP4, and MOV."
+                },
+                {
+                  "key": "source_url",
+                  "value": "<uri>",
+                  "type": "text",
+                  "description": "A URL to the source audio or video file to dub. Used as an alternative to uploading a file directly."
+                },
+                {
+                  "key": "source_lang",
+                  "value": "auto",
+                  "type": "text",
+                  "description": "The language code of the source audio content."
+                },
+                {
+                  "key": "target_lang",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "The target language code for the dubbed output."
+                },
+                {
+                  "key": "num_speakers",
+                  "value": "<integer>",
+                  "type": "text",
+                  "description": "The number of speakers in the source audio. Helps improve speaker diarization accuracy."
+                },
+                {
+                  "key": "watermark",
+                  "value": "false",
+                  "type": "text",
+                  "description": "Whether to add a watermark to the dubbed output."
+                },
+                {
+                  "key": "name",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "A name for the dubbing project."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "5f72ee63-5e53-45ad-a3f0-b483d7623e18",
+              "name": "Dubbing project created successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dubbing"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "The audio or video file to dub. Supports common formats including MP3, WAV, MP4, and MOV.",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "A URL to the source audio or video file to dub. Used as an alternative to uploading a file directly.",
+                        "type": "text/plain"
+                      },
+                      "key": "source_url",
+                      "value": "<uri>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "The language code of the source audio content.",
+                        "type": "text/plain"
+                      },
+                      "key": "source_lang",
+                      "value": "auto",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "The target language code for the dubbed output.",
+                        "type": "text/plain"
+                      },
+                      "key": "target_lang",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "The number of speakers in the source audio. Helps improve speaker diarization accuracy.",
+                        "type": "text/plain"
+                      },
+                      "key": "num_speakers",
+                      "value": "<integer>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Whether to add a watermark to the dubbed output.",
+                        "type": "text/plain"
+                      },
+                      "key": "watermark",
+                      "value": "false",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "A name for the dubbing project.",
+                        "type": "text/plain"
+                      },
+                      "key": "name",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"dubbing_id\": \"string\",\n  \"expected_duration_sec\": 7185.509895107619\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8f015cfd-f632-4104-9971-10d26a9a3bed",
+              "name": "Bad request - invalid parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dubbing"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "The audio or video file to dub. Supports common formats including MP3, WAV, MP4, and MOV.",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "A URL to the source audio or video file to dub. Used as an alternative to uploading a file directly.",
+                        "type": "text/plain"
+                      },
+                      "key": "source_url",
+                      "value": "<uri>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "The language code of the source audio content.",
+                        "type": "text/plain"
+                      },
+                      "key": "source_lang",
+                      "value": "auto",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "The target language code for the dubbed output.",
+                        "type": "text/plain"
+                      },
+                      "key": "target_lang",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "The number of speakers in the source audio. Helps improve speaker diarization accuracy.",
+                        "type": "text/plain"
+                      },
+                      "key": "num_speakers",
+                      "value": "<integer>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Whether to add a watermark to the dubbed output.",
+                        "type": "text/plain"
+                      },
+                      "key": "watermark",
+                      "value": "false",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "A name for the dubbing project.",
+                        "type": "text/plain"
+                      },
+                      "key": "name",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a111d283-ef9e-49f7-8750-3022d62f1947",
+              "name": "Unauthorized - invalid or missing API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dubbing"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "The audio or video file to dub. Supports common formats including MP3, WAV, MP4, and MOV.",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "A URL to the source audio or video file to dub. Used as an alternative to uploading a file directly.",
+                        "type": "text/plain"
+                      },
+                      "key": "source_url",
+                      "value": "<uri>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "The language code of the source audio content.",
+                        "type": "text/plain"
+                      },
+                      "key": "source_lang",
+                      "value": "auto",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "The target language code for the dubbed output.",
+                        "type": "text/plain"
+                      },
+                      "key": "target_lang",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "The number of speakers in the source audio. Helps improve speaker diarization accuracy.",
+                        "type": "text/plain"
+                      },
+                      "key": "num_speakers",
+                      "value": "<integer>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Whether to add a watermark to the dubbed output.",
+                        "type": "text/plain"
+                      },
+                      "key": "watermark",
+                      "value": "false",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "A name for the dubbing project.",
+                        "type": "text/plain"
+                      },
+                      "key": "name",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "11245eed-bc8e-4058-8f6d-3118a6c90ce9",
+              "name": "Unprocessable entity - unsupported file format",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dubbing"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "The audio or video file to dub. Supports common formats including MP3, WAV, MP4, and MOV.",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "A URL to the source audio or video file to dub. Used as an alternative to uploading a file directly.",
+                        "type": "text/plain"
+                      },
+                      "key": "source_url",
+                      "value": "<uri>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "The language code of the source audio content.",
+                        "type": "text/plain"
+                      },
+                      "key": "source_lang",
+                      "value": "auto",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "The target language code for the dubbed output.",
+                        "type": "text/plain"
+                      },
+                      "key": "target_lang",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "The number of speakers in the source audio. Helps improve speaker diarization accuracy.",
+                        "type": "text/plain"
+                      },
+                      "key": "num_speakers",
+                      "value": "<integer>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Whether to add a watermark to the dubbed output.",
+                        "type": "text/plain"
+                      },
+                      "key": "watermark",
+                      "value": "false",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "A name for the dubbing project.",
+                        "type": "text/plain"
+                      },
+                      "key": "name",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2619e15d-20aa-43b2-89a6-3f62605f84f1",
+          "name": "Get dubbing metadata",
+          "request": {
+            "name": "Get dubbing metadata",
+            "description": {
+              "content": "Returns metadata and status information about a dubbing project, including the current processing state and available languages.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "dubbing",
+                ":dubbing_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "dubbing_id",
+                  "description": "(Required) The unique identifier of the dubbing project."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "af41426e-52ea-4e5c-a48b-e65279ca3da5",
+              "name": "Dubbing metadata retrieved successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dubbing",
+                    ":dubbing_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dubbing_id",
+                      "description": "(Required) The unique identifier of the dubbing project."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"dubbing_id\": \"string\",\n  \"name\": \"string\",\n  \"status\": \"dubbing\",\n  \"target_languages\": [\n    \"string\",\n    \"string\"\n  ],\n  \"source_language\": \"string\",\n  \"created_at\": \"1976-01-14T15:46:50.074Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3c6c2aa6-2e0e-454d-8cef-bc2a7f8ca745",
+              "name": "Unauthorized - invalid or missing API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dubbing",
+                    ":dubbing_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dubbing_id",
+                      "description": "(Required) The unique identifier of the dubbing project."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "5fad6afe-bdef-46d5-9d0c-1a16abeb39c0",
+              "name": "Dubbing project not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dubbing",
+                    ":dubbing_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dubbing_id",
+                      "description": "(Required) The unique identifier of the dubbing project."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b8eecc58-ccca-4d60-867f-79a57b2bcc43",
+          "name": "Delete dubbing",
+          "request": {
+            "name": "Delete dubbing",
+            "description": {
+              "content": "Deletes a dubbing project and all associated resources. This action is irreversible.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "dubbing",
+                ":dubbing_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "dubbing_id",
+                  "description": "(Required) The unique identifier of the dubbing project."
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "294fc042-d6a2-444c-a88b-ddba20795991",
+              "name": "Dubbing project deleted successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dubbing",
+                    ":dubbing_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dubbing_id",
+                      "description": "(Required) The unique identifier of the dubbing project."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f1340776-c4fe-4957-a310-be7ae127abb1",
+              "name": "Unauthorized - invalid or missing API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dubbing",
+                    ":dubbing_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dubbing_id",
+                      "description": "(Required) The unique identifier of the dubbing project."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e1a5cdab-3451-44f7-9b41-72a17dc7fce4",
+              "name": "Dubbing project not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dubbing",
+                    ":dubbing_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dubbing_id",
+                      "description": "(Required) The unique identifier of the dubbing project."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "cc07c579-490e-4ba4-b73a-0113074b3972",
+      "name": "Dubbing Resources",
+      "description": {
+        "content": "Endpoints for managing individual dubbing resources including segments, translations, and dubbed output files.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "9ddc7415-8c35-44c8-8c8f-1b54b0c76e0b",
+          "name": "Get dubbed audio",
+          "request": {
+            "name": "Get dubbed audio",
+            "description": {
+              "content": "Downloads the dubbed audio file for a specific language from a completed dubbing project.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "dubbing",
+                ":dubbing_id",
+                "audio",
+                ":language_code"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "dubbing_id",
+                  "description": "(Required) The unique identifier of the dubbing project."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "language_code",
+                  "description": "(Required) The language code of the dubbed audio to retrieve."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "audio/mpeg"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "dfd584de-5cae-4a24-afae-70d4aa6716d8",
+              "name": "Dubbed audio file",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dubbing",
+                    ":dubbing_id",
+                    "audio",
+                    ":language_code"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dubbing_id",
+                      "description": "(Required) The unique identifier of the dubbing project."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "language_code",
+                      "description": "(Required) The language code of the dubbed audio to retrieve."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "audio/mpeg"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "audio/mpeg"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "2db27095-05f2-45d9-b435-25bc3e135dd3",
+              "name": "Unauthorized - invalid or missing API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dubbing",
+                    ":dubbing_id",
+                    "audio",
+                    ":language_code"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dubbing_id",
+                      "description": "(Required) The unique identifier of the dubbing project."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "language_code",
+                      "description": "(Required) The language code of the dubbed audio to retrieve."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4ed298be-f291-444f-a006-90d9044eed5b",
+              "name": "Dubbed audio not found for the specified language",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dubbing",
+                    ":dubbing_id",
+                    "audio",
+                    ":language_code"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dubbing_id",
+                      "description": "(Required) The unique identifier of the dubbing project."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "language_code",
+                      "description": "(Required) The language code of the dubbed audio to retrieve."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "67b95fab-8c18-4808-9c9e-f7fba2e97095",
+          "name": "Get dubbed transcript",
+          "request": {
+            "name": "Get dubbed transcript",
+            "description": {
+              "content": "Returns the transcript for a specific language version of a dubbing project, including timing information for each segment.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "dubbing",
+                ":dubbing_id",
+                "transcript",
+                ":language_code"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "format_type",
+                  "value": "<string>",
+                  "description": "The format of the transcript output."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "dubbing_id",
+                  "description": "(Required) The unique identifier of the dubbing project."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "language_code",
+                  "description": "(Required) The language code of the transcript to retrieve."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0f341faa-3093-45cd-842d-d2fcc4c2044c",
+              "name": "Transcript retrieved successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dubbing",
+                    ":dubbing_id",
+                    "transcript",
+                    ":language_code"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "format_type",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dubbing_id",
+                      "description": "(Required) The unique identifier of the dubbing project."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "language_code",
+                      "description": "(Required) The language code of the transcript to retrieve."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"segments\": [\n    {\n      \"start\": 3222.9046563140673,\n      \"end\": 4821.419997524587,\n      \"text\": \"string\",\n      \"speaker\": \"string\"\n    },\n    {\n      \"start\": 7100.015700663408,\n      \"end\": 3813.727788047242,\n      \"text\": \"string\",\n      \"speaker\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5b63add7-fb98-49aa-b73f-a7c10a6258ba",
+              "name": "Unauthorized - invalid or missing API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dubbing",
+                    ":dubbing_id",
+                    "transcript",
+                    ":language_code"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "format_type",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dubbing_id",
+                      "description": "(Required) The unique identifier of the dubbing project."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "language_code",
+                      "description": "(Required) The language code of the transcript to retrieve."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "99607c02-df28-4a49-9717-af887e755fbc",
+              "name": "Transcript not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dubbing",
+                    ":dubbing_id",
+                    "transcript",
+                    ":language_code"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "format_type",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dubbing_id",
+                      "description": "(Required) The unique identifier of the dubbing project."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "language_code",
+                      "description": "(Required) The language code of the transcript to retrieve."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b380b7c8-0fe9-4a7d-8930-904bb7c7ee07",
+          "name": "Get dubbing resource",
+          "request": {
+            "name": "Get dubbing resource",
+            "description": {
+              "content": "Returns detailed information about the dubbing resource including all segments, speakers, and language versions.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "dubbing",
+                ":dubbing_id",
+                "resource"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "dubbing_id",
+                  "description": "(Required) The unique identifier of the dubbing project."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "dda1f175-1728-4b60-902f-486f30cbde88",
+              "name": "Dubbing resource retrieved successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dubbing",
+                    ":dubbing_id",
+                    "resource"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dubbing_id",
+                      "description": "(Required) The unique identifier of the dubbing project."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"dubbing_id\": \"string\",\n  \"segments\": [\n    {\n      \"start\": 3566.13350201019,\n      \"end\": 9128.042965068977,\n      \"text\": \"string\",\n      \"speaker\": \"string\"\n    },\n    {\n      \"start\": 4617.684280225207,\n      \"end\": 2324.5101384570667,\n      \"text\": \"string\",\n      \"speaker\": \"string\"\n    }\n  ],\n  \"speakers\": [\n    {\n      \"speaker_id\": \"string\",\n      \"name\": \"string\"\n    },\n    {\n      \"speaker_id\": \"string\",\n      \"name\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "098b6d51-c020-4fa8-97ec-afd2a537a367",
+              "name": "Unauthorized - invalid or missing API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dubbing",
+                    ":dubbing_id",
+                    "resource"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dubbing_id",
+                      "description": "(Required) The unique identifier of the dubbing project."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "afae09fa-925b-4217-9fc4-65385d7e34fd",
+              "name": "Dubbing resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dubbing",
+                    ":dubbing_id",
+                    "resource"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dubbing_id",
+                      "description": "(Required) The unique identifier of the dubbing project."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "51bf2bcc-673e-4d5a-bc4d-3ec9266f9fcb",
+          "name": "Translate segment",
+          "request": {
+            "name": "Translate segment",
+            "description": {
+              "content": "Translates a specific segment of a dubbing project into a target language. Allows fine-grained control over individual segment translations.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "dubbing",
+                ":dubbing_id",
+                "resource",
+                "translate-segment"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "dubbing_id",
+                  "description": "(Required) The unique identifier of the dubbing project."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"segment_id\": \"<string>\",\n  \"target_lang\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "6066ee15-7004-474b-8de5-831fe4ed77f3",
+              "name": "Segment translated successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dubbing",
+                    ":dubbing_id",
+                    "resource",
+                    "translate-segment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dubbing_id",
+                      "description": "(Required) The unique identifier of the dubbing project."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"segment_id\": \"<string>\",\n  \"target_lang\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9894c234-cf0d-41b8-ae42-2c4bf83fd3cb",
+              "name": "Bad request - invalid parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dubbing",
+                    ":dubbing_id",
+                    "resource",
+                    "translate-segment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dubbing_id",
+                      "description": "(Required) The unique identifier of the dubbing project."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"segment_id\": \"<string>\",\n  \"target_lang\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "0d903ed3-b848-420b-8d1c-c316428f086d",
+              "name": "Unauthorized - invalid or missing API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dubbing",
+                    ":dubbing_id",
+                    "resource",
+                    "translate-segment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dubbing_id",
+                      "description": "(Required) The unique identifier of the dubbing project."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"segment_id\": \"<string>\",\n  \"target_lang\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "72e418d1-87be-417f-8d1a-2d6625dc7a0e",
+              "name": "Dubbing project or segment not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dubbing",
+                    ":dubbing_id",
+                    "resource",
+                    "translate-segment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dubbing_id",
+                      "description": "(Required) The unique identifier of the dubbing project."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"segment_id\": \"<string>\",\n  \"target_lang\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e0f6bdae-3dec-4ff4-8ad5-9579dd1ba4e5",
+          "name": "Dub segment",
+          "request": {
+            "name": "Dub segment",
+            "description": {
+              "content": "Generates dubbed audio for a specific segment of a dubbing project. Creates the speech synthesis output for an individual translated segment.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "dubbing",
+                ":dubbing_id",
+                "resource",
+                "dub-segment"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "dubbing_id",
+                  "description": "(Required) The unique identifier of the dubbing project."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"segment_id\": \"<string>\",\n  \"language_code\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9939c2b8-95c1-4923-a5a9-1286e403c03d",
+              "name": "Segment dubbed successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dubbing",
+                    ":dubbing_id",
+                    "resource",
+                    "dub-segment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dubbing_id",
+                      "description": "(Required) The unique identifier of the dubbing project."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"segment_id\": \"<string>\",\n  \"language_code\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "0d2009a5-94dd-405d-856b-624763300765",
+              "name": "Bad request - invalid parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dubbing",
+                    ":dubbing_id",
+                    "resource",
+                    "dub-segment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dubbing_id",
+                      "description": "(Required) The unique identifier of the dubbing project."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"segment_id\": \"<string>\",\n  \"language_code\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6da347d5-1dd9-49ca-a8fd-25fdd9b30e17",
+              "name": "Unauthorized - invalid or missing API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dubbing",
+                    ":dubbing_id",
+                    "resource",
+                    "dub-segment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dubbing_id",
+                      "description": "(Required) The unique identifier of the dubbing project."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"segment_id\": \"<string>\",\n  \"language_code\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "193a5e6b-7a7a-48c9-b3f5-fbd49137b95a",
+              "name": "Dubbing project or segment not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dubbing",
+                    ":dubbing_id",
+                    "resource",
+                    "dub-segment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dubbing_id",
+                      "description": "(Required) The unique identifier of the dubbing project."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"segment_id\": \"<string>\",\n  \"language_code\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.elevenlabs.io",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "xi-api-key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "756f54ac-156e-4633-943e-45d44f7cc010",
+    "name": "ElevenLabs Dubbing API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The ElevenLabs Dubbing API enables automatic translation and voice-over of audio and video content into different languages. It preserves the original speaker's voice characteristics while translating the spoken content, supporting seamless localization of multimedia content. The API handles the full dubbing pipeline including transcription, translation, and speech synthesis with lip-sync timing.\n\nContact Support:\n Name: ElevenLabs Support",
+      "type": "text/plain"
+    }
+  }
+}

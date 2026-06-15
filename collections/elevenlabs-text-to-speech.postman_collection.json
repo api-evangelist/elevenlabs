@@ -1,0 +1,1897 @@
+{
+  "item": [
+    {
+      "id": "b41ece86-2168-4b75-aefa-b1f2129ed224",
+      "name": "Text to Dialogue",
+      "description": {
+        "content": "Endpoints for converting text scripts with multiple speakers into dialogue audio.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "8dce0c92-6fe9-4d4a-b7ef-dcffc137a731",
+          "name": "Create dialogue",
+          "request": {
+            "name": "Create dialogue",
+            "description": {
+              "content": "Converts a dialogue script with multiple speakers into audio. Each segment of the script can be assigned a different voice, enabling multi-speaker audio generation from a single request.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "text-to-dialogue"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "output_format",
+                  "value": "mp3_44100_128",
+                  "description": "The desired output audio format. Supported values include mp3_44100_128, mp3_44100_192, pcm_16000, pcm_22050, pcm_24000, pcm_44100, ulaw_8000."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "audio/mpeg"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"segments\": [\n    {\n      \"voice_id\": \"<string>\",\n      \"text\": \"<string>\",\n      \"voice_settings\": {\n        \"stability\": \"<number>\",\n        \"similarity_boost\": \"<number>\",\n        \"style\": 0,\n        \"use_speaker_boost\": true\n      }\n    },\n    {\n      \"voice_id\": \"<string>\",\n      \"text\": \"<string>\",\n      \"voice_settings\": {\n        \"stability\": \"<number>\",\n        \"similarity_boost\": \"<number>\",\n        \"style\": 0,\n        \"use_speaker_boost\": true\n      }\n    }\n  ],\n  \"model_id\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3bd102fc-476d-422a-be2d-03419b9051df",
+              "name": "Dialogue audio generated successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "text-to-dialogue"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "output_format",
+                      "value": "mp3_44100_128"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "audio/mpeg"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"segments\": [\n    {\n      \"voice_id\": \"string\",\n      \"text\": \"string\",\n      \"voice_settings\": {\n        \"stability\": 0.45549190999261935,\n        \"similarity_boost\": 0.7533393528216663,\n        \"style\": 0,\n        \"use_speaker_boost\": true\n      }\n    },\n    {\n      \"voice_id\": \"string\",\n      \"text\": \"string\",\n      \"voice_settings\": {\n        \"stability\": 0.3674860121424973,\n        \"similarity_boost\": 0.1571948300948115,\n        \"style\": 0,\n        \"use_speaker_boost\": true\n      }\n    }\n  ],\n  \"model_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "audio/mpeg"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d4498b89-2cf8-4f0d-974a-fc60e12be951",
+              "name": "Bad request - invalid parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "text-to-dialogue"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "output_format",
+                      "value": "mp3_44100_128"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"segments\": [\n    {\n      \"voice_id\": \"string\",\n      \"text\": \"string\",\n      \"voice_settings\": {\n        \"stability\": 0.45549190999261935,\n        \"similarity_boost\": 0.7533393528216663,\n        \"style\": 0,\n        \"use_speaker_boost\": true\n      }\n    },\n    {\n      \"voice_id\": \"string\",\n      \"text\": \"string\",\n      \"voice_settings\": {\n        \"stability\": 0.3674860121424973,\n        \"similarity_boost\": 0.1571948300948115,\n        \"style\": 0,\n        \"use_speaker_boost\": true\n      }\n    }\n  ],\n  \"model_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "db8614bc-54d0-40c5-b54c-1a0c3b2eed21",
+              "name": "Unauthorized - invalid or missing API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "text-to-dialogue"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "output_format",
+                      "value": "mp3_44100_128"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"segments\": [\n    {\n      \"voice_id\": \"string\",\n      \"text\": \"string\",\n      \"voice_settings\": {\n        \"stability\": 0.45549190999261935,\n        \"similarity_boost\": 0.7533393528216663,\n        \"style\": 0,\n        \"use_speaker_boost\": true\n      }\n    },\n    {\n      \"voice_id\": \"string\",\n      \"text\": \"string\",\n      \"voice_settings\": {\n        \"stability\": 0.3674860121424973,\n        \"similarity_boost\": 0.1571948300948115,\n        \"style\": 0,\n        \"use_speaker_boost\": true\n      }\n    }\n  ],\n  \"model_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f25dad83-4b72-440a-8b89-5898c654d4cd",
+              "name": "Unprocessable entity - validation error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "text-to-dialogue"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "output_format",
+                      "value": "mp3_44100_128"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"segments\": [\n    {\n      \"voice_id\": \"string\",\n      \"text\": \"string\",\n      \"voice_settings\": {\n        \"stability\": 0.45549190999261935,\n        \"similarity_boost\": 0.7533393528216663,\n        \"style\": 0,\n        \"use_speaker_boost\": true\n      }\n    },\n    {\n      \"voice_id\": \"string\",\n      \"text\": \"string\",\n      \"voice_settings\": {\n        \"stability\": 0.3674860121424973,\n        \"similarity_boost\": 0.1571948300948115,\n        \"style\": 0,\n        \"use_speaker_boost\": true\n      }\n    }\n  ],\n  \"model_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "531ac490-7427-40ae-9344-a52eee020aba",
+          "name": "Create dialogue with timestamps",
+          "request": {
+            "name": "Create dialogue with timestamps",
+            "description": {
+              "content": "Converts a dialogue script with multiple speakers into audio and returns word-level timing information alongside the generated audio.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "text-to-dialogue",
+                "with-timestamps"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "output_format",
+                  "value": "mp3_44100_128",
+                  "description": "The desired output audio format. Supported values include mp3_44100_128, mp3_44100_192, pcm_16000, pcm_22050, pcm_24000, pcm_44100, ulaw_8000."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"segments\": [\n    {\n      \"voice_id\": \"<string>\",\n      \"text\": \"<string>\",\n      \"voice_settings\": {\n        \"stability\": \"<number>\",\n        \"similarity_boost\": \"<number>\",\n        \"style\": 0,\n        \"use_speaker_boost\": true\n      }\n    },\n    {\n      \"voice_id\": \"<string>\",\n      \"text\": \"<string>\",\n      \"voice_settings\": {\n        \"stability\": \"<number>\",\n        \"similarity_boost\": \"<number>\",\n        \"style\": 0,\n        \"use_speaker_boost\": true\n      }\n    }\n  ],\n  \"model_id\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "cbf93a4a-7985-4e4c-9a43-85b4d82c6168",
+              "name": "Dialogue audio with timestamp data",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "text-to-dialogue",
+                    "with-timestamps"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "output_format",
+                      "value": "mp3_44100_128"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"segments\": [\n    {\n      \"voice_id\": \"string\",\n      \"text\": \"string\",\n      \"voice_settings\": {\n        \"stability\": 0.45549190999261935,\n        \"similarity_boost\": 0.7533393528216663,\n        \"style\": 0,\n        \"use_speaker_boost\": true\n      }\n    },\n    {\n      \"voice_id\": \"string\",\n      \"text\": \"string\",\n      \"voice_settings\": {\n        \"stability\": 0.3674860121424973,\n        \"similarity_boost\": 0.1571948300948115,\n        \"style\": 0,\n        \"use_speaker_boost\": true\n      }\n    }\n  ],\n  \"model_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"audio_base64\": \"string\",\n  \"alignment\": {\n    \"characters\": [\n      {\n        \"character\": \"string\",\n        \"start_time\": 9452.993923751752,\n        \"end_time\": 9582.53319143032\n      },\n      {\n        \"character\": \"string\",\n        \"start_time\": 1918.308256355964,\n        \"end_time\": 4012.033786107474\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7aba7937-7477-4b9e-b816-885b17337d2c",
+              "name": "Bad request - invalid parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "text-to-dialogue",
+                    "with-timestamps"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "output_format",
+                      "value": "mp3_44100_128"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"segments\": [\n    {\n      \"voice_id\": \"string\",\n      \"text\": \"string\",\n      \"voice_settings\": {\n        \"stability\": 0.45549190999261935,\n        \"similarity_boost\": 0.7533393528216663,\n        \"style\": 0,\n        \"use_speaker_boost\": true\n      }\n    },\n    {\n      \"voice_id\": \"string\",\n      \"text\": \"string\",\n      \"voice_settings\": {\n        \"stability\": 0.3674860121424973,\n        \"similarity_boost\": 0.1571948300948115,\n        \"style\": 0,\n        \"use_speaker_boost\": true\n      }\n    }\n  ],\n  \"model_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "5d8fdc6f-cfb0-4f5a-b9bc-2efda224d6f4",
+              "name": "Unauthorized - invalid or missing API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "text-to-dialogue",
+                    "with-timestamps"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "output_format",
+                      "value": "mp3_44100_128"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"segments\": [\n    {\n      \"voice_id\": \"string\",\n      \"text\": \"string\",\n      \"voice_settings\": {\n        \"stability\": 0.45549190999261935,\n        \"similarity_boost\": 0.7533393528216663,\n        \"style\": 0,\n        \"use_speaker_boost\": true\n      }\n    },\n    {\n      \"voice_id\": \"string\",\n      \"text\": \"string\",\n      \"voice_settings\": {\n        \"stability\": 0.3674860121424973,\n        \"similarity_boost\": 0.1571948300948115,\n        \"style\": 0,\n        \"use_speaker_boost\": true\n      }\n    }\n  ],\n  \"model_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "bfb42941-7cf3-48aa-a2f4-8dbc2a8217ec",
+              "name": "Unprocessable entity - validation error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "text-to-dialogue",
+                    "with-timestamps"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "output_format",
+                      "value": "mp3_44100_128"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"segments\": [\n    {\n      \"voice_id\": \"string\",\n      \"text\": \"string\",\n      \"voice_settings\": {\n        \"stability\": 0.45549190999261935,\n        \"similarity_boost\": 0.7533393528216663,\n        \"style\": 0,\n        \"use_speaker_boost\": true\n      }\n    },\n    {\n      \"voice_id\": \"string\",\n      \"text\": \"string\",\n      \"voice_settings\": {\n        \"stability\": 0.3674860121424973,\n        \"similarity_boost\": 0.1571948300948115,\n        \"style\": 0,\n        \"use_speaker_boost\": true\n      }\n    }\n  ],\n  \"model_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "896eb600-8d75-4f22-92cf-1db3b1af1b6d",
+      "name": "Text to Speech",
+      "description": {
+        "content": "Endpoints for converting text into speech audio with configurable voice, model, and output format settings.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c18d0994-c52b-4bdb-af6e-1991ae97af12",
+          "name": "Create speech",
+          "request": {
+            "name": "Create speech",
+            "description": {
+              "content": "Converts text into speech using a specified voice. Returns audio in the requested format. Supports voice settings overrides and pronunciation dictionary locators for fine-tuned output.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "text-to-speech",
+                ":voice_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "output_format",
+                  "value": "mp3_44100_128",
+                  "description": "The desired output audio format. Supported values include mp3_44100_128, mp3_44100_192, pcm_16000, pcm_22050, pcm_24000, pcm_44100, ulaw_8000."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "voice_id",
+                  "description": "(Required) The identifier of the voice to use for speech synthesis. Use the Voices API to list available voices."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "audio/mpeg"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"<string>\",\n  \"model_id\": \"eleven_monolingual_v1\",\n  \"voice_settings\": {\n    \"stability\": \"<number>\",\n    \"similarity_boost\": \"<number>\",\n    \"style\": 0,\n    \"use_speaker_boost\": true\n  },\n  \"pronunciation_dictionary_locators\": [\n    {\n      \"pronunciation_dictionary_id\": \"<string>\",\n      \"version_id\": \"<string>\"\n    },\n    {\n      \"pronunciation_dictionary_id\": \"<string>\",\n      \"version_id\": \"<string>\"\n    }\n  ],\n  \"seed\": \"<integer>\",\n  \"previous_text\": \"<string>\",\n  \"next_text\": \"<string>\",\n  \"language_code\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "dd896bf2-895f-49e9-bf6a-217c5a6ebd5b",
+              "name": "Audio file generated successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "text-to-speech",
+                    ":voice_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "output_format",
+                      "value": "mp3_44100_128"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "voice_id",
+                      "description": "(Required) The identifier of the voice to use for speech synthesis. Use the Voices API to list available voices."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "audio/mpeg"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"text\": \"<string>\",\n  \"model_id\": \"eleven_monolingual_v1\",\n  \"voice_settings\": {\n    \"stability\": 0.7209149159110114,\n    \"similarity_boost\": 0.6691998344247222,\n    \"style\": 0,\n    \"use_speaker_boost\": true\n  },\n  \"pronunciation_dictionary_locators\": [\n    {\n      \"pronunciation_dictionary_id\": \"string\",\n      \"version_id\": \"string\"\n    },\n    {\n      \"pronunciation_dictionary_id\": \"string\",\n      \"version_id\": \"string\"\n    }\n  ],\n  \"seed\": \"<integer>\",\n  \"previous_text\": \"<string>\",\n  \"next_text\": \"<string>\",\n  \"language_code\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "audio/mpeg"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "68cfd44d-fa0d-493b-8b9c-2c3fab12a2c7",
+              "name": "Bad request - invalid parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "text-to-speech",
+                    ":voice_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "output_format",
+                      "value": "mp3_44100_128"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "voice_id",
+                      "description": "(Required) The identifier of the voice to use for speech synthesis. Use the Voices API to list available voices."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"text\": \"<string>\",\n  \"model_id\": \"eleven_monolingual_v1\",\n  \"voice_settings\": {\n    \"stability\": 0.7209149159110114,\n    \"similarity_boost\": 0.6691998344247222,\n    \"style\": 0,\n    \"use_speaker_boost\": true\n  },\n  \"pronunciation_dictionary_locators\": [\n    {\n      \"pronunciation_dictionary_id\": \"string\",\n      \"version_id\": \"string\"\n    },\n    {\n      \"pronunciation_dictionary_id\": \"string\",\n      \"version_id\": \"string\"\n    }\n  ],\n  \"seed\": \"<integer>\",\n  \"previous_text\": \"<string>\",\n  \"next_text\": \"<string>\",\n  \"language_code\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a37e87a7-c664-439b-9ca0-33c5c1036a1d",
+              "name": "Unauthorized - invalid or missing API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "text-to-speech",
+                    ":voice_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "output_format",
+                      "value": "mp3_44100_128"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "voice_id",
+                      "description": "(Required) The identifier of the voice to use for speech synthesis. Use the Voices API to list available voices."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"text\": \"<string>\",\n  \"model_id\": \"eleven_monolingual_v1\",\n  \"voice_settings\": {\n    \"stability\": 0.7209149159110114,\n    \"similarity_boost\": 0.6691998344247222,\n    \"style\": 0,\n    \"use_speaker_boost\": true\n  },\n  \"pronunciation_dictionary_locators\": [\n    {\n      \"pronunciation_dictionary_id\": \"string\",\n      \"version_id\": \"string\"\n    },\n    {\n      \"pronunciation_dictionary_id\": \"string\",\n      \"version_id\": \"string\"\n    }\n  ],\n  \"seed\": \"<integer>\",\n  \"previous_text\": \"<string>\",\n  \"next_text\": \"<string>\",\n  \"language_code\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "22015972-460c-4316-aae2-b43c47ade8b5",
+              "name": "Unprocessable entity - validation error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "text-to-speech",
+                    ":voice_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "output_format",
+                      "value": "mp3_44100_128"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "voice_id",
+                      "description": "(Required) The identifier of the voice to use for speech synthesis. Use the Voices API to list available voices."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"text\": \"<string>\",\n  \"model_id\": \"eleven_monolingual_v1\",\n  \"voice_settings\": {\n    \"stability\": 0.7209149159110114,\n    \"similarity_boost\": 0.6691998344247222,\n    \"style\": 0,\n    \"use_speaker_boost\": true\n  },\n  \"pronunciation_dictionary_locators\": [\n    {\n      \"pronunciation_dictionary_id\": \"string\",\n      \"version_id\": \"string\"\n    },\n    {\n      \"pronunciation_dictionary_id\": \"string\",\n      \"version_id\": \"string\"\n    }\n  ],\n  \"seed\": \"<integer>\",\n  \"previous_text\": \"<string>\",\n  \"next_text\": \"<string>\",\n  \"language_code\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8256adb2-bd4d-45ea-a945-11f648adceb8",
+          "name": "Stream speech",
+          "request": {
+            "name": "Stream speech",
+            "description": {
+              "content": "Converts text into speech and streams the audio back as chunked transfer encoding. Useful for real-time playback scenarios where latency is important.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "text-to-speech",
+                ":voice_id",
+                "stream"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "output_format",
+                  "value": "mp3_44100_128",
+                  "description": "The desired output audio format. Supported values include mp3_44100_128, mp3_44100_192, pcm_16000, pcm_22050, pcm_24000, pcm_44100, ulaw_8000."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "voice_id",
+                  "description": "(Required) The identifier of the voice to use for speech synthesis. Use the Voices API to list available voices."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "audio/mpeg"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"<string>\",\n  \"model_id\": \"eleven_monolingual_v1\",\n  \"voice_settings\": {\n    \"stability\": \"<number>\",\n    \"similarity_boost\": \"<number>\",\n    \"style\": 0,\n    \"use_speaker_boost\": true\n  },\n  \"pronunciation_dictionary_locators\": [\n    {\n      \"pronunciation_dictionary_id\": \"<string>\",\n      \"version_id\": \"<string>\"\n    },\n    {\n      \"pronunciation_dictionary_id\": \"<string>\",\n      \"version_id\": \"<string>\"\n    }\n  ],\n  \"seed\": \"<integer>\",\n  \"previous_text\": \"<string>\",\n  \"next_text\": \"<string>\",\n  \"language_code\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e6d8d8ad-26c1-4a29-ae0a-e64c2109ff73",
+              "name": "Streaming audio response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "text-to-speech",
+                    ":voice_id",
+                    "stream"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "output_format",
+                      "value": "mp3_44100_128"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "voice_id",
+                      "description": "(Required) The identifier of the voice to use for speech synthesis. Use the Voices API to list available voices."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "audio/mpeg"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"text\": \"<string>\",\n  \"model_id\": \"eleven_monolingual_v1\",\n  \"voice_settings\": {\n    \"stability\": 0.7209149159110114,\n    \"similarity_boost\": 0.6691998344247222,\n    \"style\": 0,\n    \"use_speaker_boost\": true\n  },\n  \"pronunciation_dictionary_locators\": [\n    {\n      \"pronunciation_dictionary_id\": \"string\",\n      \"version_id\": \"string\"\n    },\n    {\n      \"pronunciation_dictionary_id\": \"string\",\n      \"version_id\": \"string\"\n    }\n  ],\n  \"seed\": \"<integer>\",\n  \"previous_text\": \"<string>\",\n  \"next_text\": \"<string>\",\n  \"language_code\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "audio/mpeg"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "34b2b50d-46e5-4e25-8d92-02555489bd9a",
+              "name": "Bad request - invalid parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "text-to-speech",
+                    ":voice_id",
+                    "stream"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "output_format",
+                      "value": "mp3_44100_128"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "voice_id",
+                      "description": "(Required) The identifier of the voice to use for speech synthesis. Use the Voices API to list available voices."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"text\": \"<string>\",\n  \"model_id\": \"eleven_monolingual_v1\",\n  \"voice_settings\": {\n    \"stability\": 0.7209149159110114,\n    \"similarity_boost\": 0.6691998344247222,\n    \"style\": 0,\n    \"use_speaker_boost\": true\n  },\n  \"pronunciation_dictionary_locators\": [\n    {\n      \"pronunciation_dictionary_id\": \"string\",\n      \"version_id\": \"string\"\n    },\n    {\n      \"pronunciation_dictionary_id\": \"string\",\n      \"version_id\": \"string\"\n    }\n  ],\n  \"seed\": \"<integer>\",\n  \"previous_text\": \"<string>\",\n  \"next_text\": \"<string>\",\n  \"language_code\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b13aa357-670a-4c85-8f94-1f98ba367759",
+              "name": "Unauthorized - invalid or missing API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "text-to-speech",
+                    ":voice_id",
+                    "stream"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "output_format",
+                      "value": "mp3_44100_128"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "voice_id",
+                      "description": "(Required) The identifier of the voice to use for speech synthesis. Use the Voices API to list available voices."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"text\": \"<string>\",\n  \"model_id\": \"eleven_monolingual_v1\",\n  \"voice_settings\": {\n    \"stability\": 0.7209149159110114,\n    \"similarity_boost\": 0.6691998344247222,\n    \"style\": 0,\n    \"use_speaker_boost\": true\n  },\n  \"pronunciation_dictionary_locators\": [\n    {\n      \"pronunciation_dictionary_id\": \"string\",\n      \"version_id\": \"string\"\n    },\n    {\n      \"pronunciation_dictionary_id\": \"string\",\n      \"version_id\": \"string\"\n    }\n  ],\n  \"seed\": \"<integer>\",\n  \"previous_text\": \"<string>\",\n  \"next_text\": \"<string>\",\n  \"language_code\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "24912531-50c3-4acf-a134-74207dfe2753",
+              "name": "Unprocessable entity - validation error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "text-to-speech",
+                    ":voice_id",
+                    "stream"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "output_format",
+                      "value": "mp3_44100_128"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "voice_id",
+                      "description": "(Required) The identifier of the voice to use for speech synthesis. Use the Voices API to list available voices."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"text\": \"<string>\",\n  \"model_id\": \"eleven_monolingual_v1\",\n  \"voice_settings\": {\n    \"stability\": 0.7209149159110114,\n    \"similarity_boost\": 0.6691998344247222,\n    \"style\": 0,\n    \"use_speaker_boost\": true\n  },\n  \"pronunciation_dictionary_locators\": [\n    {\n      \"pronunciation_dictionary_id\": \"string\",\n      \"version_id\": \"string\"\n    },\n    {\n      \"pronunciation_dictionary_id\": \"string\",\n      \"version_id\": \"string\"\n    }\n  ],\n  \"seed\": \"<integer>\",\n  \"previous_text\": \"<string>\",\n  \"next_text\": \"<string>\",\n  \"language_code\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "955ed526-fdfb-4da0-889d-e1c17a981d58",
+          "name": "Create speech with timing",
+          "request": {
+            "name": "Create speech with timing",
+            "description": {
+              "content": "Converts text into speech and returns both the audio and word-level timing information. Useful for applications that need to synchronize text display with audio playback.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "text-to-speech",
+                ":voice_id",
+                "with-timestamps"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "output_format",
+                  "value": "mp3_44100_128",
+                  "description": "The desired output audio format. Supported values include mp3_44100_128, mp3_44100_192, pcm_16000, pcm_22050, pcm_24000, pcm_44100, ulaw_8000."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "voice_id",
+                  "description": "(Required) The identifier of the voice to use for speech synthesis. Use the Voices API to list available voices."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"<string>\",\n  \"model_id\": \"eleven_monolingual_v1\",\n  \"voice_settings\": {\n    \"stability\": \"<number>\",\n    \"similarity_boost\": \"<number>\",\n    \"style\": 0,\n    \"use_speaker_boost\": true\n  },\n  \"pronunciation_dictionary_locators\": [\n    {\n      \"pronunciation_dictionary_id\": \"<string>\",\n      \"version_id\": \"<string>\"\n    },\n    {\n      \"pronunciation_dictionary_id\": \"<string>\",\n      \"version_id\": \"<string>\"\n    }\n  ],\n  \"seed\": \"<integer>\",\n  \"previous_text\": \"<string>\",\n  \"next_text\": \"<string>\",\n  \"language_code\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "6a22f73f-1904-48d5-becb-148116f5f754",
+              "name": "Audio with timestamp data",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "text-to-speech",
+                    ":voice_id",
+                    "with-timestamps"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "output_format",
+                      "value": "mp3_44100_128"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "voice_id",
+                      "description": "(Required) The identifier of the voice to use for speech synthesis. Use the Voices API to list available voices."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"text\": \"<string>\",\n  \"model_id\": \"eleven_monolingual_v1\",\n  \"voice_settings\": {\n    \"stability\": 0.7209149159110114,\n    \"similarity_boost\": 0.6691998344247222,\n    \"style\": 0,\n    \"use_speaker_boost\": true\n  },\n  \"pronunciation_dictionary_locators\": [\n    {\n      \"pronunciation_dictionary_id\": \"string\",\n      \"version_id\": \"string\"\n    },\n    {\n      \"pronunciation_dictionary_id\": \"string\",\n      \"version_id\": \"string\"\n    }\n  ],\n  \"seed\": \"<integer>\",\n  \"previous_text\": \"<string>\",\n  \"next_text\": \"<string>\",\n  \"language_code\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"audio_base64\": \"string\",\n  \"alignment\": {\n    \"characters\": [\n      {\n        \"character\": \"string\",\n        \"start_time\": 9452.993923751752,\n        \"end_time\": 9582.53319143032\n      },\n      {\n        \"character\": \"string\",\n        \"start_time\": 1918.308256355964,\n        \"end_time\": 4012.033786107474\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "090cf3c1-8163-4ac6-952a-ff45aa7a0bf2",
+              "name": "Bad request - invalid parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "text-to-speech",
+                    ":voice_id",
+                    "with-timestamps"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "output_format",
+                      "value": "mp3_44100_128"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "voice_id",
+                      "description": "(Required) The identifier of the voice to use for speech synthesis. Use the Voices API to list available voices."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"text\": \"<string>\",\n  \"model_id\": \"eleven_monolingual_v1\",\n  \"voice_settings\": {\n    \"stability\": 0.7209149159110114,\n    \"similarity_boost\": 0.6691998344247222,\n    \"style\": 0,\n    \"use_speaker_boost\": true\n  },\n  \"pronunciation_dictionary_locators\": [\n    {\n      \"pronunciation_dictionary_id\": \"string\",\n      \"version_id\": \"string\"\n    },\n    {\n      \"pronunciation_dictionary_id\": \"string\",\n      \"version_id\": \"string\"\n    }\n  ],\n  \"seed\": \"<integer>\",\n  \"previous_text\": \"<string>\",\n  \"next_text\": \"<string>\",\n  \"language_code\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "499a9743-f50f-497d-b302-0c027dbd63bf",
+              "name": "Unauthorized - invalid or missing API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "text-to-speech",
+                    ":voice_id",
+                    "with-timestamps"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "output_format",
+                      "value": "mp3_44100_128"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "voice_id",
+                      "description": "(Required) The identifier of the voice to use for speech synthesis. Use the Voices API to list available voices."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"text\": \"<string>\",\n  \"model_id\": \"eleven_monolingual_v1\",\n  \"voice_settings\": {\n    \"stability\": 0.7209149159110114,\n    \"similarity_boost\": 0.6691998344247222,\n    \"style\": 0,\n    \"use_speaker_boost\": true\n  },\n  \"pronunciation_dictionary_locators\": [\n    {\n      \"pronunciation_dictionary_id\": \"string\",\n      \"version_id\": \"string\"\n    },\n    {\n      \"pronunciation_dictionary_id\": \"string\",\n      \"version_id\": \"string\"\n    }\n  ],\n  \"seed\": \"<integer>\",\n  \"previous_text\": \"<string>\",\n  \"next_text\": \"<string>\",\n  \"language_code\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "91d1dc40-9998-4f69-ae02-fa7fb8723497",
+              "name": "Unprocessable entity - validation error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "text-to-speech",
+                    ":voice_id",
+                    "with-timestamps"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "output_format",
+                      "value": "mp3_44100_128"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "voice_id",
+                      "description": "(Required) The identifier of the voice to use for speech synthesis. Use the Voices API to list available voices."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"text\": \"<string>\",\n  \"model_id\": \"eleven_monolingual_v1\",\n  \"voice_settings\": {\n    \"stability\": 0.7209149159110114,\n    \"similarity_boost\": 0.6691998344247222,\n    \"style\": 0,\n    \"use_speaker_boost\": true\n  },\n  \"pronunciation_dictionary_locators\": [\n    {\n      \"pronunciation_dictionary_id\": \"string\",\n      \"version_id\": \"string\"\n    },\n    {\n      \"pronunciation_dictionary_id\": \"string\",\n      \"version_id\": \"string\"\n    }\n  ],\n  \"seed\": \"<integer>\",\n  \"previous_text\": \"<string>\",\n  \"next_text\": \"<string>\",\n  \"language_code\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d033c995-5e41-4e77-b007-6d54627ea9cc",
+          "name": "Stream speech with timing",
+          "request": {
+            "name": "Stream speech with timing",
+            "description": {
+              "content": "Converts text into speech and streams the audio along with word-level timing information. Combines the benefits of streaming delivery with timestamp synchronization data.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "text-to-speech",
+                ":voice_id",
+                "stream",
+                "with-timestamps"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "output_format",
+                  "value": "mp3_44100_128",
+                  "description": "The desired output audio format. Supported values include mp3_44100_128, mp3_44100_192, pcm_16000, pcm_22050, pcm_24000, pcm_44100, ulaw_8000."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "voice_id",
+                  "description": "(Required) The identifier of the voice to use for speech synthesis. Use the Voices API to list available voices."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"<string>\",\n  \"model_id\": \"eleven_monolingual_v1\",\n  \"voice_settings\": {\n    \"stability\": \"<number>\",\n    \"similarity_boost\": \"<number>\",\n    \"style\": 0,\n    \"use_speaker_boost\": true\n  },\n  \"pronunciation_dictionary_locators\": [\n    {\n      \"pronunciation_dictionary_id\": \"<string>\",\n      \"version_id\": \"<string>\"\n    },\n    {\n      \"pronunciation_dictionary_id\": \"<string>\",\n      \"version_id\": \"<string>\"\n    }\n  ],\n  \"seed\": \"<integer>\",\n  \"previous_text\": \"<string>\",\n  \"next_text\": \"<string>\",\n  \"language_code\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8286448d-a1b7-415c-b1b6-2d3f741435d4",
+              "name": "Streaming audio with timestamp data",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "text-to-speech",
+                    ":voice_id",
+                    "stream",
+                    "with-timestamps"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "output_format",
+                      "value": "mp3_44100_128"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "voice_id",
+                      "description": "(Required) The identifier of the voice to use for speech synthesis. Use the Voices API to list available voices."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"text\": \"<string>\",\n  \"model_id\": \"eleven_monolingual_v1\",\n  \"voice_settings\": {\n    \"stability\": 0.7209149159110114,\n    \"similarity_boost\": 0.6691998344247222,\n    \"style\": 0,\n    \"use_speaker_boost\": true\n  },\n  \"pronunciation_dictionary_locators\": [\n    {\n      \"pronunciation_dictionary_id\": \"string\",\n      \"version_id\": \"string\"\n    },\n    {\n      \"pronunciation_dictionary_id\": \"string\",\n      \"version_id\": \"string\"\n    }\n  ],\n  \"seed\": \"<integer>\",\n  \"previous_text\": \"<string>\",\n  \"next_text\": \"<string>\",\n  \"language_code\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"audio_base64\": \"string\",\n  \"alignment\": {\n    \"characters\": [\n      {\n        \"character\": \"string\",\n        \"start_time\": 9452.993923751752,\n        \"end_time\": 9582.53319143032\n      },\n      {\n        \"character\": \"string\",\n        \"start_time\": 1918.308256355964,\n        \"end_time\": 4012.033786107474\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f2b4451d-6722-4d9a-bf5e-d6733c67551b",
+              "name": "Bad request - invalid parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "text-to-speech",
+                    ":voice_id",
+                    "stream",
+                    "with-timestamps"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "output_format",
+                      "value": "mp3_44100_128"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "voice_id",
+                      "description": "(Required) The identifier of the voice to use for speech synthesis. Use the Voices API to list available voices."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"text\": \"<string>\",\n  \"model_id\": \"eleven_monolingual_v1\",\n  \"voice_settings\": {\n    \"stability\": 0.7209149159110114,\n    \"similarity_boost\": 0.6691998344247222,\n    \"style\": 0,\n    \"use_speaker_boost\": true\n  },\n  \"pronunciation_dictionary_locators\": [\n    {\n      \"pronunciation_dictionary_id\": \"string\",\n      \"version_id\": \"string\"\n    },\n    {\n      \"pronunciation_dictionary_id\": \"string\",\n      \"version_id\": \"string\"\n    }\n  ],\n  \"seed\": \"<integer>\",\n  \"previous_text\": \"<string>\",\n  \"next_text\": \"<string>\",\n  \"language_code\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e4d1a549-ee7e-4c18-ab6e-32cf2dbb2804",
+              "name": "Unauthorized - invalid or missing API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "text-to-speech",
+                    ":voice_id",
+                    "stream",
+                    "with-timestamps"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "output_format",
+                      "value": "mp3_44100_128"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "voice_id",
+                      "description": "(Required) The identifier of the voice to use for speech synthesis. Use the Voices API to list available voices."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"text\": \"<string>\",\n  \"model_id\": \"eleven_monolingual_v1\",\n  \"voice_settings\": {\n    \"stability\": 0.7209149159110114,\n    \"similarity_boost\": 0.6691998344247222,\n    \"style\": 0,\n    \"use_speaker_boost\": true\n  },\n  \"pronunciation_dictionary_locators\": [\n    {\n      \"pronunciation_dictionary_id\": \"string\",\n      \"version_id\": \"string\"\n    },\n    {\n      \"pronunciation_dictionary_id\": \"string\",\n      \"version_id\": \"string\"\n    }\n  ],\n  \"seed\": \"<integer>\",\n  \"previous_text\": \"<string>\",\n  \"next_text\": \"<string>\",\n  \"language_code\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b1acd1de-847d-4728-849e-a360959f37bf",
+              "name": "Unprocessable entity - validation error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "text-to-speech",
+                    ":voice_id",
+                    "stream",
+                    "with-timestamps"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "output_format",
+                      "value": "mp3_44100_128"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "voice_id",
+                      "description": "(Required) The identifier of the voice to use for speech synthesis. Use the Voices API to list available voices."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"text\": \"<string>\",\n  \"model_id\": \"eleven_monolingual_v1\",\n  \"voice_settings\": {\n    \"stability\": 0.7209149159110114,\n    \"similarity_boost\": 0.6691998344247222,\n    \"style\": 0,\n    \"use_speaker_boost\": true\n  },\n  \"pronunciation_dictionary_locators\": [\n    {\n      \"pronunciation_dictionary_id\": \"string\",\n      \"version_id\": \"string\"\n    },\n    {\n      \"pronunciation_dictionary_id\": \"string\",\n      \"version_id\": \"string\"\n    }\n  ],\n  \"seed\": \"<integer>\",\n  \"previous_text\": \"<string>\",\n  \"next_text\": \"<string>\",\n  \"language_code\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.elevenlabs.io",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "xi-api-key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "63e4fb74-0eb8-40ae-86b1-e36bac2dd9c6",
+    "name": "ElevenLabs Text to Speech API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The ElevenLabs Text to Speech API converts text into lifelike spoken audio with nuanced intonation, pacing, and emotional awareness. It supports multiple output formats including MP3, PCM, and mu-law, and offers a range of models such as Eleven v3, Flash v2.5 for ultra-low latency real-time applications, and Multilingual v2 for support across 70+ languages. Developers can select from thousands of pre-built voices or use custom cloned voices to generate speech that sounds natural and expressive.\n\nContact Support:\n Name: ElevenLabs Support",
+      "type": "text/plain"
+    }
+  }
+}

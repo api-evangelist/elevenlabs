@@ -1,0 +1,208 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ElevenLabs Dubbing API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "xi-api-key",
+      "value": "{{xi-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Dubbing",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Dub a video or audio file",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elevenlabs.io/v1/dubbing",
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Creates a new dubbing project from an uploaded audio or video file or a source URL. The dubbing process transcribes, translates, and re-synthesizes the audio content in the target language while preserving the original speakers' voice characteristics."
+        },
+        {
+          "info": {
+            "name": "Get dubbing metadata",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elevenlabs.io/v1/dubbing/:dubbing_id",
+            "params": [
+              {
+                "name": "dubbing_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the dubbing project."
+              }
+            ]
+          },
+          "docs": "Returns metadata and status information about a dubbing project, including the current processing state and available languages."
+        },
+        {
+          "info": {
+            "name": "Delete dubbing",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.elevenlabs.io/v1/dubbing/:dubbing_id",
+            "params": [
+              {
+                "name": "dubbing_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the dubbing project."
+              }
+            ]
+          },
+          "docs": "Deletes a dubbing project and all associated resources. This action is irreversible."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Dubbing Resources",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get dubbed audio",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elevenlabs.io/v1/dubbing/:dubbing_id/audio/:language_code",
+            "params": [
+              {
+                "name": "dubbing_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the dubbing project."
+              },
+              {
+                "name": "language_code",
+                "value": "",
+                "type": "path",
+                "description": "The language code of the dubbed audio to retrieve."
+              }
+            ]
+          },
+          "docs": "Downloads the dubbed audio file for a specific language from a completed dubbing project."
+        },
+        {
+          "info": {
+            "name": "Get dubbed transcript",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elevenlabs.io/v1/dubbing/:dubbing_id/transcript/:language_code",
+            "params": [
+              {
+                "name": "dubbing_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the dubbing project."
+              },
+              {
+                "name": "language_code",
+                "value": "",
+                "type": "path",
+                "description": "The language code of the transcript to retrieve."
+              },
+              {
+                "name": "format_type",
+                "value": "",
+                "type": "query",
+                "description": "The format of the transcript output."
+              }
+            ]
+          },
+          "docs": "Returns the transcript for a specific language version of a dubbing project, including timing information for each segment."
+        },
+        {
+          "info": {
+            "name": "Get dubbing resource",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elevenlabs.io/v1/dubbing/:dubbing_id/resource",
+            "params": [
+              {
+                "name": "dubbing_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the dubbing project."
+              }
+            ]
+          },
+          "docs": "Returns detailed information about the dubbing resource including all segments, speakers, and language versions."
+        },
+        {
+          "info": {
+            "name": "Translate segment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elevenlabs.io/v1/dubbing/:dubbing_id/resource/translate-segment",
+            "params": [
+              {
+                "name": "dubbing_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the dubbing project."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Translates a specific segment of a dubbing project into a target language. Allows fine-grained control over individual segment translations."
+        },
+        {
+          "info": {
+            "name": "Dub segment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elevenlabs.io/v1/dubbing/:dubbing_id/resource/dub-segment",
+            "params": [
+              {
+                "name": "dubbing_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the dubbing project."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generates dubbed audio for a specific segment of a dubbing project. Creates the speech synthesis output for an individual translated segment."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

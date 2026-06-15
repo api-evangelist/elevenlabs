@@ -1,0 +1,371 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ElevenLabs Conversational AI API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "xi-api-key",
+      "value": "{{xi-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Agents",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List agents",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elevenlabs.io/v1/convai/agents",
+            "params": [
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of agents to return per page."
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor for retrieving the next page of results."
+              }
+            ]
+          },
+          "docs": "Returns a list of all conversational AI agents and their metadata for the authenticated account."
+        },
+        {
+          "info": {
+            "name": "Create agent",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elevenlabs.io/v1/convai/agents",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new conversational AI agent from a configuration object specifying the agent's behavior, voice, language model, and available tools."
+        },
+        {
+          "info": {
+            "name": "Get agent",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elevenlabs.io/v1/convai/agents/:agent_id",
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the conversational AI agent."
+              }
+            ]
+          },
+          "docs": "Retrieves the full configuration and metadata for a specific conversational AI agent."
+        },
+        {
+          "info": {
+            "name": "Update agent",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.elevenlabs.io/v1/convai/agents/:agent_id",
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the conversational AI agent."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the configuration of an existing conversational AI agent. Only the provided fields are updated; unspecified fields retain their current values."
+        },
+        {
+          "info": {
+            "name": "Delete agent",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.elevenlabs.io/v1/convai/agents/:agent_id",
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the conversational AI agent."
+              }
+            ]
+          },
+          "docs": "Deletes a conversational AI agent and all its associated configuration. This action is irreversible."
+        },
+        {
+          "info": {
+            "name": "Simulate conversation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elevenlabs.io/v1/convai/agents/:agent_id/simulate",
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the conversational AI agent."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Runs a simulated conversation between the agent and a simulated user for testing purposes. Returns the full conversation transcript and evaluation metrics."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Conversations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List conversations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elevenlabs.io/v1/convai/conversations",
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter conversations by agent identifier."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of conversations to return per page."
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor for the next page."
+              }
+            ]
+          },
+          "docs": "Returns a list of conversations for the authenticated account, optionally filtered by agent identifier."
+        },
+        {
+          "info": {
+            "name": "Get conversation",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elevenlabs.io/v1/convai/conversations/:conversation_id",
+            "params": [
+              {
+                "name": "conversation_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the conversation."
+              }
+            ]
+          },
+          "docs": "Retrieves the full details of a conversation including the transcript, metadata, and analysis."
+        },
+        {
+          "info": {
+            "name": "Delete conversation",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.elevenlabs.io/v1/convai/conversations/:conversation_id",
+            "params": [
+              {
+                "name": "conversation_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the conversation."
+              }
+            ]
+          },
+          "docs": "Deletes a conversation and its associated data."
+        },
+        {
+          "info": {
+            "name": "Get conversation audio",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elevenlabs.io/v1/convai/conversations/:conversation_id/audio",
+            "params": [
+              {
+                "name": "conversation_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the conversation."
+              }
+            ]
+          },
+          "docs": "Downloads the audio recording of a conversation session."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Knowledge Base",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List knowledge base documents",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elevenlabs.io/v1/convai/knowledge-base"
+          },
+          "docs": "Returns a list of knowledge base documents available for use by conversational AI agents."
+        },
+        {
+          "info": {
+            "name": "Add knowledge base document",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elevenlabs.io/v1/convai/knowledge-base",
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Uploads a document to the knowledge base for use by conversational AI agents. Supported formats include PDF, TXT, and web URLs."
+        },
+        {
+          "info": {
+            "name": "Delete knowledge base document",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.elevenlabs.io/v1/convai/knowledge-base/:document_id",
+            "params": [
+              {
+                "name": "document_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the document to delete."
+              }
+            ]
+          },
+          "docs": "Removes a document from the knowledge base."
+        },
+        {
+          "info": {
+            "name": "Get dependent agents",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elevenlabs.io/v1/convai/knowledge-base/:document_id/dependent-agents",
+            "params": [
+              {
+                "name": "document_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the knowledge base document."
+              }
+            ]
+          },
+          "docs": "Returns a list of agents that depend on a specific knowledge base document."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Tools",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List tools",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elevenlabs.io/v1/convai/tools"
+          },
+          "docs": "Returns a list of tools configured for use by conversational AI agents, including webhook and MCP server integrations."
+        },
+        {
+          "info": {
+            "name": "Create tool",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elevenlabs.io/v1/convai/tools",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new tool that agents can invoke during conversations. Tools can be webhook endpoints that connect to external services for real-time data retrieval or action execution."
+        },
+        {
+          "info": {
+            "name": "Delete tool",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.elevenlabs.io/v1/convai/tools/:tool_id",
+            "params": [
+              {
+                "name": "tool_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the tool to delete."
+              }
+            ]
+          },
+          "docs": "Deletes a tool configuration."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

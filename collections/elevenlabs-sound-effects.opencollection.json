@@ -1,0 +1,41 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ElevenLabs Sound Effects API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "xi-api-key",
+      "value": "{{xi-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Sound Effects",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create sound effect",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elevenlabs.io/v1/sound-generation",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generates a sound effect from a text description. The description should detail the desired sound in natural language. Returns the generated audio in the specified format."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

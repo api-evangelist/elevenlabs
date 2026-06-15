@@ -1,0 +1,72 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ElevenLabs Voice Cloning API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "xi-api-key",
+      "value": "{{xi-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Instant Voice Cloning",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create instant voice clone",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elevenlabs.io/v1/voices/add",
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Creates a new voice clone from uploaded audio samples using instant voice cloning. Requires a minimum of 60 seconds of clean audio. The cloned voice is immediately available for use with speech generation endpoints."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Professional Voice Cloning",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create professional voice clone",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elevenlabs.io/v1/voices/:voice_id/professional",
+            "params": [
+              {
+                "name": "voice_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the voice to apply professional cloning to."
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Initiates professional voice cloning from uploaded audio samples. Requires a minimum of 30 minutes of high-quality recordings. The cloning process takes longer than instant cloning but produces higher fidelity results."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

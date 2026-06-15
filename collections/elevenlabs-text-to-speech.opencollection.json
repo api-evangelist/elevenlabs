@@ -1,0 +1,196 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ElevenLabs Text to Speech API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "xi-api-key",
+      "value": "{{xi-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Text to Speech",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create speech",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elevenlabs.io/v1/text-to-speech/:voice_id",
+            "params": [
+              {
+                "name": "voice_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the voice to use for speech synthesis. Use the Voices API to list available voices."
+              },
+              {
+                "name": "output_format",
+                "value": "",
+                "type": "query",
+                "description": "The desired output audio format. Supported values include mp3_44100_128, mp3_44100_192, pcm_16000, pcm_22050, pcm_24000, pcm_44100, ulaw_8000."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Converts text into speech using a specified voice. Returns audio in the requested format. Supports voice settings overrides and pronunciation dictionary locators for fine-tuned output."
+        },
+        {
+          "info": {
+            "name": "Stream speech",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elevenlabs.io/v1/text-to-speech/:voice_id/stream",
+            "params": [
+              {
+                "name": "voice_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the voice to use for speech synthesis. Use the Voices API to list available voices."
+              },
+              {
+                "name": "output_format",
+                "value": "",
+                "type": "query",
+                "description": "The desired output audio format. Supported values include mp3_44100_128, mp3_44100_192, pcm_16000, pcm_22050, pcm_24000, pcm_44100, ulaw_8000."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Converts text into speech and streams the audio back as chunked transfer encoding. Useful for real-time playback scenarios where latency is important."
+        },
+        {
+          "info": {
+            "name": "Create speech with timing",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elevenlabs.io/v1/text-to-speech/:voice_id/with-timestamps",
+            "params": [
+              {
+                "name": "voice_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the voice to use for speech synthesis. Use the Voices API to list available voices."
+              },
+              {
+                "name": "output_format",
+                "value": "",
+                "type": "query",
+                "description": "The desired output audio format. Supported values include mp3_44100_128, mp3_44100_192, pcm_16000, pcm_22050, pcm_24000, pcm_44100, ulaw_8000."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Converts text into speech and returns both the audio and word-level timing information. Useful for applications that need to synchronize text display with audio playback."
+        },
+        {
+          "info": {
+            "name": "Stream speech with timing",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elevenlabs.io/v1/text-to-speech/:voice_id/stream/with-timestamps",
+            "params": [
+              {
+                "name": "voice_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the voice to use for speech synthesis. Use the Voices API to list available voices."
+              },
+              {
+                "name": "output_format",
+                "value": "",
+                "type": "query",
+                "description": "The desired output audio format. Supported values include mp3_44100_128, mp3_44100_192, pcm_16000, pcm_22050, pcm_24000, pcm_44100, ulaw_8000."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Converts text into speech and streams the audio along with word-level timing information. Combines the benefits of streaming delivery with timestamp synchronization data."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Text to Dialogue",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create dialogue",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elevenlabs.io/v1/text-to-dialogue",
+            "params": [
+              {
+                "name": "output_format",
+                "value": "",
+                "type": "query",
+                "description": "The desired output audio format. Supported values include mp3_44100_128, mp3_44100_192, pcm_16000, pcm_22050, pcm_24000, pcm_44100, ulaw_8000."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Converts a dialogue script with multiple speakers into audio. Each segment of the script can be assigned a different voice, enabling multi-speaker audio generation from a single request."
+        },
+        {
+          "info": {
+            "name": "Create dialogue with timestamps",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elevenlabs.io/v1/text-to-dialogue/with-timestamps",
+            "params": [
+              {
+                "name": "output_format",
+                "value": "",
+                "type": "query",
+                "description": "The desired output audio format. Supported values include mp3_44100_128, mp3_44100_192, pcm_16000, pcm_22050, pcm_24000, pcm_44100, ulaw_8000."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Converts a dialogue script with multiple speakers into audio and returns word-level timing information alongside the generated audio."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
