@@ -46,7 +46,7 @@ apis:
   - Speech Synthesis
   - Text to Speech
   - Voice
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   baseURL: https://api.elevenlabs.io
   humanURL: https://elevenlabs.io/docs/api-reference/text-to-speech/convert
   properties:
@@ -72,7 +72,7 @@ apis:
   - Audio
   - Speech to Text
   - Transcription
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   baseURL: https://api.elevenlabs.io
   humanURL: https://elevenlabs.io/docs/api-reference/speech-to-text/convert
   properties:
@@ -92,7 +92,7 @@ apis:
   - Audio
   - Voice
   - Voice Cloning
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   baseURL: https://api.elevenlabs.io
   humanURL: https://elevenlabs.io/docs/api-reference/voices/ivc/create
   properties:
@@ -113,7 +113,7 @@ apis:
   - Voice Library
   - Voice Management
   - Voices
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   baseURL: https://api.elevenlabs.io
   humanURL: https://elevenlabs.io/docs/api-reference/voices/get
   properties:
@@ -133,7 +133,7 @@ apis:
   - AI
   - Audio Generation
   - Sound Effects
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   baseURL: https://api.elevenlabs.io
   humanURL: https://elevenlabs.io/docs/api-reference/sound-generation/create
   properties:
@@ -152,7 +152,7 @@ apis:
   - Audio Isolation
   - Audio Processing
   - Noise Removal
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   baseURL: https://api.elevenlabs.io
   humanURL: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation
   properties:
@@ -174,7 +174,7 @@ apis:
   - Localization
   - Translation
   - Video
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   baseURL: https://api.elevenlabs.io
   humanURL: https://elevenlabs.io/docs/api-reference/dubbing/resources/dub-segment
   properties:
@@ -194,7 +194,7 @@ apis:
   - Audio Processing
   - Voice Changer
   - Voice Conversion
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   baseURL: https://api.elevenlabs.io
   humanURL: https://elevenlabs.io/docs/api-reference/speech-to-speech/convert
   properties:
@@ -214,7 +214,7 @@ apis:
   - AI
   - Audio Generation
   - Music
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   baseURL: https://api.elevenlabs.io
   humanURL: https://elevenlabs.io/docs/overview/capabilities/music
   properties:
@@ -235,7 +235,7 @@ apis:
   - Conversational AI
   - Real-Time
   - Voice Agents
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   baseURL: https://api.elevenlabs.io
   humanURL: https://elevenlabs.io/docs/overview/capabilities/conversational-ai
   properties:
@@ -259,7 +259,7 @@ apis:
   - Content Management
   - Projects
   - Studio
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   baseURL: https://api.elevenlabs.io
   humanURL: https://elevenlabs.io/docs/overview/capabilities/projects
   properties:
