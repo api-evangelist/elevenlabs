@@ -2,10 +2,18 @@ aid: elevenlabs
 url: https://raw.githubusercontent.com/api-evangelist/elevenlabs/refs/heads/main/apis.yml
 modified: '2026-05-19'
 common:
+- type: VulnerabilityDisclosure
+  url: security/elevenlabs-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/elevenlabs-domain-security.yml
+- type: Authentication
+  url: authentication/elevenlabs-authentication.yml
 - type: GitHubOrganization
   url: https://github.com/elevenlabs
 - type: LinkedIn
   url: https://www.linkedin.com/company/elevenlabsio
+- type: Blog
+  url: https://elevenlabs.io/blog
 - type: JSONLD
   url: json-ld/elevenlabs-context.jsonld
 - type: JSONSchema

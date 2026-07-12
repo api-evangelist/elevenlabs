@@ -1,0 +1,30 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/elevenlabs-audio-isolation-openapi.yml, openapi/elevenlabs-conversational-ai-openapi.yml,
+  openapi/elevenlabs-dubbing-openapi.yml, openapi/elevenlabs-music-openapi.yml, openapi/elevenlabs-sound-effects-openapi.yml,
+  openapi/elevenlabs-speech-to-text-openapi.yml, openapi/elevenlabs-studio-openapi.yml, openapi/elevenlabs-text-to-speech-openapi.yml,
+  openapi/elevenlabs-voice-changer-openapi.yml, openapi/elevenlabs-voice-cloning-openapi.yml,
+  openapi/elevenlabs-voices-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: apiKeyAuth
+  type: apiKey
+  in: header
+  parameter: xi-api-key
+  description: ElevenLabs API key passed in the xi-api-key header for authentication.
+  sources:
+  - openapi/elevenlabs-audio-isolation-openapi.yml
+  - openapi/elevenlabs-conversational-ai-openapi.yml
+  - openapi/elevenlabs-dubbing-openapi.yml
+  - openapi/elevenlabs-music-openapi.yml
+  - openapi/elevenlabs-sound-effects-openapi.yml
+  - openapi/elevenlabs-speech-to-text-openapi.yml
+  - openapi/elevenlabs-studio-openapi.yml
+  - openapi/elevenlabs-text-to-speech-openapi.yml
+  - openapi/elevenlabs-voice-changer-openapi.yml
+  - openapi/elevenlabs-voice-cloning-openapi.yml
+  - openapi/elevenlabs-voices-openapi.yml

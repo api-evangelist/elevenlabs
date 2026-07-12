@@ -1,0 +1,22 @@
+generated: '2026-07-11'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: elevenlabs.io
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Sep 12 16:51:47 2026 GMT
+  hsts: true
+  hsts_max_age: 1800
+- host: api.elevenlabs.io
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Sep 12 16:51:47 2026 GMT
+  hsts: null
+domains:
+- domain: elevenlabs.io
+  dnssec: true
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: quarantine
