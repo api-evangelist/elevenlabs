@@ -1,0 +1,18 @@
+{
+  "repo": "elevenlabs",
+  "feeds": [
+    {
+      "source": "https://elevenlabs.io/blog",
+      "feed_url": "https://elevenlabs.io/blog",
+      "title": "",
+      "saved": 0,
+      "method": "none"
+    },
+    {
+      "source": "https://www.linkedin.com/company/elevenlabsio",
+      "error": "HTTPError"
+    }
+  ],
+  "fetched": "2026-07-11T11:50:51Z",
+  "post_count": 5
+}
