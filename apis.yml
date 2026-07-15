@@ -2,6 +2,8 @@ aid: elevenlabs
 url: https://raw.githubusercontent.com/api-evangelist/elevenlabs/refs/heads/main/apis.yml
 modified: '2026-05-19'
 common:
+- type: AgenticAccess
+  url: agentic-access/elevenlabs-agentic-access.yml
 - type: VulnerabilityDisclosure
   url: security/elevenlabs-vulnerability-disclosure.yml
 - type: DomainSecurity
