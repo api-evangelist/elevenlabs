@@ -1,0 +1,86 @@
+openapi: 3.1.0
+info:
+  title: ElevenLabs Audio Isolation Agents Professional Voice Cloning API
+  description: The ElevenLabs Audio Isolation API removes background noise from audio recordings, isolating vocal tracks from ambient sounds and interference. This is useful for cleaning up recordings, improving audio quality for podcasts and interviews, and preparing audio files for further processing such as voice cloning or transcription.
+  version: '1.0'
+  contact:
+    name: ElevenLabs Support
+    url: https://help.elevenlabs.io
+  termsOfService: https://elevenlabs.io/terms-of-service
+servers:
+- url: https://api.elevenlabs.io
+  description: Production Server
+security:
+- apiKeyAuth: []
+tags:
+- name: Professional Voice Cloning
+  description: Endpoints for creating high-fidelity voice clones from longer audio recordings with professional-grade processing.
+paths:
+  /v1/voices/{voice_id}/professional:
+    post:
+      operationId: createProfessionalVoiceClone
+      summary: Create professional voice clone
+      description: Initiates professional voice cloning from uploaded audio samples. Requires a minimum of 30 minutes of high-quality recordings. The cloning process takes longer than instant cloning but produces higher fidelity results.
+      tags:
+      - Professional Voice Cloning
+      parameters:
+      - $ref: '#/components/parameters/voiceId'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProfessionalVoiceCloneRequest'
+      responses:
+        '200':
+          description: Professional voice clone initiated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VoiceCloneResponse'
+        '400':
+          description: Bad request - invalid audio or parameters
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '422':
+          description: Unprocessable entity - insufficient audio quality or duration
+components:
+  schemas:
+    ProfessionalVoiceCloneRequest:
+      type: object
+      required:
+      - files
+      properties:
+        files:
+          type: array
+          description: High-quality audio recordings for professional voice cloning. A minimum of 30 minutes of recordings is required.
+          items:
+            type: string
+            format: binary
+        consent:
+          type: string
+          format: binary
+          description: A signed consent form or audio consent from the voice owner authorizing the creation of the voice clone.
+    VoiceCloneResponse:
+      type: object
+      properties:
+        voice_id:
+          type: string
+          description: The unique identifier of the newly created voice clone.
+  parameters:
+    voiceId:
+      name: voice_id
+      in: path
+      required: true
+      description: The identifier of the voice to apply professional cloning to.
+      schema:
+        type: string
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: xi-api-key
+      description: ElevenLabs API key passed in the xi-api-key header for authentication.
+externalDocs:
+  description: ElevenLabs Audio Isolation API Documentation
+  url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation

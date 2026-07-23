@@ -1,0 +1,274 @@
+openapi: 3.1.0
+info:
+  title: ElevenLabs Audio Isolation Agents Projects API
+  description: The ElevenLabs Audio Isolation API removes background noise from audio recordings, isolating vocal tracks from ambient sounds and interference. This is useful for cleaning up recordings, improving audio quality for podcasts and interviews, and preparing audio files for further processing such as voice cloning or transcription.
+  version: '1.0'
+  contact:
+    name: ElevenLabs Support
+    url: https://help.elevenlabs.io
+  termsOfService: https://elevenlabs.io/terms-of-service
+servers:
+- url: https://api.elevenlabs.io
+  description: Production Server
+security:
+- apiKeyAuth: []
+tags:
+- name: Projects
+  description: Endpoints for managing Studio projects including creation, editing, and rendering of long-form audio content.
+paths:
+  /v1/studio/projects:
+    get:
+      operationId: listProjects
+      summary: List projects
+      description: Returns a list of all Studio projects for the authenticated account, including metadata and status.
+      tags:
+      - Projects
+      responses:
+        '200':
+          description: Projects listed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectListResponse'
+        '401':
+          description: Unauthorized - invalid or missing API key
+    post:
+      operationId: createProject
+      summary: Create project
+      description: Creates a new Studio project for long-form audio content. The project can include multiple chapters, voice assignments, and pronunciation dictionaries.
+      tags:
+      - Projects
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProjectRequest'
+      responses:
+        '200':
+          description: Project created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '400':
+          description: Bad request - invalid parameters
+        '401':
+          description: Unauthorized - invalid or missing API key
+  /v1/studio/projects/{project_id}:
+    get:
+      operationId: getProject
+      summary: Get project
+      description: Retrieves the full details of a Studio project including chapters, voice assignments, and rendering status.
+      tags:
+      - Projects
+      parameters:
+      - $ref: '#/components/parameters/projectId'
+      responses:
+        '200':
+          description: Project details retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Project not found
+    delete:
+      operationId: deleteProject
+      summary: Delete project
+      description: Deletes a Studio project and all associated content.
+      tags:
+      - Projects
+      parameters:
+      - $ref: '#/components/parameters/projectId'
+      responses:
+        '200':
+          description: Project deleted successfully
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Project not found
+  /v1/studio/projects/{project_id}/convert:
+    post:
+      operationId: renderProject
+      summary: Render project
+      description: Initiates rendering of a Studio project, generating the final audio output from all chapters and voice assignments.
+      tags:
+      - Projects
+      parameters:
+      - $ref: '#/components/parameters/projectId'
+      responses:
+        '200':
+          description: Project rendering initiated successfully
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Project not found
+  /v1/studio/projects/{project_id}/snapshots:
+    get:
+      operationId: listProjectSnapshots
+      summary: List project snapshots
+      description: Returns a list of rendered snapshots for a Studio project. Each snapshot represents a completed rendering of the project.
+      tags:
+      - Projects
+      parameters:
+      - $ref: '#/components/parameters/projectId'
+      responses:
+        '200':
+          description: Snapshots listed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SnapshotListResponse'
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Project not found
+components:
+  schemas:
+    CreateProjectRequest:
+      type: object
+      required:
+      - name
+      - default_voice_id
+      properties:
+        name:
+          type: string
+          description: Display name for the project.
+        default_voice_id:
+          type: string
+          description: The default voice identifier for the project.
+        default_model_id:
+          type: string
+          description: The default TTS model for the project.
+        from_url:
+          type: string
+          format: uri
+          description: A URL to import content from.
+        from_document:
+          type: string
+          format: binary
+          description: A document file to import content from.
+    ProjectSummary:
+      type: object
+      properties:
+        project_id:
+          type: string
+          description: Unique identifier for the project.
+        name:
+          type: string
+          description: Display name of the project.
+        state:
+          type: string
+          description: Current state of the project.
+          enum:
+          - default
+          - converting
+          - converted
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the project was created.
+    ProjectListResponse:
+      type: object
+      properties:
+        projects:
+          type: array
+          description: List of Studio projects.
+          items:
+            $ref: '#/components/schemas/ProjectSummary'
+    Snapshot:
+      type: object
+      properties:
+        snapshot_id:
+          type: string
+          description: Unique identifier for the snapshot.
+        project_id:
+          type: string
+          description: The project this snapshot belongs to.
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the snapshot was rendered.
+    Project:
+      type: object
+      properties:
+        project_id:
+          type: string
+          description: Unique identifier for the project.
+        name:
+          type: string
+          description: Display name of the project.
+        state:
+          type: string
+          description: Current state of the project.
+          enum:
+          - default
+          - converting
+          - converted
+        default_voice_id:
+          type: string
+          description: The default voice used for the project.
+        default_model_id:
+          type: string
+          description: The default TTS model used for the project.
+        chapters:
+          type: array
+          description: List of chapters in the project.
+          items:
+            $ref: '#/components/schemas/ChapterSummary'
+        pronunciation_dictionary_locators:
+          type: array
+          description: Pronunciation dictionaries associated with the project.
+          items:
+            type: object
+            properties:
+              pronunciation_dictionary_id:
+                type: string
+                description: The dictionary identifier.
+              version_id:
+                type: string
+                description: The dictionary version identifier.
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the project was created.
+    ChapterSummary:
+      type: object
+      properties:
+        chapter_id:
+          type: string
+          description: Unique identifier for the chapter.
+        name:
+          type: string
+          description: Display name of the chapter.
+        state:
+          type: string
+          description: Current rendering state of the chapter.
+    SnapshotListResponse:
+      type: object
+      properties:
+        snapshots:
+          type: array
+          description: List of rendered project snapshots.
+          items:
+            $ref: '#/components/schemas/Snapshot'
+  parameters:
+    projectId:
+      name: project_id
+      in: path
+      required: true
+      description: The unique identifier of the Studio project.
+      schema:
+        type: string
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: xi-api-key
+      description: ElevenLabs API key passed in the xi-api-key header for authentication.
+externalDocs:
+  description: ElevenLabs Audio Isolation API Documentation
+  url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation

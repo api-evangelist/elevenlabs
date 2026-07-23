@@ -1,0 +1,139 @@
+openapi: 3.1.0
+info:
+  title: ElevenLabs Audio Isolation Agents Chapters API
+  description: The ElevenLabs Audio Isolation API removes background noise from audio recordings, isolating vocal tracks from ambient sounds and interference. This is useful for cleaning up recordings, improving audio quality for podcasts and interviews, and preparing audio files for further processing such as voice cloning or transcription.
+  version: '1.0'
+  contact:
+    name: ElevenLabs Support
+    url: https://help.elevenlabs.io
+  termsOfService: https://elevenlabs.io/terms-of-service
+servers:
+- url: https://api.elevenlabs.io
+  description: Production Server
+security:
+- apiKeyAuth: []
+tags:
+- name: Chapters
+  description: Endpoints for managing chapters within Studio projects.
+paths:
+  /v1/studio/projects/{project_id}/chapters:
+    get:
+      operationId: listChapters
+      summary: List chapters
+      description: Returns a list of chapters in a Studio project.
+      tags:
+      - Chapters
+      parameters:
+      - $ref: '#/components/parameters/projectId'
+      responses:
+        '200':
+          description: Chapters listed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChapterListResponse'
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Project not found
+  /v1/studio/projects/{project_id}/chapters/{chapter_id}:
+    get:
+      operationId: getChapter
+      summary: Get chapter
+      description: Retrieves the full details of a specific chapter in a Studio project.
+      tags:
+      - Chapters
+      parameters:
+      - $ref: '#/components/parameters/projectId'
+      - $ref: '#/components/parameters/chapterId'
+      responses:
+        '200':
+          description: Chapter details retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Chapter'
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Chapter not found
+    delete:
+      operationId: deleteChapter
+      summary: Delete chapter
+      description: Deletes a chapter from a Studio project.
+      tags:
+      - Chapters
+      parameters:
+      - $ref: '#/components/parameters/projectId'
+      - $ref: '#/components/parameters/chapterId'
+      responses:
+        '200':
+          description: Chapter deleted successfully
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Chapter not found
+components:
+  schemas:
+    Chapter:
+      type: object
+      properties:
+        chapter_id:
+          type: string
+          description: Unique identifier for the chapter.
+        name:
+          type: string
+          description: Display name of the chapter.
+        content:
+          type: string
+          description: The text content of the chapter.
+        voice_id:
+          type: string
+          description: The voice assigned to this chapter.
+        state:
+          type: string
+          description: Current rendering state of the chapter.
+    ChapterSummary:
+      type: object
+      properties:
+        chapter_id:
+          type: string
+          description: Unique identifier for the chapter.
+        name:
+          type: string
+          description: Display name of the chapter.
+        state:
+          type: string
+          description: Current rendering state of the chapter.
+    ChapterListResponse:
+      type: object
+      properties:
+        chapters:
+          type: array
+          description: List of chapters.
+          items:
+            $ref: '#/components/schemas/ChapterSummary'
+  parameters:
+    chapterId:
+      name: chapter_id
+      in: path
+      required: true
+      description: The unique identifier of the chapter.
+      schema:
+        type: string
+    projectId:
+      name: project_id
+      in: path
+      required: true
+      description: The unique identifier of the Studio project.
+      schema:
+        type: string
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: xi-api-key
+      description: ElevenLabs API key passed in the xi-api-key header for authentication.
+externalDocs:
+  description: ElevenLabs Audio Isolation API Documentation
+  url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation

@@ -1,0 +1,237 @@
+openapi: 3.1.0
+info:
+  title: ElevenLabs Audio Isolation Agents Dubbing Resources API
+  description: The ElevenLabs Audio Isolation API removes background noise from audio recordings, isolating vocal tracks from ambient sounds and interference. This is useful for cleaning up recordings, improving audio quality for podcasts and interviews, and preparing audio files for further processing such as voice cloning or transcription.
+  version: '1.0'
+  contact:
+    name: ElevenLabs Support
+    url: https://help.elevenlabs.io
+  termsOfService: https://elevenlabs.io/terms-of-service
+servers:
+- url: https://api.elevenlabs.io
+  description: Production Server
+security:
+- apiKeyAuth: []
+tags:
+- name: Dubbing Resources
+  description: Endpoints for managing individual dubbing resources including segments, translations, and dubbed output files.
+paths:
+  /v1/dubbing/{dubbing_id}/audio/{language_code}:
+    get:
+      operationId: getDubbedAudio
+      summary: Get dubbed audio
+      description: Downloads the dubbed audio file for a specific language from a completed dubbing project.
+      tags:
+      - Dubbing Resources
+      parameters:
+      - $ref: '#/components/parameters/dubbingId'
+      - name: language_code
+        in: path
+        required: true
+        description: The language code of the dubbed audio to retrieve.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Dubbed audio file
+          content:
+            audio/mpeg:
+              schema:
+                type: string
+                format: binary
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Dubbed audio not found for the specified language
+  /v1/dubbing/{dubbing_id}/transcript/{language_code}:
+    get:
+      operationId: getDubbedTranscript
+      summary: Get dubbed transcript
+      description: Returns the transcript for a specific language version of a dubbing project, including timing information for each segment.
+      tags:
+      - Dubbing Resources
+      parameters:
+      - $ref: '#/components/parameters/dubbingId'
+      - name: language_code
+        in: path
+        required: true
+        description: The language code of the transcript to retrieve.
+        schema:
+          type: string
+      - name: format_type
+        in: query
+        required: false
+        description: The format of the transcript output.
+        schema:
+          type: string
+          enum:
+          - srt
+          - webvtt
+      responses:
+        '200':
+          description: Transcript retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DubbingTranscript'
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Transcript not found
+  /v1/dubbing/{dubbing_id}/resource:
+    get:
+      operationId: getDubbingResource
+      summary: Get dubbing resource
+      description: Returns detailed information about the dubbing resource including all segments, speakers, and language versions.
+      tags:
+      - Dubbing Resources
+      parameters:
+      - $ref: '#/components/parameters/dubbingId'
+      responses:
+        '200':
+          description: Dubbing resource retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DubbingResource'
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Dubbing resource not found
+  /v1/dubbing/{dubbing_id}/resource/translate-segment:
+    post:
+      operationId: translateSegment
+      summary: Translate segment
+      description: Translates a specific segment of a dubbing project into a target language. Allows fine-grained control over individual segment translations.
+      tags:
+      - Dubbing Resources
+      parameters:
+      - $ref: '#/components/parameters/dubbingId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TranslateSegmentRequest'
+      responses:
+        '200':
+          description: Segment translated successfully
+        '400':
+          description: Bad request - invalid parameters
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Dubbing project or segment not found
+  /v1/dubbing/{dubbing_id}/resource/dub-segment:
+    post:
+      operationId: dubSegment
+      summary: Dub segment
+      description: Generates dubbed audio for a specific segment of a dubbing project. Creates the speech synthesis output for an individual translated segment.
+      tags:
+      - Dubbing Resources
+      parameters:
+      - $ref: '#/components/parameters/dubbingId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DubSegmentRequest'
+      responses:
+        '200':
+          description: Segment dubbed successfully
+        '400':
+          description: Bad request - invalid parameters
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Dubbing project or segment not found
+components:
+  schemas:
+    TranscriptSegment:
+      type: object
+      properties:
+        start:
+          type: number
+          description: Start time of the segment in seconds.
+        end:
+          type: number
+          description: End time of the segment in seconds.
+        text:
+          type: string
+          description: The transcribed or translated text for this segment.
+        speaker:
+          type: string
+          description: The speaker identifier for this segment.
+    DubbingTranscript:
+      type: object
+      properties:
+        segments:
+          type: array
+          description: Transcript segments with timing information.
+          items:
+            $ref: '#/components/schemas/TranscriptSegment'
+    TranslateSegmentRequest:
+      type: object
+      required:
+      - segment_id
+      - target_lang
+      properties:
+        segment_id:
+          type: string
+          description: The identifier of the segment to translate.
+        target_lang:
+          type: string
+          description: The target language code for the translation.
+    DubbingResource:
+      type: object
+      properties:
+        dubbing_id:
+          type: string
+          description: The unique identifier of the dubbing project.
+        segments:
+          type: array
+          description: All segments in the dubbing project.
+          items:
+            $ref: '#/components/schemas/TranscriptSegment'
+        speakers:
+          type: array
+          description: List of detected speakers in the source audio.
+          items:
+            type: object
+            properties:
+              speaker_id:
+                type: string
+                description: Unique identifier for the detected speaker.
+              name:
+                type: string
+                description: Assigned name for the speaker.
+    DubSegmentRequest:
+      type: object
+      required:
+      - segment_id
+      - language_code
+      properties:
+        segment_id:
+          type: string
+          description: The identifier of the segment to dub.
+        language_code:
+          type: string
+          description: The language code for the dubbed output.
+  parameters:
+    dubbingId:
+      name: dubbing_id
+      in: path
+      required: true
+      description: The unique identifier of the dubbing project.
+      schema:
+        type: string
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: xi-api-key
+      description: ElevenLabs API key passed in the xi-api-key header for authentication.
+externalDocs:
+  description: ElevenLabs Audio Isolation API Documentation
+  url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation

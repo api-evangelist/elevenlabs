@@ -1,0 +1,183 @@
+openapi: 3.1.0
+info:
+  title: ElevenLabs Audio Isolation Agents Text to Dialogue API
+  description: The ElevenLabs Audio Isolation API removes background noise from audio recordings, isolating vocal tracks from ambient sounds and interference. This is useful for cleaning up recordings, improving audio quality for podcasts and interviews, and preparing audio files for further processing such as voice cloning or transcription.
+  version: '1.0'
+  contact:
+    name: ElevenLabs Support
+    url: https://help.elevenlabs.io
+  termsOfService: https://elevenlabs.io/terms-of-service
+servers:
+- url: https://api.elevenlabs.io
+  description: Production Server
+security:
+- apiKeyAuth: []
+tags:
+- name: Text to Dialogue
+  description: Endpoints for converting text scripts with multiple speakers into dialogue audio.
+paths:
+  /v1/text-to-dialogue:
+    post:
+      operationId: createDialogue
+      summary: Create dialogue
+      description: Converts a dialogue script with multiple speakers into audio. Each segment of the script can be assigned a different voice, enabling multi-speaker audio generation from a single request.
+      tags:
+      - Text to Dialogue
+      parameters:
+      - $ref: '#/components/parameters/outputFormat'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TextToDialogueRequest'
+      responses:
+        '200':
+          description: Dialogue audio generated successfully
+          content:
+            audio/mpeg:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Bad request - invalid parameters
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '422':
+          description: Unprocessable entity - validation error
+  /v1/text-to-dialogue/with-timestamps:
+    post:
+      operationId: createDialogueWithTimestamps
+      summary: Create dialogue with timestamps
+      description: Converts a dialogue script with multiple speakers into audio and returns word-level timing information alongside the generated audio.
+      tags:
+      - Text to Dialogue
+      parameters:
+      - $ref: '#/components/parameters/outputFormat'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TextToDialogueRequest'
+      responses:
+        '200':
+          description: Dialogue audio with timestamp data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimestampedAudioResponse'
+        '400':
+          description: Bad request - invalid parameters
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '422':
+          description: Unprocessable entity - validation error
+components:
+  schemas:
+    TextToDialogueRequest:
+      type: object
+      required:
+      - segments
+      properties:
+        model_id:
+          type: string
+          description: The identifier of the model to use for dialogue generation.
+        segments:
+          type: array
+          description: An array of dialogue segments, each with a speaker voice and text.
+          items:
+            $ref: '#/components/schemas/DialogueSegment'
+    VoiceSettings:
+      type: object
+      description: Voice settings that override the stored settings for the given voice. Applied only on the current request.
+      properties:
+        stability:
+          type: number
+          description: Controls the stability of the generated voice. Higher values produce more consistent output, lower values add variability.
+          minimum: 0
+          maximum: 1
+        similarity_boost:
+          type: number
+          description: Controls how closely the AI adheres to the original voice. Higher values increase similarity to the target voice.
+          minimum: 0
+          maximum: 1
+        style:
+          type: number
+          description: Controls the expressiveness and style of the speech delivery. Higher values produce more expressive speech.
+          minimum: 0
+          maximum: 1
+          default: 0
+        use_speaker_boost:
+          type: boolean
+          description: Enables speaker boost to increase voice clarity and reduce background artifacts.
+          default: true
+    TimestampedAudioResponse:
+      type: object
+      properties:
+        audio_base64:
+          type: string
+          description: Base64 encoded audio data.
+        alignment:
+          type: object
+          description: Word-level timing information for the generated audio.
+          properties:
+            characters:
+              type: array
+              description: Array of characters with their timing information.
+              items:
+                type: object
+                properties:
+                  character:
+                    type: string
+                    description: The character.
+                  start_time:
+                    type: number
+                    description: Start time in seconds.
+                  end_time:
+                    type: number
+                    description: End time in seconds.
+    DialogueSegment:
+      type: object
+      required:
+      - voice_id
+      - text
+      properties:
+        voice_id:
+          type: string
+          description: The voice identifier for this segment of dialogue.
+        text:
+          type: string
+          description: The text content for this segment of dialogue.
+        voice_settings:
+          $ref: '#/components/schemas/VoiceSettings'
+  parameters:
+    outputFormat:
+      name: output_format
+      in: query
+      required: false
+      description: The desired output audio format. Supported values include mp3_44100_128, mp3_44100_192, pcm_16000, pcm_22050, pcm_24000, pcm_44100, ulaw_8000.
+      schema:
+        type: string
+        default: mp3_44100_128
+        enum:
+        - mp3_22050_32
+        - mp3_44100_32
+        - mp3_44100_64
+        - mp3_44100_96
+        - mp3_44100_128
+        - mp3_44100_192
+        - pcm_16000
+        - pcm_22050
+        - pcm_24000
+        - pcm_44100
+        - ulaw_8000
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: xi-api-key
+      description: ElevenLabs API key passed in the xi-api-key header for authentication.
+externalDocs:
+  description: ElevenLabs Audio Isolation API Documentation
+  url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation

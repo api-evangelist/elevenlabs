@@ -1,0 +1,212 @@
+openapi: 3.1.0
+info:
+  title: ElevenLabs Audio Isolation Agents Conversations API
+  description: The ElevenLabs Audio Isolation API removes background noise from audio recordings, isolating vocal tracks from ambient sounds and interference. This is useful for cleaning up recordings, improving audio quality for podcasts and interviews, and preparing audio files for further processing such as voice cloning or transcription.
+  version: '1.0'
+  contact:
+    name: ElevenLabs Support
+    url: https://help.elevenlabs.io
+  termsOfService: https://elevenlabs.io/terms-of-service
+servers:
+- url: https://api.elevenlabs.io
+  description: Production Server
+security:
+- apiKeyAuth: []
+tags:
+- name: Conversations
+  description: Endpoints for retrieving and managing conversation sessions and their associated data.
+paths:
+  /v1/convai/conversations:
+    get:
+      operationId: listConversations
+      summary: List conversations
+      description: Returns a list of conversations for the authenticated account, optionally filtered by agent identifier.
+      tags:
+      - Conversations
+      parameters:
+      - name: agent_id
+        in: query
+        required: false
+        description: Filter conversations by agent identifier.
+        schema:
+          type: string
+      - name: page_size
+        in: query
+        required: false
+        description: Number of conversations to return per page.
+        schema:
+          type: integer
+          default: 30
+      - name: cursor
+        in: query
+        required: false
+        description: Pagination cursor for the next page.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List of conversations retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConversationListResponse'
+        '401':
+          description: Unauthorized - invalid or missing API key
+  /v1/convai/conversations/{conversation_id}:
+    get:
+      operationId: getConversation
+      summary: Get conversation
+      description: Retrieves the full details of a conversation including the transcript, metadata, and analysis.
+      tags:
+      - Conversations
+      parameters:
+      - $ref: '#/components/parameters/conversationId'
+      responses:
+        '200':
+          description: Conversation details retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conversation'
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Conversation not found
+    delete:
+      operationId: deleteConversation
+      summary: Delete conversation
+      description: Deletes a conversation and its associated data.
+      tags:
+      - Conversations
+      parameters:
+      - $ref: '#/components/parameters/conversationId'
+      responses:
+        '200':
+          description: Conversation deleted successfully
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Conversation not found
+  /v1/convai/conversations/{conversation_id}/audio:
+    get:
+      operationId: getConversationAudio
+      summary: Get conversation audio
+      description: Downloads the audio recording of a conversation session.
+      tags:
+      - Conversations
+      parameters:
+      - $ref: '#/components/parameters/conversationId'
+      responses:
+        '200':
+          description: Conversation audio file
+          content:
+            audio/mpeg:
+              schema:
+                type: string
+                format: binary
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Conversation audio not found
+components:
+  schemas:
+    ConversationSummary:
+      type: object
+      properties:
+        conversation_id:
+          type: string
+          description: Unique identifier for the conversation.
+        agent_id:
+          type: string
+          description: The agent involved in the conversation.
+        status:
+          type: string
+          description: Current status of the conversation.
+          enum:
+          - active
+          - completed
+          - failed
+        started_at:
+          type: string
+          format: date-time
+          description: Timestamp when the conversation started.
+        duration_seconds:
+          type: number
+          description: Duration of the conversation in seconds.
+    Conversation:
+      type: object
+      properties:
+        conversation_id:
+          type: string
+          description: Unique identifier for the conversation.
+        agent_id:
+          type: string
+          description: The agent involved in the conversation.
+        status:
+          type: string
+          description: Current status of the conversation.
+        transcript:
+          type: array
+          description: Full conversation transcript.
+          items:
+            type: object
+            properties:
+              role:
+                type: string
+                enum:
+                - agent
+                - user
+              message:
+                type: string
+              timestamp:
+                type: number
+                description: Timestamp in seconds from the start of the conversation.
+        analysis:
+          type: object
+          description: Post-conversation analysis and metrics.
+          properties:
+            summary:
+              type: string
+              description: AI-generated summary of the conversation.
+            sentiment:
+              type: string
+              description: Overall sentiment of the conversation.
+            successful:
+              type: boolean
+              description: Whether the conversation achieved its intended goal.
+        metadata:
+          type: object
+          description: Additional metadata about the conversation.
+          additionalProperties:
+            type: string
+    ConversationListResponse:
+      type: object
+      properties:
+        conversations:
+          type: array
+          description: List of conversations.
+          items:
+            $ref: '#/components/schemas/ConversationSummary'
+        has_more:
+          type: boolean
+          description: Whether there are more conversations available.
+        next_cursor:
+          type: string
+          description: Cursor for pagination.
+  parameters:
+    conversationId:
+      name: conversation_id
+      in: path
+      required: true
+      description: The unique identifier of the conversation.
+      schema:
+        type: string
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: xi-api-key
+      description: ElevenLabs API key passed in the xi-api-key header for authentication.
+externalDocs:
+  description: ElevenLabs Audio Isolation API Documentation
+  url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation

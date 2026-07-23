@@ -1,0 +1,215 @@
+openapi: 3.1.0
+info:
+  title: ElevenLabs Audio Isolation Agents Voice Library API
+  description: The ElevenLabs Audio Isolation API removes background noise from audio recordings, isolating vocal tracks from ambient sounds and interference. This is useful for cleaning up recordings, improving audio quality for podcasts and interviews, and preparing audio files for further processing such as voice cloning or transcription.
+  version: '1.0'
+  contact:
+    name: ElevenLabs Support
+    url: https://help.elevenlabs.io
+  termsOfService: https://elevenlabs.io/terms-of-service
+servers:
+- url: https://api.elevenlabs.io
+  description: Production Server
+security:
+- apiKeyAuth: []
+tags:
+- name: Voice Library
+  description: Endpoints for browsing and adding shared voices from the public voice library.
+paths:
+  /v1/voice-library:
+    get:
+      operationId: listSharedVoices
+      summary: List shared voices
+      description: Returns a paginated list of voices from the public voice library that can be added to the user's voice collection.
+      tags:
+      - Voice Library
+      parameters:
+      - name: page_size
+        in: query
+        required: false
+        description: Number of voices to return per page.
+        schema:
+          type: integer
+          default: 30
+      - name: gender
+        in: query
+        required: false
+        description: Filter voices by gender.
+        schema:
+          type: string
+          enum:
+          - male
+          - female
+          - neutral
+      - name: language
+        in: query
+        required: false
+        description: Filter voices by language.
+        schema:
+          type: string
+      - name: search
+        in: query
+        required: false
+        description: Search term to filter voices by name or description.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Shared voices retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedVoiceListResponse'
+        '401':
+          description: Unauthorized - invalid or missing API key
+  /v1/voice-library/{public_user_id}/{voice_id}/add:
+    post:
+      operationId: addSharedVoice
+      summary: Add shared voice
+      description: Adds a voice from the public library to the user's personal voice collection. The voice can then be used with speech generation endpoints.
+      tags:
+      - Voice Library
+      parameters:
+      - name: public_user_id
+        in: path
+        required: true
+        description: The public user ID of the voice owner.
+        schema:
+          type: string
+      - $ref: '#/components/parameters/voiceId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - new_name
+              properties:
+                new_name:
+                  type: string
+                  description: The name to give the voice in the user's collection.
+      responses:
+        '200':
+          description: Voice added to collection successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddVoiceResponse'
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Voice not found in public library
+components:
+  schemas:
+    AddVoiceResponse:
+      type: object
+      properties:
+        voice_id:
+          type: string
+          description: The identifier of the newly created or added voice.
+    Voice:
+      type: object
+      properties:
+        voice_id:
+          type: string
+          description: Unique identifier for the voice.
+        name:
+          type: string
+          description: Display name of the voice.
+        category:
+          type: string
+          description: Category of the voice such as premade, cloned, or designed.
+          enum:
+          - premade
+          - cloned
+          - designed
+          - professional
+        labels:
+          type: object
+          description: Key-value labels describing voice characteristics such as accent, age, gender, and use case.
+          additionalProperties:
+            type: string
+        description:
+          type: string
+          description: Human-readable description of the voice.
+        preview_url:
+          type: string
+          format: uri
+          description: URL to a preview audio sample of the voice.
+        settings:
+          $ref: '#/components/schemas/VoiceSettings'
+        samples:
+          type: array
+          description: Audio samples associated with the voice.
+          items:
+            $ref: '#/components/schemas/VoiceSample'
+    SharedVoiceListResponse:
+      type: object
+      properties:
+        voices:
+          type: array
+          description: List of shared voices from the public library.
+          items:
+            $ref: '#/components/schemas/Voice'
+        has_more:
+          type: boolean
+          description: Whether there are more voices available in subsequent pages.
+        last_sort_id:
+          type: string
+          description: Cursor for pagination to retrieve the next page of results.
+    VoiceSample:
+      type: object
+      properties:
+        sample_id:
+          type: string
+          description: Unique identifier for the audio sample.
+        file_name:
+          type: string
+          description: Original file name of the uploaded sample.
+        mime_type:
+          type: string
+          description: MIME type of the audio sample.
+        size_bytes:
+          type: integer
+          description: Size of the audio sample in bytes.
+    VoiceSettings:
+      type: object
+      properties:
+        stability:
+          type: number
+          description: Controls the stability of the generated voice output.
+          minimum: 0
+          maximum: 1
+        similarity_boost:
+          type: number
+          description: Controls how closely the AI adheres to the original voice.
+          minimum: 0
+          maximum: 1
+        style:
+          type: number
+          description: Controls the expressiveness and style of the speech delivery.
+          minimum: 0
+          maximum: 1
+          default: 0
+        use_speaker_boost:
+          type: boolean
+          description: Enables speaker boost to increase voice clarity.
+          default: true
+  parameters:
+    voiceId:
+      name: voice_id
+      in: path
+      required: true
+      description: The identifier of the voice.
+      schema:
+        type: string
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: xi-api-key
+      description: ElevenLabs API key passed in the xi-api-key header for authentication.
+externalDocs:
+  description: ElevenLabs Audio Isolation API Documentation
+  url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation

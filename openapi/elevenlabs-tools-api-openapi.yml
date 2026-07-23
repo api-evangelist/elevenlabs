@@ -1,0 +1,153 @@
+openapi: 3.1.0
+info:
+  title: ElevenLabs Audio Isolation Agents Tools API
+  description: The ElevenLabs Audio Isolation API removes background noise from audio recordings, isolating vocal tracks from ambient sounds and interference. This is useful for cleaning up recordings, improving audio quality for podcasts and interviews, and preparing audio files for further processing such as voice cloning or transcription.
+  version: '1.0'
+  contact:
+    name: ElevenLabs Support
+    url: https://help.elevenlabs.io
+  termsOfService: https://elevenlabs.io/terms-of-service
+servers:
+- url: https://api.elevenlabs.io
+  description: Production Server
+security:
+- apiKeyAuth: []
+tags:
+- name: Tools
+  description: Endpoints for managing external tools and webhook integrations that agents can invoke during conversations.
+paths:
+  /v1/convai/tools:
+    get:
+      operationId: listTools
+      summary: List tools
+      description: Returns a list of tools configured for use by conversational AI agents, including webhook and MCP server integrations.
+      tags:
+      - Tools
+      responses:
+        '200':
+          description: Tools listed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ToolListResponse'
+        '401':
+          description: Unauthorized - invalid or missing API key
+    post:
+      operationId: createTool
+      summary: Create tool
+      description: Creates a new tool that agents can invoke during conversations. Tools can be webhook endpoints that connect to external services for real-time data retrieval or action execution.
+      tags:
+      - Tools
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateToolRequest'
+      responses:
+        '200':
+          description: Tool created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tool'
+        '400':
+          description: Bad request - invalid configuration
+        '401':
+          description: Unauthorized - invalid or missing API key
+  /v1/convai/tools/{tool_id}:
+    delete:
+      operationId: deleteTool
+      summary: Delete tool
+      description: Deletes a tool configuration.
+      tags:
+      - Tools
+      parameters:
+      - name: tool_id
+        in: path
+        required: true
+        description: The identifier of the tool to delete.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Tool deleted successfully
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Tool not found
+components:
+  schemas:
+    Tool:
+      type: object
+      properties:
+        tool_id:
+          type: string
+          description: Unique identifier for the tool.
+        name:
+          type: string
+          description: Display name of the tool.
+        type:
+          type: string
+          description: The type of tool integration.
+          enum:
+          - webhook
+          - mcp
+          - client
+        description:
+          type: string
+          description: Description of what the tool does.
+        webhook_url:
+          type: string
+          format: uri
+          description: The webhook URL for webhook-type tools.
+        parameters:
+          type: object
+          description: JSON Schema defining the parameters the tool accepts.
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the tool was created.
+    CreateToolRequest:
+      type: object
+      required:
+      - name
+      - type
+      properties:
+        name:
+          type: string
+          description: Display name for the tool.
+        type:
+          type: string
+          description: The type of tool to create.
+          enum:
+          - webhook
+          - mcp
+          - client
+        description:
+          type: string
+          description: Description of what the tool does.
+        webhook_url:
+          type: string
+          format: uri
+          description: The webhook endpoint URL for webhook-type tools.
+        parameters:
+          type: object
+          description: JSON Schema defining the parameters the tool accepts.
+    ToolListResponse:
+      type: object
+      properties:
+        tools:
+          type: array
+          description: List of configured tools.
+          items:
+            $ref: '#/components/schemas/Tool'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: xi-api-key
+      description: ElevenLabs API key passed in the xi-api-key header for authentication.
+externalDocs:
+  description: ElevenLabs Audio Isolation API Documentation
+  url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation

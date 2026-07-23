@@ -1,0 +1,351 @@
+openapi: 3.1.0
+info:
+  title: ElevenLabs Audio Isolation Agents API
+  description: The ElevenLabs Audio Isolation API removes background noise from audio recordings, isolating vocal tracks from ambient sounds and interference. This is useful for cleaning up recordings, improving audio quality for podcasts and interviews, and preparing audio files for further processing such as voice cloning or transcription.
+  version: '1.0'
+  contact:
+    name: ElevenLabs Support
+    url: https://help.elevenlabs.io
+  termsOfService: https://elevenlabs.io/terms-of-service
+servers:
+- url: https://api.elevenlabs.io
+  description: Production Server
+security:
+- apiKeyAuth: []
+tags:
+- name: Agents
+  description: Endpoints for creating, managing, and configuring conversational AI agents with voice capabilities.
+paths:
+  /v1/convai/agents:
+    get:
+      operationId: listAgents
+      summary: List agents
+      description: Returns a list of all conversational AI agents and their metadata for the authenticated account.
+      tags:
+      - Agents
+      parameters:
+      - name: page_size
+        in: query
+        required: false
+        description: Number of agents to return per page.
+        schema:
+          type: integer
+          default: 30
+      - name: cursor
+        in: query
+        required: false
+        description: Pagination cursor for retrieving the next page of results.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List of agents retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentListResponse'
+        '401':
+          description: Unauthorized - invalid or missing API key
+    post:
+      operationId: createAgent
+      summary: Create agent
+      description: Creates a new conversational AI agent from a configuration object specifying the agent's behavior, voice, language model, and available tools.
+      tags:
+      - Agents
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAgentRequest'
+      responses:
+        '200':
+          description: Agent created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentResponse'
+        '400':
+          description: Bad request - invalid configuration
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '422':
+          description: Unprocessable entity - validation error
+  /v1/convai/agents/{agent_id}:
+    get:
+      operationId: getAgent
+      summary: Get agent
+      description: Retrieves the full configuration and metadata for a specific conversational AI agent.
+      tags:
+      - Agents
+      parameters:
+      - $ref: '#/components/parameters/agentId'
+      responses:
+        '200':
+          description: Agent configuration retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Agent not found
+    patch:
+      operationId: updateAgent
+      summary: Update agent
+      description: Updates the configuration of an existing conversational AI agent. Only the provided fields are updated; unspecified fields retain their current values.
+      tags:
+      - Agents
+      parameters:
+      - $ref: '#/components/parameters/agentId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAgentRequest'
+      responses:
+        '200':
+          description: Agent updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentResponse'
+        '400':
+          description: Bad request - invalid configuration
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Agent not found
+    delete:
+      operationId: deleteAgent
+      summary: Delete agent
+      description: Deletes a conversational AI agent and all its associated configuration. This action is irreversible.
+      tags:
+      - Agents
+      parameters:
+      - $ref: '#/components/parameters/agentId'
+      responses:
+        '200':
+          description: Agent deleted successfully
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Agent not found
+  /v1/convai/agents/{agent_id}/simulate:
+    post:
+      operationId: simulateConversation
+      summary: Simulate conversation
+      description: Runs a simulated conversation between the agent and a simulated user for testing purposes. Returns the full conversation transcript and evaluation metrics.
+      tags:
+      - Agents
+      parameters:
+      - $ref: '#/components/parameters/agentId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SimulateConversationRequest'
+      responses:
+        '200':
+          description: Simulation completed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimulationResult'
+        '400':
+          description: Bad request - invalid parameters
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Agent not found
+components:
+  schemas:
+    AgentResponse:
+      type: object
+      properties:
+        agent_id:
+          type: string
+          description: The identifier of the agent.
+    AgentListResponse:
+      type: object
+      properties:
+        agents:
+          type: array
+          description: List of agents.
+          items:
+            $ref: '#/components/schemas/AgentSummary'
+        has_more:
+          type: boolean
+          description: Whether there are more agents available.
+        next_cursor:
+          type: string
+          description: Cursor for retrieving the next page.
+    UpdateAgentRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Updated display name for the agent.
+        conversation_config:
+          $ref: '#/components/schemas/ConversationConfig'
+        metadata:
+          type: object
+          description: Updated metadata for the agent.
+          additionalProperties:
+            type: string
+    AgentSummary:
+      type: object
+      properties:
+        agent_id:
+          type: string
+          description: Unique identifier for the agent.
+        name:
+          type: string
+          description: Display name of the agent.
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the agent was created.
+    SimulateConversationRequest:
+      type: object
+      properties:
+        simulated_user_config:
+          type: object
+          description: Configuration for the simulated user in the test conversation.
+          properties:
+            prompt:
+              type: string
+              description: Instructions defining the simulated user's behavior.
+            first_message:
+              type: string
+              description: The initial message from the simulated user.
+        max_turns:
+          type: integer
+          description: Maximum number of conversation turns for the simulation.
+          minimum: 1
+    CreateAgentRequest:
+      type: object
+      required:
+      - conversation_config
+      properties:
+        name:
+          type: string
+          description: Display name for the agent.
+        conversation_config:
+          $ref: '#/components/schemas/ConversationConfig'
+        metadata:
+          type: object
+          description: Additional metadata for the agent.
+          additionalProperties:
+            type: string
+    ConversationConfig:
+      type: object
+      description: Configuration defining the agent's conversational behavior, voice settings, and language model parameters.
+      properties:
+        agent:
+          type: object
+          description: Agent behavior configuration.
+          properties:
+            prompt:
+              type: object
+              description: The system prompt and instructions for the agent.
+              properties:
+                prompt:
+                  type: string
+                  description: The system instructions that define agent behavior.
+            first_message:
+              type: string
+              description: The initial message the agent sends when a conversation starts.
+            language:
+              type: string
+              description: The primary language for the agent.
+        tts:
+          type: object
+          description: Text-to-speech configuration for the agent's voice.
+          properties:
+            voice_id:
+              type: string
+              description: The voice to use for the agent's speech output.
+            model_id:
+              type: string
+              description: The TTS model to use.
+        stt:
+          type: object
+          description: Speech-to-text configuration for processing user input.
+          properties:
+            model_id:
+              type: string
+              description: The STT model to use for transcription.
+        llm:
+          type: object
+          description: Language model configuration for conversation generation.
+          properties:
+            model_id:
+              type: string
+              description: The language model to use.
+            temperature:
+              type: number
+              description: Controls randomness in the model's responses.
+              minimum: 0
+              maximum: 2
+    Agent:
+      type: object
+      properties:
+        agent_id:
+          type: string
+          description: Unique identifier for the agent.
+        name:
+          type: string
+          description: Display name of the agent.
+        conversation_config:
+          $ref: '#/components/schemas/ConversationConfig'
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the agent was created.
+        metadata:
+          type: object
+          description: Additional metadata associated with the agent.
+          additionalProperties:
+            type: string
+    SimulationResult:
+      type: object
+      properties:
+        conversation_id:
+          type: string
+          description: Identifier for the simulated conversation.
+        transcript:
+          type: array
+          description: Full transcript of the simulated conversation.
+          items:
+            type: object
+            properties:
+              role:
+                type: string
+                description: The speaker role in the conversation.
+                enum:
+                - agent
+                - user
+              message:
+                type: string
+                description: The spoken message content.
+  parameters:
+    agentId:
+      name: agent_id
+      in: path
+      required: true
+      description: The unique identifier of the conversational AI agent.
+      schema:
+        type: string
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: xi-api-key
+      description: ElevenLabs API key passed in the xi-api-key header for authentication.
+externalDocs:
+  description: ElevenLabs Audio Isolation API Documentation
+  url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation

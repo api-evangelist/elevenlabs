@@ -1,0 +1,174 @@
+openapi: 3.1.0
+info:
+  title: ElevenLabs Audio Isolation Agents Knowledge Base API
+  description: The ElevenLabs Audio Isolation API removes background noise from audio recordings, isolating vocal tracks from ambient sounds and interference. This is useful for cleaning up recordings, improving audio quality for podcasts and interviews, and preparing audio files for further processing such as voice cloning or transcription.
+  version: '1.0'
+  contact:
+    name: ElevenLabs Support
+    url: https://help.elevenlabs.io
+  termsOfService: https://elevenlabs.io/terms-of-service
+servers:
+- url: https://api.elevenlabs.io
+  description: Production Server
+security:
+- apiKeyAuth: []
+tags:
+- name: Knowledge Base
+  description: Endpoints for managing knowledge base documents that agents use to answer questions.
+paths:
+  /v1/convai/knowledge-base:
+    get:
+      operationId: listKnowledgeBase
+      summary: List knowledge base documents
+      description: Returns a list of knowledge base documents available for use by conversational AI agents.
+      tags:
+      - Knowledge Base
+      responses:
+        '200':
+          description: Knowledge base documents listed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KnowledgeBaseListResponse'
+        '401':
+          description: Unauthorized - invalid or missing API key
+    post:
+      operationId: addKnowledgeBaseDocument
+      summary: Add knowledge base document
+      description: Uploads a document to the knowledge base for use by conversational AI agents. Supported formats include PDF, TXT, and web URLs.
+      tags:
+      - Knowledge Base
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AddKnowledgeBaseRequest'
+      responses:
+        '200':
+          description: Document added successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KnowledgeBaseDocument'
+        '400':
+          description: Bad request - invalid document
+        '401':
+          description: Unauthorized - invalid or missing API key
+  /v1/convai/knowledge-base/{document_id}:
+    delete:
+      operationId: deleteKnowledgeBaseDocument
+      summary: Delete knowledge base document
+      description: Removes a document from the knowledge base.
+      tags:
+      - Knowledge Base
+      parameters:
+      - name: document_id
+        in: path
+        required: true
+        description: The identifier of the document to delete.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Document deleted successfully
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Document not found
+  /v1/convai/knowledge-base/{document_id}/dependent-agents:
+    get:
+      operationId: getDependentAgents
+      summary: Get dependent agents
+      description: Returns a list of agents that depend on a specific knowledge base document.
+      tags:
+      - Knowledge Base
+      parameters:
+      - name: document_id
+        in: path
+        required: true
+        description: The identifier of the knowledge base document.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Dependent agents retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  agents:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AgentSummary'
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Document not found
+components:
+  schemas:
+    AddKnowledgeBaseRequest:
+      type: object
+      properties:
+        file:
+          type: string
+          format: binary
+          description: A document file to upload. Supports PDF, TXT, and DOCX.
+        url:
+          type: string
+          format: uri
+          description: A URL to a web page to add as a knowledge source.
+        name:
+          type: string
+          description: Display name for the knowledge base document.
+    KnowledgeBaseDocument:
+      type: object
+      properties:
+        document_id:
+          type: string
+          description: Unique identifier for the document.
+        name:
+          type: string
+          description: Display name of the document.
+        type:
+          type: string
+          description: The type of the knowledge base document.
+          enum:
+          - file
+          - url
+          - text
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the document was added.
+    AgentSummary:
+      type: object
+      properties:
+        agent_id:
+          type: string
+          description: Unique identifier for the agent.
+        name:
+          type: string
+          description: Display name of the agent.
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the agent was created.
+    KnowledgeBaseListResponse:
+      type: object
+      properties:
+        documents:
+          type: array
+          description: List of knowledge base documents.
+          items:
+            $ref: '#/components/schemas/KnowledgeBaseDocument'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: xi-api-key
+      description: ElevenLabs API key passed in the xi-api-key header for authentication.
+externalDocs:
+  description: ElevenLabs Audio Isolation API Documentation
+  url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation

@@ -1,0 +1,81 @@
+openapi: 3.1.0
+info:
+  title: ElevenLabs Audio Isolation Agents Pronunciation Dictionaries API
+  description: The ElevenLabs Audio Isolation API removes background noise from audio recordings, isolating vocal tracks from ambient sounds and interference. This is useful for cleaning up recordings, improving audio quality for podcasts and interviews, and preparing audio files for further processing such as voice cloning or transcription.
+  version: '1.0'
+  contact:
+    name: ElevenLabs Support
+    url: https://help.elevenlabs.io
+  termsOfService: https://elevenlabs.io/terms-of-service
+servers:
+- url: https://api.elevenlabs.io
+  description: Production Server
+security:
+- apiKeyAuth: []
+tags:
+- name: Pronunciation Dictionaries
+  description: Endpoints for managing pronunciation dictionaries used in Studio projects.
+paths:
+  /v1/studio/projects/{project_id}/pronunciation-dictionaries:
+    post:
+      operationId: createProjectPronunciationDictionaries
+      summary: Create pronunciation dictionaries
+      description: Associates pronunciation dictionaries with a Studio project for consistent pronunciation across all chapters.
+      tags:
+      - Pronunciation Dictionaries
+      parameters:
+      - $ref: '#/components/parameters/projectId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectPronunciationRequest'
+      responses:
+        '200':
+          description: Pronunciation dictionaries associated successfully
+        '400':
+          description: Bad request - invalid parameters
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Project not found
+components:
+  schemas:
+    ProjectPronunciationRequest:
+      type: object
+      required:
+      - pronunciation_dictionary_locators
+      properties:
+        pronunciation_dictionary_locators:
+          type: array
+          description: List of pronunciation dictionary locators to apply.
+          items:
+            type: object
+            required:
+            - pronunciation_dictionary_id
+            - version_id
+            properties:
+              pronunciation_dictionary_id:
+                type: string
+                description: The pronunciation dictionary identifier.
+              version_id:
+                type: string
+                description: The pronunciation dictionary version identifier.
+  parameters:
+    projectId:
+      name: project_id
+      in: path
+      required: true
+      description: The unique identifier of the Studio project.
+      schema:
+        type: string
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: xi-api-key
+      description: ElevenLabs API key passed in the xi-api-key header for authentication.
+externalDocs:
+  description: ElevenLabs Audio Isolation API Documentation
+  url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation

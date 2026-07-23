@@ -1,0 +1,164 @@
+openapi: 3.1.0
+info:
+  title: ElevenLabs Audio Isolation Agents Dubbing API
+  description: The ElevenLabs Audio Isolation API removes background noise from audio recordings, isolating vocal tracks from ambient sounds and interference. This is useful for cleaning up recordings, improving audio quality for podcasts and interviews, and preparing audio files for further processing such as voice cloning or transcription.
+  version: '1.0'
+  contact:
+    name: ElevenLabs Support
+    url: https://help.elevenlabs.io
+  termsOfService: https://elevenlabs.io/terms-of-service
+servers:
+- url: https://api.elevenlabs.io
+  description: Production Server
+security:
+- apiKeyAuth: []
+tags:
+- name: Dubbing
+  description: Endpoints for creating, managing, and retrieving dubbed audio and video content across languages.
+paths:
+  /v1/dubbing:
+    post:
+      operationId: createDubbing
+      summary: Dub a video or audio file
+      description: Creates a new dubbing project from an uploaded audio or video file or a source URL. The dubbing process transcribes, translates, and re-synthesizes the audio content in the target language while preserving the original speakers' voice characteristics.
+      tags:
+      - Dubbing
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreateDubbingRequest'
+      responses:
+        '200':
+          description: Dubbing project created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DubbingResponse'
+        '400':
+          description: Bad request - invalid parameters
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '422':
+          description: Unprocessable entity - unsupported file format
+  /v1/dubbing/{dubbing_id}:
+    get:
+      operationId: getDubbing
+      summary: Get dubbing metadata
+      description: Returns metadata and status information about a dubbing project, including the current processing state and available languages.
+      tags:
+      - Dubbing
+      parameters:
+      - $ref: '#/components/parameters/dubbingId'
+      responses:
+        '200':
+          description: Dubbing metadata retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DubbingMetadata'
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Dubbing project not found
+    delete:
+      operationId: deleteDubbing
+      summary: Delete dubbing
+      description: Deletes a dubbing project and all associated resources. This action is irreversible.
+      tags:
+      - Dubbing
+      parameters:
+      - $ref: '#/components/parameters/dubbingId'
+      responses:
+        '200':
+          description: Dubbing project deleted successfully
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Dubbing project not found
+components:
+  schemas:
+    CreateDubbingRequest:
+      type: object
+      properties:
+        file:
+          type: string
+          format: binary
+          description: The audio or video file to dub. Supports common formats including MP3, WAV, MP4, and MOV.
+        source_url:
+          type: string
+          format: uri
+          description: A URL to the source audio or video file to dub. Used as an alternative to uploading a file directly.
+        source_lang:
+          type: string
+          description: The language code of the source audio content.
+          default: auto
+        target_lang:
+          type: string
+          description: The target language code for the dubbed output.
+        num_speakers:
+          type: integer
+          description: The number of speakers in the source audio. Helps improve speaker diarization accuracy.
+          minimum: 0
+        watermark:
+          type: boolean
+          description: Whether to add a watermark to the dubbed output.
+          default: false
+        name:
+          type: string
+          description: A name for the dubbing project.
+    DubbingResponse:
+      type: object
+      properties:
+        dubbing_id:
+          type: string
+          description: The unique identifier of the created dubbing project.
+        expected_duration_sec:
+          type: number
+          description: The estimated processing duration in seconds.
+    DubbingMetadata:
+      type: object
+      properties:
+        dubbing_id:
+          type: string
+          description: The unique identifier of the dubbing project.
+        name:
+          type: string
+          description: The name of the dubbing project.
+        status:
+          type: string
+          description: The current processing status of the dubbing project.
+          enum:
+          - dubbing
+          - dubbed
+          - failed
+        target_languages:
+          type: array
+          description: List of target languages for the dubbing.
+          items:
+            type: string
+        source_language:
+          type: string
+          description: The detected or specified source language.
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the dubbing project was created.
+  parameters:
+    dubbingId:
+      name: dubbing_id
+      in: path
+      required: true
+      description: The unique identifier of the dubbing project.
+      schema:
+        type: string
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: xi-api-key
+      description: ElevenLabs API key passed in the xi-api-key header for authentication.
+externalDocs:
+  description: ElevenLabs Audio Isolation API Documentation
+  url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation
