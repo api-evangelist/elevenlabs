@@ -1,0 +1,96 @@
+openapi: 3.1.0
+info:
+  title: ElevenLabs Sound Effects API
+  description: >-
+    The ElevenLabs Sound Effects API generates cinematic sound effects from
+    text descriptions. Developers can describe the desired sound in natural
+    language and receive high-quality audio output. The API supports audio
+    tags for controlling delivery, emotion, emphasis, pauses, and specific
+    sound effects, making it suitable for game development, film production,
+    and multimedia content creation.
+  version: '1.0'
+  contact:
+    name: ElevenLabs Support
+    url: https://help.elevenlabs.io
+  termsOfService: https://elevenlabs.io/terms-of-service
+externalDocs:
+  description: ElevenLabs Sound Effects API Documentation
+  url: https://elevenlabs.io/docs/api-reference/text-to-sound-effects/convert
+servers:
+  - url: https://api.elevenlabs.io
+    description: Production Server
+tags:
+  - name: Sound Effects
+    description: >-
+      Endpoints for generating sound effects from text descriptions using
+      AI models.
+security:
+  - apiKeyAuth: []
+paths:
+  /v1/sound-generation:
+    post:
+      operationId: createSoundEffect
+      summary: Create sound effect
+      description: >-
+        Generates a sound effect from a text description. The description
+        should detail the desired sound in natural language. Returns the
+        generated audio in the specified format.
+      tags:
+        - Sound Effects
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SoundEffectRequest'
+      responses:
+        '200':
+          description: Sound effect generated successfully
+          content:
+            audio/mpeg:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Bad request - invalid parameters
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '422':
+          description: Unprocessable entity - validation error
+components:
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: xi-api-key
+      description: >-
+        ElevenLabs API key passed in the xi-api-key header for authentication.
+  schemas:
+    SoundEffectRequest:
+      type: object
+      required:
+        - text
+      properties:
+        text:
+          type: string
+          description: >-
+            A natural language description of the sound effect to generate.
+            Be specific about the type of sound, its characteristics, and
+            any environmental context.
+          maxLength: 1000
+        duration_seconds:
+          type: number
+          description: >-
+            The desired duration of the generated sound effect in seconds.
+            If not provided, the model determines an appropriate length.
+          minimum: 0.5
+          maximum: 22
+        prompt_influence:
+          type: number
+          description: >-
+            Controls how closely the generation follows the text prompt.
+            Higher values produce output more faithful to the description,
+            while lower values allow more creative interpretation.
+          minimum: 0
+          maximum: 1
+          default: 0.3

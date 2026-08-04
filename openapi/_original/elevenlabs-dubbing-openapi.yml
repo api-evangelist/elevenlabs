@@ -1,0 +1,433 @@
+openapi: 3.1.0
+info:
+  title: ElevenLabs Dubbing API
+  description: >-
+    The ElevenLabs Dubbing API enables automatic translation and voice-over
+    of audio and video content into different languages. It preserves the
+    original speaker's voice characteristics while translating the spoken
+    content, supporting seamless localization of multimedia content. The API
+    handles the full dubbing pipeline including transcription, translation,
+    and speech synthesis with lip-sync timing.
+  version: '1.0'
+  contact:
+    name: ElevenLabs Support
+    url: https://help.elevenlabs.io
+  termsOfService: https://elevenlabs.io/terms-of-service
+externalDocs:
+  description: ElevenLabs Dubbing API Documentation
+  url: https://elevenlabs.io/docs/api-reference/dubbing/create
+servers:
+  - url: https://api.elevenlabs.io
+    description: Production Server
+tags:
+  - name: Dubbing
+    description: >-
+      Endpoints for creating, managing, and retrieving dubbed audio and
+      video content across languages.
+  - name: Dubbing Resources
+    description: >-
+      Endpoints for managing individual dubbing resources including
+      segments, translations, and dubbed output files.
+security:
+  - apiKeyAuth: []
+paths:
+  /v1/dubbing:
+    post:
+      operationId: createDubbing
+      summary: Dub a video or audio file
+      description: >-
+        Creates a new dubbing project from an uploaded audio or video file
+        or a source URL. The dubbing process transcribes, translates, and
+        re-synthesizes the audio content in the target language while
+        preserving the original speakers' voice characteristics.
+      tags:
+        - Dubbing
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreateDubbingRequest'
+      responses:
+        '200':
+          description: Dubbing project created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DubbingResponse'
+        '400':
+          description: Bad request - invalid parameters
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '422':
+          description: Unprocessable entity - unsupported file format
+  /v1/dubbing/{dubbing_id}:
+    get:
+      operationId: getDubbing
+      summary: Get dubbing metadata
+      description: >-
+        Returns metadata and status information about a dubbing project,
+        including the current processing state and available languages.
+      tags:
+        - Dubbing
+      parameters:
+        - $ref: '#/components/parameters/dubbingId'
+      responses:
+        '200':
+          description: Dubbing metadata retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DubbingMetadata'
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Dubbing project not found
+    delete:
+      operationId: deleteDubbing
+      summary: Delete dubbing
+      description: >-
+        Deletes a dubbing project and all associated resources. This action
+        is irreversible.
+      tags:
+        - Dubbing
+      parameters:
+        - $ref: '#/components/parameters/dubbingId'
+      responses:
+        '200':
+          description: Dubbing project deleted successfully
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Dubbing project not found
+  /v1/dubbing/{dubbing_id}/audio/{language_code}:
+    get:
+      operationId: getDubbedAudio
+      summary: Get dubbed audio
+      description: >-
+        Downloads the dubbed audio file for a specific language from a
+        completed dubbing project.
+      tags:
+        - Dubbing Resources
+      parameters:
+        - $ref: '#/components/parameters/dubbingId'
+        - name: language_code
+          in: path
+          required: true
+          description: >-
+            The language code of the dubbed audio to retrieve.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Dubbed audio file
+          content:
+            audio/mpeg:
+              schema:
+                type: string
+                format: binary
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Dubbed audio not found for the specified language
+  /v1/dubbing/{dubbing_id}/transcript/{language_code}:
+    get:
+      operationId: getDubbedTranscript
+      summary: Get dubbed transcript
+      description: >-
+        Returns the transcript for a specific language version of a
+        dubbing project, including timing information for each segment.
+      tags:
+        - Dubbing Resources
+      parameters:
+        - $ref: '#/components/parameters/dubbingId'
+        - name: language_code
+          in: path
+          required: true
+          description: >-
+            The language code of the transcript to retrieve.
+          schema:
+            type: string
+        - name: format_type
+          in: query
+          required: false
+          description: >-
+            The format of the transcript output.
+          schema:
+            type: string
+            enum:
+              - srt
+              - webvtt
+      responses:
+        '200':
+          description: Transcript retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DubbingTranscript'
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Transcript not found
+  /v1/dubbing/{dubbing_id}/resource:
+    get:
+      operationId: getDubbingResource
+      summary: Get dubbing resource
+      description: >-
+        Returns detailed information about the dubbing resource including
+        all segments, speakers, and language versions.
+      tags:
+        - Dubbing Resources
+      parameters:
+        - $ref: '#/components/parameters/dubbingId'
+      responses:
+        '200':
+          description: Dubbing resource retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DubbingResource'
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Dubbing resource not found
+  /v1/dubbing/{dubbing_id}/resource/translate-segment:
+    post:
+      operationId: translateSegment
+      summary: Translate segment
+      description: >-
+        Translates a specific segment of a dubbing project into a target
+        language. Allows fine-grained control over individual segment
+        translations.
+      tags:
+        - Dubbing Resources
+      parameters:
+        - $ref: '#/components/parameters/dubbingId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TranslateSegmentRequest'
+      responses:
+        '200':
+          description: Segment translated successfully
+        '400':
+          description: Bad request - invalid parameters
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Dubbing project or segment not found
+  /v1/dubbing/{dubbing_id}/resource/dub-segment:
+    post:
+      operationId: dubSegment
+      summary: Dub segment
+      description: >-
+        Generates dubbed audio for a specific segment of a dubbing project.
+        Creates the speech synthesis output for an individual translated
+        segment.
+      tags:
+        - Dubbing Resources
+      parameters:
+        - $ref: '#/components/parameters/dubbingId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DubSegmentRequest'
+      responses:
+        '200':
+          description: Segment dubbed successfully
+        '400':
+          description: Bad request - invalid parameters
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Dubbing project or segment not found
+components:
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: xi-api-key
+      description: >-
+        ElevenLabs API key passed in the xi-api-key header for authentication.
+  parameters:
+    dubbingId:
+      name: dubbing_id
+      in: path
+      required: true
+      description: >-
+        The unique identifier of the dubbing project.
+      schema:
+        type: string
+  schemas:
+    CreateDubbingRequest:
+      type: object
+      properties:
+        file:
+          type: string
+          format: binary
+          description: >-
+            The audio or video file to dub. Supports common formats
+            including MP3, WAV, MP4, and MOV.
+        source_url:
+          type: string
+          format: uri
+          description: >-
+            A URL to the source audio or video file to dub. Used as an
+            alternative to uploading a file directly.
+        source_lang:
+          type: string
+          description: >-
+            The language code of the source audio content.
+          default: auto
+        target_lang:
+          type: string
+          description: >-
+            The target language code for the dubbed output.
+        num_speakers:
+          type: integer
+          description: >-
+            The number of speakers in the source audio. Helps improve
+            speaker diarization accuracy.
+          minimum: 0
+        watermark:
+          type: boolean
+          description: >-
+            Whether to add a watermark to the dubbed output.
+          default: false
+        name:
+          type: string
+          description: >-
+            A name for the dubbing project.
+    DubbingResponse:
+      type: object
+      properties:
+        dubbing_id:
+          type: string
+          description: >-
+            The unique identifier of the created dubbing project.
+        expected_duration_sec:
+          type: number
+          description: >-
+            The estimated processing duration in seconds.
+    DubbingMetadata:
+      type: object
+      properties:
+        dubbing_id:
+          type: string
+          description: >-
+            The unique identifier of the dubbing project.
+        name:
+          type: string
+          description: >-
+            The name of the dubbing project.
+        status:
+          type: string
+          description: >-
+            The current processing status of the dubbing project.
+          enum:
+            - dubbing
+            - dubbed
+            - failed
+        target_languages:
+          type: array
+          description: >-
+            List of target languages for the dubbing.
+          items:
+            type: string
+        source_language:
+          type: string
+          description: >-
+            The detected or specified source language.
+        created_at:
+          type: string
+          format: date-time
+          description: >-
+            Timestamp when the dubbing project was created.
+    DubbingTranscript:
+      type: object
+      properties:
+        segments:
+          type: array
+          description: >-
+            Transcript segments with timing information.
+          items:
+            $ref: '#/components/schemas/TranscriptSegment'
+    TranscriptSegment:
+      type: object
+      properties:
+        start:
+          type: number
+          description: >-
+            Start time of the segment in seconds.
+        end:
+          type: number
+          description: >-
+            End time of the segment in seconds.
+        text:
+          type: string
+          description: >-
+            The transcribed or translated text for this segment.
+        speaker:
+          type: string
+          description: >-
+            The speaker identifier for this segment.
+    DubbingResource:
+      type: object
+      properties:
+        dubbing_id:
+          type: string
+          description: >-
+            The unique identifier of the dubbing project.
+        segments:
+          type: array
+          description: >-
+            All segments in the dubbing project.
+          items:
+            $ref: '#/components/schemas/TranscriptSegment'
+        speakers:
+          type: array
+          description: >-
+            List of detected speakers in the source audio.
+          items:
+            type: object
+            properties:
+              speaker_id:
+                type: string
+                description: >-
+                  Unique identifier for the detected speaker.
+              name:
+                type: string
+                description: >-
+                  Assigned name for the speaker.
+    TranslateSegmentRequest:
+      type: object
+      required:
+        - segment_id
+        - target_lang
+      properties:
+        segment_id:
+          type: string
+          description: >-
+            The identifier of the segment to translate.
+        target_lang:
+          type: string
+          description: >-
+            The target language code for the translation.
+    DubSegmentRequest:
+      type: object
+      required:
+        - segment_id
+        - language_code
+      properties:
+        segment_id:
+          type: string
+          description: >-
+            The identifier of the segment to dub.
+        language_code:
+          type: string
+          description: >-
+            The language code for the dubbed output.

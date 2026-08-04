@@ -1,0 +1,933 @@
+openapi: 3.1.0
+info:
+  title: ElevenLabs Conversational AI API
+  description: >-
+    The ElevenLabs Conversational AI API enables developers to build
+    interactive voice agents that can engage in natural, real-time
+    conversations. It provides REST endpoints for managing agents,
+    conversations, knowledge bases, tools, and phone number integrations.
+    The API supports multi-turn dialogue across 70+ languages and is
+    designed for building customer service agents, voice assistants, and
+    interactive voice response systems.
+  version: '1.0'
+  contact:
+    name: ElevenLabs Support
+    url: https://help.elevenlabs.io
+  termsOfService: https://elevenlabs.io/terms-of-service
+externalDocs:
+  description: ElevenLabs Conversational AI Documentation
+  url: https://elevenlabs.io/docs/overview/capabilities/conversational-ai
+servers:
+  - url: https://api.elevenlabs.io
+    description: Production Server
+tags:
+  - name: Agents
+    description: >-
+      Endpoints for creating, managing, and configuring conversational AI
+      agents with voice capabilities.
+  - name: Conversations
+    description: >-
+      Endpoints for retrieving and managing conversation sessions and
+      their associated data.
+  - name: Knowledge Base
+    description: >-
+      Endpoints for managing knowledge base documents that agents use to
+      answer questions.
+  - name: Tools
+    description: >-
+      Endpoints for managing external tools and webhook integrations that
+      agents can invoke during conversations.
+security:
+  - apiKeyAuth: []
+paths:
+  /v1/convai/agents:
+    get:
+      operationId: listAgents
+      summary: List agents
+      description: >-
+        Returns a list of all conversational AI agents and their metadata
+        for the authenticated account.
+      tags:
+        - Agents
+      parameters:
+        - name: page_size
+          in: query
+          required: false
+          description: >-
+            Number of agents to return per page.
+          schema:
+            type: integer
+            default: 30
+        - name: cursor
+          in: query
+          required: false
+          description: >-
+            Pagination cursor for retrieving the next page of results.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of agents retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentListResponse'
+        '401':
+          description: Unauthorized - invalid or missing API key
+    post:
+      operationId: createAgent
+      summary: Create agent
+      description: >-
+        Creates a new conversational AI agent from a configuration object
+        specifying the agent's behavior, voice, language model, and
+        available tools.
+      tags:
+        - Agents
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAgentRequest'
+      responses:
+        '200':
+          description: Agent created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentResponse'
+        '400':
+          description: Bad request - invalid configuration
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '422':
+          description: Unprocessable entity - validation error
+  /v1/convai/agents/{agent_id}:
+    get:
+      operationId: getAgent
+      summary: Get agent
+      description: >-
+        Retrieves the full configuration and metadata for a specific
+        conversational AI agent.
+      tags:
+        - Agents
+      parameters:
+        - $ref: '#/components/parameters/agentId'
+      responses:
+        '200':
+          description: Agent configuration retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Agent not found
+    patch:
+      operationId: updateAgent
+      summary: Update agent
+      description: >-
+        Updates the configuration of an existing conversational AI agent.
+        Only the provided fields are updated; unspecified fields retain
+        their current values.
+      tags:
+        - Agents
+      parameters:
+        - $ref: '#/components/parameters/agentId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAgentRequest'
+      responses:
+        '200':
+          description: Agent updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentResponse'
+        '400':
+          description: Bad request - invalid configuration
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Agent not found
+    delete:
+      operationId: deleteAgent
+      summary: Delete agent
+      description: >-
+        Deletes a conversational AI agent and all its associated
+        configuration. This action is irreversible.
+      tags:
+        - Agents
+      parameters:
+        - $ref: '#/components/parameters/agentId'
+      responses:
+        '200':
+          description: Agent deleted successfully
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Agent not found
+  /v1/convai/agents/{agent_id}/simulate:
+    post:
+      operationId: simulateConversation
+      summary: Simulate conversation
+      description: >-
+        Runs a simulated conversation between the agent and a simulated
+        user for testing purposes. Returns the full conversation transcript
+        and evaluation metrics.
+      tags:
+        - Agents
+      parameters:
+        - $ref: '#/components/parameters/agentId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SimulateConversationRequest'
+      responses:
+        '200':
+          description: Simulation completed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimulationResult'
+        '400':
+          description: Bad request - invalid parameters
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Agent not found
+  /v1/convai/conversations:
+    get:
+      operationId: listConversations
+      summary: List conversations
+      description: >-
+        Returns a list of conversations for the authenticated account,
+        optionally filtered by agent identifier.
+      tags:
+        - Conversations
+      parameters:
+        - name: agent_id
+          in: query
+          required: false
+          description: >-
+            Filter conversations by agent identifier.
+          schema:
+            type: string
+        - name: page_size
+          in: query
+          required: false
+          description: >-
+            Number of conversations to return per page.
+          schema:
+            type: integer
+            default: 30
+        - name: cursor
+          in: query
+          required: false
+          description: >-
+            Pagination cursor for the next page.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of conversations retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConversationListResponse'
+        '401':
+          description: Unauthorized - invalid or missing API key
+  /v1/convai/conversations/{conversation_id}:
+    get:
+      operationId: getConversation
+      summary: Get conversation
+      description: >-
+        Retrieves the full details of a conversation including the
+        transcript, metadata, and analysis.
+      tags:
+        - Conversations
+      parameters:
+        - $ref: '#/components/parameters/conversationId'
+      responses:
+        '200':
+          description: Conversation details retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conversation'
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Conversation not found
+    delete:
+      operationId: deleteConversation
+      summary: Delete conversation
+      description: >-
+        Deletes a conversation and its associated data.
+      tags:
+        - Conversations
+      parameters:
+        - $ref: '#/components/parameters/conversationId'
+      responses:
+        '200':
+          description: Conversation deleted successfully
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Conversation not found
+  /v1/convai/conversations/{conversation_id}/audio:
+    get:
+      operationId: getConversationAudio
+      summary: Get conversation audio
+      description: >-
+        Downloads the audio recording of a conversation session.
+      tags:
+        - Conversations
+      parameters:
+        - $ref: '#/components/parameters/conversationId'
+      responses:
+        '200':
+          description: Conversation audio file
+          content:
+            audio/mpeg:
+              schema:
+                type: string
+                format: binary
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Conversation audio not found
+  /v1/convai/knowledge-base:
+    get:
+      operationId: listKnowledgeBase
+      summary: List knowledge base documents
+      description: >-
+        Returns a list of knowledge base documents available for use by
+        conversational AI agents.
+      tags:
+        - Knowledge Base
+      responses:
+        '200':
+          description: Knowledge base documents listed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KnowledgeBaseListResponse'
+        '401':
+          description: Unauthorized - invalid or missing API key
+    post:
+      operationId: addKnowledgeBaseDocument
+      summary: Add knowledge base document
+      description: >-
+        Uploads a document to the knowledge base for use by conversational
+        AI agents. Supported formats include PDF, TXT, and web URLs.
+      tags:
+        - Knowledge Base
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AddKnowledgeBaseRequest'
+      responses:
+        '200':
+          description: Document added successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KnowledgeBaseDocument'
+        '400':
+          description: Bad request - invalid document
+        '401':
+          description: Unauthorized - invalid or missing API key
+  /v1/convai/knowledge-base/{document_id}:
+    delete:
+      operationId: deleteKnowledgeBaseDocument
+      summary: Delete knowledge base document
+      description: >-
+        Removes a document from the knowledge base.
+      tags:
+        - Knowledge Base
+      parameters:
+        - name: document_id
+          in: path
+          required: true
+          description: >-
+            The identifier of the document to delete.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Document deleted successfully
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Document not found
+  /v1/convai/knowledge-base/{document_id}/dependent-agents:
+    get:
+      operationId: getDependentAgents
+      summary: Get dependent agents
+      description: >-
+        Returns a list of agents that depend on a specific knowledge base
+        document.
+      tags:
+        - Knowledge Base
+      parameters:
+        - name: document_id
+          in: path
+          required: true
+          description: >-
+            The identifier of the knowledge base document.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Dependent agents retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  agents:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AgentSummary'
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Document not found
+  /v1/convai/tools:
+    get:
+      operationId: listTools
+      summary: List tools
+      description: >-
+        Returns a list of tools configured for use by conversational AI
+        agents, including webhook and MCP server integrations.
+      tags:
+        - Tools
+      responses:
+        '200':
+          description: Tools listed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ToolListResponse'
+        '401':
+          description: Unauthorized - invalid or missing API key
+    post:
+      operationId: createTool
+      summary: Create tool
+      description: >-
+        Creates a new tool that agents can invoke during conversations.
+        Tools can be webhook endpoints that connect to external services
+        for real-time data retrieval or action execution.
+      tags:
+        - Tools
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateToolRequest'
+      responses:
+        '200':
+          description: Tool created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tool'
+        '400':
+          description: Bad request - invalid configuration
+        '401':
+          description: Unauthorized - invalid or missing API key
+  /v1/convai/tools/{tool_id}:
+    delete:
+      operationId: deleteTool
+      summary: Delete tool
+      description: >-
+        Deletes a tool configuration.
+      tags:
+        - Tools
+      parameters:
+        - name: tool_id
+          in: path
+          required: true
+          description: >-
+            The identifier of the tool to delete.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Tool deleted successfully
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '404':
+          description: Tool not found
+components:
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: xi-api-key
+      description: >-
+        ElevenLabs API key passed in the xi-api-key header for authentication.
+  parameters:
+    agentId:
+      name: agent_id
+      in: path
+      required: true
+      description: >-
+        The unique identifier of the conversational AI agent.
+      schema:
+        type: string
+    conversationId:
+      name: conversation_id
+      in: path
+      required: true
+      description: >-
+        The unique identifier of the conversation.
+      schema:
+        type: string
+  schemas:
+    AgentListResponse:
+      type: object
+      properties:
+        agents:
+          type: array
+          description: >-
+            List of agents.
+          items:
+            $ref: '#/components/schemas/AgentSummary'
+        has_more:
+          type: boolean
+          description: >-
+            Whether there are more agents available.
+        next_cursor:
+          type: string
+          description: >-
+            Cursor for retrieving the next page.
+    AgentSummary:
+      type: object
+      properties:
+        agent_id:
+          type: string
+          description: >-
+            Unique identifier for the agent.
+        name:
+          type: string
+          description: >-
+            Display name of the agent.
+        created_at:
+          type: string
+          format: date-time
+          description: >-
+            Timestamp when the agent was created.
+    Agent:
+      type: object
+      properties:
+        agent_id:
+          type: string
+          description: >-
+            Unique identifier for the agent.
+        name:
+          type: string
+          description: >-
+            Display name of the agent.
+        conversation_config:
+          $ref: '#/components/schemas/ConversationConfig'
+        created_at:
+          type: string
+          format: date-time
+          description: >-
+            Timestamp when the agent was created.
+        metadata:
+          type: object
+          description: >-
+            Additional metadata associated with the agent.
+          additionalProperties:
+            type: string
+    ConversationConfig:
+      type: object
+      description: >-
+        Configuration defining the agent's conversational behavior,
+        voice settings, and language model parameters.
+      properties:
+        agent:
+          type: object
+          description: >-
+            Agent behavior configuration.
+          properties:
+            prompt:
+              type: object
+              description: >-
+                The system prompt and instructions for the agent.
+              properties:
+                prompt:
+                  type: string
+                  description: >-
+                    The system instructions that define agent behavior.
+            first_message:
+              type: string
+              description: >-
+                The initial message the agent sends when a conversation
+                starts.
+            language:
+              type: string
+              description: >-
+                The primary language for the agent.
+        tts:
+          type: object
+          description: >-
+            Text-to-speech configuration for the agent's voice.
+          properties:
+            voice_id:
+              type: string
+              description: >-
+                The voice to use for the agent's speech output.
+            model_id:
+              type: string
+              description: >-
+                The TTS model to use.
+        stt:
+          type: object
+          description: >-
+            Speech-to-text configuration for processing user input.
+          properties:
+            model_id:
+              type: string
+              description: >-
+                The STT model to use for transcription.
+        llm:
+          type: object
+          description: >-
+            Language model configuration for conversation generation.
+          properties:
+            model_id:
+              type: string
+              description: >-
+                The language model to use.
+            temperature:
+              type: number
+              description: >-
+                Controls randomness in the model's responses.
+              minimum: 0
+              maximum: 2
+    CreateAgentRequest:
+      type: object
+      required:
+        - conversation_config
+      properties:
+        name:
+          type: string
+          description: >-
+            Display name for the agent.
+        conversation_config:
+          $ref: '#/components/schemas/ConversationConfig'
+        metadata:
+          type: object
+          description: >-
+            Additional metadata for the agent.
+          additionalProperties:
+            type: string
+    UpdateAgentRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: >-
+            Updated display name for the agent.
+        conversation_config:
+          $ref: '#/components/schemas/ConversationConfig'
+        metadata:
+          type: object
+          description: >-
+            Updated metadata for the agent.
+          additionalProperties:
+            type: string
+    AgentResponse:
+      type: object
+      properties:
+        agent_id:
+          type: string
+          description: >-
+            The identifier of the agent.
+    SimulateConversationRequest:
+      type: object
+      properties:
+        simulated_user_config:
+          type: object
+          description: >-
+            Configuration for the simulated user in the test conversation.
+          properties:
+            prompt:
+              type: string
+              description: >-
+                Instructions defining the simulated user's behavior.
+            first_message:
+              type: string
+              description: >-
+                The initial message from the simulated user.
+        max_turns:
+          type: integer
+          description: >-
+            Maximum number of conversation turns for the simulation.
+          minimum: 1
+    SimulationResult:
+      type: object
+      properties:
+        conversation_id:
+          type: string
+          description: >-
+            Identifier for the simulated conversation.
+        transcript:
+          type: array
+          description: >-
+            Full transcript of the simulated conversation.
+          items:
+            type: object
+            properties:
+              role:
+                type: string
+                description: >-
+                  The speaker role in the conversation.
+                enum:
+                  - agent
+                  - user
+              message:
+                type: string
+                description: >-
+                  The spoken message content.
+    ConversationListResponse:
+      type: object
+      properties:
+        conversations:
+          type: array
+          description: >-
+            List of conversations.
+          items:
+            $ref: '#/components/schemas/ConversationSummary'
+        has_more:
+          type: boolean
+          description: >-
+            Whether there are more conversations available.
+        next_cursor:
+          type: string
+          description: >-
+            Cursor for pagination.
+    ConversationSummary:
+      type: object
+      properties:
+        conversation_id:
+          type: string
+          description: >-
+            Unique identifier for the conversation.
+        agent_id:
+          type: string
+          description: >-
+            The agent involved in the conversation.
+        status:
+          type: string
+          description: >-
+            Current status of the conversation.
+          enum:
+            - active
+            - completed
+            - failed
+        started_at:
+          type: string
+          format: date-time
+          description: >-
+            Timestamp when the conversation started.
+        duration_seconds:
+          type: number
+          description: >-
+            Duration of the conversation in seconds.
+    Conversation:
+      type: object
+      properties:
+        conversation_id:
+          type: string
+          description: >-
+            Unique identifier for the conversation.
+        agent_id:
+          type: string
+          description: >-
+            The agent involved in the conversation.
+        status:
+          type: string
+          description: >-
+            Current status of the conversation.
+        transcript:
+          type: array
+          description: >-
+            Full conversation transcript.
+          items:
+            type: object
+            properties:
+              role:
+                type: string
+                enum:
+                  - agent
+                  - user
+              message:
+                type: string
+              timestamp:
+                type: number
+                description: >-
+                  Timestamp in seconds from the start of the conversation.
+        analysis:
+          type: object
+          description: >-
+            Post-conversation analysis and metrics.
+          properties:
+            summary:
+              type: string
+              description: >-
+                AI-generated summary of the conversation.
+            sentiment:
+              type: string
+              description: >-
+                Overall sentiment of the conversation.
+            successful:
+              type: boolean
+              description: >-
+                Whether the conversation achieved its intended goal.
+        metadata:
+          type: object
+          description: >-
+            Additional metadata about the conversation.
+          additionalProperties:
+            type: string
+    KnowledgeBaseListResponse:
+      type: object
+      properties:
+        documents:
+          type: array
+          description: >-
+            List of knowledge base documents.
+          items:
+            $ref: '#/components/schemas/KnowledgeBaseDocument'
+    KnowledgeBaseDocument:
+      type: object
+      properties:
+        document_id:
+          type: string
+          description: >-
+            Unique identifier for the document.
+        name:
+          type: string
+          description: >-
+            Display name of the document.
+        type:
+          type: string
+          description: >-
+            The type of the knowledge base document.
+          enum:
+            - file
+            - url
+            - text
+        created_at:
+          type: string
+          format: date-time
+          description: >-
+            Timestamp when the document was added.
+    AddKnowledgeBaseRequest:
+      type: object
+      properties:
+        file:
+          type: string
+          format: binary
+          description: >-
+            A document file to upload. Supports PDF, TXT, and DOCX.
+        url:
+          type: string
+          format: uri
+          description: >-
+            A URL to a web page to add as a knowledge source.
+        name:
+          type: string
+          description: >-
+            Display name for the knowledge base document.
+    ToolListResponse:
+      type: object
+      properties:
+        tools:
+          type: array
+          description: >-
+            List of configured tools.
+          items:
+            $ref: '#/components/schemas/Tool'
+    Tool:
+      type: object
+      properties:
+        tool_id:
+          type: string
+          description: >-
+            Unique identifier for the tool.
+        name:
+          type: string
+          description: >-
+            Display name of the tool.
+        type:
+          type: string
+          description: >-
+            The type of tool integration.
+          enum:
+            - webhook
+            - mcp
+            - client
+        description:
+          type: string
+          description: >-
+            Description of what the tool does.
+        webhook_url:
+          type: string
+          format: uri
+          description: >-
+            The webhook URL for webhook-type tools.
+        parameters:
+          type: object
+          description: >-
+            JSON Schema defining the parameters the tool accepts.
+        created_at:
+          type: string
+          format: date-time
+          description: >-
+            Timestamp when the tool was created.
+    CreateToolRequest:
+      type: object
+      required:
+        - name
+        - type
+      properties:
+        name:
+          type: string
+          description: >-
+            Display name for the tool.
+        type:
+          type: string
+          description: >-
+            The type of tool to create.
+          enum:
+            - webhook
+            - mcp
+            - client
+        description:
+          type: string
+          description: >-
+            Description of what the tool does.
+        webhook_url:
+          type: string
+          format: uri
+          description: >-
+            The webhook endpoint URL for webhook-type tools.
+        parameters:
+          type: object
+          description: >-
+            JSON Schema defining the parameters the tool accepts.
