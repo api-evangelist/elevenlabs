@@ -1,0 +1,41 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ElevenLabs Audio Isolation Agents Audio Native API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "xi-api-key",
+      "value": "{{xi-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Audio Native",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create audio native project",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elevenlabs.io/v1/audio-native",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates an Audio Native embedded player project for converting web content into listenable audio experiences."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

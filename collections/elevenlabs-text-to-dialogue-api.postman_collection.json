@@ -1,0 +1,598 @@
+{
+  "item": [
+    {
+      "id": "0b4235b8-49ee-408a-81bf-166a61f21ed5",
+      "name": "Text to Dialogue",
+      "description": {
+        "content": "Endpoints for converting text scripts with multiple speakers into dialogue audio.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6bc22028-4a77-4586-b455-a22a05c75f6f",
+          "name": "Create dialogue",
+          "request": {
+            "name": "Create dialogue",
+            "description": {
+              "content": "Converts a dialogue script with multiple speakers into audio. Each segment of the script can be assigned a different voice, enabling multi-speaker audio generation from a single request.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "text-to-dialogue"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "output_format",
+                  "value": "mp3_44100_128",
+                  "description": "The desired output audio format. Supported values include mp3_44100_128, mp3_44100_192, pcm_16000, pcm_22050, pcm_24000, pcm_44100, ulaw_8000."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "audio/mpeg"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"segments\": [\n    {\n      \"voice_id\": \"<string>\",\n      \"text\": \"<string>\",\n      \"voice_settings\": {\n        \"stability\": \"<number>\",\n        \"similarity_boost\": \"<number>\",\n        \"style\": 0,\n        \"use_speaker_boost\": true\n      }\n    },\n    {\n      \"voice_id\": \"<string>\",\n      \"text\": \"<string>\",\n      \"voice_settings\": {\n        \"stability\": \"<number>\",\n        \"similarity_boost\": \"<number>\",\n        \"style\": 0,\n        \"use_speaker_boost\": true\n      }\n    }\n  ],\n  \"model_id\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "89f8ec38-e511-467d-afe7-9d638025b71d",
+              "name": "Dialogue audio generated successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "text-to-dialogue"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "output_format",
+                      "value": "mp3_44100_128"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "audio/mpeg"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"segments\": [\n    {\n      \"voice_id\": \"string\",\n      \"text\": \"string\",\n      \"voice_settings\": {\n        \"stability\": 0.08135995123777462,\n        \"similarity_boost\": 0.655197658338066,\n        \"style\": 0,\n        \"use_speaker_boost\": true\n      }\n    },\n    {\n      \"voice_id\": \"string\",\n      \"text\": \"string\",\n      \"voice_settings\": {\n        \"stability\": 0.6748919526921479,\n        \"similarity_boost\": 0.8558954181874915,\n        \"style\": 0,\n        \"use_speaker_boost\": true\n      }\n    }\n  ],\n  \"model_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "audio/mpeg"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b8333820-1848-48d7-bdf1-eeb7183fe23b",
+              "name": "Bad request - invalid parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "text-to-dialogue"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "output_format",
+                      "value": "mp3_44100_128"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"segments\": [\n    {\n      \"voice_id\": \"string\",\n      \"text\": \"string\",\n      \"voice_settings\": {\n        \"stability\": 0.08135995123777462,\n        \"similarity_boost\": 0.655197658338066,\n        \"style\": 0,\n        \"use_speaker_boost\": true\n      }\n    },\n    {\n      \"voice_id\": \"string\",\n      \"text\": \"string\",\n      \"voice_settings\": {\n        \"stability\": 0.6748919526921479,\n        \"similarity_boost\": 0.8558954181874915,\n        \"style\": 0,\n        \"use_speaker_boost\": true\n      }\n    }\n  ],\n  \"model_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "fa34aed9-c03d-4bd7-aced-5b97c780ca67",
+              "name": "Unauthorized - invalid or missing API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "text-to-dialogue"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "output_format",
+                      "value": "mp3_44100_128"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"segments\": [\n    {\n      \"voice_id\": \"string\",\n      \"text\": \"string\",\n      \"voice_settings\": {\n        \"stability\": 0.08135995123777462,\n        \"similarity_boost\": 0.655197658338066,\n        \"style\": 0,\n        \"use_speaker_boost\": true\n      }\n    },\n    {\n      \"voice_id\": \"string\",\n      \"text\": \"string\",\n      \"voice_settings\": {\n        \"stability\": 0.6748919526921479,\n        \"similarity_boost\": 0.8558954181874915,\n        \"style\": 0,\n        \"use_speaker_boost\": true\n      }\n    }\n  ],\n  \"model_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e0fc6cc2-c5c0-413c-9182-1a9a23d4aba0",
+              "name": "Unprocessable entity - validation error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "text-to-dialogue"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "output_format",
+                      "value": "mp3_44100_128"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"segments\": [\n    {\n      \"voice_id\": \"string\",\n      \"text\": \"string\",\n      \"voice_settings\": {\n        \"stability\": 0.08135995123777462,\n        \"similarity_boost\": 0.655197658338066,\n        \"style\": 0,\n        \"use_speaker_boost\": true\n      }\n    },\n    {\n      \"voice_id\": \"string\",\n      \"text\": \"string\",\n      \"voice_settings\": {\n        \"stability\": 0.6748919526921479,\n        \"similarity_boost\": 0.8558954181874915,\n        \"style\": 0,\n        \"use_speaker_boost\": true\n      }\n    }\n  ],\n  \"model_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e1853359-0df6-4bef-821b-1f01180e2eb5",
+          "name": "Create dialogue with timestamps",
+          "request": {
+            "name": "Create dialogue with timestamps",
+            "description": {
+              "content": "Converts a dialogue script with multiple speakers into audio and returns word-level timing information alongside the generated audio.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "text-to-dialogue",
+                "with-timestamps"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "output_format",
+                  "value": "mp3_44100_128",
+                  "description": "The desired output audio format. Supported values include mp3_44100_128, mp3_44100_192, pcm_16000, pcm_22050, pcm_24000, pcm_44100, ulaw_8000."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"segments\": [\n    {\n      \"voice_id\": \"<string>\",\n      \"text\": \"<string>\",\n      \"voice_settings\": {\n        \"stability\": \"<number>\",\n        \"similarity_boost\": \"<number>\",\n        \"style\": 0,\n        \"use_speaker_boost\": true\n      }\n    },\n    {\n      \"voice_id\": \"<string>\",\n      \"text\": \"<string>\",\n      \"voice_settings\": {\n        \"stability\": \"<number>\",\n        \"similarity_boost\": \"<number>\",\n        \"style\": 0,\n        \"use_speaker_boost\": true\n      }\n    }\n  ],\n  \"model_id\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "96e0c733-3416-4d8b-ad1e-672a4642a59e",
+              "name": "Dialogue audio with timestamp data",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "text-to-dialogue",
+                    "with-timestamps"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "output_format",
+                      "value": "mp3_44100_128"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"segments\": [\n    {\n      \"voice_id\": \"string\",\n      \"text\": \"string\",\n      \"voice_settings\": {\n        \"stability\": 0.08135995123777462,\n        \"similarity_boost\": 0.655197658338066,\n        \"style\": 0,\n        \"use_speaker_boost\": true\n      }\n    },\n    {\n      \"voice_id\": \"string\",\n      \"text\": \"string\",\n      \"voice_settings\": {\n        \"stability\": 0.6748919526921479,\n        \"similarity_boost\": 0.8558954181874915,\n        \"style\": 0,\n        \"use_speaker_boost\": true\n      }\n    }\n  ],\n  \"model_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"audio_base64\": \"string\",\n  \"alignment\": {\n    \"characters\": [\n      {\n        \"character\": \"string\",\n        \"start_time\": 1759.6364763801819,\n        \"end_time\": 4831.532531229887\n      },\n      {\n        \"character\": \"string\",\n        \"start_time\": 5415.774294181362,\n        \"end_time\": 5689.41106809425\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5789d884-27e6-471e-98db-b80fd9b8195e",
+              "name": "Bad request - invalid parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "text-to-dialogue",
+                    "with-timestamps"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "output_format",
+                      "value": "mp3_44100_128"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"segments\": [\n    {\n      \"voice_id\": \"string\",\n      \"text\": \"string\",\n      \"voice_settings\": {\n        \"stability\": 0.08135995123777462,\n        \"similarity_boost\": 0.655197658338066,\n        \"style\": 0,\n        \"use_speaker_boost\": true\n      }\n    },\n    {\n      \"voice_id\": \"string\",\n      \"text\": \"string\",\n      \"voice_settings\": {\n        \"stability\": 0.6748919526921479,\n        \"similarity_boost\": 0.8558954181874915,\n        \"style\": 0,\n        \"use_speaker_boost\": true\n      }\n    }\n  ],\n  \"model_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "2131b861-0669-4b5c-82e7-23495793fffa",
+              "name": "Unauthorized - invalid or missing API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "text-to-dialogue",
+                    "with-timestamps"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "output_format",
+                      "value": "mp3_44100_128"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"segments\": [\n    {\n      \"voice_id\": \"string\",\n      \"text\": \"string\",\n      \"voice_settings\": {\n        \"stability\": 0.08135995123777462,\n        \"similarity_boost\": 0.655197658338066,\n        \"style\": 0,\n        \"use_speaker_boost\": true\n      }\n    },\n    {\n      \"voice_id\": \"string\",\n      \"text\": \"string\",\n      \"voice_settings\": {\n        \"stability\": 0.6748919526921479,\n        \"similarity_boost\": 0.8558954181874915,\n        \"style\": 0,\n        \"use_speaker_boost\": true\n      }\n    }\n  ],\n  \"model_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a7e7afb9-1dd2-4cb4-904d-494f67b525b1",
+              "name": "Unprocessable entity - validation error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "text-to-dialogue",
+                    "with-timestamps"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "output_format",
+                      "value": "mp3_44100_128"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"segments\": [\n    {\n      \"voice_id\": \"string\",\n      \"text\": \"string\",\n      \"voice_settings\": {\n        \"stability\": 0.08135995123777462,\n        \"similarity_boost\": 0.655197658338066,\n        \"style\": 0,\n        \"use_speaker_boost\": true\n      }\n    },\n    {\n      \"voice_id\": \"string\",\n      \"text\": \"string\",\n      \"voice_settings\": {\n        \"stability\": 0.6748919526921479,\n        \"similarity_boost\": 0.8558954181874915,\n        \"style\": 0,\n        \"use_speaker_boost\": true\n      }\n    }\n  ],\n  \"model_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.elevenlabs.io",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "xi-api-key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "4b58ef5c-504d-47d7-920d-42c6d4dda415",
+    "name": "ElevenLabs Audio Isolation Agents Text to Dialogue API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The ElevenLabs Audio Isolation API removes background noise from audio recordings, isolating vocal tracks from ambient sounds and interference. This is useful for cleaning up recordings, improving audio quality for podcasts and interviews, and preparing audio files for further processing such as voice cloning or transcription.\n\nContact Support:\n Name: ElevenLabs Support",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,978 @@
+{
+  "item": [
+    {
+      "id": "18fc3d35-6372-4e5e-9a99-1e45e7cc5931",
+      "name": "Speech to Speech",
+      "description": {
+        "content": "Endpoints for converting speech from one voice to another while preserving the original speech characteristics.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d65bb0d8-6c4d-4d4e-b062-6b56f344dbc6",
+          "name": "Voice changer",
+          "request": {
+            "name": "Voice changer",
+            "description": {
+              "content": "Converts an audio recording to use a different voice while preserving the original speech content, timing, and emotional delivery. The target voice can be any voice available in the user's library.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "speech-to-speech",
+                ":voice_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "output_format",
+                  "value": "mp3_44100_128",
+                  "description": "The desired output audio format."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "voice_id",
+                  "description": "(Required) The identifier of the target voice to convert the audio to."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "audio/mpeg"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "description": "(Required) The source audio file containing the speech to convert. Supports common audio formats including MP3, WAV, and OGG."
+                },
+                {
+                  "key": "model_id",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "The identifier of the model to use for voice conversion."
+                },
+                {
+                  "key": "voice_settings",
+                  "value": "{\"stability\":\"<number>\",\"similarity_boost\":\"<number>\",\"style\":\"<number>\",\"use_speaker_boost\":\"<boolean>\"}",
+                  "type": "text",
+                  "description": "Voice settings to override the default settings for the target voice."
+                },
+                {
+                  "key": "seed",
+                  "value": "<integer>",
+                  "type": "text",
+                  "description": "A seed value for deterministic generation."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "0059c9fa-0b81-4bda-8223-83f50741acfc",
+              "name": "Voice conversion completed successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "speech-to-speech",
+                    ":voice_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "output_format",
+                      "value": "mp3_44100_128"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "voice_id",
+                      "description": "(Required) The identifier of the target voice to convert the audio to."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "audio/mpeg"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) The source audio file containing the speech to convert. Supports common audio formats including MP3, WAV, and OGG.",
+                        "type": "text/plain"
+                      },
+                      "key": "audio",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "The identifier of the model to use for voice conversion.",
+                        "type": "text/plain"
+                      },
+                      "key": "model_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Voice settings to override the default settings for the target voice.",
+                        "type": "text/plain"
+                      },
+                      "key": "voice_settings",
+                      "value": "{\"stability\":\"<number>\",\"similarity_boost\":\"<number>\",\"style\":\"<number>\",\"use_speaker_boost\":\"<boolean>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "A seed value for deterministic generation.",
+                        "type": "text/plain"
+                      },
+                      "key": "seed",
+                      "value": "<integer>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "audio/mpeg"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "0b5ca58e-fde0-484e-a195-762aa188de5b",
+              "name": "Bad request - invalid audio or parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "speech-to-speech",
+                    ":voice_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "output_format",
+                      "value": "mp3_44100_128"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "voice_id",
+                      "description": "(Required) The identifier of the target voice to convert the audio to."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) The source audio file containing the speech to convert. Supports common audio formats including MP3, WAV, and OGG.",
+                        "type": "text/plain"
+                      },
+                      "key": "audio",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "The identifier of the model to use for voice conversion.",
+                        "type": "text/plain"
+                      },
+                      "key": "model_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Voice settings to override the default settings for the target voice.",
+                        "type": "text/plain"
+                      },
+                      "key": "voice_settings",
+                      "value": "{\"stability\":\"<number>\",\"similarity_boost\":\"<number>\",\"style\":\"<number>\",\"use_speaker_boost\":\"<boolean>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "A seed value for deterministic generation.",
+                        "type": "text/plain"
+                      },
+                      "key": "seed",
+                      "value": "<integer>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "08df4fec-f3c2-4a79-b9bd-03442128dd24",
+              "name": "Unauthorized - invalid or missing API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "speech-to-speech",
+                    ":voice_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "output_format",
+                      "value": "mp3_44100_128"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "voice_id",
+                      "description": "(Required) The identifier of the target voice to convert the audio to."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) The source audio file containing the speech to convert. Supports common audio formats including MP3, WAV, and OGG.",
+                        "type": "text/plain"
+                      },
+                      "key": "audio",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "The identifier of the model to use for voice conversion.",
+                        "type": "text/plain"
+                      },
+                      "key": "model_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Voice settings to override the default settings for the target voice.",
+                        "type": "text/plain"
+                      },
+                      "key": "voice_settings",
+                      "value": "{\"stability\":\"<number>\",\"similarity_boost\":\"<number>\",\"style\":\"<number>\",\"use_speaker_boost\":\"<boolean>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "A seed value for deterministic generation.",
+                        "type": "text/plain"
+                      },
+                      "key": "seed",
+                      "value": "<integer>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "bd59d793-2572-4efc-b6bb-11fd6b80245f",
+              "name": "Unprocessable entity - audio could not be processed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "speech-to-speech",
+                    ":voice_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "output_format",
+                      "value": "mp3_44100_128"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "voice_id",
+                      "description": "(Required) The identifier of the target voice to convert the audio to."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) The source audio file containing the speech to convert. Supports common audio formats including MP3, WAV, and OGG.",
+                        "type": "text/plain"
+                      },
+                      "key": "audio",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "The identifier of the model to use for voice conversion.",
+                        "type": "text/plain"
+                      },
+                      "key": "model_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Voice settings to override the default settings for the target voice.",
+                        "type": "text/plain"
+                      },
+                      "key": "voice_settings",
+                      "value": "{\"stability\":\"<number>\",\"similarity_boost\":\"<number>\",\"style\":\"<number>\",\"use_speaker_boost\":\"<boolean>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "A seed value for deterministic generation.",
+                        "type": "text/plain"
+                      },
+                      "key": "seed",
+                      "value": "<integer>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3b580843-f1e3-4044-9e9c-a2bf0537706c",
+          "name": "Voice changer stream",
+          "request": {
+            "name": "Voice changer stream",
+            "description": {
+              "content": "Converts an audio recording to use a different voice and streams the result using chunked transfer encoding. Useful for real-time processing and playback scenarios.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "speech-to-speech",
+                ":voice_id",
+                "stream"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "output_format",
+                  "value": "mp3_44100_128",
+                  "description": "The desired output audio format."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "voice_id",
+                  "description": "(Required) The identifier of the target voice to convert the audio to."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "audio/mpeg"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "description": "(Required) The source audio file containing the speech to convert. Supports common audio formats including MP3, WAV, and OGG."
+                },
+                {
+                  "key": "model_id",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "The identifier of the model to use for voice conversion."
+                },
+                {
+                  "key": "voice_settings",
+                  "value": "{\"stability\":\"<number>\",\"similarity_boost\":\"<number>\",\"style\":\"<number>\",\"use_speaker_boost\":\"<boolean>\"}",
+                  "type": "text",
+                  "description": "Voice settings to override the default settings for the target voice."
+                },
+                {
+                  "key": "seed",
+                  "value": "<integer>",
+                  "type": "text",
+                  "description": "A seed value for deterministic generation."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "cd783e4e-122f-452b-afe1-3d9df90f40f1",
+              "name": "Streaming voice conversion response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "speech-to-speech",
+                    ":voice_id",
+                    "stream"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "output_format",
+                      "value": "mp3_44100_128"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "voice_id",
+                      "description": "(Required) The identifier of the target voice to convert the audio to."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "audio/mpeg"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) The source audio file containing the speech to convert. Supports common audio formats including MP3, WAV, and OGG.",
+                        "type": "text/plain"
+                      },
+                      "key": "audio",
+                      "type": "file"
+                    },
+                    {
+                      "description": {
+                        "content": "The identifier of the model to use for voice conversion.",
+                        "type": "text/plain"
+                      },
+                      "key": "model_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Voice settings to override the default settings for the target voice.",
+                        "type": "text/plain"
+                      },
+                      "key": "voice_settings",
+                      "value": "{\"stability\":\"<number>\",\"similarity_boost\":\"<number>\",\"style\":\"<number>\",\"use_speaker_boost\":\"<boolean>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "A seed value for deterministic generation.",
+                        "type": "text/plain"
+                      },
+                      "key": "seed",
+                      "value": "<integer>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "audio/mpeg"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "306038f7-332f-47d7-b844-881099d242cb",
+              "name": "Bad request - invalid audio or parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "speech-to-speech",
+                    ":voice_id",
+                    "stream"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "output_format",
+                      "value": "mp3_44100_128"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "voice_id",
+                      "description": "(Required) The identifier of the target voice to convert the audio to."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) The source audio file containing the speech to convert. Supports common audio formats including MP3, WAV, and OGG.",
+                        "type": "text/plain"
+                      },
+                      "key": "audio",
+                      "type": "file"
+                    },
+                    {
+                      "description": {
+                        "content": "The identifier of the model to use for voice conversion.",
+                        "type": "text/plain"
+                      },
+                      "key": "model_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Voice settings to override the default settings for the target voice.",
+                        "type": "text/plain"
+                      },
+                      "key": "voice_settings",
+                      "value": "{\"stability\":\"<number>\",\"similarity_boost\":\"<number>\",\"style\":\"<number>\",\"use_speaker_boost\":\"<boolean>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "A seed value for deterministic generation.",
+                        "type": "text/plain"
+                      },
+                      "key": "seed",
+                      "value": "<integer>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "429a5078-72ec-4b32-abc4-253d8901cd12",
+              "name": "Unauthorized - invalid or missing API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "speech-to-speech",
+                    ":voice_id",
+                    "stream"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "output_format",
+                      "value": "mp3_44100_128"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "voice_id",
+                      "description": "(Required) The identifier of the target voice to convert the audio to."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) The source audio file containing the speech to convert. Supports common audio formats including MP3, WAV, and OGG.",
+                        "type": "text/plain"
+                      },
+                      "key": "audio",
+                      "type": "file"
+                    },
+                    {
+                      "description": {
+                        "content": "The identifier of the model to use for voice conversion.",
+                        "type": "text/plain"
+                      },
+                      "key": "model_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Voice settings to override the default settings for the target voice.",
+                        "type": "text/plain"
+                      },
+                      "key": "voice_settings",
+                      "value": "{\"stability\":\"<number>\",\"similarity_boost\":\"<number>\",\"style\":\"<number>\",\"use_speaker_boost\":\"<boolean>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "A seed value for deterministic generation.",
+                        "type": "text/plain"
+                      },
+                      "key": "seed",
+                      "value": "<integer>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "71375d42-1cad-472c-aee9-b58ed4b66055",
+              "name": "Unprocessable entity - audio could not be processed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "speech-to-speech",
+                    ":voice_id",
+                    "stream"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "output_format",
+                      "value": "mp3_44100_128"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "voice_id",
+                      "description": "(Required) The identifier of the target voice to convert the audio to."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) The source audio file containing the speech to convert. Supports common audio formats including MP3, WAV, and OGG.",
+                        "type": "text/plain"
+                      },
+                      "key": "audio",
+                      "type": "file"
+                    },
+                    {
+                      "description": {
+                        "content": "The identifier of the model to use for voice conversion.",
+                        "type": "text/plain"
+                      },
+                      "key": "model_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Voice settings to override the default settings for the target voice.",
+                        "type": "text/plain"
+                      },
+                      "key": "voice_settings",
+                      "value": "{\"stability\":\"<number>\",\"similarity_boost\":\"<number>\",\"style\":\"<number>\",\"use_speaker_boost\":\"<boolean>\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "A seed value for deterministic generation.",
+                        "type": "text/plain"
+                      },
+                      "key": "seed",
+                      "value": "<integer>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.elevenlabs.io",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "xi-api-key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "45baf52e-9e69-4212-aec4-89579167494a",
+    "name": "ElevenLabs Audio Isolation Agents Speech to Speech API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The ElevenLabs Audio Isolation API removes background noise from audio recordings, isolating vocal tracks from ambient sounds and interference. This is useful for cleaning up recordings, improving audio quality for podcasts and interviews, and preparing audio files for further processing such as voice cloning or transcription.\n\nContact Support:\n Name: ElevenLabs Support",
+      "type": "text/plain"
+    }
+  }
+}

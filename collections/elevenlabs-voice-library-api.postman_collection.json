@@ -1,0 +1,497 @@
+{
+  "item": [
+    {
+      "id": "c0b0ce3f-85ba-4ca2-80c3-372b69a1b91f",
+      "name": "Voice Library",
+      "description": {
+        "content": "Endpoints for browsing and adding shared voices from the public voice library.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4e7a54ad-72e7-481b-a93d-bff582dfa544",
+          "name": "List shared voices",
+          "request": {
+            "name": "List shared voices",
+            "description": {
+              "content": "Returns a paginated list of voices from the public voice library that can be added to the user's voice collection.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "voice-library"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page_size",
+                  "value": "30",
+                  "description": "Number of voices to return per page."
+                },
+                {
+                  "disabled": false,
+                  "key": "gender",
+                  "value": "<string>",
+                  "description": "Filter voices by gender."
+                },
+                {
+                  "disabled": false,
+                  "key": "language",
+                  "value": "<string>",
+                  "description": "Filter voices by language."
+                },
+                {
+                  "disabled": false,
+                  "key": "search",
+                  "value": "<string>",
+                  "description": "Search term to filter voices by name or description."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5a3cc31e-9921-4ff9-8115-757a28246933",
+              "name": "Shared voices retrieved successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "voice-library"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page_size",
+                      "value": "30"
+                    },
+                    {
+                      "key": "gender",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "language",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"voices\": [\n    {\n      \"voice_id\": \"string\",\n      \"name\": \"string\",\n      \"category\": \"premade\",\n      \"labels\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\"\n      },\n      \"description\": \"string\",\n      \"preview_url\": \"http://HRbjETBwUuwGviBFaIRuwMSgpVgQsgh.puw8Z\",\n      \"settings\": {\n        \"stability\": 0.6350505597233146,\n        \"similarity_boost\": 0.9038419746199385,\n        \"style\": 0,\n        \"use_speaker_boost\": true\n      },\n      \"samples\": [\n        {\n          \"sample_id\": \"string\",\n          \"file_name\": \"string\",\n          \"mime_type\": \"string\",\n          \"size_bytes\": 227\n        },\n        {\n          \"sample_id\": \"string\",\n          \"file_name\": \"string\",\n          \"mime_type\": \"string\",\n          \"size_bytes\": 7930\n        }\n      ]\n    },\n    {\n      \"voice_id\": \"string\",\n      \"name\": \"string\",\n      \"category\": \"designed\",\n      \"labels\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": \"string\"\n      },\n      \"description\": \"string\",\n      \"preview_url\": \"http://mJmQqcOoiKeiQUJaThjIHApglPDg.wbceQiq,E1xHGpcE6fI8gmwLQQ4cIgMFlDp6LYJvSGL,tQsL\",\n      \"settings\": {\n        \"stability\": 0.609804531712257,\n        \"similarity_boost\": 0.8294904762235578,\n        \"style\": 0,\n        \"use_speaker_boost\": true\n      },\n      \"samples\": [\n        {\n          \"sample_id\": \"string\",\n          \"file_name\": \"string\",\n          \"mime_type\": \"string\",\n          \"size_bytes\": 4627\n        },\n        {\n          \"sample_id\": \"string\",\n          \"file_name\": \"string\",\n          \"mime_type\": \"string\",\n          \"size_bytes\": 4485\n        }\n      ]\n    }\n  ],\n  \"has_more\": false,\n  \"last_sort_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "04f11d22-81a3-4762-8ce5-d9d698d8346c",
+              "name": "Unauthorized - invalid or missing API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "voice-library"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page_size",
+                      "value": "30"
+                    },
+                    {
+                      "key": "gender",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "language",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2ae2f2a1-1813-458e-b17a-b7ee0d3ccd5e",
+          "name": "Add shared voice",
+          "request": {
+            "name": "Add shared voice",
+            "description": {
+              "content": "Adds a voice from the public library to the user's personal voice collection. The voice can then be used with speech generation endpoints.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "voice-library",
+                ":public_user_id",
+                ":voice_id",
+                "add"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "public_user_id",
+                  "description": "(Required) The public user ID of the voice owner."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "voice_id",
+                  "description": "(Required) The identifier of the voice."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"new_name\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e632692a-50aa-491e-b68b-9e5526056fdc",
+              "name": "Voice added to collection successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "voice-library",
+                    ":public_user_id",
+                    ":voice_id",
+                    "add"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "public_user_id",
+                      "description": "(Required) The public user ID of the voice owner."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "voice_id",
+                      "description": "(Required) The identifier of the voice."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"new_name\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"voice_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "02553efa-ffbe-480c-9653-05c2276d85f1",
+              "name": "Unauthorized - invalid or missing API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "voice-library",
+                    ":public_user_id",
+                    ":voice_id",
+                    "add"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "public_user_id",
+                      "description": "(Required) The public user ID of the voice owner."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "voice_id",
+                      "description": "(Required) The identifier of the voice."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"new_name\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "2d0253f9-2b8d-407f-8e53-3cff3af7c323",
+              "name": "Voice not found in public library",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "voice-library",
+                    ":public_user_id",
+                    ":voice_id",
+                    "add"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "public_user_id",
+                      "description": "(Required) The public user ID of the voice owner."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "voice_id",
+                      "description": "(Required) The identifier of the voice."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "xi-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"new_name\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.elevenlabs.io",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "xi-api-key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "fcba36fc-4797-43d5-9d7c-906aa26210f5",
+    "name": "ElevenLabs Audio Isolation Agents Voice Library API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The ElevenLabs Audio Isolation API removes background noise from audio recordings, isolating vocal tracks from ambient sounds and interference. This is useful for cleaning up recordings, improving audio quality for podcasts and interviews, and preparing audio files for further processing such as voice cloning or transcription.\n\nContact Support:\n Name: ElevenLabs Support",
+      "type": "text/plain"
+    }
+  }
+}

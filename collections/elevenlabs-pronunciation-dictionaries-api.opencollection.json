@@ -1,0 +1,49 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ElevenLabs Audio Isolation Agents Pronunciation Dictionaries API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "xi-api-key",
+      "value": "{{xi-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Pronunciation Dictionaries",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create pronunciation dictionaries",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elevenlabs.io/v1/studio/projects/:project_id/pronunciation-dictionaries",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the Studio project."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Associates pronunciation dictionaries with a Studio project for consistent pronunciation across all chapters."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

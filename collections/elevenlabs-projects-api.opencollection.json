@@ -1,0 +1,128 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ElevenLabs Audio Isolation Agents Projects API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "xi-api-key",
+      "value": "{{xi-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Projects",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List projects",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elevenlabs.io/v1/studio/projects"
+          },
+          "docs": "Returns a list of all Studio projects for the authenticated account, including metadata and status."
+        },
+        {
+          "info": {
+            "name": "Create project",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elevenlabs.io/v1/studio/projects",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new Studio project for long-form audio content. The project can include multiple chapters, voice assignments, and pronunciation dictionaries."
+        },
+        {
+          "info": {
+            "name": "Get project",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elevenlabs.io/v1/studio/projects/:project_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the Studio project."
+              }
+            ]
+          },
+          "docs": "Retrieves the full details of a Studio project including chapters, voice assignments, and rendering status."
+        },
+        {
+          "info": {
+            "name": "Delete project",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.elevenlabs.io/v1/studio/projects/:project_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the Studio project."
+              }
+            ]
+          },
+          "docs": "Deletes a Studio project and all associated content."
+        },
+        {
+          "info": {
+            "name": "Render project",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elevenlabs.io/v1/studio/projects/:project_id/convert",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the Studio project."
+              }
+            ]
+          },
+          "docs": "Initiates rendering of a Studio project, generating the final audio output from all chapters and voice assignments."
+        },
+        {
+          "info": {
+            "name": "List project snapshots",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elevenlabs.io/v1/studio/projects/:project_id/snapshots",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the Studio project."
+              }
+            ]
+          },
+          "docs": "Returns a list of rendered snapshots for a Studio project. Each snapshot represents a completed rendering of the project."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

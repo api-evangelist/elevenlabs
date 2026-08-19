@@ -1,0 +1,95 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ElevenLabs Audio Isolation Agents Chapters API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "xi-api-key",
+      "value": "{{xi-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Chapters",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List chapters",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elevenlabs.io/v1/studio/projects/:project_id/chapters",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the Studio project."
+              }
+            ]
+          },
+          "docs": "Returns a list of chapters in a Studio project."
+        },
+        {
+          "info": {
+            "name": "Get chapter",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elevenlabs.io/v1/studio/projects/:project_id/chapters/:chapter_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the Studio project."
+              },
+              {
+                "name": "chapter_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the chapter."
+              }
+            ]
+          },
+          "docs": "Retrieves the full details of a specific chapter in a Studio project."
+        },
+        {
+          "info": {
+            "name": "Delete chapter",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.elevenlabs.io/v1/studio/projects/:project_id/chapters/:chapter_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the Studio project."
+              },
+              {
+                "name": "chapter_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the chapter."
+              }
+            ]
+          },
+          "docs": "Deletes a chapter from a Studio project."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

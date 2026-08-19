@@ -1,0 +1,79 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ElevenLabs Audio Isolation Agents Voice Settings API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "xi-api-key",
+      "value": "{{xi-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Voice Settings",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get voice settings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elevenlabs.io/v1/voices/:voice_id/settings",
+            "params": [
+              {
+                "name": "voice_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the voice."
+              }
+            ]
+          },
+          "docs": "Returns the settings for a specific voice including stability, similarity boost, and style parameters."
+        },
+        {
+          "info": {
+            "name": "Edit voice settings",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elevenlabs.io/v1/voices/:voice_id/settings/edit",
+            "params": [
+              {
+                "name": "voice_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the voice."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the default settings for a specific voice. These settings are used when no per-request overrides are provided."
+        },
+        {
+          "info": {
+            "name": "Get default voice settings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elevenlabs.io/v1/voices/settings/default"
+          },
+          "docs": "Returns the default voice settings that are applied when no voice-specific or per-request settings are provided."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

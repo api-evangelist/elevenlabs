@@ -1,0 +1,114 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ElevenLabs Audio Isolation Agents Conversations API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "xi-api-key",
+      "value": "{{xi-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Conversations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List conversations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elevenlabs.io/v1/convai/conversations",
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter conversations by agent identifier."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of conversations to return per page."
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor for the next page."
+              }
+            ]
+          },
+          "docs": "Returns a list of conversations for the authenticated account, optionally filtered by agent identifier."
+        },
+        {
+          "info": {
+            "name": "Get conversation",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elevenlabs.io/v1/convai/conversations/:conversation_id",
+            "params": [
+              {
+                "name": "conversation_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the conversation."
+              }
+            ]
+          },
+          "docs": "Retrieves the full details of a conversation including the transcript, metadata, and analysis."
+        },
+        {
+          "info": {
+            "name": "Delete conversation",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.elevenlabs.io/v1/convai/conversations/:conversation_id",
+            "params": [
+              {
+                "name": "conversation_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the conversation."
+              }
+            ]
+          },
+          "docs": "Deletes a conversation and its associated data."
+        },
+        {
+          "info": {
+            "name": "Get conversation audio",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elevenlabs.io/v1/convai/conversations/:conversation_id/audio",
+            "params": [
+              {
+                "name": "conversation_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the conversation."
+              }
+            ]
+          },
+          "docs": "Downloads the audio recording of a conversation session."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

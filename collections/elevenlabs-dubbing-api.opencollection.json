@@ -1,0 +1,79 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ElevenLabs Audio Isolation Agents Dubbing API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "xi-api-key",
+      "value": "{{xi-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Dubbing",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Dub a video or audio file",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elevenlabs.io/v1/dubbing",
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Creates a new dubbing project from an uploaded audio or video file or a source URL. The dubbing process transcribes, translates, and re-synthesizes the audio content in the target language while preserving the original speakers' voice characteristics."
+        },
+        {
+          "info": {
+            "name": "Get dubbing metadata",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elevenlabs.io/v1/dubbing/:dubbing_id",
+            "params": [
+              {
+                "name": "dubbing_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the dubbing project."
+              }
+            ]
+          },
+          "docs": "Returns metadata and status information about a dubbing project, including the current processing state and available languages."
+        },
+        {
+          "info": {
+            "name": "Delete dubbing",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.elevenlabs.io/v1/dubbing/:dubbing_id",
+            "params": [
+              {
+                "name": "dubbing_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the dubbing project."
+              }
+            ]
+          },
+          "docs": "Deletes a dubbing project and all associated resources. This action is irreversible."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

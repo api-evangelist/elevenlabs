@@ -1,0 +1,127 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ElevenLabs Audio Isolation Agents Voices API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "xi-api-key",
+      "value": "{{xi-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Voices",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List voices",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elevenlabs.io/v1/voices",
+            "params": [
+              {
+                "name": "show_legacy",
+                "value": "",
+                "type": "query",
+                "description": "Whether to include legacy voices in the response."
+              }
+            ]
+          },
+          "docs": "Returns a list of all available voices, including pre-built and custom voices. Each voice includes metadata such as name, labels, description, and available settings."
+        },
+        {
+          "info": {
+            "name": "Get voice",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elevenlabs.io/v1/voices/:voice_id",
+            "params": [
+              {
+                "name": "voice_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the voice."
+              },
+              {
+                "name": "with_settings",
+                "value": "",
+                "type": "query",
+                "description": "Whether to include the voice settings in the response."
+              }
+            ]
+          },
+          "docs": "Returns metadata about a specific voice including its settings, samples, labels, and description."
+        },
+        {
+          "info": {
+            "name": "Delete voice",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.elevenlabs.io/v1/voices/:voice_id",
+            "params": [
+              {
+                "name": "voice_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the voice."
+              }
+            ]
+          },
+          "docs": "Deletes a voice from the user's voice library. This action is irreversible and removes all associated samples and settings."
+        },
+        {
+          "info": {
+            "name": "Edit voice",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elevenlabs.io/v1/voices/:voice_id/edit",
+            "params": [
+              {
+                "name": "voice_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the voice."
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Updates the metadata and settings for an existing voice. Allows changing the name, description, labels, and uploading new samples."
+        },
+        {
+          "info": {
+            "name": "Add voice",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elevenlabs.io/v1/voices/add",
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Creates a new voice from uploaded audio samples. The voice can then be used with text-to-speech and other audio generation endpoints."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

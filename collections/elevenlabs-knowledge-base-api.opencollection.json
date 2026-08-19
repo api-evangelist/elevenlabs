@@ -1,0 +1,90 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ElevenLabs Audio Isolation Agents Knowledge Base API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "xi-api-key",
+      "value": "{{xi-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Knowledge Base",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List knowledge base documents",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elevenlabs.io/v1/convai/knowledge-base"
+          },
+          "docs": "Returns a list of knowledge base documents available for use by conversational AI agents."
+        },
+        {
+          "info": {
+            "name": "Add knowledge base document",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elevenlabs.io/v1/convai/knowledge-base",
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Uploads a document to the knowledge base for use by conversational AI agents. Supported formats include PDF, TXT, and web URLs."
+        },
+        {
+          "info": {
+            "name": "Delete knowledge base document",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.elevenlabs.io/v1/convai/knowledge-base/:document_id",
+            "params": [
+              {
+                "name": "document_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the document to delete."
+              }
+            ]
+          },
+          "docs": "Removes a document from the knowledge base."
+        },
+        {
+          "info": {
+            "name": "Get dependent agents",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elevenlabs.io/v1/convai/knowledge-base/:document_id/dependent-agents",
+            "params": [
+              {
+                "name": "document_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the knowledge base document."
+              }
+            ]
+          },
+          "docs": "Returns a list of agents that depend on a specific knowledge base document."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

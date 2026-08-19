@@ -1,0 +1,150 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ElevenLabs Audio Isolation Agents API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "xi-api-key",
+      "value": "{{xi-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Agents",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List agents",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elevenlabs.io/v1/convai/agents",
+            "params": [
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of agents to return per page."
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor for retrieving the next page of results."
+              }
+            ]
+          },
+          "docs": "Returns a list of all conversational AI agents and their metadata for the authenticated account."
+        },
+        {
+          "info": {
+            "name": "Create agent",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elevenlabs.io/v1/convai/agents",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new conversational AI agent from a configuration object specifying the agent's behavior, voice, language model, and available tools."
+        },
+        {
+          "info": {
+            "name": "Get agent",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.elevenlabs.io/v1/convai/agents/:agent_id",
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the conversational AI agent."
+              }
+            ]
+          },
+          "docs": "Retrieves the full configuration and metadata for a specific conversational AI agent."
+        },
+        {
+          "info": {
+            "name": "Update agent",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.elevenlabs.io/v1/convai/agents/:agent_id",
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the conversational AI agent."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the configuration of an existing conversational AI agent. Only the provided fields are updated; unspecified fields retain their current values."
+        },
+        {
+          "info": {
+            "name": "Delete agent",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.elevenlabs.io/v1/convai/agents/:agent_id",
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the conversational AI agent."
+              }
+            ]
+          },
+          "docs": "Deletes a conversational AI agent and all its associated configuration. This action is irreversible."
+        },
+        {
+          "info": {
+            "name": "Simulate conversation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.elevenlabs.io/v1/convai/agents/:agent_id/simulate",
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the conversational AI agent."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Runs a simulated conversation between the agent and a simulated user for testing purposes. Returns the full conversation transcript and evaluation metrics."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
