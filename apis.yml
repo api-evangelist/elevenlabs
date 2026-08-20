@@ -517,6 +517,8 @@ apis:
   humanURL: https://elevenlabs.io/docs/api-reference/text-to-speech/convert
   baseURL: https://api.elevenlabs.io
   tags:
+  - Project
+  tags_raw:
   - Projects
   properties:
   - type: OpenAPI
@@ -680,6 +682,8 @@ apis:
   humanURL: https://elevenlabs.io/docs/api-reference/text-to-speech/convert
   baseURL: https://api.elevenlabs.io
   tags:
+  - Speech-to-Text
+  tags_raw:
   - Speech to Text
   properties:
   - type: OpenAPI
@@ -762,6 +766,8 @@ apis:
   humanURL: https://elevenlabs.io/docs/api-reference/text-to-speech/convert
   baseURL: https://api.elevenlabs.io
   tags:
+  - Text-to-Speech
+  tags_raw:
   - Text to Speech
   properties:
   - type: OpenAPI
