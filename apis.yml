@@ -1,4 +1,4 @@
-name: Elevenlabs
+name: ElevenLabs
 aid: elevenlabs
 deliveryModel:
   model: unknown
@@ -28,7 +28,7 @@ accessModel:
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/elevenlabs.png
 url: https://raw.githubusercontent.com/api-evangelist/elevenlabs/refs/heads/main/apis.yml
-modified: '2026-05-19'
+modified: '2026-09-17'
 common:
 - type: Website
   url: https://www.elevenlabs.io/
@@ -77,7 +77,146 @@ common:
   updated: '2026-05-04'
 - type: LlmsText
   url: https://elevenlabs.io/llms.txt
+- type: Documentation
+  url: https://elevenlabs.io/docs/overview/intro
+- type: DeveloperPortal
+  url: https://elevenlabs.io/api
+- type: APIReference
+  url: https://elevenlabs.io/docs/api-reference/introduction
+- type: GettingStarted
+  url: https://elevenlabs.io/docs/quickstart
+- type: Support
+  url: https://elevenlabs.io/docs/help-center/help-center-directory
+- type: Pricing
+  url: https://elevenlabs.io/pricing
+- type: SignUp
+  url: https://elevenlabs.io/app/sign-up
+- type: Login
+  url: https://elevenlabs.io/app/sign-in
+- type: TermsOfService
+  url: https://elevenlabs.io/terms-of-use
+- type: PrivacyPolicy
+  url: https://elevenlabs.io/privacy-policy
+- type: StatusPage
+  url: https://status.elevenlabs.io/
+- type: Lifecycle
+  url: lifecycle/elevenlabs-lifecycle.yml
+- type: Deprecation
+  url: lifecycle/elevenlabs-lifecycle.yml
+- type: ChangeLog
+  url: changelog/elevenlabs-changelog.yml
+- type: Security
+  url: security/elevenlabs-vulnerability-disclosure.yml
+- type: SecurityTxt
+  url: well-known/elevenlabs-security.txt
+- type: WellKnown
+  url: well-known/elevenlabs-well-known.yml
+- type: APICatalog
+  url: well-known/elevenlabs-api-catalog.json
+- type: TrustCenter
+  url: security/elevenlabs-trust-center.yml
+- type: Compliance
+  url: conformance/elevenlabs-conformance.yml
+- type: Conformance
+  url: conformance/elevenlabs-conformance.yml
+- type: Packages
+  url: packages/elevenlabs-packages.yml
+- type: SDKs
+  url: packages/elevenlabs-packages.yml
+- type: CLI
+  url: cli/elevenlabs-cli.yml
+- type: Components
+  url: components/elevenlabs-components.yml
+- type: DataModel
+  url: data-model/elevenlabs-data-model.yml
+- type: Conventions
+  url: conventions/elevenlabs-conventions.yml
+- type: ErrorCatalog
+  url: errors/elevenlabs-problem-types.yml
+- type: OAuthScopes
+  url: scopes/elevenlabs-scopes.yml
+- type: MCPServer
+  url: mcp/elevenlabs-mcp.yml
+- type: ToolCrosswalk
+  url: mcp/elevenlabs-tool-crosswalk.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: LLMsTxt
+  url: llms/elevenlabs-llms.txt
+- type: Overlay
+  url: overlays/elevenlabs-openapi-overlay.yaml
+- type: Plans
+  url: plans/elevenlabs-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/elevenlabs-rate-limits.yml
+- type: FinOps
+  url: finops/elevenlabs-finops.yml
+- type: Vocabulary
+  url: vocabulary/elevenlabs-vocabulary.yml
+- type: Rules
+  url: rules/elevenlabs-asyncapi-spectral-rules.yml
+- type: Rules
+  url: rules/elevenlabs-jsonschema-spectral-rules.yml
+- type: Webhooks
+  url: asyncapi/elevenlabs-webhooks-asyncapi.yml
 apis:
+- aid: elevenlabs:elevenlabs-api
+  name: ElevenLabs API
+  description: >-
+    The complete ElevenLabs REST API as the provider publishes it — one OpenAPI 3.1.0
+    document covering 301 paths and 390 operations across ElevenCreative (text to speech,
+    speech to text, voice changer, voice cloning and design, music, sound effects, audio
+    isolation, dubbing, Studio, image and video), ElevenAgents (agents, conversations,
+    knowledge base, tools, telephony, batch calling, testing) and workspace administration.
+    Served first-party at https://api.elevenlabs.io/openapi.json and advertised from the
+    provider's own RFC 9727 /.well-known/api-catalog linkset. The 22 per-product API entries
+    below are tag-split refinements of this same surface.
+  humanURL: https://elevenlabs.io/docs/api-reference/introduction
+  baseURL: https://api.elevenlabs.io
+  tags:
+  - Text-to-Speech
+  - Speech-to-Text
+  - Voice
+  - Agents
+  - Audio
+  properties:
+  - type: OpenAPI
+    url: openapi/elevenlabs-openapi.json
+  - type: OpenAPI
+    name: OpenAPI (provider-hosted)
+    url: https://api.elevenlabs.io/openapi.json
+  - type: APIReference
+    url: https://elevenlabs.io/docs/api-reference/introduction
+  - type: Documentation
+    url: https://elevenlabs.io/docs/overview/intro
+  - type: Authentication
+    url: authentication/elevenlabs-authentication.yml
+  - type: OAuthScopes
+    url: scopes/elevenlabs-scopes.yml
+  - type: ErrorCatalog
+    url: errors/elevenlabs-problem-types.yml
+  - type: Conventions
+    url: conventions/elevenlabs-conventions.yml
+  - type: RateLimits
+    url: rate-limits/elevenlabs-rate-limits.yml
+  - type: DataModel
+    url: data-model/elevenlabs-data-model.yml
+  - type: Overlay
+    url: overlays/elevenlabs-openapi-overlay.yaml
+  - type: MCPServer
+    url: mcp/elevenlabs-mcp.yml
+  - type: AgentSkill
+    url: skills/_index.yml
+  - type: Webhooks
+    url: asyncapi/elevenlabs-webhooks-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
+  - type: Lifecycle
+    url: lifecycle/elevenlabs-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/elevenlabs-changelog.yml
 - aid: elevenlabs:elevenlabs-agents-api
   name: elevenlabs Agents API
   description: >-
@@ -102,7 +241,7 @@ apis:
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/voices/get
   - type: Documentation
-    url: https://elevenlabs.io/docs/api-reference/sound-generation/create
+    url: https://elevenlabs.io/docs/api-reference/text-to-sound-effects/convert
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation
   - type: Documentation
@@ -112,13 +251,13 @@ apis:
   - type: Documentation
     url: https://elevenlabs.io/docs/overview/capabilities/music
   - type: Documentation
-    url: https://elevenlabs.io/docs/overview/capabilities/conversational-ai
+    url: https://elevenlabs.io/docs/eleven-agents/overview
   - type: AsyncAPI
     url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
   - type: AsyncAPI
     url: asyncapi/elevenlabs-webhooks-asyncapi.yml
   - type: Documentation
-    url: https://elevenlabs.io/docs/overview/capabilities/projects
+    url: https://elevenlabs.io/docs/eleven-creative/products/studio
 - aid: elevenlabs:elevenlabs-audio-isolation-api
   name: elevenlabs Audio Isolation API
   description: Endpoints for isolating vocals from background noise in audio recordings.
@@ -142,7 +281,7 @@ apis:
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/voices/get
   - type: Documentation
-    url: https://elevenlabs.io/docs/api-reference/sound-generation/create
+    url: https://elevenlabs.io/docs/api-reference/text-to-sound-effects/convert
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation
   - type: Documentation
@@ -152,13 +291,13 @@ apis:
   - type: Documentation
     url: https://elevenlabs.io/docs/overview/capabilities/music
   - type: Documentation
-    url: https://elevenlabs.io/docs/overview/capabilities/conversational-ai
+    url: https://elevenlabs.io/docs/eleven-agents/overview
   - type: AsyncAPI
     url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
   - type: AsyncAPI
     url: asyncapi/elevenlabs-webhooks-asyncapi.yml
   - type: Documentation
-    url: https://elevenlabs.io/docs/overview/capabilities/projects
+    url: https://elevenlabs.io/docs/eleven-creative/products/studio
 - aid: elevenlabs:elevenlabs-audio-native-api
   name: elevenlabs Audio Native API
   description: Endpoints for creating and managing Audio Native embedded players for web content.
@@ -182,7 +321,7 @@ apis:
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/voices/get
   - type: Documentation
-    url: https://elevenlabs.io/docs/api-reference/sound-generation/create
+    url: https://elevenlabs.io/docs/api-reference/text-to-sound-effects/convert
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation
   - type: Documentation
@@ -192,13 +331,13 @@ apis:
   - type: Documentation
     url: https://elevenlabs.io/docs/overview/capabilities/music
   - type: Documentation
-    url: https://elevenlabs.io/docs/overview/capabilities/conversational-ai
+    url: https://elevenlabs.io/docs/eleven-agents/overview
   - type: AsyncAPI
     url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
   - type: AsyncAPI
     url: asyncapi/elevenlabs-webhooks-asyncapi.yml
   - type: Documentation
-    url: https://elevenlabs.io/docs/overview/capabilities/projects
+    url: https://elevenlabs.io/docs/eleven-creative/products/studio
 - aid: elevenlabs:elevenlabs-chapters-api
   name: elevenlabs Chapters API
   description: Endpoints for managing chapters within Studio projects.
@@ -222,7 +361,7 @@ apis:
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/voices/get
   - type: Documentation
-    url: https://elevenlabs.io/docs/api-reference/sound-generation/create
+    url: https://elevenlabs.io/docs/api-reference/text-to-sound-effects/convert
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation
   - type: Documentation
@@ -232,13 +371,13 @@ apis:
   - type: Documentation
     url: https://elevenlabs.io/docs/overview/capabilities/music
   - type: Documentation
-    url: https://elevenlabs.io/docs/overview/capabilities/conversational-ai
+    url: https://elevenlabs.io/docs/eleven-agents/overview
   - type: AsyncAPI
     url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
   - type: AsyncAPI
     url: asyncapi/elevenlabs-webhooks-asyncapi.yml
   - type: Documentation
-    url: https://elevenlabs.io/docs/overview/capabilities/projects
+    url: https://elevenlabs.io/docs/eleven-creative/products/studio
 - aid: elevenlabs:elevenlabs-conversations-api
   name: elevenlabs Conversations API
   description: Endpoints for retrieving and managing conversation sessions and their associated data.
@@ -262,7 +401,7 @@ apis:
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/voices/get
   - type: Documentation
-    url: https://elevenlabs.io/docs/api-reference/sound-generation/create
+    url: https://elevenlabs.io/docs/api-reference/text-to-sound-effects/convert
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation
   - type: Documentation
@@ -272,13 +411,13 @@ apis:
   - type: Documentation
     url: https://elevenlabs.io/docs/overview/capabilities/music
   - type: Documentation
-    url: https://elevenlabs.io/docs/overview/capabilities/conversational-ai
+    url: https://elevenlabs.io/docs/eleven-agents/overview
   - type: AsyncAPI
     url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
   - type: AsyncAPI
     url: asyncapi/elevenlabs-webhooks-asyncapi.yml
   - type: Documentation
-    url: https://elevenlabs.io/docs/overview/capabilities/projects
+    url: https://elevenlabs.io/docs/eleven-creative/products/studio
 - aid: elevenlabs:elevenlabs-dubbing-api
   name: elevenlabs Dubbing API
   description: >-
@@ -303,7 +442,7 @@ apis:
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/voices/get
   - type: Documentation
-    url: https://elevenlabs.io/docs/api-reference/sound-generation/create
+    url: https://elevenlabs.io/docs/api-reference/text-to-sound-effects/convert
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation
   - type: Documentation
@@ -313,13 +452,13 @@ apis:
   - type: Documentation
     url: https://elevenlabs.io/docs/overview/capabilities/music
   - type: Documentation
-    url: https://elevenlabs.io/docs/overview/capabilities/conversational-ai
+    url: https://elevenlabs.io/docs/eleven-agents/overview
   - type: AsyncAPI
     url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
   - type: AsyncAPI
     url: asyncapi/elevenlabs-webhooks-asyncapi.yml
   - type: Documentation
-    url: https://elevenlabs.io/docs/overview/capabilities/projects
+    url: https://elevenlabs.io/docs/eleven-creative/products/studio
 - aid: elevenlabs:elevenlabs-dubbing-resources-api
   name: elevenlabs Dubbing Resources API
   description: >-
@@ -345,7 +484,7 @@ apis:
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/voices/get
   - type: Documentation
-    url: https://elevenlabs.io/docs/api-reference/sound-generation/create
+    url: https://elevenlabs.io/docs/api-reference/text-to-sound-effects/convert
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation
   - type: Documentation
@@ -355,13 +494,13 @@ apis:
   - type: Documentation
     url: https://elevenlabs.io/docs/overview/capabilities/music
   - type: Documentation
-    url: https://elevenlabs.io/docs/overview/capabilities/conversational-ai
+    url: https://elevenlabs.io/docs/eleven-agents/overview
   - type: AsyncAPI
     url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
   - type: AsyncAPI
     url: asyncapi/elevenlabs-webhooks-asyncapi.yml
   - type: Documentation
-    url: https://elevenlabs.io/docs/overview/capabilities/projects
+    url: https://elevenlabs.io/docs/eleven-creative/products/studio
 - aid: elevenlabs:elevenlabs-instant-voice-cloning-api
   name: elevenlabs Instant Voice Cloning API
   description: Endpoints for creating voice clones from short audio samples with instant processing.
@@ -385,7 +524,7 @@ apis:
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/voices/get
   - type: Documentation
-    url: https://elevenlabs.io/docs/api-reference/sound-generation/create
+    url: https://elevenlabs.io/docs/api-reference/text-to-sound-effects/convert
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation
   - type: Documentation
@@ -395,13 +534,13 @@ apis:
   - type: Documentation
     url: https://elevenlabs.io/docs/overview/capabilities/music
   - type: Documentation
-    url: https://elevenlabs.io/docs/overview/capabilities/conversational-ai
+    url: https://elevenlabs.io/docs/eleven-agents/overview
   - type: AsyncAPI
     url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
   - type: AsyncAPI
     url: asyncapi/elevenlabs-webhooks-asyncapi.yml
   - type: Documentation
-    url: https://elevenlabs.io/docs/overview/capabilities/projects
+    url: https://elevenlabs.io/docs/eleven-creative/products/studio
 - aid: elevenlabs:elevenlabs-knowledge-base-api
   name: elevenlabs Knowledge Base API
   description: Endpoints for managing knowledge base documents that agents use to answer questions.
@@ -425,7 +564,7 @@ apis:
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/voices/get
   - type: Documentation
-    url: https://elevenlabs.io/docs/api-reference/sound-generation/create
+    url: https://elevenlabs.io/docs/api-reference/text-to-sound-effects/convert
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation
   - type: Documentation
@@ -435,13 +574,13 @@ apis:
   - type: Documentation
     url: https://elevenlabs.io/docs/overview/capabilities/music
   - type: Documentation
-    url: https://elevenlabs.io/docs/overview/capabilities/conversational-ai
+    url: https://elevenlabs.io/docs/eleven-agents/overview
   - type: AsyncAPI
     url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
   - type: AsyncAPI
     url: asyncapi/elevenlabs-webhooks-asyncapi.yml
   - type: Documentation
-    url: https://elevenlabs.io/docs/overview/capabilities/projects
+    url: https://elevenlabs.io/docs/eleven-creative/products/studio
 - aid: elevenlabs:elevenlabs-music-generation-api
   name: elevenlabs Music Generation API
   description: Endpoints for generating music from text prompts using AI models.
@@ -465,7 +604,7 @@ apis:
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/voices/get
   - type: Documentation
-    url: https://elevenlabs.io/docs/api-reference/sound-generation/create
+    url: https://elevenlabs.io/docs/api-reference/text-to-sound-effects/convert
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation
   - type: Documentation
@@ -475,13 +614,13 @@ apis:
   - type: Documentation
     url: https://elevenlabs.io/docs/overview/capabilities/music
   - type: Documentation
-    url: https://elevenlabs.io/docs/overview/capabilities/conversational-ai
+    url: https://elevenlabs.io/docs/eleven-agents/overview
   - type: AsyncAPI
     url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
   - type: AsyncAPI
     url: asyncapi/elevenlabs-webhooks-asyncapi.yml
   - type: Documentation
-    url: https://elevenlabs.io/docs/overview/capabilities/projects
+    url: https://elevenlabs.io/docs/eleven-creative/products/studio
 - aid: elevenlabs:elevenlabs-professional-voice-cloning-api
   name: elevenlabs Professional Voice Cloning API
   description: >-
@@ -507,7 +646,7 @@ apis:
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/voices/get
   - type: Documentation
-    url: https://elevenlabs.io/docs/api-reference/sound-generation/create
+    url: https://elevenlabs.io/docs/api-reference/text-to-sound-effects/convert
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation
   - type: Documentation
@@ -517,13 +656,13 @@ apis:
   - type: Documentation
     url: https://elevenlabs.io/docs/overview/capabilities/music
   - type: Documentation
-    url: https://elevenlabs.io/docs/overview/capabilities/conversational-ai
+    url: https://elevenlabs.io/docs/eleven-agents/overview
   - type: AsyncAPI
     url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
   - type: AsyncAPI
     url: asyncapi/elevenlabs-webhooks-asyncapi.yml
   - type: Documentation
-    url: https://elevenlabs.io/docs/overview/capabilities/projects
+    url: https://elevenlabs.io/docs/eleven-creative/products/studio
 - aid: elevenlabs:elevenlabs-projects-api
   name: elevenlabs Projects API
   description: >-
@@ -551,7 +690,7 @@ apis:
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/voices/get
   - type: Documentation
-    url: https://elevenlabs.io/docs/api-reference/sound-generation/create
+    url: https://elevenlabs.io/docs/api-reference/text-to-sound-effects/convert
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation
   - type: Documentation
@@ -561,13 +700,13 @@ apis:
   - type: Documentation
     url: https://elevenlabs.io/docs/overview/capabilities/music
   - type: Documentation
-    url: https://elevenlabs.io/docs/overview/capabilities/conversational-ai
+    url: https://elevenlabs.io/docs/eleven-agents/overview
   - type: AsyncAPI
     url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
   - type: AsyncAPI
     url: asyncapi/elevenlabs-webhooks-asyncapi.yml
   - type: Documentation
-    url: https://elevenlabs.io/docs/overview/capabilities/projects
+    url: https://elevenlabs.io/docs/eleven-creative/products/studio
 - aid: elevenlabs:elevenlabs-pronunciation-dictionaries-api
   name: elevenlabs Pronunciation Dictionaries API
   description: Endpoints for managing pronunciation dictionaries used in Studio projects.
@@ -591,7 +730,7 @@ apis:
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/voices/get
   - type: Documentation
-    url: https://elevenlabs.io/docs/api-reference/sound-generation/create
+    url: https://elevenlabs.io/docs/api-reference/text-to-sound-effects/convert
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation
   - type: Documentation
@@ -601,13 +740,13 @@ apis:
   - type: Documentation
     url: https://elevenlabs.io/docs/overview/capabilities/music
   - type: Documentation
-    url: https://elevenlabs.io/docs/overview/capabilities/conversational-ai
+    url: https://elevenlabs.io/docs/eleven-agents/overview
   - type: AsyncAPI
     url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
   - type: AsyncAPI
     url: asyncapi/elevenlabs-webhooks-asyncapi.yml
   - type: Documentation
-    url: https://elevenlabs.io/docs/overview/capabilities/projects
+    url: https://elevenlabs.io/docs/eleven-creative/products/studio
 - aid: elevenlabs:elevenlabs-sound-effects-api
   name: elevenlabs Sound Effects API
   description: Endpoints for generating sound effects from text descriptions using AI models.
@@ -631,7 +770,7 @@ apis:
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/voices/get
   - type: Documentation
-    url: https://elevenlabs.io/docs/api-reference/sound-generation/create
+    url: https://elevenlabs.io/docs/api-reference/text-to-sound-effects/convert
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation
   - type: Documentation
@@ -641,13 +780,13 @@ apis:
   - type: Documentation
     url: https://elevenlabs.io/docs/overview/capabilities/music
   - type: Documentation
-    url: https://elevenlabs.io/docs/overview/capabilities/conversational-ai
+    url: https://elevenlabs.io/docs/eleven-agents/overview
   - type: AsyncAPI
     url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
   - type: AsyncAPI
     url: asyncapi/elevenlabs-webhooks-asyncapi.yml
   - type: Documentation
-    url: https://elevenlabs.io/docs/overview/capabilities/projects
+    url: https://elevenlabs.io/docs/eleven-creative/products/studio
 - aid: elevenlabs:elevenlabs-speech-to-speech-api
   name: elevenlabs Speech to Speech API
   description: >-
@@ -672,7 +811,7 @@ apis:
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/voices/get
   - type: Documentation
-    url: https://elevenlabs.io/docs/api-reference/sound-generation/create
+    url: https://elevenlabs.io/docs/api-reference/text-to-sound-effects/convert
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation
   - type: Documentation
@@ -682,13 +821,13 @@ apis:
   - type: Documentation
     url: https://elevenlabs.io/docs/overview/capabilities/music
   - type: Documentation
-    url: https://elevenlabs.io/docs/overview/capabilities/conversational-ai
+    url: https://elevenlabs.io/docs/eleven-agents/overview
   - type: AsyncAPI
     url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
   - type: AsyncAPI
     url: asyncapi/elevenlabs-webhooks-asyncapi.yml
   - type: Documentation
-    url: https://elevenlabs.io/docs/overview/capabilities/projects
+    url: https://elevenlabs.io/docs/eleven-creative/products/studio
 - aid: elevenlabs:elevenlabs-speech-to-text-api
   name: elevenlabs Speech to Text API
   description: >-
@@ -716,7 +855,7 @@ apis:
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/voices/get
   - type: Documentation
-    url: https://elevenlabs.io/docs/api-reference/sound-generation/create
+    url: https://elevenlabs.io/docs/api-reference/text-to-sound-effects/convert
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation
   - type: Documentation
@@ -726,13 +865,13 @@ apis:
   - type: Documentation
     url: https://elevenlabs.io/docs/overview/capabilities/music
   - type: Documentation
-    url: https://elevenlabs.io/docs/overview/capabilities/conversational-ai
+    url: https://elevenlabs.io/docs/eleven-agents/overview
   - type: AsyncAPI
     url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
   - type: AsyncAPI
     url: asyncapi/elevenlabs-webhooks-asyncapi.yml
   - type: Documentation
-    url: https://elevenlabs.io/docs/overview/capabilities/projects
+    url: https://elevenlabs.io/docs/eleven-creative/products/studio
 - aid: elevenlabs:elevenlabs-text-to-dialogue-api
   name: elevenlabs Text to Dialogue API
   description: Endpoints for converting text scripts with multiple speakers into dialogue audio.
@@ -756,7 +895,7 @@ apis:
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/voices/get
   - type: Documentation
-    url: https://elevenlabs.io/docs/api-reference/sound-generation/create
+    url: https://elevenlabs.io/docs/api-reference/text-to-sound-effects/convert
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation
   - type: Documentation
@@ -766,13 +905,13 @@ apis:
   - type: Documentation
     url: https://elevenlabs.io/docs/overview/capabilities/music
   - type: Documentation
-    url: https://elevenlabs.io/docs/overview/capabilities/conversational-ai
+    url: https://elevenlabs.io/docs/eleven-agents/overview
   - type: AsyncAPI
     url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
   - type: AsyncAPI
     url: asyncapi/elevenlabs-webhooks-asyncapi.yml
   - type: Documentation
-    url: https://elevenlabs.io/docs/overview/capabilities/projects
+    url: https://elevenlabs.io/docs/eleven-creative/products/studio
 - aid: elevenlabs:elevenlabs-text-to-speech-api
   name: elevenlabs Text to Speech API
   description: >-
@@ -800,7 +939,7 @@ apis:
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/voices/get
   - type: Documentation
-    url: https://elevenlabs.io/docs/api-reference/sound-generation/create
+    url: https://elevenlabs.io/docs/api-reference/text-to-sound-effects/convert
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation
   - type: Documentation
@@ -810,13 +949,13 @@ apis:
   - type: Documentation
     url: https://elevenlabs.io/docs/overview/capabilities/music
   - type: Documentation
-    url: https://elevenlabs.io/docs/overview/capabilities/conversational-ai
+    url: https://elevenlabs.io/docs/eleven-agents/overview
   - type: AsyncAPI
     url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
   - type: AsyncAPI
     url: asyncapi/elevenlabs-webhooks-asyncapi.yml
   - type: Documentation
-    url: https://elevenlabs.io/docs/overview/capabilities/projects
+    url: https://elevenlabs.io/docs/eleven-creative/products/studio
 - aid: elevenlabs:elevenlabs-tools-api
   name: elevenlabs Tools API
   description: >-
@@ -841,7 +980,7 @@ apis:
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/voices/get
   - type: Documentation
-    url: https://elevenlabs.io/docs/api-reference/sound-generation/create
+    url: https://elevenlabs.io/docs/api-reference/text-to-sound-effects/convert
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation
   - type: Documentation
@@ -851,13 +990,13 @@ apis:
   - type: Documentation
     url: https://elevenlabs.io/docs/overview/capabilities/music
   - type: Documentation
-    url: https://elevenlabs.io/docs/overview/capabilities/conversational-ai
+    url: https://elevenlabs.io/docs/eleven-agents/overview
   - type: AsyncAPI
     url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
   - type: AsyncAPI
     url: asyncapi/elevenlabs-webhooks-asyncapi.yml
   - type: Documentation
-    url: https://elevenlabs.io/docs/overview/capabilities/projects
+    url: https://elevenlabs.io/docs/eleven-creative/products/studio
 - aid: elevenlabs:elevenlabs-voice-library-api
   name: elevenlabs Voice Library API
   description: Endpoints for browsing and adding shared voices from the public voice library.
@@ -881,7 +1020,7 @@ apis:
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/voices/get
   - type: Documentation
-    url: https://elevenlabs.io/docs/api-reference/sound-generation/create
+    url: https://elevenlabs.io/docs/api-reference/text-to-sound-effects/convert
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation
   - type: Documentation
@@ -891,13 +1030,13 @@ apis:
   - type: Documentation
     url: https://elevenlabs.io/docs/overview/capabilities/music
   - type: Documentation
-    url: https://elevenlabs.io/docs/overview/capabilities/conversational-ai
+    url: https://elevenlabs.io/docs/eleven-agents/overview
   - type: AsyncAPI
     url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
   - type: AsyncAPI
     url: asyncapi/elevenlabs-webhooks-asyncapi.yml
   - type: Documentation
-    url: https://elevenlabs.io/docs/overview/capabilities/projects
+    url: https://elevenlabs.io/docs/eleven-creative/products/studio
 - aid: elevenlabs:elevenlabs-voice-settings-api
   name: elevenlabs Voice Settings API
   description: >-
@@ -922,7 +1061,7 @@ apis:
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/voices/get
   - type: Documentation
-    url: https://elevenlabs.io/docs/api-reference/sound-generation/create
+    url: https://elevenlabs.io/docs/api-reference/text-to-sound-effects/convert
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation
   - type: Documentation
@@ -932,13 +1071,13 @@ apis:
   - type: Documentation
     url: https://elevenlabs.io/docs/overview/capabilities/music
   - type: Documentation
-    url: https://elevenlabs.io/docs/overview/capabilities/conversational-ai
+    url: https://elevenlabs.io/docs/eleven-agents/overview
   - type: AsyncAPI
     url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
   - type: AsyncAPI
     url: asyncapi/elevenlabs-webhooks-asyncapi.yml
   - type: Documentation
-    url: https://elevenlabs.io/docs/overview/capabilities/projects
+    url: https://elevenlabs.io/docs/eleven-creative/products/studio
 - aid: elevenlabs:elevenlabs-voices-api
   name: elevenlabs Voices API
   description: >-
@@ -946,6 +1085,8 @@ apis:
   humanURL: https://elevenlabs.io/docs/api-reference/text-to-speech/convert
   baseURL: https://api.elevenlabs.io
   tags:
+  - Voice
+  tags_raw:
   - Voices
   properties:
   - type: OpenAPI
@@ -963,7 +1104,7 @@ apis:
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/voices/get
   - type: Documentation
-    url: https://elevenlabs.io/docs/api-reference/sound-generation/create
+    url: https://elevenlabs.io/docs/api-reference/text-to-sound-effects/convert
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation
   - type: Documentation
@@ -973,11 +1114,52 @@ apis:
   - type: Documentation
     url: https://elevenlabs.io/docs/overview/capabilities/music
   - type: Documentation
-    url: https://elevenlabs.io/docs/overview/capabilities/conversational-ai
+    url: https://elevenlabs.io/docs/eleven-agents/overview
   - type: AsyncAPI
     url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
   - type: AsyncAPI
     url: asyncapi/elevenlabs-webhooks-asyncapi.yml
   - type: Documentation
-    url: https://elevenlabs.io/docs/overview/capabilities/projects
-description: Converts text into speech using a voice of your choice and returns audio.
+    url: https://elevenlabs.io/docs/eleven-creative/products/studio
+description: >-
+  ElevenLabs is an AI research and product company building voice and audio models, founded
+  in 2022 and launched publicly in January 2023 with the first human-like AI voice model. It
+  sells across three platforms: ElevenCreative (text to speech, speech to text, voice cloning
+  and design, music, sound effects, dubbing, Studio, image and video across 70+ languages),
+  ElevenAgents (an enterprise platform for voice and chat agents with telephony, testing,
+  evaluation and analytics), and ElevenAPI (direct developer access to the audio foundation
+  models over HTTP and WebSocket). It publishes a single first-party OpenAPI 3.1.0 covering
+  390 operations, official SDKs for Python, JavaScript, React, React Native, Swift, Kotlin
+  and Flutter, a Rust CLI, a hosted remote MCP server with four data-residency endpoints, and
+  ten Agent Skills of its own.
+tags:
+- Artificial Intelligence
+- Text-to-Speech
+- Speech-to-Text
+- Voice
+- Audio
+- Machine-Learning
+- Conversational AI
+- Agents
+- Dubbing
+- Music Generation
+tags_raw:
+- Artificial Intelligence
+- Text-to-Speech
+- Speech-to-Text
+- Voice
+- Audio
+- Machine Learning
+- Conversational AI
+- Agents
+- Dubbing
+- Music Generation
+created: '2026-05-04'
+maintainers:
+- FN: Kin Lane
+  email: info@apievangelist.com
+x-enrichment:
+  date: '2026-09-17'
+  status: enriched
+  artifacts_added: 31
+  pass: local-v3
