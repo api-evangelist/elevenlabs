@@ -1,0 +1,3 @@
+Contact: https://elevenlabs.io/security/report
+Contact: mailto:vulnerability_disclosure_program@elevenlabs.io
+Expires: 2027-03-01T00:00:00.000Z

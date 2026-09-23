@@ -1,0 +1,134 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the ElevenLabs OpenAPI
+  version: 1.0.0
+extends: ../openapi/elevenlabs-openapi.json
+x-provenance:
+  generated: '2026-09-17'
+  method: generated
+  source: openapi/elevenlabs-openapi.json (https://api.elevenlabs.io/openapi.json, OpenAPI
+    3.1.0, 301 paths / 390 operations)
+  note: |
+    This overlay records API Evangelist's enhancements to the provider's published contract.
+    It NEVER mutates the original spec — the original is stored verbatim in openapi/. Every
+    action below adds information the provider's own docs state but the contract omits: the
+    server list, the authentication scheme, contact and licensing, and the rate-limit /
+    error / reversibility semantics captured in the artifacts alongside it.
+
+    The largest gap it closes: the published spec declares NO components.securitySchemes and
+    applies no security requirement to any of its 390 operations, even though every endpoint
+    requires the xi-api-key header (which the spec instead carries as a plain header
+    parameter on 386 operations). A tool reading only the spec cannot tell how to
+    authenticate. The spec also declares no servers[] at all.
+actions:
+- target: $
+  description: Add the five API hosts the provider documents. The published spec declares no
+    servers[] block, so a generated client has no base URL.
+  update:
+    servers:
+    - url: https://api.elevenlabs.io
+      description: Production (global, default)
+    - url: https://api.us.elevenlabs.io
+      description: Production US data residency
+    - url: https://api.eu.residency.elevenlabs.io
+      description: Production EU data residency
+    - url: https://api.in.residency.elevenlabs.io
+      description: Production India data residency
+    - url: https://api.sg.residency.elevenlabs.io
+      description: Production Singapore data residency
+- target: $.info
+  description: Add contact, terms, licence and external documentation, none of which the
+    published spec carries.
+  update:
+    contact:
+      name: ElevenLabs Support
+      email: team@elevenlabs.io
+      url: https://elevenlabs.io/docs
+    termsOfService: https://elevenlabs.io/terms-of-use
+    x-privacy-policy: https://elevenlabs.io/privacy-policy
+    x-status-page: https://status.elevenlabs.io/
+    x-changelog: https://elevenlabs.io/docs/changelog
+    x-breaking-changes-policy: https://elevenlabs.io/docs/eleven-api/resources/breaking-changes-policy
+- target: $.components
+  description: Declare the security schemes the API actually enforces. The provider carries
+    xi-api-key as a header PARAMETER on 386 operations instead of as a scheme.
+  update:
+    securitySchemes:
+      xiApiKey:
+        type: apiKey
+        in: header
+        name: xi-api-key
+        description: ElevenLabs API key. Documented at
+          https://elevenlabs.io/docs/api-reference/authentication. Supports per-key scope
+          restriction, credit quota and IP allowlisting.
+      oauth2:
+        type: oauth2
+        description: OAuth 2.0 authorization code + PKCE, used by the hosted MCP server and
+          the ElevenLabs CLI. Metadata at
+          https://api.elevenlabs.io/.well-known/oauth-authorization-server.
+        flows:
+          authorizationCode:
+            authorizationUrl: https://elevenlabs.io/app/oauth/authorize
+            tokenUrl: https://api.us.elevenlabs.io/v1/oauth/token
+            refreshUrl: https://api.us.elevenlabs.io/v1/oauth/token
+            scopes:
+              convai_read: Read ElevenAgents resources
+              convai_write: Create, update and delete ElevenAgents resources
+              text_to_speech: Generate speech from text
+              speech_history_read: Read the workspace speech generation history
+              flows: Access ElevenAgents flows
+              image_video_generation: Generate images and video
+              voice_generation: Generate and design voices
+- target: $
+  description: Apply the API key scheme globally, matching the enforced behaviour.
+  update:
+    security:
+    - xiApiKey: []
+- target: $
+  description: Attach the runtime semantics an agent needs before calling anything, sourced
+    from the provider's docs and recorded in full in the artifacts named here.
+  update:
+    x-rate-limits:
+      model: concurrency
+      artifact: rate-limits/elevenlabs-rate-limits.yml
+      status: 429
+      codes:
+      - rate_limit_exceeded
+      - concurrent_limit_exceeded
+      response_headers:
+      - current-concurrent-requests
+      - maximum-concurrent-requests
+      docs: https://elevenlabs.io/docs/overview/models
+    x-error-envelope:
+      artifact: errors/elevenlabs-problem-types.yml
+      rfc9457: false
+      shape: '{ "detail": { type, code, message, status, request_id, param } }'
+      branch_on: detail.code
+      docs: https://elevenlabs.io/docs/eleven-api/resources/errors
+    x-idempotency:
+      coverage: none
+      note: no Idempotency-Key header exists anywhere in this contract; retrying a failed
+        generation POST bills twice.
+      artifact: conventions/elevenlabs-conventions.yml
+    x-reversibility:
+      grade: documented
+      note: cancel exists for crawl jobs, batch calls and file uploads, and agent config is
+        version/branch restorable. No reversal window is published for anything, and credit
+        consumption on generation is irreversible.
+      artifact: conventions/elevenlabs-conventions.yml
+    x-pagination:
+      style: cursor
+      params:
+      - cursor
+      - page_size
+      response_fields:
+      - next_cursor
+      - has_more
+    x-tracing:
+      response_headers:
+      - request-id
+      - x-trace-id
+      - character-cost
+    x-mcp-server: https://api.elevenlabs.io/v1/mcp
+    x-agent-skills: https://github.com/elevenlabs/skills
+    x-well-known-api-catalog: https://elevenlabs.io/.well-known/api-catalog

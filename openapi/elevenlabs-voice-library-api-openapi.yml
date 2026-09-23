@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: ElevenLabs Audio Isolation Agents Voice Library API
-  description: The ElevenLabs Audio Isolation API removes background noise from audio recordings, isolating vocal tracks from ambient sounds and interference. This is useful for cleaning up recordings, improving audio quality for podcasts and interviews, and preparing audio files for further processing such as voice cloning or transcription.
+  title: ElevenLabs Voices Voice Library API
+  description: The ElevenLabs Voices API provides management capabilities for the voice library, including listing, retrieving, creating, editing, and deleting voices. Developers can access a library of over 5,000 pre-built voices and manage their own custom voices. The API also supports voice design, voice settings management, and voice library sharing.
   version: '1.0'
   contact:
     name: ElevenLabs Support
@@ -102,12 +102,21 @@ paths:
           description: Voice not found in public library
 components:
   schemas:
-    AddVoiceResponse:
+    VoiceSample:
       type: object
       properties:
-        voice_id:
+        sample_id:
           type: string
-          description: The identifier of the newly created or added voice.
+          description: Unique identifier for the audio sample.
+        file_name:
+          type: string
+          description: Original file name of the uploaded sample.
+        mime_type:
+          type: string
+          description: MIME type of the audio sample.
+        size_bytes:
+          type: integer
+          description: Size of the audio sample in bytes.
     Voice:
       type: object
       properties:
@@ -158,21 +167,12 @@ components:
         last_sort_id:
           type: string
           description: Cursor for pagination to retrieve the next page of results.
-    VoiceSample:
+    AddVoiceResponse:
       type: object
       properties:
-        sample_id:
+        voice_id:
           type: string
-          description: Unique identifier for the audio sample.
-        file_name:
-          type: string
-          description: Original file name of the uploaded sample.
-        mime_type:
-          type: string
-          description: MIME type of the audio sample.
-        size_bytes:
-          type: integer
-          description: Size of the audio sample in bytes.
+          description: The identifier of the newly created or added voice.
     VoiceSettings:
       type: object
       properties:
@@ -211,5 +211,5 @@ components:
       name: xi-api-key
       description: ElevenLabs API key passed in the xi-api-key header for authentication.
 externalDocs:
-  description: ElevenLabs Audio Isolation API Documentation
-  url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation
+  description: ElevenLabs Voices API Documentation
+  url: https://elevenlabs.io/docs/api-reference/voices/get

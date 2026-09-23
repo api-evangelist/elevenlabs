@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: ElevenLabs Audio Isolation Agents Music Generation API
-  description: The ElevenLabs Audio Isolation API removes background noise from audio recordings, isolating vocal tracks from ambient sounds and interference. This is useful for cleaning up recordings, improving audio quality for podcasts and interviews, and preparing audio files for further processing such as voice cloning or transcription.
+  title: ElevenLabs Music Generation API
+  description: The ElevenLabs Music Generation API creates music from text prompts, allowing developers to generate original musical compositions programmatically. Users describe the desired genre, mood, tempo, and instrumentation in natural language and receive generated audio output. The API supports generating stems, lyrics, and full compositions with seamless looping and professional-grade quality.
   version: '1.0'
   contact:
     name: ElevenLabs Support
@@ -73,5 +73,5 @@ components:
       name: xi-api-key
       description: ElevenLabs API key passed in the xi-api-key header for authentication.
 externalDocs:
-  description: ElevenLabs Audio Isolation API Documentation
-  url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation
+  description: ElevenLabs Music Generation Documentation
+  url: https://elevenlabs.io/docs/overview/capabilities/music

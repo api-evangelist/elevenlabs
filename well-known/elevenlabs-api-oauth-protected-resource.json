@@ -1,0 +1,1 @@
+{"resource":"https://api.us.elevenlabs.io/v1/mcp","authorization_servers":["https://api.us.elevenlabs.io"],"scopes_supported":["convai_read","convai_write","text_to_speech","speech_history_read","flows","image_video_generation","voice_generation"],"bearer_methods_supported":["header"]}

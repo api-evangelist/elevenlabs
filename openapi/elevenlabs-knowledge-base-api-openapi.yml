@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: ElevenLabs Audio Isolation Agents Knowledge Base API
-  description: The ElevenLabs Audio Isolation API removes background noise from audio recordings, isolating vocal tracks from ambient sounds and interference. This is useful for cleaning up recordings, improving audio quality for podcasts and interviews, and preparing audio files for further processing such as voice cloning or transcription.
+  title: ElevenLabs Conversational AI Knowledge Base API
+  description: The ElevenLabs Conversational AI API enables developers to build interactive voice agents that can engage in natural, real-time conversations. It provides REST endpoints for managing agents, conversations, knowledge bases, tools, and phone number integrations. The API supports multi-turn dialogue across 70+ languages and is designed for building customer service agents, voice assistants, and interactive voice response systems.
   version: '1.0'
   contact:
     name: ElevenLabs Support
@@ -122,6 +122,27 @@ components:
         name:
           type: string
           description: Display name for the knowledge base document.
+    KnowledgeBaseListResponse:
+      type: object
+      properties:
+        documents:
+          type: array
+          description: List of knowledge base documents.
+          items:
+            $ref: '#/components/schemas/KnowledgeBaseDocument'
+    AgentSummary:
+      type: object
+      properties:
+        agent_id:
+          type: string
+          description: Unique identifier for the agent.
+        name:
+          type: string
+          description: Display name of the agent.
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the agent was created.
     KnowledgeBaseDocument:
       type: object
       properties:
@@ -142,27 +163,6 @@ components:
           type: string
           format: date-time
           description: Timestamp when the document was added.
-    AgentSummary:
-      type: object
-      properties:
-        agent_id:
-          type: string
-          description: Unique identifier for the agent.
-        name:
-          type: string
-          description: Display name of the agent.
-        created_at:
-          type: string
-          format: date-time
-          description: Timestamp when the agent was created.
-    KnowledgeBaseListResponse:
-      type: object
-      properties:
-        documents:
-          type: array
-          description: List of knowledge base documents.
-          items:
-            $ref: '#/components/schemas/KnowledgeBaseDocument'
   securitySchemes:
     apiKeyAuth:
       type: apiKey
@@ -170,5 +170,5 @@ components:
       name: xi-api-key
       description: ElevenLabs API key passed in the xi-api-key header for authentication.
 externalDocs:
-  description: ElevenLabs Audio Isolation API Documentation
-  url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation
+  description: ElevenLabs Conversational AI Documentation
+  url: https://elevenlabs.io/docs/overview/capabilities/conversational-ai

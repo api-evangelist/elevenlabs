@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: ElevenLabs Audio Isolation Agents Tools API
-  description: The ElevenLabs Audio Isolation API removes background noise from audio recordings, isolating vocal tracks from ambient sounds and interference. This is useful for cleaning up recordings, improving audio quality for podcasts and interviews, and preparing audio files for further processing such as voice cloning or transcription.
+  title: ElevenLabs Conversational AI Tools API
+  description: The ElevenLabs Conversational AI API enables developers to build interactive voice agents that can engage in natural, real-time conversations. It provides REST endpoints for managing agents, conversations, knowledge bases, tools, and phone number integrations. The API supports multi-turn dialogue across 70+ languages and is designed for building customer service agents, voice assistants, and interactive voice response systems.
   version: '1.0'
   contact:
     name: ElevenLabs Support
@@ -78,6 +78,40 @@ paths:
           description: Tool not found
 components:
   schemas:
+    ToolListResponse:
+      type: object
+      properties:
+        tools:
+          type: array
+          description: List of configured tools.
+          items:
+            $ref: '#/components/schemas/Tool'
+    CreateToolRequest:
+      type: object
+      required:
+      - name
+      - type
+      properties:
+        name:
+          type: string
+          description: Display name for the tool.
+        type:
+          type: string
+          description: The type of tool to create.
+          enum:
+          - webhook
+          - mcp
+          - client
+        description:
+          type: string
+          description: Description of what the tool does.
+        webhook_url:
+          type: string
+          format: uri
+          description: The webhook endpoint URL for webhook-type tools.
+        parameters:
+          type: object
+          description: JSON Schema defining the parameters the tool accepts.
     Tool:
       type: object
       properties:
@@ -108,40 +142,6 @@ components:
           type: string
           format: date-time
           description: Timestamp when the tool was created.
-    CreateToolRequest:
-      type: object
-      required:
-      - name
-      - type
-      properties:
-        name:
-          type: string
-          description: Display name for the tool.
-        type:
-          type: string
-          description: The type of tool to create.
-          enum:
-          - webhook
-          - mcp
-          - client
-        description:
-          type: string
-          description: Description of what the tool does.
-        webhook_url:
-          type: string
-          format: uri
-          description: The webhook endpoint URL for webhook-type tools.
-        parameters:
-          type: object
-          description: JSON Schema defining the parameters the tool accepts.
-    ToolListResponse:
-      type: object
-      properties:
-        tools:
-          type: array
-          description: List of configured tools.
-          items:
-            $ref: '#/components/schemas/Tool'
   securitySchemes:
     apiKeyAuth:
       type: apiKey
@@ -149,5 +149,5 @@ components:
       name: xi-api-key
       description: ElevenLabs API key passed in the xi-api-key header for authentication.
 externalDocs:
-  description: ElevenLabs Audio Isolation API Documentation
-  url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation
+  description: ElevenLabs Conversational AI Documentation
+  url: https://elevenlabs.io/docs/overview/capabilities/conversational-ai

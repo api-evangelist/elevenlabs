@@ -1,0 +1,116 @@
+generated: '2026-09-19'
+method: probed
+source: live GET probes of every host this record knows (registrable domain, www, API host, the US data-residency
+  host named by the protected-resource document, and the docs host)
+description: 'Named /.well-known/ path probes for ElevenLabs. The registrable domain serves a real
+
+  RFC 9116 security.txt and an RFC 9727 api-catalog linkset; the API host serves RFC 8414
+
+  OAuth authorization-server metadata and an RFC 9728 protected-resource document that
+
+  points at the hosted MCP server. Everything else 404s. A 404 on elevenlabs.io returns
+
+  the Next.js HTML 404 shell, not a document.
+
+  '
+hosts:
+- host: elevenlabs.io
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    content_type: text/plain
+    file: elevenlabs-security.txt
+  - path: /.well-known/api-catalog
+    status: 200
+    content_type: application/linkset+json
+    file: elevenlabs-api-catalog.json
+    note: RFC 9727 linkset anchored at https://api.elevenlabs.io/v1; service-desc points at https://api.elevenlabs.io/openapi.json,
+      service-doc at the docs API reference, status at https://status.elevenlabs.io/
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/aauth-resource.json
+    status: 404
+- host: www.elevenlabs.io
+  documents:
+  - path: /.well-known/security.txt
+    status: 301
+    note: redirects to the apex elevenlabs.io, which serves the document
+  - path: /.well-known/api-catalog
+    status: 301
+    note: redirects to the apex elevenlabs.io, which serves the document
+- host: api.elevenlabs.io
+  documents:
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: application/json
+    file: elevenlabs-oauth-authorization-server.json
+    note: RFC 8414. issuer https://api.us.elevenlabs.io, authorization_code + refresh_token, PKCE S256
+      required, private_key_jwt supported, 7 scopes published
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    content_type: application/json
+    file: elevenlabs-oauth-protected-resource.json
+    note: RFC 9728. resource https://api.us.elevenlabs.io/v1/mcp — the hosted MCP server
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: api.us.elevenlabs.io
+  documents:
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: application/json
+    note: identical body to the api.elevenlabs.io document; the issuer is this host
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    content_type: application/json
+    note: identical body to the api.elevenlabs.io document
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    file: elevenlabs-api-oauth-protected-resource.json
+    bytes: 286
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: elevenlabs-api-oauth-authorization-server.json
+    bytes: 774
+  path_echo_control: passed
+x-mcp-probe:
+  probed: '2026-09-19'
+  issue: roadmap#321, roadmap#337
+  documents:
+  - host: https://api.us.elevenlabs.io
+    path: /.well-known/oauth-protected-resource
+    file: elevenlabs-api-oauth-protected-resource.json
+  - host: https://api.us.elevenlabs.io
+    path: /.well-known/oauth-authorization-server
+    file: elevenlabs-api-oauth-authorization-server.json
+  validated_on: resource (RFC 9728) / issuer (RFC 8414, OIDC)
+  negative_control: one per host; a 2xx JSON object at an impossible path discards the host
+note: 'MCP-host OAuth discovery added 2026-09-19 (roadmap#321/#337): the harvest visits a provider''s
+  primary hosts, and RFC 9728 protected-resource metadata lives on the MCP host, so these documents existed
+  and were invisible to the scorer. Fetched live and validated on `resource`/`issuer`; one negative control
+  per host.'

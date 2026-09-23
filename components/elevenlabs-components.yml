@@ -1,0 +1,71 @@
+generated: '2026-09-17'
+method: searched
+source: |
+  https://elevenlabs.io/docs/eleven-agents/customization/widget,
+  https://elevenlabs.io/docs/eleven-creative/audio-tools/audio-native,
+  https://github.com/elevenlabs/ui, https://github.com/elevenlabs/packages,
+  registry.npmjs.org metadata read 2026-09-17.
+description: |
+  Client-side and embeddable surfaces ElevenLabs ships — distinct from the SDKs in
+  packages/. These are things a developer drops into a page rather than calls from server
+  code: a custom element for ElevenAgents, a drop-in audio player for publishers, and a
+  shadcn-style component registry.
+families:
+- family: ElevenAgents widget
+  kind: web-component
+  element: <elevenlabs-convai agent-id="...">
+  loader: https://unpkg.com/@elevenlabs/convai-widget-embed
+  loader_pinned: false
+  loader_note: |
+    The documented embed snippet points at the UNPINNED unpkg URL, which floats to the
+    latest published version (0.18.2 as of 2026-09-17). A consumer pasting the documented
+    snippet cannot tell which build they will get, and neither can we — recorded as the
+    finding rather than guessed.
+  package: '@elevenlabs/convai-widget-embed'
+  registry: npm
+  version: 0.18.2
+  published: '2026-09-11'
+  modalities:
+  - voice only (default)
+  - voice + text
+  - chat (text only)
+  constraints: requires a PUBLIC agent with authentication disabled; hosts can be restricted
+    through the agent's Allowlist in the Security tab.
+  docs: https://elevenlabs.io/docs/eleven-agents/customization/widget
+- family: ElevenAgents client libraries (UI-facing)
+  kind: framework-bindings
+  members:
+  - package: '@elevenlabs/client'
+    version: 1.25.0
+    published: '2026-09-07'
+  - package: '@elevenlabs/react'
+    version: 1.15.2
+    published: '2026-09-07'
+  - package: '@elevenlabs/react-native'
+    version: 1.2.27
+    published: '2026-09-07'
+  repository: https://github.com/elevenlabs/packages
+  note: SDK overrides take priority over dashboard widget customization, so these are the
+    route to full control of styling and behaviour.
+  docs: https://elevenlabs.io/docs/eleven-api/resources/libraries
+- family: ElevenLabs UI
+  kind: component-registry
+  repository: https://github.com/elevenlabs/ui
+  version: 1.0.0
+  published: '2025-10-10'
+  published_note: version and date read from the GitHub release tag v1.0.0; the registry is
+    installed with the shadcn CLI and has no npm package of its own.
+  note: component library and custom registry built on top of shadcn/ui.
+  site: https://ui.elevenlabs.io/
+  site_probe:
+    url: https://ui.elevenlabs.io/
+    status: 429
+    note: rate-limited on probe, not confirmed dead. Not wired as a pointer for that reason.
+- family: Audio Native
+  kind: hosted-embed
+  description: A drop-in embeddable audio player that narrates a web page with ElevenLabs
+    voices. Published integration guides for React, WordPress, Ghost, Squarespace, Framer,
+    Webflow and Wix.
+  docs: https://elevenlabs.io/docs/eleven-creative/audio-tools/audio-native
+  api_surface: the Audio Native endpoints in the published OpenAPI (see
+    openapi/elevenlabs-audio-native-api-openapi.yml)

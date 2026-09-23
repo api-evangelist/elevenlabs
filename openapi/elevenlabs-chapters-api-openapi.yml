@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: ElevenLabs Audio Isolation Agents Chapters API
-  description: The ElevenLabs Audio Isolation API removes background noise from audio recordings, isolating vocal tracks from ambient sounds and interference. This is useful for cleaning up recordings, improving audio quality for podcasts and interviews, and preparing audio files for further processing such as voice cloning or transcription.
+  title: ElevenLabs Studio Chapters API
+  description: The ElevenLabs Studio API provides programmatic access to the ElevenLabs Studio project management system. Developers can create, manage, and render long-form audio content projects through the API, organizing text into chapters and assigning different voices to different sections. The Studio is designed for producing audiobooks, podcasts, and other long-form audio content at scale.
   version: '1.0'
   contact:
     name: ElevenLabs Support
@@ -74,25 +74,22 @@ paths:
         '404':
           description: Chapter not found
 components:
+  parameters:
+    projectId:
+      name: project_id
+      in: path
+      required: true
+      description: The unique identifier of the Studio project.
+      schema:
+        type: string
+    chapterId:
+      name: chapter_id
+      in: path
+      required: true
+      description: The unique identifier of the chapter.
+      schema:
+        type: string
   schemas:
-    Chapter:
-      type: object
-      properties:
-        chapter_id:
-          type: string
-          description: Unique identifier for the chapter.
-        name:
-          type: string
-          description: Display name of the chapter.
-        content:
-          type: string
-          description: The text content of the chapter.
-        voice_id:
-          type: string
-          description: The voice assigned to this chapter.
-        state:
-          type: string
-          description: Current rendering state of the chapter.
     ChapterSummary:
       type: object
       properties:
@@ -113,21 +110,24 @@ components:
           description: List of chapters.
           items:
             $ref: '#/components/schemas/ChapterSummary'
-  parameters:
-    chapterId:
-      name: chapter_id
-      in: path
-      required: true
-      description: The unique identifier of the chapter.
-      schema:
-        type: string
-    projectId:
-      name: project_id
-      in: path
-      required: true
-      description: The unique identifier of the Studio project.
-      schema:
-        type: string
+    Chapter:
+      type: object
+      properties:
+        chapter_id:
+          type: string
+          description: Unique identifier for the chapter.
+        name:
+          type: string
+          description: Display name of the chapter.
+        content:
+          type: string
+          description: The text content of the chapter.
+        voice_id:
+          type: string
+          description: The voice assigned to this chapter.
+        state:
+          type: string
+          description: Current rendering state of the chapter.
   securitySchemes:
     apiKeyAuth:
       type: apiKey
@@ -135,5 +135,5 @@ components:
       name: xi-api-key
       description: ElevenLabs API key passed in the xi-api-key header for authentication.
 externalDocs:
-  description: ElevenLabs Audio Isolation API Documentation
-  url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation
+  description: ElevenLabs Studio Documentation
+  url: https://elevenlabs.io/docs/overview/capabilities/projects

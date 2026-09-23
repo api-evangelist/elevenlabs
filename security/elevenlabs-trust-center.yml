@@ -1,0 +1,52 @@
+generated: '2026-09-17'
+method: searched
+source: |
+  https://trust.elevenlabs.io/ (HTTP 301 -> https://compliance.elevenlabs.io/, HTTP 200,
+  page title "ElevenLabs Trust Center", Vanta-hosted), https://elevenlabs.io/llms.txt,
+  https://elevenlabs.io/pricing, https://elevenlabs.io/enterprise.
+url: https://compliance.elevenlabs.io/
+alias: https://trust.elevenlabs.io/
+vendor: Vanta
+probe:
+- url: https://trust.elevenlabs.io/
+  status: 301
+  location: https://compliance.elevenlabs.io/
+- url: https://compliance.elevenlabs.io/
+  status: 200
+  title: ElevenLabs Trust Center
+certifications:
+- name: SOC 2
+  source: https://elevenlabs.io/llms.txt
+  verified: claimed
+- name: ISO 27001
+  source: null
+  verified: not-found
+  note: not named in the provider's llms.txt compliance line; not asserted here.
+- name: HIPAA
+  source: https://elevenlabs.io/llms.txt; corroborated by the pricing page ("BAAs for HIPAA
+    customers" on Enterprise) and by the ElevenAgents docs, which document a HIPAA-compliant
+    mode.
+  verified: claimed-corroborated
+regulatory_programs:
+- name: GDPR
+  source: https://elevenlabs.io/llms.txt
+  artifacts: Data Processing Agreement published at https://elevenlabs.io/dpa
+- name: EU AI Act
+  source: https://elevenlabs.io/llms.txt
+- name: DORA
+  source: https://elevenlabs.io/llms.txt
+safety_program:
+  url: https://elevenlabs.io/safety
+  use_policy: https://elevenlabs.io/use-policy
+  measures:
+  - red-teaming
+  - KYC/KYB verification
+  - product safeguards and monitoring
+  - C2PA content provenance metadata and watermarking
+  - a public classifier for detecting ElevenLabs-generated content
+  source: https://elevenlabs.io/llms.txt and https://elevenlabs.io/safety
+verification_note: |
+  The trust center renders its certification tiles client-side (Vanta SPA), so individual
+  attestation documents were not machine-read in this pass. Everything above is recorded
+  with the provider surface it came from and flagged claimed vs corroborated. Nothing is
+  asserted from a report we did not see.

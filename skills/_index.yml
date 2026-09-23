@@ -1,0 +1,64 @@
+generated: '2026-09-17'
+method: searched
+source: https://github.com/elevenlabs/skills
+description: |
+  ElevenLabs publishes its own Agent Skills. These files are the provider's SKILL.md
+  documents saved VERBATIM from github.com/elevenlabs/skills (main branch), renamed with
+  the repo slug prefix. Nothing here was authored by API Evangelist. The repo states the
+  skills follow the Agent Skills specification (https://agentskills.io/specification) and
+  installs with `npx skills add elevenlabs/skills`.
+publisher: ElevenLabs
+repository: https://github.com/elevenlabs/skills
+license: MIT (declared in each SKILL.md frontmatter)
+install: npx skills add elevenlabs/skills
+specification: Agent Skills — https://agentskills.io/specification
+requires_env:
+- ELEVENLABS_API_KEY
+also_generated_by_cli: |
+  `elevenlabs generate-skills` writes a SKILL.md per CLI command group into skills/ from
+  the CLI's own embedded API definition — see cli/elevenlabs-cli.yml.
+skills:
+- name: text-to-speech
+  file: elevenlabs-text-to-speech.md
+  description: Convert text to speech using ElevenLabs voice AI — voiceovers, voice apps,
+    speech in 70+ languages.
+  source: https://github.com/elevenlabs/skills/tree/main/text-to-speech
+- name: speech-to-text
+  file: elevenlabs-speech-to-text.md
+  description: Transcribe audio files to text with timestamps.
+  source: https://github.com/elevenlabs/skills/tree/main/speech-to-text
+- name: speech-engine
+  file: elevenlabs-speech-engine.md
+  description: Add real-time voice conversations to a custom LLM or chat agent.
+  source: https://github.com/elevenlabs/skills/tree/main/speech-engine
+- name: agents
+  file: elevenlabs-agents.md
+  description: Build conversational voice AI agents.
+  source: https://github.com/elevenlabs/skills/tree/main/agents
+- name: sound-effects
+  file: elevenlabs-sound-effects.md
+  description: Generate sound effects from text descriptions.
+  source: https://github.com/elevenlabs/skills/tree/main/sound-effects
+- name: music
+  file: elevenlabs-music.md
+  description: Generate music tracks using AI composition.
+  source: https://github.com/elevenlabs/skills/tree/main/music
+- name: voice-changer
+  file: elevenlabs-voice-changer.md
+  description: Transform the voice in an audio recording into a different target voice
+    (speech-to-speech).
+  source: https://github.com/elevenlabs/skills/tree/main/voice-changer
+- name: voice-isolator
+  file: elevenlabs-voice-isolator.md
+  description: Remove background noise and isolate vocals/speech from audio.
+  source: https://github.com/elevenlabs/skills/tree/main/voice-isolator
+- name: dubbing
+  file: elevenlabs-dubbing.md
+  description: Dub audio/video into other languages while preserving the original speakers'
+    voices.
+  source: https://github.com/elevenlabs/skills/tree/main/dubbing
+- name: setup-api-key
+  file: elevenlabs-setup-api-key.md
+  description: Guide through obtaining and configuring an ElevenLabs API key.
+  source: https://github.com/elevenlabs/skills/tree/main/setup-api-key
+skill_count: 10

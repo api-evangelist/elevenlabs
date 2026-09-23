@@ -1,0 +1,178 @@
+generated: '2026-09-17'
+method: derived
+source: |
+  MCP side — the provider's documented capability list at
+  https://elevenlabs.io/docs/eleven-agents/operate/hosted-mcp (the live tools/list is
+  OAuth-gated: POST https://api.us.elevenlabs.io/v1/mcp returned HTTP 401 with an RFC 9728
+  challenge on 2026-09-17).
+  REST side — openapi/elevenlabs-openapi.json (the provider's published OpenAPI 3.1.0,
+  301 paths / 390 operations, fetched from https://api.elevenlabs.io/openapi.json).
+description: |
+  Binding between the hosted MCP server's documented capabilities and the REST operations
+  that back them.
+
+  CONFIDENCE CAVEAT, read this first: the hosted server's real tool names and inputSchemas
+  could not be read — anonymous tools/list is OAuth-gated. The left-hand column is therefore
+  the PROVIDER'S PROSE description of each capability, given a descriptive slug by us, NOT a
+  tool identifier returned by the server. Bindings are by semantics against operationIds
+  verified to exist in the published spec. No confidence above `medium` is claimed for any
+  row, because the mapping cannot be confirmed until an authenticated introspection runs.
+  Re-run this after an authenticated tools/list and every row can be settled.
+surfaces:
+  openapi:
+    path: openapi/elevenlabs-openapi.json
+    url: https://api.elevenlabs.io/openapi.json
+    operations: 390
+    gated: false
+  mcp:
+    url: https://api.elevenlabs.io/v1/mcp
+    regional:
+    - https://api.us.elevenlabs.io/v1/mcp
+    - https://api.eu.residency.elevenlabs.io/v1/mcp
+    - https://api.in.residency.elevenlabs.io/v1/mcp
+    - https://api.sg.residency.elevenlabs.io/v1/mcp
+    gated: true
+    gate: OAuth 2.0 bearer (RFC 9728 protected resource)
+  graphql:
+    url: null
+    gated: null
+    note: ElevenLabs publishes no GraphQL endpoint. The repo's graphql/ directory holds an
+      API Evangelist analysis document, not a provider schema.
+crosswalk:
+- tool: create_agent
+  capability: Create new agents by describing what you want
+  category: agents
+  rest:
+  - create_agent_route
+  binding: direct
+  confidence: medium
+  note: POST /v1/convai/agents/create. The MCP tool takes a natural-language description, so
+    the server almost certainly composes the AgentConfig body rather than passing it through.
+- tool: update_agent
+  capability: Update any agent setting, including the system prompt, voice, language, and
+    first message
+  category: agents
+  rest:
+  - patch_agent_settings_route
+  binding: direct
+  confidence: medium
+- tool: list_agents
+  capability: List your agents and inspect or compare their configurations
+  category: agents
+  rest:
+  - get_agents_route
+  - get_agent_summaries_route
+  - get_agent_route
+  binding: composite
+  confidence: medium
+  note: list + per-agent get; "compare" implies the client fans out over get_agent_route.
+- tool: duplicate_agent
+  capability: Duplicate agents
+  category: agents
+  rest:
+  - duplicate_agent_route
+  binding: direct
+  confidence: high
+  note: POST /v1/convai/agents/{agent_id}/duplicate is a 1:1 match for the documented verb.
+- tool: delete_agent
+  capability: Delete agents
+  category: agents
+  rest:
+  - delete_agent_route
+  binding: direct
+  confidence: high
+  note: DESTRUCTIVE and irreversible — no restore operation exists. The provider itself
+    flags this tool for human approval. See conventions/elevenlabs-conventions.yml
+    reversibility.irreversible.
+- tool: list_conversations
+  capability: Review an agent's recent conversations
+  category: conversations
+  rest:
+  - get_conversation_histories_route
+  binding: direct
+  confidence: medium
+- tool: get_conversation_transcript
+  capability: Read full transcripts
+  category: conversations
+  rest:
+  - get_conversation_history_route
+  - get_conversation_summary_route
+  binding: composite
+  confidence: medium
+- tool: get_agent_topics
+  capability: Explore the topics your agents' conversations cover
+  category: conversations
+  rest:
+  - get_agent_topics_route
+  binding: direct
+  confidence: high
+  note: GET /v1/convai/agents/{agent_id}/topics — the only operation in the spec that
+    produces conversation topics.
+- tool: estimate_llm_usage
+  capability: Estimate an agent's expected LLM usage and cost before making changes
+  category: analytics
+  rest: []
+  binding: unmapped
+  confidence: low
+  note: no operationId in the published spec obviously produces an LLM cost estimate. Listed
+    here rather than in mcp_only because the backing operation may exist under a name this
+    pass did not resolve. Settle with an authenticated tools/list.
+- tool: get_agent_widget
+  capability: Retrieve an agent's widget configuration and shareable link
+  category: agents
+  rest:
+  - get_agent_widget_route
+  - get_agent_link_route
+  binding: composite
+  confidence: high
+  note: two operations, exactly matching the two things the capability names.
+- tool: get_knowledge_base_size
+  capability: Check the size of an agent's knowledge base
+  category: knowledge-base
+  rest: []
+  binding: unmapped
+  confidence: low
+  note: the knowledge-base surface has 31 operations; none is named for a size/quota read.
+    Likely computed server-side from the document list.
+- tool: text_to_speech
+  capability: Generate speech audio from text, returned as a short-lived download link
+  category: generation
+  rest:
+  - text_to_speech_full
+  binding: adapted
+  confidence: medium
+  note: the REST operation returns an audio stream; the MCP tool returns a short-lived
+    DOWNLOAD LINK instead, because an MCP transport cannot hand an agent a binary body. A
+    real shape difference, not a naming difference.
+mcp_only:
+- tool: estimate_llm_usage
+  reason: no matching public REST operation identified; may be an MCP-side composition.
+- tool: get_knowledge_base_size
+  reason: no matching public REST operation identified; likely derived server-side.
+rest_only_summary:
+  total_rest_operations: 390
+  operations_reachable_via_documented_mcp_capabilities: 15
+  rest_only_estimate: 375
+  note: |
+    The hosted MCP server is deliberately narrow. It covers ElevenAgents management plus one
+    generation verb; the other ~375 operations — Studio, dubbing, productions, voice cloning,
+    music, speech-to-text, the whole workspace/administration surface — have no hosted MCP
+    tool. The separate open-source LOCAL server (pypi elevenlabs-mcp) covers more of the
+    generation surface; its tool list was not introspected in this pass.
+rest_only_families:
+- /v1/studio/* (Studio projects, chapters, snapshots)
+- /v1/dubbing/* and /v1/productions/*
+- /v1/voices/* (including PVC cloning)
+- /v1/speech-to-text/*, /v1/speech-to-speech/*, /v1/audio-isolation/*
+- /v1/music/*, /v1/sound-generation/*, /v1/text-to-dialogue/*
+- /v1/workspace/*, /v1/service-accounts/*, /v1/usage/*
+- most of /v1/convai/* beyond agents and conversations (tools, mcp-servers, phone-numbers,
+  batch-calling, secrets, testing, triage-tickets)
+coverage:
+  mcp_capabilities_documented: 10
+  crosswalk_rows: 12
+  bound_to_rest: 10
+  unmapped: 2
+  high_confidence: 4
+  medium_confidence: 6
+  low_confidence: 2

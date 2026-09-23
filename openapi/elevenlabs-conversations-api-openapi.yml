@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: ElevenLabs Audio Isolation Agents Conversations API
-  description: The ElevenLabs Audio Isolation API removes background noise from audio recordings, isolating vocal tracks from ambient sounds and interference. This is useful for cleaning up recordings, improving audio quality for podcasts and interviews, and preparing audio files for further processing such as voice cloning or transcription.
+  title: ElevenLabs Conversational AI Conversations API
+  description: The ElevenLabs Conversational AI API enables developers to build interactive voice agents that can engage in natural, real-time conversations. It provides REST endpoints for managing agents, conversations, knowledge bases, tools, and phone number integrations. The API supports multi-turn dialogue across 70+ languages and is designed for building customer service agents, voice assistants, and interactive voice response systems.
   version: '1.0'
   contact:
     name: ElevenLabs Support
@@ -109,6 +109,14 @@ paths:
         '404':
           description: Conversation audio not found
 components:
+  parameters:
+    conversationId:
+      name: conversation_id
+      in: path
+      required: true
+      description: The unique identifier of the conversation.
+      schema:
+        type: string
   schemas:
     ConversationSummary:
       type: object
@@ -193,14 +201,6 @@ components:
         next_cursor:
           type: string
           description: Cursor for pagination.
-  parameters:
-    conversationId:
-      name: conversation_id
-      in: path
-      required: true
-      description: The unique identifier of the conversation.
-      schema:
-        type: string
   securitySchemes:
     apiKeyAuth:
       type: apiKey
@@ -208,5 +208,5 @@ components:
       name: xi-api-key
       description: ElevenLabs API key passed in the xi-api-key header for authentication.
 externalDocs:
-  description: ElevenLabs Audio Isolation API Documentation
-  url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation
+  description: ElevenLabs Conversational AI Documentation
+  url: https://elevenlabs.io/docs/overview/capabilities/conversational-ai

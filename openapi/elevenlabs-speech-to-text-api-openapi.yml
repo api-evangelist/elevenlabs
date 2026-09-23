@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: ElevenLabs Audio Isolation Agents Speech to Text API
-  description: The ElevenLabs Audio Isolation API removes background noise from audio recordings, isolating vocal tracks from ambient sounds and interference. This is useful for cleaning up recordings, improving audio quality for podcasts and interviews, and preparing audio files for further processing such as voice cloning or transcription.
+  title: ElevenLabs Speech to Text API
+  description: The ElevenLabs Speech to Text API provides state-of-the-art transcription capabilities, converting spoken audio into accurate text. It supports multiple audio formats and languages, enabling developers to build applications that require reliable audio transcription. The API supports both synchronous and asynchronous processing modes.
   version: '1.0'
   contact:
     name: ElevenLabs Support
@@ -13,7 +13,7 @@ servers:
 security:
 - apiKeyAuth: []
 tags:
-- name: Speech to Text
+- name: Speech To Text
   description: Endpoints for converting audio into text transcriptions with support for multiple languages and audio formats.
 paths:
   /v1/speech-to-text:
@@ -22,7 +22,7 @@ paths:
       summary: Convert speech to text
       description: Transcribes an audio file into text. Supports multiple audio formats and languages. Returns the transcribed text along with optional word-level timing information.
       tags:
-      - Speech to Text
+      - Speech To Text
       requestBody:
         required: true
         content:
@@ -48,7 +48,7 @@ paths:
       summary: Convert speech to text asynchronously
       description: Submits an audio file for asynchronous transcription. Returns a task identifier that can be used to poll for the transcription result or receive it via webhook callback.
       tags:
-      - Speech to Text
+      - Speech To Text
       requestBody:
         required: true
         content:
@@ -70,28 +70,25 @@ paths:
           description: Unprocessable entity - validation error
 components:
   schemas:
-    TranscriptionResponse:
+    SpeechToTextAsyncRequest:
       type: object
+      required:
+      - file
       properties:
-        text:
+        file:
           type: string
-          description: The full transcribed text.
+          format: binary
+          description: The audio file to transcribe asynchronously.
+        model_id:
+          type: string
+          description: The identifier of the speech-to-text model to use.
         language_code:
           type: string
-          description: The detected language of the audio content.
-        language_probability:
-          type: number
-          description: Confidence score for the detected language.
-        words:
-          type: array
-          description: Word-level timing information when timestamps are requested.
-          items:
-            $ref: '#/components/schemas/TranscriptionWord'
-        audio_events:
-          type: array
-          description: Non-speech audio events detected in the recording.
-          items:
-            $ref: '#/components/schemas/AudioEvent'
+          description: Language code in ISO 639-1 format.
+        webhook_url:
+          type: string
+          format: uri
+          description: A URL to receive a webhook notification when the transcription is complete.
     SpeechToTextRequest:
       type: object
       required:
@@ -118,37 +115,28 @@ components:
           - none
           - word
           - character
-    SpeechToTextAsyncRequest:
+    TranscriptionResponse:
       type: object
-      required:
-      - file
       properties:
-        file:
+        text:
           type: string
-          format: binary
-          description: The audio file to transcribe asynchronously.
-        model_id:
-          type: string
-          description: The identifier of the speech-to-text model to use.
+          description: The full transcribed text.
         language_code:
           type: string
-          description: Language code in ISO 639-1 format.
-        webhook_url:
-          type: string
-          format: uri
-          description: A URL to receive a webhook notification when the transcription is complete.
-    AudioEvent:
-      type: object
-      properties:
-        type:
-          type: string
-          description: The type of audio event detected.
-        start:
+          description: The detected language of the audio content.
+        language_probability:
           type: number
-          description: Start time of the event in seconds.
-        end:
-          type: number
-          description: End time of the event in seconds.
+          description: Confidence score for the detected language.
+        words:
+          type: array
+          description: Word-level timing information when timestamps are requested.
+          items:
+            $ref: '#/components/schemas/TranscriptionWord'
+        audio_events:
+          type: array
+          description: Non-speech audio events detected in the recording.
+          items:
+            $ref: '#/components/schemas/AudioEvent'
     AsyncTranscriptionResponse:
       type: object
       properties:
@@ -163,6 +151,18 @@ components:
           - processing
           - completed
           - failed
+    AudioEvent:
+      type: object
+      properties:
+        type:
+          type: string
+          description: The type of audio event detected.
+        start:
+          type: number
+          description: Start time of the event in seconds.
+        end:
+          type: number
+          description: End time of the event in seconds.
     TranscriptionWord:
       type: object
       properties:
@@ -187,5 +187,5 @@ components:
       name: xi-api-key
       description: ElevenLabs API key passed in the xi-api-key header for authentication.
 externalDocs:
-  description: ElevenLabs Audio Isolation API Documentation
-  url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation
+  description: ElevenLabs Speech to Text API Documentation
+  url: https://elevenlabs.io/docs/api-reference/speech-to-text/convert

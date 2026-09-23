@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: ElevenLabs Audio Isolation Agents Voices API
-  description: The ElevenLabs Audio Isolation API removes background noise from audio recordings, isolating vocal tracks from ambient sounds and interference. This is useful for cleaning up recordings, improving audio quality for podcasts and interviews, and preparing audio files for further processing such as voice cloning or transcription.
+  title: ElevenLabs Voices API
+  description: The ElevenLabs Voices API provides management capabilities for the voice library, including listing, retrieving, creating, editing, and deleting voices. Developers can access a library of over 5,000 pre-built voices and manage their own custom voices. The API also supports voice design, voice settings management, and voice library sharing.
   version: '1.0'
   contact:
     name: ElevenLabs Support
@@ -132,33 +132,21 @@ paths:
           description: Unauthorized - invalid or missing API key
 components:
   schemas:
-    AddVoiceResponse:
+    VoiceSample:
       type: object
       properties:
-        voice_id:
+        sample_id:
           type: string
-          description: The identifier of the newly created or added voice.
-    AddVoiceRequest:
-      type: object
-      required:
-      - name
-      - files
-      properties:
-        name:
+          description: Unique identifier for the audio sample.
+        file_name:
           type: string
-          description: The name for the new voice.
-        description:
+          description: Original file name of the uploaded sample.
+        mime_type:
           type: string
-          description: Description of the voice.
-        labels:
-          type: string
-          description: JSON string of key-value label pairs for the voice.
-        files:
-          type: array
-          description: Audio sample files for creating the voice. Minimum 60 seconds of clean audio recommended.
-          items:
-            type: string
-            format: binary
+          description: MIME type of the audio sample.
+        size_bytes:
+          type: integer
+          description: Size of the audio sample in bytes.
     Voice:
       type: object
       properties:
@@ -195,21 +183,53 @@ components:
           description: Audio samples associated with the voice.
           items:
             $ref: '#/components/schemas/VoiceSample'
-    VoiceSample:
+    AddVoiceRequest:
+      type: object
+      required:
+      - name
+      - files
+      properties:
+        name:
+          type: string
+          description: The name for the new voice.
+        description:
+          type: string
+          description: Description of the voice.
+        labels:
+          type: string
+          description: JSON string of key-value label pairs for the voice.
+        files:
+          type: array
+          description: Audio sample files for creating the voice. Minimum 60 seconds of clean audio recommended.
+          items:
+            type: string
+            format: binary
+    EditVoiceRequest:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: The new name for the voice.
+        description:
+          type: string
+          description: Updated description of the voice.
+        labels:
+          type: string
+          description: JSON string of key-value label pairs for the voice.
+        files:
+          type: array
+          description: New audio sample files to add to the voice.
+          items:
+            type: string
+            format: binary
+    AddVoiceResponse:
       type: object
       properties:
-        sample_id:
+        voice_id:
           type: string
-          description: Unique identifier for the audio sample.
-        file_name:
-          type: string
-          description: Original file name of the uploaded sample.
-        mime_type:
-          type: string
-          description: MIME type of the audio sample.
-        size_bytes:
-          type: integer
-          description: Size of the audio sample in bytes.
+          description: The identifier of the newly created or added voice.
     VoiceSettings:
       type: object
       properties:
@@ -241,26 +261,6 @@ components:
           description: List of available voices.
           items:
             $ref: '#/components/schemas/Voice'
-    EditVoiceRequest:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          description: The new name for the voice.
-        description:
-          type: string
-          description: Updated description of the voice.
-        labels:
-          type: string
-          description: JSON string of key-value label pairs for the voice.
-        files:
-          type: array
-          description: New audio sample files to add to the voice.
-          items:
-            type: string
-            format: binary
   parameters:
     voiceId:
       name: voice_id
@@ -276,5 +276,5 @@ components:
       name: xi-api-key
       description: ElevenLabs API key passed in the xi-api-key header for authentication.
 externalDocs:
-  description: ElevenLabs Audio Isolation API Documentation
-  url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation
+  description: ElevenLabs Voices API Documentation
+  url: https://elevenlabs.io/docs/api-reference/voices/get

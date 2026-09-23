@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: ElevenLabs Audio Isolation Agents Text to Dialogue API
-  description: The ElevenLabs Audio Isolation API removes background noise from audio recordings, isolating vocal tracks from ambient sounds and interference. This is useful for cleaning up recordings, improving audio quality for podcasts and interviews, and preparing audio files for further processing such as voice cloning or transcription.
+  title: ElevenLabs Text to Speech Text to Dialogue API
+  description: The ElevenLabs Text to Speech API converts text into lifelike spoken audio with nuanced intonation, pacing, and emotional awareness. It supports multiple output formats including MP3, PCM, and mu-law, and offers a range of models such as Eleven v3, Flash v2.5 for ultra-low latency real-time applications, and Multilingual v2 for support across 70+ languages. Developers can select from thousands of pre-built voices or use custom cloned voices to generate speech that sounds natural and expressive.
   version: '1.0'
   contact:
     name: ElevenLabs Support
@@ -88,30 +88,20 @@ components:
           description: An array of dialogue segments, each with a speaker voice and text.
           items:
             $ref: '#/components/schemas/DialogueSegment'
-    VoiceSettings:
+    DialogueSegment:
       type: object
-      description: Voice settings that override the stored settings for the given voice. Applied only on the current request.
+      required:
+      - voice_id
+      - text
       properties:
-        stability:
-          type: number
-          description: Controls the stability of the generated voice. Higher values produce more consistent output, lower values add variability.
-          minimum: 0
-          maximum: 1
-        similarity_boost:
-          type: number
-          description: Controls how closely the AI adheres to the original voice. Higher values increase similarity to the target voice.
-          minimum: 0
-          maximum: 1
-        style:
-          type: number
-          description: Controls the expressiveness and style of the speech delivery. Higher values produce more expressive speech.
-          minimum: 0
-          maximum: 1
-          default: 0
-        use_speaker_boost:
-          type: boolean
-          description: Enables speaker boost to increase voice clarity and reduce background artifacts.
-          default: true
+        voice_id:
+          type: string
+          description: The voice identifier for this segment of dialogue.
+        text:
+          type: string
+          description: The text content for this segment of dialogue.
+        voice_settings:
+          $ref: '#/components/schemas/VoiceSettings'
     TimestampedAudioResponse:
       type: object
       properties:
@@ -137,20 +127,30 @@ components:
                   end_time:
                     type: number
                     description: End time in seconds.
-    DialogueSegment:
+    VoiceSettings:
       type: object
-      required:
-      - voice_id
-      - text
+      description: Voice settings that override the stored settings for the given voice. Applied only on the current request.
       properties:
-        voice_id:
-          type: string
-          description: The voice identifier for this segment of dialogue.
-        text:
-          type: string
-          description: The text content for this segment of dialogue.
-        voice_settings:
-          $ref: '#/components/schemas/VoiceSettings'
+        stability:
+          type: number
+          description: Controls the stability of the generated voice. Higher values produce more consistent output, lower values add variability.
+          minimum: 0
+          maximum: 1
+        similarity_boost:
+          type: number
+          description: Controls how closely the AI adheres to the original voice. Higher values increase similarity to the target voice.
+          minimum: 0
+          maximum: 1
+        style:
+          type: number
+          description: Controls the expressiveness and style of the speech delivery. Higher values produce more expressive speech.
+          minimum: 0
+          maximum: 1
+          default: 0
+        use_speaker_boost:
+          type: boolean
+          description: Enables speaker boost to increase voice clarity and reduce background artifacts.
+          default: true
   parameters:
     outputFormat:
       name: output_format
@@ -179,5 +179,5 @@ components:
       name: xi-api-key
       description: ElevenLabs API key passed in the xi-api-key header for authentication.
 externalDocs:
-  description: ElevenLabs Audio Isolation API Documentation
-  url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation
+  description: ElevenLabs Text to Speech API Documentation
+  url: https://elevenlabs.io/docs/api-reference/text-to-speech/convert

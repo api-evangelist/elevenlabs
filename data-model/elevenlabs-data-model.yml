@@ -1,0 +1,291 @@
+generated: '2026-09-17'
+method: derived
+source: openapi/elevenlabs-openapi.json (OpenAPI 3.1.0, 301 paths, 390 operations, 1,520
+  component schemas — the provider's own published contract, fetched from
+  https://api.elevenlabs.io/openapi.json on 2026-09-17)
+description: |
+  Entity-relationship graph for the ElevenLabs API, derived from path templates and the
+  id-reference fields in components.schemas. Relationships are read from foreign-key-shaped
+  fields (`*_id`) and from path nesting — the contract uses $ref for schema composition
+  rather than for links, so identifier fields are the only relationship signal available.
+  Cardinalities marked confidence: medium are inferred from path nesting; nothing here is
+  asserted from prose.
+id_convention:
+  style: opaque string identifiers, no type prefix
+  note: |
+    Unlike Stripe-shaped APIs, ElevenLabs identifiers carry no type prefix — a voice_id
+    (e.g. JBFqnCBsd6RMkjVDRZzb) and an agent_id (e.g. agent_7101k5zvyjhmfg983brhmhkd98n6)
+    do not share a scheme, and most ids are bare opaque strings. Agent identifiers observed
+    in the widget docs DO carry an `agent_` prefix; that is the only prefixed family seen.
+  no_published_id_reference: the docs publish no object/id reference page, so prefix rules
+    cannot be stated beyond what appears in examples.
+domains:
+- domain: ElevenAgents (Conversational AI)
+  root_path: /v1/convai
+  operations: 174
+  entities:
+  - agents
+  - conversations
+  - knowledge-base
+  - tools
+  - mcp-servers
+  - phone-numbers
+  - batch-calling
+  - agent-testing
+  - triage-tickets
+  - secrets
+  - environment-variables
+  - whatsapp-accounts
+  - tags
+  - settings
+- domain: ElevenCreative — Studio
+  root_path: /v1/studio
+  entities:
+  - projects
+  - chapters
+  - snapshots
+- domain: ElevenCreative — Dubbing / Productions
+  root_path: /v1/dubbing, /v1/productions
+  entities:
+  - dubbing projects
+  - dubbing resources
+  - speakers
+  - segments
+  - production orders
+- domain: Voices
+  root_path: /v1/voices
+  entities:
+  - voices
+  - samples
+  - pvc voices
+  - voice settings
+  - voice library
+- domain: Generation
+  root_path: /v1/text-to-speech, /v1/speech-to-text, /v1/speech-to-speech, /v1/music,
+    /v1/sound-generation, /v1/audio-isolation, /v1/text-to-dialogue
+  entities:
+  - generations
+  - history items
+  - music finetunes
+- domain: Workspace / administration
+  root_path: /v1/workspace, /v1/service-accounts, /v1/usage
+  entities:
+  - workspace
+  - groups
+  - webhooks
+  - auth-connections
+  - api-keys
+  - usage
+entities:
+- name: workspace
+  key: null
+  description: the account boundary. Every other entity is scoped to exactly one workspace;
+    the workspace itself is addressed implicitly by the credential, not by an id in the path.
+- name: agent
+  key: agent_id
+  path: /v1/convai/agents/{agent_id}
+  operations: 40
+  description: an ElevenAgents conversational agent — prompt, voice, language, tools,
+    knowledge base, widget and platform settings.
+- name: agent_branch
+  key: branch_id
+  path: /v1/convai/agents/{agent_id}/branches/{branch_id}
+  description: a versioned branch of an agent's configuration. With version_id this is the
+    reversal path for a bad agent change.
+- name: conversation
+  key: conversation_id
+  path: /v1/convai/conversations/{conversation_id}
+  description: one completed or in-flight conversation with an agent, carrying the
+    transcript, metrics and analysis.
+- name: knowledge_base_document
+  key: documentation_id
+  path: /v1/convai/knowledge-base/{documentation_id}
+  operations: 31
+  description: a document (file, URL or text) attached to an agent's RAG knowledge base.
+- name: tool
+  key: tool_id
+  path: /v1/convai/tools/{tool_id}
+  description: a webhook or client tool an agent may call.
+- name: mcp_server
+  key: mcp_server_id
+  path: /v1/convai/mcp-servers/{mcp_server_id}
+  description: an EXTERNAL MCP server an ElevenLabs agent connects to as a client — the
+    inverse direction from the hosted MCP server in mcp/elevenlabs-mcp.yml.
+- name: phone_number
+  key: phone_number_id
+  path: /v1/convai/phone-numbers/{phone_number_id}
+- name: batch_call
+  key: batch_id
+  path: /v1/convai/batch-calling/{batch_id}
+- name: voice
+  key: voice_id
+  path: /v1/voices/{voice_id}
+  description: a voice — premade, instant clone (IVC), professional clone (PVC) or designed.
+- name: sample
+  key: sample_id
+  path: /v1/voices/{voice_id}/samples/{sample_id}
+  description: an audio sample belonging to a cloned voice.
+- name: project
+  key: project_id
+  path: /v1/studio/projects/{project_id}
+  description: a Studio project (audiobook, podcast, long-form voiceover).
+- name: chapter
+  key: chapter_id
+  path: /v1/studio/projects/{project_id}/chapters/{chapter_id}
+- name: project_snapshot
+  key: project_snapshot_id
+  path: /v1/studio/projects/{project_id}/snapshots/{project_snapshot_id}
+- name: dubbing_project
+  key: dubbing_id
+  path: /v1/dubbing/{dubbing_id}
+- name: dubbing_speaker
+  key: speaker_id
+  path: /v1/dubbing/resource/{dubbing_id}/speaker/{speaker_id}
+  deprecated: true
+- name: dubbing_segment
+  key: segment_id
+  path: /v1/dubbing/resource/{dubbing_id}/segment/{segment_id}
+  deprecated: true
+- name: production_order
+  key: order_id
+  path: /v1/productions/orders/{order_id}
+- name: pronunciation_dictionary
+  key: pronunciation_dictionary_id
+  path: /v1/pronunciation-dictionaries/{pronunciation_dictionary_id}
+- name: history_item
+  key: history_item_id
+  path: /v1/history/{history_item_id}
+  description: a past generation, with its audio and the request that produced it.
+- name: model
+  key: model_id
+  description: a generation model (eleven_v3, eleven_multilingual_v2, scribe_v2,
+    music_v2_5 ...). Referenced by 57 schemas; addressed as a list-only resource.
+- name: webhook
+  key: webhook_id
+  path: /v1/workspace/webhooks/{webhook_id}
+- name: api_key
+  key: key_id
+  path: /v1/service-accounts/{service_account_id}/api-keys/{key_id}
+relationships:
+- from: workspace
+  to: agent
+  type: has_many
+  via: implicit (credential scope)
+  confidence: high
+- from: workspace
+  to: webhook
+  type: has_many
+  via: /v1/workspace/webhooks
+  confidence: high
+- from: agent
+  to: conversation
+  type: has_many
+  via: agent_id
+  confidence: high
+- from: agent
+  to: agent_branch
+  type: has_many
+  via: /v1/convai/agents/{agent_id}/branches
+  confidence: high
+- from: agent
+  to: knowledge_base_document
+  type: has_many
+  via: knowledge base attachment on the agent configuration
+  confidence: medium
+- from: agent
+  to: tool
+  type: has_many
+  via: tool_ids
+  confidence: high
+- from: agent
+  to: mcp_server
+  type: has_many
+  via: native_mcp_server_ids
+  confidence: high
+- from: agent
+  to: voice
+  type: has_one
+  via: voice_id in the TTS configuration
+  confidence: high
+- from: agent
+  to: phone_number
+  type: has_many
+  via: phone_number_id
+  confidence: medium
+- from: batch_call
+  to: agent
+  type: belongs_to
+  via: agent_id
+  confidence: high
+- from: conversation
+  to: voice
+  type: has_one
+  via: the agent's voice at call time
+  confidence: medium
+- from: voice
+  to: sample
+  type: has_many
+  via: /v1/voices/{voice_id}/samples
+  confidence: high
+- from: project
+  to: chapter
+  type: has_many
+  via: /v1/studio/projects/{project_id}/chapters
+  confidence: high
+- from: project
+  to: project_snapshot
+  type: has_many
+  via: /v1/studio/projects/{project_id}/snapshots
+  confidence: high
+- from: chapter
+  to: chapter_snapshot
+  type: has_many
+  via: chapter_snapshot_id
+  confidence: high
+- from: project
+  to: voice
+  type: has_many
+  via: voice_id per chapter/paragraph
+  confidence: medium
+- from: dubbing_project
+  to: dubbing_speaker
+  type: has_many
+  via: /v1/dubbing/resource/{dubbing_id}/speaker
+  confidence: high
+- from: dubbing_speaker
+  to: dubbing_segment
+  type: has_many
+  via: /v1/dubbing/resource/{dubbing_id}/speaker/{speaker_id}/segment
+  confidence: high
+- from: history_item
+  to: voice
+  type: belongs_to
+  via: voice_id
+  confidence: high
+- from: history_item
+  to: model
+  type: belongs_to
+  via: model_id
+  confidence: high
+- from: generation
+  to: model
+  type: belongs_to
+  via: model_id
+  confidence: high
+- from: generation
+  to: pronunciation_dictionary
+  type: has_many
+  via: pronunciation_dictionary_locators
+  confidence: medium
+- from: folder
+  to: folder
+  type: belongs_to
+  via: parent_folder_id / folder_parent_id
+  confidence: high
+  note: self-referential folder tree used by Studio and the agents workspace.
+counts:
+  component_schemas: 1520
+  paths: 301
+  operations: 390
+  entities_modelled: 24
+  relationships_modelled: 23

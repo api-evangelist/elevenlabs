@@ -1,0 +1,45 @@
+generated: '2026-09-17'
+method: probed
+source: https://api.elevenlabs.io/.well-known/oauth-authorization-server
+description: |
+  OAuth 2.0 scopes ElevenLabs publishes in its RFC 8414 authorization-server metadata and
+  repeats in its RFC 9728 protected-resource document for the hosted MCP server. These are
+  the scopes the consent screen asks for when an MCP client or the ElevenLabs CLI connects.
+
+  PROVENANCE NOTE: these scope names are read verbatim from the provider's discovery
+  documents. The per-scope `grants` text is a plain-language reading of the scope name
+  checked against the hosted-MCP capability list; ElevenLabs does not publish a prose scope
+  reference page, so treat `grants` as our description and the `name` as the provider's.
+docs: null
+docs_note: no published scopes/permissions reference page was found on elevenlabs.io; the
+  authorization-server metadata is the only machine-readable source.
+authorization_server: https://api.us.elevenlabs.io
+authorization_endpoint: https://elevenlabs.io/app/oauth/authorize
+token_endpoint: https://api.us.elevenlabs.io/v1/oauth/token
+revocation_endpoint: https://api.us.elevenlabs.io/v1/oauth/revoke
+flow: authorization_code
+pkce: S256
+scope_count: 7
+scopes:
+- name: convai_read
+  grants: Read ElevenAgents (Conversational AI) resources — agents, configurations,
+    conversations and transcripts.
+- name: convai_write
+  grants: Create, update, duplicate and delete ElevenAgents resources. The provider flags
+    agent deletion as destructive.
+- name: text_to_speech
+  grants: Generate speech from text.
+- name: speech_history_read
+  grants: Read the workspace speech generation history.
+- name: flows
+  grants: Access ElevenAgents flows (the visual workflow surface).
+- name: image_video_generation
+  grants: Generate images and video.
+- name: voice_generation
+  grants: Generate and design voices.
+consumers:
+- consumer: hosted MCP server
+  resource: https://api.us.elevenlabs.io/v1/mcp
+  source: https://api.elevenlabs.io/.well-known/oauth-protected-resource
+- consumer: ElevenLabs CLI (`elevenlabs auth login`)
+  source: https://elevenlabs.io/docs/eleven-agents/operate/cli

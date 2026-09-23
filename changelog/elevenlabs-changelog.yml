@@ -1,0 +1,67 @@
+generated: '2026-09-17'
+method: searched
+source: https://elevenlabs.io/docs/changelog (index read as https://elevenlabs.io/docs/changelog/llms.txt,
+  HTTP 200, 2026-09-17; individual entries read as .md)
+docs: https://elevenlabs.io/docs/changelog
+description: |
+  ElevenLabs publishes a dated, weekly API changelog under /docs/changelog, with one page
+  per release date and a machine-readable index at /docs/changelog/llms.txt. Each entry is
+  sectioned by product (ElevenAgents, Music, Creative, API) and carries an explicit
+  "API changes" block enumerating new endpoints, updated endpoints and schema changes, plus
+  a "SDK releases" block linking the matching GitHub release tag for every first-party SDK.
+  The breaking-changes policy at /docs/eleven-api/resources/breaking-changes-policy states
+  the changelog is published "on a weekly cadence" — the observed dates confirm it.
+scheme: date-based (no semantic API version)
+scheme_note: |
+  The API itself is path-versioned at /v1 and carries no dated or header version. The
+  published OpenAPI reports info.version "1.0". Releases are identified by DATE in the
+  changelog, and by semver only at the SDK level.
+current_api_version: v1
+openapi_info_version: '1.0'
+cadence: weekly
+first_entry: '2024-10-13'
+latest_entry: '2026-09-14'
+entry_count_observed: 100
+entry_count_note: the llms.txt index listed 100 dated entries running 2024-10-13 to
+  2026-09-14 when read on 2026-09-17.
+index_machine_readable: https://elevenlabs.io/docs/changelog/llms.txt
+entry_format: markdown, one page per date, available as <url>.md
+entries:
+- date: '2026-09-14'
+  url: https://elevenlabs.io/docs/changelog/2026/9/14
+  breaking: false
+  additions:
+  - 'New endpoint: POST /v1/convai/agents/{agent_id}/hold-audio (upload agent hold audio)'
+  - 'New endpoint: DELETE /v1/convai/agents/{agent_id}/hold-audio'
+  - Optional platform_settings.queueing_config on create/get/update agent
+  - Optional include_draft on create agent branch
+  - Music endpoints accept music_v2_5
+  - Agent LLM configuration accepts gemini-3.8-flash
+  highlights: Call queueing and hold audio for agents at their concurrency limit; queued
+    callers receive queue_status events. Queue time is excluded from billed call duration.
+  sdk_releases:
+  - '@elevenlabs/elevenlabs-js v2.68.0'
+  - elevenlabs (python) v2.68.0
+  - elevenlabs-swift-sdk v3.3.1
+  - '@elevenlabs/cli v1.3.0'
+  - '@elevenlabs/convai-widget-embed 0.18.2'
+- date: '2026-09-11'
+  url: https://elevenlabs.io/docs/changelog/2026/9/11
+- date: '2026-09-07'
+  url: https://elevenlabs.io/docs/changelog/2026/9/7
+- date: '2026-08-31'
+  url: https://elevenlabs.io/docs/changelog/2026/8/31
+- date: '2026-08-24'
+  url: https://elevenlabs.io/docs/changelog/2026/8/24
+- date: '2026-08-22'
+  url: https://elevenlabs.io/docs/changelog/2026/8/22
+- date: '2026-08-17'
+  url: https://elevenlabs.io/docs/changelog/2026/8/17
+- date: '2026-08-10'
+  url: https://elevenlabs.io/docs/changelog/2026/8/10
+- date: '2026-08-03'
+  url: https://elevenlabs.io/docs/changelog/2026/8/3
+- date: '2026-07-27'
+  url: https://elevenlabs.io/docs/changelog/2026/7/27
+entries_note: only the most recent window is structured here; the full dated index is at
+  https://elevenlabs.io/docs/changelog/llms.txt. Detail was read for 2026-09-14 only.

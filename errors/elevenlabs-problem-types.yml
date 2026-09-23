@@ -1,0 +1,399 @@
+generated: '2026-09-17'
+method: searched
+source: https://elevenlabs.io/docs/eleven-api/resources/errors (error types + searchable code table, read
+  2026-09-17); response-code counts derived from openapi/elevenlabs-openapi.json
+docs: https://elevenlabs.io/docs/eleven-api/resources/errors
+format: vendor-json
+format_note: NOT RFC 9457. ElevenLabs returns application/json with a single top-level `detail` object;
+  no application/problem+json media type and no type/title/status/detail/instance member set. The envelope
+  carries type, code, message, status (legacy, deprecated by the provider), request_id and param.
+envelope:
+  media_type: application/json
+  root_field: detail
+  fields:
+  - name: type
+    description: Error class. One of the ten values in types[].
+  - name: code
+    description: Specific machine-readable code. More granular than type; use this to branch.
+  - name: message
+    description: Human-readable explanation.
+  - name: status
+    description: Legacy field, no longer used. The provider says to use code instead.
+    deprecated: true
+  - name: request_id
+    description: Unique request identifier. Include it when contacting team@elevenlabs.io.
+  - name: param
+    description: The offending parameter on a validation error.
+  example:
+    detail:
+      type: validation_error
+      code: invalid_parameters
+      message: The 'keyterms' parameter is only supported with the 'scribe_v2' model. You specified 'scribe_v1'.
+      status: invalid_parameters
+      request_id: 3c807fc4c3a1705f9638ecc764a91c01
+      param: keyterms
+  example_source: https://elevenlabs.io/docs/eleven-api/resources/errors
+type_count: 10
+types:
+- type: validation_error
+  description: The request contains invalid parameter values.
+  http_status: 400
+- type: invalid_request
+  description: The request structure is malformed or missing required fields.
+  http_status: 400
+- type: authentication_error
+  description: Authentication failed - invalid or missing API key/token.
+  http_status: 401
+- type: payment_required
+  description: User has insufficient credits or payment is required.
+  http_status: 402
+- type: authorization_error
+  description: The authenticated user doesn't have the required permissions for this action.
+  http_status: 403
+- type: not_found
+  description: The requested resource was not found.
+  http_status: 404
+- type: conflict
+  description: The request conflicts with the current state of the resource.
+  http_status: 409
+- type: rate_limit_error
+  description: Too many requests - try again later.
+  http_status: 429
+- type: internal_error
+  description: An unexpected server error occurred.
+  http_status: 500
+- type: service_unavailable
+  description: The service is temporarily unavailable, this should be a rare occurrence.
+  http_status: 503
+problem_type_count: 73
+problem_types:
+- code: voice_not_found
+  type: not_found
+  http_status: 404
+  title: The specified voice ID does not exist. Verify the voice ID and try again.
+- code: sample_not_found
+  type: not_found
+  http_status: 404
+  title: The specified voice sample was not found.
+- code: voice_collection_not_found
+  type: not_found
+  http_status: 404
+  title: The specified voice collection does not exist.
+- code: user_not_found
+  type: not_found
+  http_status: 404
+  title: The specified user was not found.
+- code: auth_account_not_found
+  type: not_found
+  http_status: 404
+  title: The authentication account was not found.
+- code: workspace_not_found
+  type: not_found
+  http_status: 404
+  title: The specified workspace does not exist.
+- code: project_not_found
+  type: not_found
+  http_status: 404
+  title: The specified project was not found.
+- code: history_item_not_found
+  type: not_found
+  http_status: 404
+  title: The specified history item does not exist.
+- code: collection_not_found
+  type: not_found
+  http_status: 404
+  title: The specified collection was not found.
+- code: document_not_found
+  type: not_found
+  http_status: 404
+  title: The specified document does not exist.
+- code: file_not_found
+  type: not_found
+  http_status: 404
+  title: The specified file was not found.
+- code: conversation_not_found
+  type: not_found
+  http_status: 404
+  title: The specified conversation does not exist.
+- code: agent_not_found
+  type: not_found
+  http_status: 404
+  title: The specified agent was not found.
+- code: dubbing_not_found
+  type: not_found
+  http_status: 404
+  title: The specified dubbing project does not exist.
+- code: song_not_found
+  type: not_found
+  http_status: 404
+  title: The specified song was not found.
+- code: read_not_found
+  type: not_found
+  http_status: 404
+  title: The specified read was not found.
+- code: pronunciation_dictionary_not_found
+  type: not_found
+  http_status: 404
+  title: The specified pronunciation dictionary does not exist.
+- code: knowledge_base_not_found
+  type: not_found
+  http_status: 404
+  title: The specified knowledge base was not found.
+- code: phone_number_not_found
+  type: not_found
+  http_status: 404
+  title: The specified phone number does not exist.
+- code: tool_not_found
+  type: not_found
+  http_status: 404
+  title: The specified tool was not found.
+- code: snapshot_not_found
+  type: not_found
+  http_status: 404
+  title: The specified snapshot does not exist.
+- code: task_not_found
+  type: not_found
+  http_status: 404
+  title: The specified task was not found.
+- code: model_not_found
+  type: not_found
+  http_status: 404
+  title: The specified model does not exist.
+- code: transcript_not_found
+  type: not_found
+  http_status: 404
+  title: The specified transcript was not found.
+- code: keywords_list_not_found
+  type: not_found
+  http_status: 404
+  title: The specified keywords list was not found.
+- code: category_not_found
+  type: not_found
+  http_status: 404
+  title: The specified category was not found.
+- code: text_too_long
+  type: validation_error
+  http_status: 400
+  title: The provided text exceeds the maximum allowed length.
+- code: text_too_short
+  type: validation_error
+  http_status: 400
+  title: The provided text is shorter than the minimum required length.
+- code: invalid_text
+  type: validation_error
+  http_status: 400
+  title: The provided text contains invalid characters or formatting.
+- code: empty_text
+  type: validation_error
+  http_status: 400
+  title: The text field cannot be empty.
+- code: invalid_parameters
+  type: validation_error
+  http_status: 400
+  title: One or more request parameters are invalid. Check the `param` property for the invalid parameter.
+- code: missing_required_field
+  type: validation_error
+  http_status: 400
+  title: A required field is missing from the request. Check the `param` property for the missing field.
+- code: invalid_voice_settings
+  type: validation_error
+  http_status: 400
+  title: The voice settings contain invalid values. Check the `param` property for the invalid voice settings.
+- code: invalid_voice_id
+  type: validation_error
+  http_status: 400
+  title: The voice ID format is invalid.
+- code: unsupported_model
+  type: validation_error
+  http_status: 400
+  title: The specified model is not supported for this operation.
+- code: invalid_audio
+  type: validation_error
+  http_status: 400
+  title: The provided audio is invalid or corrupted.
+- code: invalid_audio_format
+  type: validation_error
+  http_status: 400
+  title: The specified audio format is not supported.
+- code: invalid_output_format
+  type: validation_error
+  http_status: 400
+  title: The requested output format is not supported.
+- code: audio_too_long
+  type: validation_error
+  http_status: 400
+  title: The audio exceeds the maximum allowed duration.
+- code: audio_too_short
+  type: validation_error
+  http_status: 400
+  title: The audio is shorter than the minimum required duration.
+- code: invalid_file_type
+  type: validation_error
+  http_status: 400
+  title: The file type is not supported.
+- code: invalid_page_size
+  type: validation_error
+  http_status: 400
+  title: The page size parameter is outside the allowed range.
+- code: invalid_cursor
+  type: validation_error
+  http_status: 400
+  title: The pagination cursor is invalid or expired.
+- code: bad_request
+  type: invalid_request
+  http_status: 400
+  title: The request could not be understood by the server.
+- code: malformed_json
+  type: invalid_request
+  http_status: 400
+  title: The request body contains invalid JSON.
+- code: invalid_content_type
+  type: invalid_request
+  http_status: 400
+  title: The Content-Type header is missing or invalid.
+- code: request_too_large
+  type: invalid_request
+  http_status: 400
+  title: The request body exceeds the maximum allowed size.
+- code: invalid_api_key
+  type: authentication_error
+  http_status: 401
+  title: The provided API key is invalid.
+- code: missing_api_key
+  type: authentication_error
+  http_status: 401
+  title: No API key was provided in the request.
+- code: invalid_authorization_header
+  type: authentication_error
+  http_status: 401
+  title: The Authorization header format is invalid.
+- code: unauthorized
+  type: authentication_error
+  http_status: 401
+  title: Authentication is required to access this resource.
+- code: sign_in_required
+  type: authentication_error
+  http_status: 401
+  title: You must be signed in to perform this action.
+- code: forbidden
+  type: authorization_error
+  http_status: 403
+  title: Access to this resource is forbidden.
+- code: insufficient_permissions
+  type: authorization_error
+  http_status: 403
+  title: You do not have the required permissions for this action.
+- code: workspace_access_denied
+  type: authorization_error
+  http_status: 403
+  title: You do not have access to this workspace.
+- code: feature_not_available
+  type: authorization_error
+  http_status: 403
+  title: This feature is not available on your current plan.
+- code: subscription_required
+  type: authorization_error
+  http_status: 403
+  title: A paid subscription is required to access this feature.
+- code: voice_access_denied
+  type: authorization_error
+  http_status: 403
+  title: You do not have access to this voice.
+- code: model_access_denied
+  type: authorization_error
+  http_status: 403
+  title: You do not have access to this model.
+- code: conflict
+  type: conflict
+  http_status: 409
+  title: A conflict occurred.
+- code: resource_already_exists
+  type: conflict
+  http_status: 409
+  title: A resource with the same identifier already exists.
+- code: voice_already_exists
+  type: conflict
+  http_status: 409
+  title: A voice with this name already exists.
+- code: already_running
+  type: conflict
+  http_status: 409
+  title: The operation is already running.
+- code: already_processing
+  type: conflict
+  http_status: 409
+  title: The resource is already being processed.
+- code: concurrent_modification
+  type: conflict
+  http_status: 409
+  title: The resource was modified by another request. Retry with the latest version.
+- code: slug_already_exists
+  type: conflict
+  http_status: 409
+  title: A resource with this slug already exists.
+- code: rate_limit_exceeded
+  type: rate_limit_error
+  http_status: 429
+  title: Too many requests. Wait before retrying.
+- code: concurrent_limit_exceeded
+  type: rate_limit_error
+  http_status: 429
+  title: Maximum number of concurrent requests exceeded. Higher subscription tiers have a higher concurrency
+    limit.
+- code: system_busy
+  type: rate_limit_error
+  http_status: 429
+  title: The system is currently busy. Try again later.
+- code: insufficient_credits
+  type: payment_required
+  http_status: 402
+  title: Your account does not have enough credits for this operation.
+- code: internal_error
+  type: internal_error
+  http_status: 500
+  title: An unexpected error occurred. Contact support if this persists.
+- code: service_unavailable
+  type: service_unavailable
+  http_status: 503
+  title: The service is temporarily unavailable. Try again later.
+- code: maintenance
+  type: service_unavailable
+  http_status: 503
+  title: The service is undergoing scheduled maintenance.
+throttling:
+  http_status: 429
+  codes:
+  - rate_limit_exceeded
+  - concurrent_limit_exceeded
+  guidance: rate_limit_exceeded means too many requests in a window — implement exponential backoff. concurrent_limit_exceeded
+    means the plan concurrency ceiling was hit — wait for in-flight requests to finish. See rate-limits/elevenlabs-rate-limits.yml.
+sdk_error_classes:
+- language: python
+  class: elevenlabs.core.ApiError
+  exposes:
+  - status_code
+  - body.detail
+- language: javascript
+  class: ElevenLabsError (@elevenlabs/elevenlabs-js)
+  exposes:
+  - statusCode
+  - body.detail
+support_escalation:
+  email: team@elevenlabs.io
+  include:
+  - request_id
+  - full error message
+  - steps to reproduce
+spec_coverage:
+  source: openapi/elevenlabs-openapi.json
+  note: The published OpenAPI declares 4xx/5xx responses but does not enumerate the code registry above;
+    the only error response modelled in the contract is the FastAPI 422 HTTPValidationError. Counts are
+    operations declaring each status.
+  by_status:
+    '400': 5
+    '401': 2
+    '403': 7
+    '404': 11
+    '409': 2
+    '422': 388
+    '425': 2

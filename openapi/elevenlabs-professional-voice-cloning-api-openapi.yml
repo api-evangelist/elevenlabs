@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: ElevenLabs Audio Isolation Agents Professional Voice Cloning API
-  description: The ElevenLabs Audio Isolation API removes background noise from audio recordings, isolating vocal tracks from ambient sounds and interference. This is useful for cleaning up recordings, improving audio quality for podcasts and interviews, and preparing audio files for further processing such as voice cloning or transcription.
+  title: ElevenLabs Voice Cloning Professional Voice Cloning API
+  description: The ElevenLabs Voice Cloning API allows developers to create custom AI voices from audio recordings. Instant Voice Cloning requires as little as 60 seconds of clean audio to generate a usable voice clone, while Professional Voice Cloning produces higher fidelity results from a minimum of 30 minutes of recordings. Cloned voices can then be used with the Text to Speech API for generating speech that closely matches the original speaker.
   version: '1.0'
   contact:
     name: ElevenLabs Support
@@ -45,7 +45,21 @@ paths:
         '422':
           description: Unprocessable entity - insufficient audio quality or duration
 components:
+  parameters:
+    voiceId:
+      name: voice_id
+      in: path
+      required: true
+      description: The identifier of the voice to apply professional cloning to.
+      schema:
+        type: string
   schemas:
+    VoiceCloneResponse:
+      type: object
+      properties:
+        voice_id:
+          type: string
+          description: The unique identifier of the newly created voice clone.
     ProfessionalVoiceCloneRequest:
       type: object
       required:
@@ -61,20 +75,6 @@ components:
           type: string
           format: binary
           description: A signed consent form or audio consent from the voice owner authorizing the creation of the voice clone.
-    VoiceCloneResponse:
-      type: object
-      properties:
-        voice_id:
-          type: string
-          description: The unique identifier of the newly created voice clone.
-  parameters:
-    voiceId:
-      name: voice_id
-      in: path
-      required: true
-      description: The identifier of the voice to apply professional cloning to.
-      schema:
-        type: string
   securitySchemes:
     apiKeyAuth:
       type: apiKey
@@ -82,5 +82,5 @@ components:
       name: xi-api-key
       description: ElevenLabs API key passed in the xi-api-key header for authentication.
 externalDocs:
-  description: ElevenLabs Audio Isolation API Documentation
-  url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation
+  description: ElevenLabs Voice Cloning API Documentation
+  url: https://elevenlabs.io/docs/api-reference/voices/ivc/create

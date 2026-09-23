@@ -1,0 +1,187 @@
+generated: '2026-09-17'
+method: searched
+source: |
+  https://elevenlabs.io/docs/api-reference/introduction,
+  https://elevenlabs.io/docs/api-reference/authentication,
+  https://elevenlabs.io/docs/eleven-api/resources/errors,
+  https://elevenlabs.io/docs/eleven-api/resources/webhooks,
+  https://elevenlabs.io/docs/overview/models (concurrency),
+  https://elevenlabs.io/docs/eleven-api/resources/breaking-changes-policy,
+  derived from openapi/elevenlabs-openapi.json (301 paths / 390 operations).
+description: Cross-cutting runtime semantics for the ElevenLabs API — what an agent needs
+  to know before it calls anything.
+base_url: https://api.elevenlabs.io
+regional_bases:
+- https://api.us.elevenlabs.io
+- https://api.eu.residency.elevenlabs.io
+- https://api.in.residency.elevenlabs.io
+- https://api.sg.residency.elevenlabs.io
+auth:
+  style: api-key-header
+  header: xi-api-key
+  also: OAuth 2.0 authorization code + PKCE for the hosted MCP server and the CLI; short-lived
+    single-use tokens for client-side realtime surfaces.
+  spec_note: |
+    The published OpenAPI declares NO components.securitySchemes. Instead xi-api-key appears
+    as an explicit header PARAMETER on 386 of 390 operations. Functionally equivalent for a
+    human reader; invisible to any tool that looks for securitySchemes.
+  artifact: authentication/elevenlabs-authentication.yml
+idempotency:
+  supported: false
+  coverage: none
+  mechanism: null
+  header: null
+  retention: null
+  scope: []
+  evidence: |
+    No Idempotency-Key (or equivalent) header appears anywhere in the 390-operation published
+    OpenAPI — the only header parameters in the whole contract are xi-api-key (386
+    operations) and safety-identifier (1). The docs contain no idempotency or replay-safety
+    section for the REST API. Retrying a failed POST to a generation endpoint produces a
+    second generation and a second credit charge.
+  counterpart: |
+    The WEBHOOK side is the reverse: the provider explicitly tells CONSUMERS to make their
+    handlers idempotent, because a retry payload is byte-identical to the first delivery and
+    cannot be distinguished from it. Dedupe on event_timestamp plus an event-specific id
+    such as conversation_id. That is a requirement placed on the consumer, not a mechanism
+    ElevenLabs offers on its own write surface, and it does not count as coverage.
+  webhook_dedupe_docs: https://elevenlabs.io/docs/eleven-api/resources/webhooks
+reversibility:
+  grade: documented
+  grade_basis: |
+    Reversal paths exist and are documented as operations, but no published document states
+    a WINDOW for any of them — not for deletion, not for cancellation, not for restore. Per
+    the grading rule that is `documented` (reversal path only), not `verified` (path + stated
+    window). No window is asserted here because none is published.
+  write_surface:
+    post: 163
+    patch: 31
+    put: 1
+    delete: 43
+    total_mutating: 238
+  reversals:
+  - surface: knowledge-base web crawl
+    reversal: cancel
+    operationId: cancel_crawl_job_route
+    path: POST /v1/convai/knowledge-base/crawl/{crawl_job_id}/cancel
+    window: null
+    window_note: no documented window; cancellable while the job is running.
+  - surface: outbound batch calling
+    reversal: cancel
+    operationId: cancel_batch_call
+    path: POST /v1/convai/batch-calling/{batch_id}/cancel
+    window: null
+    window_note: no documented window; cancellable while the batch is in flight. Calls
+      already placed are not recalled.
+  - surface: conversation file upload
+    reversal: cancel
+    operationId: cancel_file_upload_route
+    path: DELETE /v1/convai/conversations/{conversation_id}/files/{file_id}
+    window: null
+  - surface: agent configuration
+    reversal: version restore via branches and versioning
+    operationId: null
+    path: /v1/convai/agents/{agent_id}/branches and the agent versioning surface
+    window: null
+    docs: https://elevenlabs.io/docs/eleven-agents/operate/versioning
+    note: agent configuration is versioned and branchable, so a bad prompt/voice/tool change
+      is recoverable by rolling to a prior version. This is the strongest reversal affordance
+      in the API.
+  irreversible:
+  - action: audio / music / image / video generation
+    reason: generation consumes credits at request time. There is no void, refund or credit
+      reversal operation anywhere in the contract, and no documented way to undo a charge.
+    consequence: an agent that retries a failed generation pays twice, and cannot take it back.
+  - action: DELETE on any resource (43 operations)
+    reason: no restore, undelete or trash operation is published for any of them.
+  - action: agent deletion via the hosted MCP server
+    reason: the provider itself flags this as destructive and tells operators to review the
+      tool call before approving it.
+    docs: https://elevenlabs.io/docs/eleven-agents/operate/hosted-mcp
+dry_run_mode:
+  supported: partial
+  note: |
+    No general dry-run/preview flag. Two narrow rehearsal affordances exist: the ElevenAgents
+    conversation-simulation endpoints (now deprecated in the spec), and the hosted MCP
+    server's documented ability to "estimate an agent's expected LLM usage and cost before
+    making changes". Neither generalises to the generation surface.
+pagination:
+  style: cursor
+  params:
+    cursor: cursor
+    page_size: page_size
+  coverage: cursor on 36 operations, page_size on 40 — the list surfaces of ElevenAgents,
+    Studio, voices and history.
+  response_fields:
+  - next_cursor
+  - has_more
+  legacy: a small number of older list endpoints take `page` / `limit` instead of
+    cursor/page_size (2 and 3 operations respectively).
+  sorting:
+    params:
+    - sort_by
+    - sort_direction
+    - sort
+field_expansion:
+  supported: false
+  note: no ?expand=, ?fields= or sparse-fieldset convention. Some endpoints take boolean
+    include_* flags (e.g. include_usages on the webhook list) instead.
+metadata:
+  supported: partial
+  note: no generic customer-defined metadata bag on every object. ElevenAgents carries
+    dynamic variables and conversation metadata; generation endpoints do not.
+tracing:
+  request_id_response_header: request-id
+  trace_id_response_header: x-trace-id
+  error_body_field: detail.request_id
+  usage_header: character-cost
+  note: |
+    The introduction page documents reading request-id, x-trace-id and character-cost off the
+    raw response — both SDKs expose a with_raw_response / withRawResponse escape hatch for
+    it. request_id is also echoed in the error envelope and is what support asks for.
+  docs: https://elevenlabs.io/docs/api-reference/introduction
+versioning:
+  style: path
+  current: v1
+  breaking_changes_policy: https://elevenlabs.io/docs/eleven-api/resources/breaking-changes-policy
+  artifact: lifecycle/elevenlabs-lifecycle.yml
+error_envelope:
+  media_type: application/json
+  shape: '{ "detail": { type, code, message, status, request_id, param } }'
+  rfc9457: false
+  branch_on: detail.code
+  artifact: errors/elevenlabs-problem-types.yml
+rate_limit_signaling:
+  status: 429
+  codes:
+  - rate_limit_exceeded
+  - concurrent_limit_exceeded
+  response_headers:
+  - current-concurrent-requests
+  - maximum-concurrent-requests
+  standard_headers: none. No X-RateLimit-*, no RateLimit-* (RFC 9331 draft), and the docs do
+    not promise Retry-After on a 429.
+  guidance: exponential backoff on rate_limit_exceeded; wait for in-flight requests on
+    concurrent_limit_exceeded.
+  artifact: rate-limits/elevenlabs-rate-limits.yml
+streaming:
+  http: chunked transfer encoding on the streaming TTS/STT endpoints
+  websocket: realtime TTS, text-to-dialogue and realtime STT
+  docs: https://elevenlabs.io/docs/api-reference/streaming
+  artifact: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
+webhooks:
+  retries: up to 5 attempts (immediate, 30s, 2m, 8m, 30m) with up to 10% jitter, opt-in per
+    webhook, currently post_call_transcription only
+  retryable_statuses:
+  - 5xx
+  - 429
+  - 408
+  non_retryable: 4xx other than 429/408
+  queue_limit: 100 pending retry jobs per webhook
+  auto_disable: 10+ consecutive failures AND no successful delivery in the last 7 days
+  auth_types:
+  - hmac
+  - oauth2
+  - mtls
+  consumer_requirement: handlers must be idempotent and return 200 promptly
+  docs: https://elevenlabs.io/docs/eleven-api/resources/webhooks

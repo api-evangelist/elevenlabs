@@ -1,21 +1,107 @@
-generated: '2026-09-11'
+generated: '2026-09-17'
 method: probed
-source: https://api.elevenlabs.io/v1/mcp
+source: |
+  https://api.elevenlabs.io/.well-known/oauth-protected-resource (RFC 9728, HTTP 200),
+  POST https://api.us.elevenlabs.io/v1/mcp tools/list (HTTP 401 + WWW-Authenticate Bearer
+  resource_metadata challenge), https://elevenlabs.io/docs/eleven-agents/operate/hosted-mcp,
+  https://elevenlabs.io/llms.txt, and https://github.com/elevenlabs/elevenlabs-mcp.
 status: gated
 server:
   name: elevenlabs
   transport: http
   url: https://api.elevenlabs.io/v1/mcp
+  vendor: ElevenLabs
+  first_party: true
 deployment:
-  mode: remote
+  mode: both
   endpoint: https://api.elevenlabs.io/v1/mcp
+  install: uvx elevenlabs-mcp
+  package: https://pypi.org/project/elevenlabs-mcp/
+  auth: oauth
   verified: probed
-  probe: gated
-  checked: '2026-09-11'
-  source: docs-check 2026-09-11 (endpoint found in the provider's own documentation, then probed)
-  probe_why: RFC 9728 challenge on the MCP path only
-tools_note: No tool list captured. This manifest records a PROBED, reachable endpoint only; anonymous
-  tools/list was auth-gated or the server requires an initialize handshake this reachability probe does
-  not perform. Run signals/audit_mcp_authorship.py --probe to enumerate tools and settle platform-vs-provider
-  authorship. Do NOT derive a tool list from the OpenAPI and store it here -- that is a candidate manifest,
-  and it belongs under an X-MCPServerCandidate pointer.
+  checked: '2026-09-17'
+  note: |
+    BOTH shapes ship, and they are different products. The hosted REMOTE server at
+    https://api.elevenlabs.io/v1/mcp is callable by an MCP client today over OAuth with
+    nothing installed — Anthropic lists it in the Claude Desktop connector directory. The
+    open-source LOCAL stdio server (pypi elevenlabs-mcp 0.12.2,
+    github.com/elevenlabs/elevenlabs-mcp) is a separate package a human installs and runs.
+    The hosted server covers ElevenAgents management plus Text to Speech; the local server
+    covers the generation surface.
+endpoints:
+- region: global
+  url: https://api.elevenlabs.io/v1/mcp
+  source: https://elevenlabs.io/docs/eleven-agents/operate/hosted-mcp
+- region: us
+  url: https://api.us.elevenlabs.io/v1/mcp
+  source: https://api.elevenlabs.io/.well-known/oauth-protected-resource
+  note: the only endpoint named by a machine-readable discovery document
+- region: eu
+  url: https://api.eu.residency.elevenlabs.io/v1/mcp
+  source: https://elevenlabs.io/docs/eleven-agents/operate/hosted-mcp
+- region: in
+  url: https://api.in.residency.elevenlabs.io/v1/mcp
+  source: https://elevenlabs.io/docs/eleven-agents/operate/hosted-mcp
+- region: sg
+  url: https://api.sg.residency.elevenlabs.io/v1/mcp
+  source: https://elevenlabs.io/docs/eleven-agents/operate/hosted-mcp
+authorization:
+  scheme: oauth2
+  protected_resource_metadata: https://api.elevenlabs.io/.well-known/oauth-protected-resource
+  authorization_server_metadata: https://api.elevenlabs.io/.well-known/oauth-authorization-server
+  issuer: https://api.us.elevenlabs.io
+  pkce: S256
+  bearer_methods_supported:
+  - header
+  scopes_supported:
+  - convai_read
+  - convai_write
+  - text_to_speech
+  - speech_history_read
+  - flows
+  - image_video_generation
+  - voice_generation
+  dynamic_client_registration: false
+  client_id_metadata_document_supported: true
+  note: See scopes/elevenlabs-scopes.yml. No DCR endpoint is advertised; the server relies
+    on CIMD (client_id metadata documents) so hosted clients need no registration.
+probe:
+  url: https://api.us.elevenlabs.io/v1/mcp
+  method: POST
+  body: '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+  http_status: 401
+  www_authenticate: Bearer resource_metadata="https://api.us.elevenlabs.io/.well-known/oauth-protected-resource"
+  response: '{"detail":"OAuth bearer token required for the hosted MCP."}'
+  verdict: reachable, first-party, auth-gated. The RFC 9728 challenge is itself the
+    strongest evidence this is a real MCP server rather than a guessed path.
+tools_note: |
+  No machine-readable tool list captured — anonymous tools/list is OAuth-gated. The
+  capability list below is the PROVIDER'S OWN prose enumeration from the hosted-MCP doc,
+  not an introspected manifest: names and inputSchemas require an authenticated tools/list.
+  Do not treat capabilities[] as tool identifiers.
+capabilities_documented:
+- Create new agents from a natural-language description
+- Update any agent setting (system prompt, voice, language, first message)
+- List agents and inspect or compare their configurations
+- Review an agent's recent conversations and read full transcripts
+- Explore the topics an agent's conversations cover
+- Duplicate and delete agents
+- Estimate an agent's expected LLM usage and cost before making changes
+- Retrieve an agent's widget configuration and shareable link
+- Check the size of an agent's knowledge base
+- Generate speech audio from text, returned as a short-lived download link
+capabilities_source: https://elevenlabs.io/docs/eleven-agents/operate/hosted-mcp
+safety_notes:
+- Deleting an agent is destructive; the provider explicitly tells operators to review tool
+  calls before approving them and to restrict write access.
+- Workspace administrators can disable individual tools for the whole organization; a tool
+  an admin disables cannot be re-enabled by a user.
+local_server:
+  name: elevenlabs-mcp
+  repository: https://github.com/elevenlabs/elevenlabs-mcp
+  package: https://pypi.org/project/elevenlabs-mcp/
+  version: 0.12.2
+  transport: stdio
+  auth: api-key
+  auth_note: the local server reads ELEVENLABS_API_KEY; the hosted server uses OAuth and
+    stores no key in the client.

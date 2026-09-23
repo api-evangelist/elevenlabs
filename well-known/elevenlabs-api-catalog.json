@@ -1,0 +1,25 @@
+{
+    "linkset": [
+        {
+            "anchor": "https://api.elevenlabs.io/v1",
+            "service-desc": [
+                {
+                    "href": "https://api.elevenlabs.io/openapi.json",
+                    "type": "application/json"
+                }
+            ],
+            "service-doc": [
+                {
+                    "href": "https://elevenlabs.io/docs/api-reference",
+                    "type": "text/html"
+                }
+            ],
+            "status": [
+                {
+                    "href": "https://status.elevenlabs.io/",
+                    "type": "text/html"
+                }
+            ]
+        }
+    ]
+}

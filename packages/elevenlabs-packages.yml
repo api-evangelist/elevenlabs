@@ -1,0 +1,191 @@
+generated: '2026-09-17'
+method: searched
+source: |
+  Registry metadata endpoints read unauthenticated on 2026-09-17 — registry.npmjs.org,
+  pypi.org/pypi/<pkg>/json, repo1.maven.org maven-metadata.xml, pub.dev/api/packages/<pkg>,
+  api.github.com/repos/elevenlabs/<repo>/releases/latest — cross-checked against the
+  provider's own SDK list at https://elevenlabs.io/docs/eleven-api/resources/libraries and
+  https://elevenlabs.io/docs/api-reference/introduction.
+description: |
+  First-party ElevenLabs client libraries, agent SDKs, CLI and embeddable widget packages.
+  Every entry marked official:true is published from the github.com/elevenlabs organization
+  or named in the provider's own installation docs. Third-party lookalikes found during the
+  registry search are listed under unofficial[] so they are not mistaken for provider work.
+providerId: elevenlabs
+provider: ElevenLabs
+package_count: 11
+official_count: 11
+packages:
+- name: '@elevenlabs/elevenlabs-js'
+  registry: npm
+  language: javascript
+  official: true
+  version: 2.68.0
+  published: '2026-09-11'
+  url: https://www.npmjs.com/package/@elevenlabs/elevenlabs-js
+  repository: https://github.com/elevenlabs/elevenlabs-js
+  install: npm install @elevenlabs/elevenlabs-js
+  role: Official Node/TypeScript SDK for the whole REST + WebSocket surface.
+- name: elevenlabs
+  registry: pypi
+  language: python
+  official: true
+  version: 2.68.0
+  published: '2026-09-11'
+  url: https://pypi.org/project/elevenlabs/
+  repository: https://github.com/elevenlabs/elevenlabs-python
+  install: pip install elevenlabs
+  role: Official Python SDK. Version-locked with the JS SDK at 2.68.0.
+- name: '@elevenlabs/client'
+  registry: npm
+  language: javascript
+  official: true
+  version: 1.25.0
+  published: '2026-09-07'
+  url: https://www.npmjs.com/package/@elevenlabs/client
+  repository: https://github.com/elevenlabs/packages
+  install: npm install @elevenlabs/client
+  role: Browser/Node client for ElevenAgents realtime conversations.
+- name: '@elevenlabs/react'
+  registry: npm
+  language: javascript
+  official: true
+  version: 1.15.2
+  published: '2026-09-07'
+  url: https://www.npmjs.com/package/@elevenlabs/react
+  repository: https://github.com/elevenlabs/packages
+  install: npm install @elevenlabs/react
+  role: React hooks for ElevenAgents conversations.
+- name: '@elevenlabs/react-native'
+  registry: npm
+  language: javascript
+  official: true
+  version: 1.2.27
+  published: '2026-09-07'
+  url: https://www.npmjs.com/package/@elevenlabs/react-native
+  repository: https://github.com/elevenlabs/packages
+  install: npm install @elevenlabs/react-native
+  role: React Native client for ElevenAgents.
+- name: '@elevenlabs/convai-widget-embed'
+  registry: npm
+  language: javascript
+  official: true
+  version: 0.18.2
+  published: '2026-09-11'
+  url: https://www.npmjs.com/package/@elevenlabs/convai-widget-embed
+  repository: https://github.com/elevenlabs/packages
+  install: npm install @elevenlabs/convai-widget-embed
+  role: Embeddable conversational-AI web component. See components/elevenlabs-components.yml.
+- name: '@elevenlabs/cli'
+  registry: npm
+  language: rust
+  official: true
+  version: 1.3.0
+  published: '2026-09-15'
+  url: https://www.npmjs.com/package/@elevenlabs/cli
+  repository: https://github.com/elevenlabs/cli
+  install: npm install -g @elevenlabs/cli
+  role: npm distribution of the Rust CLI binary. Homebrew and Scoop are the provider's
+    recommended installs. See cli/elevenlabs-cli.yml.
+- name: elevenlabs-mcp
+  registry: pypi
+  language: python
+  official: true
+  version: 0.12.2
+  published: '2026-09-17'
+  published_note: pypi.org/pypi/elevenlabs-mcp/json returned version 0.12.2 on 2026-09-17;
+    the upload date was not exposed in the response consulted, so the date recorded here
+    is the observation date, not a confirmed release date.
+  url: https://pypi.org/project/elevenlabs-mcp/
+  repository: https://github.com/elevenlabs/elevenlabs-mcp
+  install: uvx elevenlabs-mcp
+  role: The official open-source LOCAL (stdio) MCP server. Distinct from the hosted remote
+    MCP server at api.elevenlabs.io/v1/mcp — see mcp/elevenlabs-mcp.yml.
+- name: io.elevenlabs:elevenlabs-android
+  registry: maven-central
+  language: kotlin
+  official: true
+  version: 0.12.2
+  published: '2026-09-02'
+  published_note: date taken from the matching GitHub release tag v0.12.2 (2026-09-02);
+    repo1.maven.org maven-metadata.xml confirms 0.12.2 is the latest release but does not
+    carry a per-version date.
+  url: https://repo1.maven.org/maven2/io/elevenlabs/elevenlabs-android/
+  repository: https://github.com/elevenlabs/elevenlabs-android
+  install: implementation("io.elevenlabs:elevenlabs-android:0.12.2")
+  role: Official ElevenAgents SDK for Android (Kotlin), LiveKit/WebRTC based.
+- name: elevenlabs_agents
+  registry: pub.dev
+  language: dart
+  official: true
+  version: 0.6.1
+  published: '2026-06-02'
+  url: https://pub.dev/packages/elevenlabs_agents
+  repository: https://github.com/elevenlabs/elevenlabs-flutter
+  install: flutter pub add elevenlabs_agents
+  role: Official ElevenAgents Flutter SDK. Note the package NAME is elevenlabs_agents
+    while the repo is elevenlabs-flutter.
+- name: ElevenLabsSDK (Swift Package Manager)
+  registry: github
+  language: swift
+  official: true
+  version: 3.3.1
+  published: '2026-09-08'
+  url: https://github.com/elevenlabs/elevenlabs-swift-sdk
+  repository: https://github.com/elevenlabs/elevenlabs-swift-sdk
+  install: '.package(url: "https://github.com/elevenlabs/elevenlabs-swift-sdk.git", from: "3.3.1")'
+  role: Official ElevenAgents Swift SDK. Distributed by Swift Package Manager from the
+    Git tag — there is no package-registry metadata endpoint to query, so version and date
+    are read from the GitHub release v3.3.1.
+deprecated:
+- name: elevenlabs
+  registry: npm
+  language: javascript
+  official: true
+  version: 1.59.0
+  published: '2025-05-15'
+  url: https://www.npmjs.com/package/elevenlabs
+  status: superseded
+  note: |
+    The unscoped npm `elevenlabs` package is the old v1.x JavaScript SDK. Last publish
+    2025-05-15 — 16 months stale as of this pass. The provider's own skills repo warns
+    explicitly: "Always use @elevenlabs/elevenlabs-js. Do not use npm install elevenlabs
+    (that's an outdated v1.x package)." Recorded here as a currency/abandonment signal on
+    a package the provider still owns, not as a live SDK.
+unofficial:
+- name: elevenlabs-cli
+  registry: crates.io
+  version: 0.1.8
+  published: '2026-02-18'
+  url: https://crates.io/crates/elevenlabs-cli
+  official: false
+  note: Self-described "Unofficial CLI for ElevenLabs text-to-speech API", repository
+    github.com/hongkongkiwi/elevenlabs-cli. NOT the ElevenLabs CLI, which ships as
+    @elevenlabs/cli on npm and via elevenlabs/homebrew-tap.
+- name: net.andrewcpu:elevenlabs-api
+  registry: maven-central
+  version: 2.7.8
+  published: '2023-11-30'
+  official: false
+  note: Third-party Java wrapper. ElevenLabs publishes no first-party Java SDK; its only
+    Maven Central coordinate is io.elevenlabs:elevenlabs-android.
+- name: elevenlabs
+  registry: pub.dev
+  version: 1.0.10
+  official: false
+  note: Marked discontinued on pub.dev. Third-party Dart wrapper; the official Flutter
+    package is elevenlabs_agents.
+distribution_channels:
+- channel: homebrew
+  url: https://github.com/elevenlabs/homebrew-tap
+  install: brew install elevenlabs/tap/elevenlabs
+  version: null
+  note: Provider-run Homebrew tap for the CLI. A tap has no registry metadata endpoint;
+    the version it serves tracks the elevenlabs/cli GitHub releases (v1.3.0, 2026-09-15).
+- channel: scoop
+  url: https://github.com/elevenlabs/scoop-bucket
+  install: scoop bucket add elevenlabs https://github.com/elevenlabs/scoop-bucket && scoop
+    install elevenlabs
+  version: null
+  note: Provider-run Scoop bucket for the CLI on Windows. Same unpinned-to-latest caveat
+    as the Homebrew tap.

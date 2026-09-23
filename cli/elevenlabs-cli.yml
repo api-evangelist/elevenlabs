@@ -1,0 +1,100 @@
+generated: '2026-09-17'
+method: searched
+source: |
+  https://elevenlabs.io/docs/eleven-agents/operate/cli,
+  https://github.com/elevenlabs/cli (release v1.3.0, 2026-09-15),
+  https://www.npmjs.com/package/@elevenlabs/cli (1.3.0, 2026-09-15),
+  https://github.com/elevenlabs/homebrew-tap, https://github.com/elevenlabs/scoop-bucket.
+docs: https://elevenlabs.io/docs/eleven-agents/operate/cli
+name: elevenlabs
+binary: elevenlabs
+official: true
+repository: https://github.com/elevenlabs/cli
+language: rust
+version: 1.3.0
+released: '2026-09-15'
+description: |
+  First-party CLI for managing ElevenAgents as code — store agent, tool and test
+  configuration in version control, push it from CI, and let a coding assistant drive the
+  platform from a terminal. Scope is ElevenAgents plus auth; it is not a general client for
+  the audio generation API.
+positioning: |
+  The provider draws an explicit line between the CLI and the hosted MCP server: "Use the
+  CLI when you want agents in version control; use the hosted MCP server for conversational
+  management."
+install:
+- method: homebrew
+  command: brew install elevenlabs/tap/elevenlabs
+  recommended: true
+  platform: macOS
+  note: ships a standalone binary
+- method: scoop
+  command: scoop bucket add elevenlabs https://github.com/elevenlabs/scoop-bucket && scoop install elevenlabs
+  recommended: true
+  platform: Windows
+  note: ships a standalone binary
+- method: npm
+  command: npm install -g @elevenlabs/cli
+  platform: any
+- method: curl
+  command: curl --proto '=https' --tlsv1.2 -LsSf https://github.com/elevenlabs/cli/releases/latest/download/elevenlabs-cli-installer.sh
+    | sh
+  platform: unix
+authentication:
+  interactive: elevenlabs auth login (browser OAuth flow; see scopes/elevenlabs-scopes.yml)
+  credential_store: OS keyring — Keychain (macOS), Credential Manager (Windows), Secret
+    Service (Linux)
+  fallback: ~/.config/elevenlabs/auth-keyring.json with 0600 permissions
+  ci: set ELEVENLABS_API_KEY in the environment or a .env file instead of logging in
+  inspect: elevenlabs auth status
+  revoke: elevenlabs auth logout
+command_groups:
+- group: auth
+  commands:
+  - elevenlabs auth login
+  - elevenlabs auth logout
+  - elevenlabs auth status
+- group: agents
+  commands:
+  - elevenlabs agents init
+  - elevenlabs agents add "<name>" [--template <type>] [--skip-upload]
+  - elevenlabs agents list
+  - elevenlabs agents push [--dry-run]
+  - elevenlabs agents pull [--agent <agent_id>] [--update]
+  - elevenlabs agents status
+  - elevenlabs agents templates list
+  - elevenlabs agents templates show <template>
+  - elevenlabs agents widget embed <agent_id>
+- group: tools
+  commands:
+  - elevenlabs tools add "<name>" --type webhook --config-path <path>
+  - elevenlabs tools add "<name>" --type client --config-path <path>
+- group: skills
+  commands:
+  - elevenlabs generate-skills [--output-dir <dir>]
+  note: |
+    Writes a SKILL.md per command group into skills/ from the CLI's OWN embedded API
+    definition — no API key, works offline, and tracks whichever CLI version is installed.
+    This is a second, generated source of Agent Skills alongside the hand-written ones the
+    provider publishes at github.com/elevenlabs/skills (see skills/_index.yml).
+- group: feedback
+  commands:
+  - elevenlabs feedback missing-capability
+  note: added in v1.3.0 to report workflows the CLI does not support.
+templates:
+- default
+- minimal
+- voice-only
+- text-only
+- customer-service
+- assistant
+project_layout:
+  agents.json: central agent configuration registry
+  tools.json: tool definitions registry
+  tests.json: test definitions registry
+  agent_configs/: agent configuration files
+  tool_configs/: tool configuration files
+  test_configs/: test configuration files
+dry_run: elevenlabs agents push --dry-run previews changes before they are applied — the
+  one rehearsal affordance in the ElevenLabs toolchain.
+ci_cd: documented; the CLI is designed to run in a pipeline with ELEVENLABS_API_KEY set.

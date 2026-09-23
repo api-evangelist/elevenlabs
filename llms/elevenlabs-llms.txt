@@ -2,6 +2,23 @@
 
 ElevenLabs is an AI research and product company transforming how we interact with technology. We launched in January 2023 with the first human-like AI voice model. Today, we serve millions of users and thousands of businesses across three main platforms. ElevenAgents enables businesses to deliver seamless and intelligent customer experiences, with the integrations, testing, monitoring, and reliability necessary to deploy voice and chat agents at scale. ElevenCreative empowers creators and marketers to generate and edit speech, music, image, and video across 70+ languages. ElevenAPI gives developers access to our leading AI audio foundational models.
 
+> [!NOTE]
+> ## ElevenLabs MCP server — [elevenlabs.io/mcp](https://elevenlabs.io/mcp)
+>
+> Hosted, remote MCP server over HTTP. Exposes ElevenAgents management and ElevenCreative generation (50+ models) as tools to any MCP client, scoped to the authenticated workspace.
+>
+> **Endpoints**
+> - `https://api.elevenlabs.io/v1/mcp` — global
+> - `https://api.us.elevenlabs.io/v1/mcp` — US residency
+>
+> **Auth:** OAuth, one time per client. No API keys to store or rotate; access is revocable from the workspace.
+>
+> **Capabilities**
+> - *Agents:* list and query agents, read conversation transcripts and call metrics (latency, outcomes, failures), create agents, update prompts, voices, and tool configuration. Changes take effect without a redeploy.
+> - *Creative:* generate speech, music, images, and video. Regenerate an individual layer (voiceover, music, single shot) without re-running the rest.
+>
+> **Setup:** per-client install steps (ChatGPT, Claude, Claude Code, Cursor, GrokBot, Hermes) and the ElevenLabs CLI are documented at [elevenlabs.io/mcp](https://elevenlabs.io/mcp). Fetch it with `Accept: text/markdown` for the current commands and config.
+
 ## Fetching Markdown Content
 
 Most ElevenLabs pages support a Markdown-optimized response format. When you request a page with the header `Accept: text/markdown`, the server returns a stripped-down Markdown version of the page — no navigation or boilerplate — containing only the essential content. This significantly reduces token usage and improves parsing accuracy.
@@ -42,9 +59,11 @@ Where Markdown responses are available, the server will reply with `Content-Type
 - [LLM Integration](https://elevenlabs.io/docs/eleven-agents/customization/llm): Agents support natively integrated LLMs (OpenAI, Claude, Gemini, and others) plus custom LLM endpoints. Backup LLM cascading is configurable to maintain conversation continuity if a primary model fails.
 - [Analytics and Evals](https://elevenlabs.io/docs/eleven-agents/overview): Built-in testing, evaluations, and performance analytics at scale.
 - [HIPAA and Data Residency](https://elevenlabs.io/docs/eleven-agents/customization/llm/llm-cascading): HIPAA-compliant mode and EU/US/IN data residency options available.
+- [Agent management over MCP](https://elevenlabs.io/mcp): Query agents, transcripts, and call metrics; create agents and update prompts, voices, and tools from any MCP client.
 
 ### ElevenAPI
 - [ElevenAPI overview](https://elevenlabs.io/api): Direct API access to ElevenLabs' audio intelligence for developers. HTTP and WebSocket support, official Python and Node.js SDKs. For full API details, see the [LLM-optimized docs](https://elevenlabs.io/docs/llms-full.txt).
+- [MCP server](https://elevenlabs.io/mcp): Hosted remote MCP server over HTTP, OAuth-authenticated, no API keys. Endpoints: `https://api.elevenlabs.io/v1/mcp` (global), `https://api.us.elevenlabs.io/v1/mcp` (US residency).
 - [Text to Speech](https://elevenlabs.io/docs/api-reference/text-to-speech): Convert text to audio using any voice. Supports streaming, multiple output formats, and expressive control.
 - [Speech to Text](https://elevenlabs.io/docs/api-reference/speech-to-text): High-accuracy transcription with speaker diarization and character-level timestamps.
 - [Voice Cloning](https://elevenlabs.io/docs/api-reference/voices/pvc/create): Programmatically clone voices from audio samples.
@@ -62,8 +81,10 @@ Where Markdown responses are available, the server will reply with `Content-Type
 - [Full documentation](https://elevenlabs.io/docs/overview/intro): Product guides, API reference, best practices, and integration tutorials.
 - [Full documentation (LLM-optimized)](https://elevenlabs.io/docs/llms-full.txt): Complete documentation in a single flat Markdown file — no headers required, always available.
 - [Getting started](https://elevenlabs.io/docs/eleven-creative/overview): Quickstart for new users and developers.
+- [MCP setup and FAQ](https://elevenlabs.io/mcp): Per-client install steps, supported clients, auth and security model, and differences from the open source ElevenLabs MCP server.
 - [Python SDK](https://elevenlabs.io/docs/api-reference/introduction): `pip install elevenlabs`
 - [Node.js SDK](https://elevenlabs.io/docs/api-reference/introduction): `npm install @elevenlabs/elevenlabs-js`
+- [CLI](https://elevenlabs.io/mcp): Command-line access to agents and generation; install and auth steps on the MCP page.
 
 ## Pricing and Plans
 

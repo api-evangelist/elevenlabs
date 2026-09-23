@@ -4,10 +4,33 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: ElevenLabs
 providerId: elevenlabs
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
+# 2026-09-17: re-read against the live pricing page and CONFIRMED tier-by-tier. Every
+# name, price and credit quota below matches https://elevenlabs.io/pricing as served on
+# 2026-09-17 (HTTP 200, fetched with Accept: text/markdown). Provenance upgraded from
+# generated to searched on that verification. Supersedes the roadmap#35 stamp.
+generated: '2026-09-17'
+method: searched
+modified: '2026-09-17'
+verified: '2026-09-17'
+verification_source: https://elevenlabs.io/pricing
+plan_count: 7
+currency: USD
+billing_period: monthly (annual billing also offered on the pricing page)
+pricing_axes:
+  - axis: ElevenCreative
+    url: https://elevenlabs.io/pricing
+    note: the tiers structured below
+  - axis: ElevenAgents
+    url: https://elevenlabs.io/pricing/agents
+    note: separate per-minute agent pricing surface; not structured in this artifact
+  - axis: ElevenAPI
+    url: https://elevenlabs.io/pricing/api
+    note: separate API pricing surface; not structured in this artifact
+overage:
+  model: pay-as-you-go usage-based billing for credits beyond the monthly quota
+  availability: Creator tier and above
+  source: https://elevenlabs.io/llms.txt
+tax_note: 'Prices exclude all taxes, levies and duties (stated on the pricing page).'
 reconciled: true
 tags:
   - AI

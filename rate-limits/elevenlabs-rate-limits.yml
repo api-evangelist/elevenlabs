@@ -3,50 +3,252 @@ specificationVersion: '0.1'
 schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
 provider: ElevenLabs
 providerId: elevenlabs
+generated: '2026-09-17'
+method: searched
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
-reconciled: true
+modified: '2026-09-17'
+source: |
+  https://elevenlabs.io/docs/overview/models#concurrency-and-priority (the published
+  per-plan concurrency table and the response headers) and
+  https://elevenlabs.io/docs/eleven-api/resources/errors (429 codes and backoff guidance),
+  both read 2026-09-17. Supersedes the 2026-05-04 generated sweep.
+docs: https://elevenlabs.io/docs/overview/models
+description: |
+  ElevenLabs throttles on CONCURRENCY, not on a requests-per-minute quota. The docs say so
+  explicitly: "API requests per minute and concurrent requests are different metrics" and
+  no per-minute ceiling is published. The limit that binds is how many requests a plan may
+  have in flight at once, and it differs by model family (Multilingual v2 vs Flash), by
+  Speech to Text (elevated), by realtime STT and by Music. Beyond the ceiling requests are
+  queued rather than rejected — the docs put the added latency at roughly 50ms — and a 429
+  is returned when the queue itself is exceeded.
+model: concurrency
 tags:
-  - Rate Limiting
-  - Speech
-description: ElevenLabs concurrent request limits scale with subscription tier.
-sources:
-  - https://elevenlabs.io/pricing
-  - https://elevenlabs.io/docs/api-reference/getting-started
+- Rate Limiting
+- Concurrency
+- Speech
 headers:
-  retryAfter: Retry-After
+  request:
+  - name: xi-api-key
+    note: per-key limits; a key can also carry its own credit quota.
+  response:
+  - name: current-concurrent-requests
+    description: how many of your requests are in flight right now.
+  - name: maximum-concurrent-requests
+    description: your plan's concurrency ceiling.
+  retryAfter: null
+  retryAfter_note: Retry-After is NOT documented and was not observed. The provider's
+    guidance is client-side exponential backoff, not a server-supplied delay.
+  standard_ratelimit_headers: none — no X-RateLimit-* and no RFC 9331-style RateLimit-*.
 responseCodes:
   throttled: 429
   concurrencyExceeded: 429
+error_codes:
+- code: rate_limit_exceeded
+  type: rate_limit_error
+  http_status: 429
+  remediation: implement exponential backoff before retrying.
+- code: concurrent_limit_exceeded
+  type: rate_limit_error
+  http_status: 429
+  remediation: wait for in-flight requests to complete before issuing new ones.
+priority_queue:
+  behaviour: once the concurrency limit is met, further requests are queued alongside
+    lower-priority requests rather than failing.
+  typical_added_latency_ms: 50
+  priority_levels:
+    Free: 3
+    Starter: 4
+    Creator: 5
+    Pro: 5
+    Scale: 5
+    Business: 5
+    Enterprise: 6
+limit_count: 35
 limits:
-  - name: Free concurrent
-    scope: user
-    metric: concurrent
-    limit: 2
-  - name: Starter concurrent
-    scope: user
-    metric: concurrent
-    limit: 3
-  - name: Creator concurrent
-    scope: user
-    metric: concurrent
-    limit: 5
-  - name: Pro concurrent
-    scope: user
-    metric: concurrent
-    limit: 10
-  - name: Scale concurrent
-    scope: user
-    metric: concurrent
-    limit: 15
-  - name: Business concurrent
-    scope: user
-    metric: concurrent
-    limit: 15
-  - name: Enterprise concurrent
-    scope: user
-    metric: concurrent
-    limit: custom
+- name: Free — Multilingual v2 concurrency
+  scope: per-account
+  plan: Free
+  metric: concurrent
+  limit: 2
+- name: Free — Flash concurrency
+  scope: per-account
+  plan: Free
+  metric: concurrent
+  limit: 4
+- name: Free — Speech to Text concurrency
+  scope: per-account
+  plan: Free
+  metric: concurrent
+  limit: 8
+- name: Free — Realtime STT concurrency
+  scope: per-account
+  plan: Free
+  metric: concurrent
+  limit: 6
+- name: Free — Music concurrency
+  scope: per-account
+  plan: Free
+  metric: concurrent
+  limit: 0
+- name: Starter — Multilingual v2 concurrency
+  scope: per-account
+  plan: Starter
+  metric: concurrent
+  limit: 3
+- name: Starter — Flash concurrency
+  scope: per-account
+  plan: Starter
+  metric: concurrent
+  limit: 6
+- name: Starter — Speech to Text concurrency
+  scope: per-account
+  plan: Starter
+  metric: concurrent
+  limit: 12
+- name: Starter — Realtime STT concurrency
+  scope: per-account
+  plan: Starter
+  metric: concurrent
+  limit: 9
+- name: Starter — Music concurrency
+  scope: per-account
+  plan: Starter
+  metric: concurrent
+  limit: 2
+- name: Creator — Multilingual v2 concurrency
+  scope: per-account
+  plan: Creator
+  metric: concurrent
+  limit: 5
+- name: Creator — Flash concurrency
+  scope: per-account
+  plan: Creator
+  metric: concurrent
+  limit: 10
+- name: Creator — Speech to Text concurrency
+  scope: per-account
+  plan: Creator
+  metric: concurrent
+  limit: 20
+- name: Creator — Realtime STT concurrency
+  scope: per-account
+  plan: Creator
+  metric: concurrent
+  limit: 15
+- name: Creator — Music concurrency
+  scope: per-account
+  plan: Creator
+  metric: concurrent
+  limit: 2
+- name: Pro — Multilingual v2 concurrency
+  scope: per-account
+  plan: Pro
+  metric: concurrent
+  limit: 10
+- name: Pro — Flash concurrency
+  scope: per-account
+  plan: Pro
+  metric: concurrent
+  limit: 20
+- name: Pro — Speech to Text concurrency
+  scope: per-account
+  plan: Pro
+  metric: concurrent
+  limit: 40
+- name: Pro — Realtime STT concurrency
+  scope: per-account
+  plan: Pro
+  metric: concurrent
+  limit: 30
+- name: Pro — Music concurrency
+  scope: per-account
+  plan: Pro
+  metric: concurrent
+  limit: 2
+- name: Scale — Multilingual v2 concurrency
+  scope: per-account
+  plan: Scale
+  metric: concurrent
+  limit: 15
+- name: Scale — Flash concurrency
+  scope: per-account
+  plan: Scale
+  metric: concurrent
+  limit: 30
+- name: Scale — Speech to Text concurrency
+  scope: per-account
+  plan: Scale
+  metric: concurrent
+  limit: 60
+- name: Scale — Realtime STT concurrency
+  scope: per-account
+  plan: Scale
+  metric: concurrent
+  limit: 45
+- name: Scale — Music concurrency
+  scope: per-account
+  plan: Scale
+  metric: concurrent
+  limit: 5
+- name: Business — Multilingual v2 concurrency
+  scope: per-account
+  plan: Business
+  metric: concurrent
+  limit: 15
+- name: Business — Flash concurrency
+  scope: per-account
+  plan: Business
+  metric: concurrent
+  limit: 30
+- name: Business — Speech to Text concurrency
+  scope: per-account
+  plan: Business
+  metric: concurrent
+  limit: 60
+- name: Business — Realtime STT concurrency
+  scope: per-account
+  plan: Business
+  metric: concurrent
+  limit: 45
+- name: Business — Music concurrency
+  scope: per-account
+  plan: Business
+  metric: concurrent
+  limit: 5
+- name: Enterprise — Multilingual v2 concurrency
+  scope: per-account
+  plan: Enterprise
+  metric: concurrent
+  limit: null
+  limit_note: published as "Elevated"; no number.
+- name: Enterprise — Flash concurrency
+  scope: per-account
+  plan: Enterprise
+  metric: concurrent
+  limit: null
+  limit_note: published as "Elevated"; no number.
+- name: Enterprise — Speech to Text concurrency
+  scope: per-account
+  plan: Enterprise
+  metric: concurrent
+  limit: null
+  limit_note: published as "Elevated"; no number.
+- name: Enterprise — Realtime STT concurrency
+  scope: per-account
+  plan: Enterprise
+  metric: concurrent
+  limit: null
+  limit_note: published as "Elevated"; no number.
+- name: Enterprise — Music concurrency
+  scope: per-account
+  plan: Enterprise
+  metric: concurrent
+  limit: null
+  limit_note: published as "Highest" priority; no number.
+notes:
+- Startup grant recipients receive Scale-level concurrency benefits.
+- ElevenAgents adds a separate concurrency dimension — simultaneous calls per agent — with
+  burst pricing and call queueing as the documented overflow behaviour
+  (https://elevenlabs.io/docs/eleven-agents/guides/burst-pricing and .../call-queueing).
+- An individual API key can carry its own credit quota and IP allowlist independent of the
+  plan ceiling (see authentication/elevenlabs-authentication.yml).

@@ -1,0 +1,144 @@
+generated: '2026-09-17'
+method: probed
+source: |
+  https://api.elevenlabs.io/.well-known/oauth-authorization-server (HTTP 200),
+  https://api.elevenlabs.io/.well-known/oauth-protected-resource (HTTP 200),
+  https://elevenlabs.io/.well-known/security.txt (HTTP 200),
+  https://elevenlabs.io/.well-known/api-catalog (HTTP 200),
+  POST https://api.us.elevenlabs.io/v1/mcp (HTTP 401 + RFC 9728 challenge),
+  https://elevenlabs.io/llms.txt, https://compliance.elevenlabs.io/ (HTTP 200),
+  https://github.com/elevenlabs/skills, and openapi/elevenlabs-openapi.json.
+description: |
+  Standards ElevenLabs demonstrably conforms to, each with the evidence that establishes it.
+  Where a standard is claimed in provider prose but not verifiable from a fetched artifact,
+  conforms is recorded false or the evidence names the prose as prose.
+conformance:
+- id: openapi-3.1
+  conforms: true
+  evidence: https://api.elevenlabs.io/openapi.json — openapi "3.1.0", 301 paths, 390
+    operations, 1,520 component schemas. Parses.
+- id: rfc8414-oauth-authorization-server-metadata
+  conforms: true
+  evidence: https://api.elevenlabs.io/.well-known/oauth-authorization-server returns 200
+    with issuer, authorization_endpoint, token_endpoint, revocation_endpoint,
+    response_types_supported, grant_types_supported and scopes_supported.
+- id: rfc9728-oauth-protected-resource-metadata
+  conforms: true
+  evidence: https://api.elevenlabs.io/.well-known/oauth-protected-resource returns 200 with
+    resource, authorization_servers, scopes_supported and bearer_methods_supported; the MCP
+    endpoint answers an unauthenticated POST with WWW-Authenticate Bearer
+    resource_metadata="https://api.us.elevenlabs.io/.well-known/oauth-protected-resource".
+- id: rfc7636-pkce
+  conforms: true
+  evidence: code_challenge_methods_supported ["S256"] in the authorization-server metadata.
+- id: oauth2-authorization-code
+  conforms: true
+  evidence: grant_types_supported ["authorization_code","refresh_token"],
+    response_types_supported ["code"].
+- id: rfc7009-token-revocation
+  conforms: true
+  evidence: revocation_endpoint https://api.us.elevenlabs.io/v1/oauth/revoke published in
+    the authorization-server metadata.
+- id: rfc9207-authorization-server-issuer-identification
+  conforms: true
+  evidence: authorization_response_iss_parameter_supported true in the authorization-server
+    metadata.
+- id: rfc7523-private-key-jwt-client-authentication
+  conforms: true
+  evidence: token_endpoint_auth_methods_supported includes private_key_jwt;
+    token_endpoint_auth_signing_alg_values_supported ["RS256"].
+- id: oidc
+  conforms: false
+  evidence: /.well-known/openid-configuration returns 404 on both elevenlabs.io and
+    api.elevenlabs.io. OAuth 2.0 only; no OpenID Connect identity layer is published.
+- id: rfc7591-dynamic-client-registration
+  conforms: false
+  evidence: no registration_endpoint in the authorization-server metadata. The server
+    advertises client_id_metadata_document_supported instead, so hosted MCP clients
+    authenticate with a CIMD rather than registering.
+- id: rfc9116-security-txt
+  conforms: true
+  evidence: https://elevenlabs.io/.well-known/security.txt returns 200 with Contact and
+    Expires fields (Expires 2027-03-01).
+  deviations:
+  - no Policy field
+  - no Encryption field
+  - no Preferred-Languages field
+- id: rfc9727-api-catalog
+  conforms: true
+  evidence: https://elevenlabs.io/.well-known/api-catalog returns 200 with a linkset[]
+    anchored at https://api.elevenlabs.io/v1 carrying service-desc, service-doc and status
+    link relations. One of the few served api-catalog documents in the catalog.
+- id: mcp
+  conforms: true
+  evidence: hosted remote MCP server at https://api.elevenlabs.io/v1/mcp (and four regional
+    endpoints), OAuth-protected per RFC 9728; plus a first-party open-source stdio server
+    (pypi elevenlabs-mcp). Listed in the Claude Desktop connector directory.
+- id: agent-skills
+  conforms: true
+  evidence: https://github.com/elevenlabs/skills publishes 10 SKILL.md documents and states
+    they follow the Agent Skills specification (https://agentskills.io/specification).
+    Saved verbatim in skills/.
+- id: a2a
+  conforms: false
+  evidence: /.well-known/agent-card.json and /.well-known/agent.json return 404 on
+    elevenlabs.io, api.elevenlabs.io and api.us.elevenlabs.io. No A2A Agent Card is published.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: errors are application/json with a single `detail` object carrying
+    type/code/message/status/request_id/param. No application/problem+json media type and no
+    RFC 9457 member set. See errors/elevenlabs-problem-types.yml.
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: |
+    No Sunset or Deprecation header is documented or observed. 21 operations carry
+    `deprecated: true` in the spec, but removal timing is qualitative only.
+- id: idempotency-key
+  conforms: false
+  evidence: no Idempotency-Key header in any of the 390 published operations, and no
+    idempotency section in the docs. See conventions/elevenlabs-conventions.yml.
+- id: cursor-pagination
+  conforms: true
+  evidence: cursor + page_size query parameters on 36/40 list operations in the published
+    spec, with next_cursor / has_more in responses.
+- id: asyncapi
+  conforms: partial
+  evidence: ElevenLabs publishes no AsyncAPI document. The repo carries three AsyncAPI
+    documents authored by API Evangelist from the provider's WebSocket and webhook docs —
+    see asyncapi/. The event surface itself (realtime TTS/STT WebSockets, workspace webhooks)
+    is real and documented.
+- id: webhooks-hmac
+  conforms: true
+  evidence: workspace webhooks support HMAC, OAuth2 and mTLS authentication modes
+    (auth_type enum in the published spec) with a documented 5-attempt retry schedule.
+- id: c2pa
+  conforms: claimed
+  evidence: https://elevenlabs.io/llms.txt states ElevenLabs "supports open standards for AI
+    content provenance, including C2PA metadata and watermarking" and points at
+    https://elevenlabs.io/safety. Provider prose, not verified from a fetched manifest.
+compliance:
+  trust_center: https://compliance.elevenlabs.io/
+  trust_center_status: 200
+  programs_claimed:
+  - SOC 2
+  - GDPR
+  - EU AI Act
+  - DORA
+  - HIPAA
+  source: |
+    https://elevenlabs.io/llms.txt ("Compliance portal: GDPR, EU AI Act, DORA, HIPAA,
+    SOC 2 certifications and compliance documentation") and the Vanta-hosted trust center
+    titled "ElevenLabs Trust Center".
+  verification_note: |
+    The certification list is read from the provider's own llms.txt and the trust center's
+    page title. The trust center renders its certification tiles client-side, so individual
+    report attestations were not machine-read in this pass. HIPAA is corroborated
+    independently by the pricing page ("BAAs for HIPAA customers" on Enterprise) and by the
+    ElevenAgents docs, which document a HIPAA-compliant mode.
+domain_standard:
+  applicable: false
+  note: |
+    REWARD-ONLY check, deliberately left empty. The AI audio / speech-synthesis market has
+    no interchange standard of the kind this check rewards — no SCIM/OData/OpenRTB/FHIR/
+    Sparkplug/LTI/OAI-PMH equivalent for voice generation. The nearest thing is C2PA for
+    content provenance, recorded above as a claim. Nothing is invented to fill the slot.

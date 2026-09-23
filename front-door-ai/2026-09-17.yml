@@ -1,0 +1,27 @@
+# Front Door AI Index — elevenlabs — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: elevenlabs
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: www.elevenlabs.io
+  final_host: elevenlabs.io
+  ownership: own
+  owner: elevenlabs
+  shares_host_with: null
+  inherited_from: null
+  verdict: scored
+  score: 18
+  host_score: 18
+  density: 15.85
+  words: 1136
+  tiers:
+    agentic: 3
+    core: 15
+    model: 0
+  ambiguous: 12
+  top_terms:
+    AI: 15
+    agent: 12
+    prompts: 3

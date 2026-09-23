@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: ElevenLabs Audio Isolation Agents API
-  description: The ElevenLabs Audio Isolation API removes background noise from audio recordings, isolating vocal tracks from ambient sounds and interference. This is useful for cleaning up recordings, improving audio quality for podcasts and interviews, and preparing audio files for further processing such as voice cloning or transcription.
+  title: ElevenLabs Conversational AI Agents API
+  description: The ElevenLabs Conversational AI API enables developers to build interactive voice agents that can engage in natural, real-time conversations. It provides REST endpoints for managing agents, conversations, knowledge bases, tools, and phone number integrations. The API supports multi-turn dialogue across 70+ languages and is designed for building customer service agents, voice assistants, and interactive voice response systems.
   version: '1.0'
   contact:
     name: ElevenLabs Support
@@ -163,52 +163,27 @@ paths:
           description: Agent not found
 components:
   schemas:
+    CreateAgentRequest:
+      type: object
+      required:
+      - conversation_config
+      properties:
+        name:
+          type: string
+          description: Display name for the agent.
+        conversation_config:
+          $ref: '#/components/schemas/ConversationConfig'
+        metadata:
+          type: object
+          description: Additional metadata for the agent.
+          additionalProperties:
+            type: string
     AgentResponse:
       type: object
       properties:
         agent_id:
           type: string
           description: The identifier of the agent.
-    AgentListResponse:
-      type: object
-      properties:
-        agents:
-          type: array
-          description: List of agents.
-          items:
-            $ref: '#/components/schemas/AgentSummary'
-        has_more:
-          type: boolean
-          description: Whether there are more agents available.
-        next_cursor:
-          type: string
-          description: Cursor for retrieving the next page.
-    UpdateAgentRequest:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Updated display name for the agent.
-        conversation_config:
-          $ref: '#/components/schemas/ConversationConfig'
-        metadata:
-          type: object
-          description: Updated metadata for the agent.
-          additionalProperties:
-            type: string
-    AgentSummary:
-      type: object
-      properties:
-        agent_id:
-          type: string
-          description: Unique identifier for the agent.
-        name:
-          type: string
-          description: Display name of the agent.
-        created_at:
-          type: string
-          format: date-time
-          description: Timestamp when the agent was created.
     SimulateConversationRequest:
       type: object
       properties:
@@ -226,21 +201,27 @@ components:
           type: integer
           description: Maximum number of conversation turns for the simulation.
           minimum: 1
-    CreateAgentRequest:
+    SimulationResult:
       type: object
-      required:
-      - conversation_config
       properties:
-        name:
+        conversation_id:
           type: string
-          description: Display name for the agent.
-        conversation_config:
-          $ref: '#/components/schemas/ConversationConfig'
-        metadata:
-          type: object
-          description: Additional metadata for the agent.
-          additionalProperties:
-            type: string
+          description: Identifier for the simulated conversation.
+        transcript:
+          type: array
+          description: Full transcript of the simulated conversation.
+          items:
+            type: object
+            properties:
+              role:
+                type: string
+                description: The speaker role in the conversation.
+                enum:
+                - agent
+                - user
+              message:
+                type: string
+                description: The spoken message content.
     ConversationConfig:
       type: object
       description: Configuration defining the agent's conversational behavior, voice settings, and language model parameters.
@@ -291,6 +272,32 @@ components:
               description: Controls randomness in the model's responses.
               minimum: 0
               maximum: 2
+    UpdateAgentRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Updated display name for the agent.
+        conversation_config:
+          $ref: '#/components/schemas/ConversationConfig'
+        metadata:
+          type: object
+          description: Updated metadata for the agent.
+          additionalProperties:
+            type: string
+    AgentSummary:
+      type: object
+      properties:
+        agent_id:
+          type: string
+          description: Unique identifier for the agent.
+        name:
+          type: string
+          description: Display name of the agent.
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the agent was created.
     Agent:
       type: object
       properties:
@@ -311,27 +318,20 @@ components:
           description: Additional metadata associated with the agent.
           additionalProperties:
             type: string
-    SimulationResult:
+    AgentListResponse:
       type: object
       properties:
-        conversation_id:
-          type: string
-          description: Identifier for the simulated conversation.
-        transcript:
+        agents:
           type: array
-          description: Full transcript of the simulated conversation.
+          description: List of agents.
           items:
-            type: object
-            properties:
-              role:
-                type: string
-                description: The speaker role in the conversation.
-                enum:
-                - agent
-                - user
-              message:
-                type: string
-                description: The spoken message content.
+            $ref: '#/components/schemas/AgentSummary'
+        has_more:
+          type: boolean
+          description: Whether there are more agents available.
+        next_cursor:
+          type: string
+          description: Cursor for retrieving the next page.
   parameters:
     agentId:
       name: agent_id
@@ -347,5 +347,5 @@ components:
       name: xi-api-key
       description: ElevenLabs API key passed in the xi-api-key header for authentication.
 externalDocs:
-  description: ElevenLabs Audio Isolation API Documentation
-  url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation
+  description: ElevenLabs Conversational AI Documentation
+  url: https://elevenlabs.io/docs/overview/capabilities/conversational-ai

@@ -1,0 +1,170 @@
+generated: '2026-09-17'
+method: searched
+source: https://elevenlabs.io/docs/eleven-api/resources/breaking-changes-policy, https://elevenlabs.io/docs/changelog,
+  https://status.elevenlabs.io/api/v2/summary.json (HTTP 200), https://elevenlabs.io/enterprise; deprecated
+  operations derived from openapi/elevenlabs-openapi.json
+versioning:
+  scheme: path
+  current: v1
+  base: https://api.elevenlabs.io/v1
+  openapi_info_version: '1.0'
+  note: Single unversioned-in-practice /v1 path prefix. No date or header versioning, no per-version specs.
+    New capability lands additively on /v1 and is announced in the weekly changelog.
+breaking_changes_policy:
+  published: true
+  url: https://elevenlabs.io/docs/eleven-api/resources/breaking-changes-policy
+  breaking:
+  - Removing existing response fields or modifying their structure
+  - Adding required parameters to existing endpoints
+  - Changing parameter types or formats
+  - Making a previously optional parameter required
+  - Removing an endpoint or API path
+  not_breaking:
+  - Adding new fields to response models (clients MUST ignore unrecognised fields)
+  - Adding optional parameters or parameters with defaults
+  client_obligation: The provider states it is REQUIRED that an API client ignores fields it does not
+    recognise and does not apply strict typing checks to responses.
+  removal_commitment: Endpoints may be marked deprecated; outright removal "will not occur without sufficient
+    outreach to all affected users". No numeric sunset window is published.
+deprecation:
+  policy_published: true
+  policy_url: https://elevenlabs.io/docs/eleven-api/resources/breaking-changes-policy
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  signal: 'the `deprecated: true` flag in the published OpenAPI, plus changelog entries'
+  sunset_window_published: false
+  sunset_window_note: No stated deprecation-to-removal window. The commitment is qualitative ("sufficient
+    outreach"), so a consumer cannot compute a migration deadline. Recorded as an honest gap, not inferred.
+  deprecated_operation_count: 21
+  deprecated_operations:
+  - operationId: run_conversation_simulation_route
+    method: POST
+    path: /v1/convai/agents/{agent_id}/simulate-conversation
+    summary: Simulates A Conversation
+  - operationId: run_conversation_simulation_route_stream
+    method: POST
+    path: /v1/convai/agents/{agent_id}/simulate-conversation/stream
+    summary: Simulates A Conversation (Stream)
+  - operationId: get_signed_url_deprecated
+    method: GET
+    path: /v1/convai/conversation/get_signed_url
+    summary: Get Signed Url
+  - operationId: add_documentation_to_knowledge_base
+    method: POST
+    path: /v1/convai/knowledge-base
+    summary: Add To Knowledge Base
+  - operationId: update_mcp_server_approval_policy_route
+    method: PATCH
+    path: /v1/convai/mcp-servers/{mcp_server_id}/approval-policy
+    summary: Update Mcp Server Approval Policy
+  - operationId: get_dubbing_resource
+    method: GET
+    path: /v1/dubbing/resource/{dubbing_id}
+    summary: Get The Dubbing Resource For An Id.
+  - operationId: dub
+    method: POST
+    path: /v1/dubbing/resource/{dubbing_id}/dub
+    summary: Dubs All Or Some Segments And Languages
+  - operationId: add_language
+    method: POST
+    path: /v1/dubbing/resource/{dubbing_id}/language
+    summary: Add A Language To The Resource
+  - operationId: migrate_segments
+    method: POST
+    path: /v1/dubbing/resource/{dubbing_id}/migrate-segments
+    summary: Move Segments Between Speakers
+  - operationId: render
+    method: POST
+    path: /v1/dubbing/resource/{dubbing_id}/render/{language}
+    summary: Render Audio Or Video For The Given Language
+  - operationId: delete_segment
+    method: DELETE
+    path: /v1/dubbing/resource/{dubbing_id}/segment/{segment_id}
+    summary: Deletes A Single Segment
+  - operationId: update_segment_language
+    method: PATCH
+    path: /v1/dubbing/resource/{dubbing_id}/segment/{segment_id}/{language}
+    summary: Modify A Single Segment
+  - operationId: create_speaker
+    method: POST
+    path: /v1/dubbing/resource/{dubbing_id}/speaker
+    summary: Create A New Speaker
+  - operationId: update_speaker
+    method: PATCH
+    path: /v1/dubbing/resource/{dubbing_id}/speaker/{speaker_id}
+    summary: Update Metadata For A Speaker
+  - operationId: create_clip
+    method: POST
+    path: /v1/dubbing/resource/{dubbing_id}/speaker/{speaker_id}/segment
+    summary: Create A Segment For The Speaker
+  - operationId: get_similar_voices_for_speaker
+    method: GET
+    path: /v1/dubbing/resource/{dubbing_id}/speaker/{speaker_id}/similar-voices
+    summary: Search The Elevenlabs Library For Voices Similar To A Speaker.
+  - operationId: transcribe
+    method: POST
+    path: /v1/dubbing/resource/{dubbing_id}/transcribe
+    summary: Transcribes Segments
+  - operationId: translate
+    method: POST
+    path: /v1/dubbing/resource/{dubbing_id}/translate
+    summary: Translates All Or Some Segments And Languages
+  - operationId: get_dubbed_transcript_file
+    method: GET
+    path: /v1/dubbing/{dubbing_id}/transcript/{language_code}
+    summary: Get Dubbed Transcript
+  - operationId: text_to_voice
+    method: POST
+    path: /v1/text-to-voice/create-previews
+    summary: '[Deprecated] Generate A Voice Preview From Description'
+  - operationId: usage_characters
+    method: GET
+    path: /v1/usage/character-stats
+    summary: Get Characters Usage Metrics (Deprecated)
+  deprecated_clusters:
+  - the whole /v1/dubbing/resource/* editing surface (15 operations)
+  - ElevenAgents conversation simulation and the legacy signed-url endpoint
+  - legacy usage character stats
+changelog:
+  url: https://elevenlabs.io/docs/changelog
+  cadence: weekly
+  machine_readable: https://elevenlabs.io/docs/changelog/llms.txt
+  artifact: changelog/elevenlabs-changelog.yml
+status_page:
+  url: https://status.elevenlabs.io/
+  vendor: statuspage-shaped
+  api: https://status.elevenlabs.io/api/v2/summary.json
+  api_status: 200
+  history: https://status.elevenlabs.io/history
+  components:
+  - Speech to Text
+  - Text to Speech
+  - Conversations
+  - ElevenCreative
+  - Telephony
+  - RAG
+  - Integrations
+  - Quality
+  - UI
+  - Other API endpoints
+  - Other
+  advertised_in: the /.well-known/api-catalog linkset (status link relation)
+sla:
+  published: false
+  note: No public SLA document. https://elevenlabs.io/sla returns 404. The pricing page and the enterprise
+    page state that custom terms and assurance around DPA/SLAs are available on the Enterprise plan only.
+  enterprise_page: https://elevenlabs.io/enterprise
+  probe:
+    url: https://elevenlabs.io/sla
+    status: 404
+data_residency:
+  documented: true
+  url: https://elevenlabs.io/docs/overview/administration/data-residency
+  regions:
+  - global (api.elevenlabs.io)
+  - US (api.us.elevenlabs.io)
+  - EU (api.eu.residency.elevenlabs.io)
+  - India (api.in.residency.elevenlabs.io)
+  - Singapore (api.sg.residency.elevenlabs.io)
+  note: isolated residency environments are separate workspaces with separate accounts.
