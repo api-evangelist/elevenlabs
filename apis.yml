@@ -232,8 +232,6 @@ apis:
     url: https://elevenlabs.io/docs/api-reference/text-to-speech/convert
   - type: AsyncAPI
     url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
-  - type: GraphQL
-    url: graphql/elevenlabs-graphql.md
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/speech-to-text/convert
   - type: Documentation
@@ -272,8 +270,6 @@ apis:
     url: https://elevenlabs.io/docs/api-reference/text-to-speech/convert
   - type: AsyncAPI
     url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
-  - type: GraphQL
-    url: graphql/elevenlabs-graphql.md
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/speech-to-text/convert
   - type: Documentation
@@ -312,8 +308,6 @@ apis:
     url: https://elevenlabs.io/docs/api-reference/text-to-speech/convert
   - type: AsyncAPI
     url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
-  - type: GraphQL
-    url: graphql/elevenlabs-graphql.md
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/speech-to-text/convert
   - type: Documentation
@@ -352,8 +346,6 @@ apis:
     url: https://elevenlabs.io/docs/api-reference/text-to-speech/convert
   - type: AsyncAPI
     url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
-  - type: GraphQL
-    url: graphql/elevenlabs-graphql.md
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/speech-to-text/convert
   - type: Documentation
@@ -392,8 +384,6 @@ apis:
     url: https://elevenlabs.io/docs/api-reference/text-to-speech/convert
   - type: AsyncAPI
     url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
-  - type: GraphQL
-    url: graphql/elevenlabs-graphql.md
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/speech-to-text/convert
   - type: Documentation
@@ -433,8 +423,6 @@ apis:
     url: https://elevenlabs.io/docs/api-reference/text-to-speech/convert
   - type: AsyncAPI
     url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
-  - type: GraphQL
-    url: graphql/elevenlabs-graphql.md
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/speech-to-text/convert
   - type: Documentation
@@ -475,8 +463,6 @@ apis:
     url: https://elevenlabs.io/docs/api-reference/text-to-speech/convert
   - type: AsyncAPI
     url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
-  - type: GraphQL
-    url: graphql/elevenlabs-graphql.md
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/speech-to-text/convert
   - type: Documentation
@@ -515,8 +501,6 @@ apis:
     url: https://elevenlabs.io/docs/api-reference/text-to-speech/convert
   - type: AsyncAPI
     url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
-  - type: GraphQL
-    url: graphql/elevenlabs-graphql.md
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/speech-to-text/convert
   - type: Documentation
@@ -555,8 +539,6 @@ apis:
     url: https://elevenlabs.io/docs/api-reference/text-to-speech/convert
   - type: AsyncAPI
     url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
-  - type: GraphQL
-    url: graphql/elevenlabs-graphql.md
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/speech-to-text/convert
   - type: Documentation
@@ -595,8 +577,6 @@ apis:
     url: https://elevenlabs.io/docs/api-reference/text-to-speech/convert
   - type: AsyncAPI
     url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
-  - type: GraphQL
-    url: graphql/elevenlabs-graphql.md
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/speech-to-text/convert
   - type: Documentation
@@ -637,8 +617,6 @@ apis:
     url: https://elevenlabs.io/docs/api-reference/text-to-speech/convert
   - type: AsyncAPI
     url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
-  - type: GraphQL
-    url: graphql/elevenlabs-graphql.md
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/speech-to-text/convert
   - type: Documentation
@@ -681,8 +659,6 @@ apis:
     url: https://elevenlabs.io/docs/api-reference/text-to-speech/convert
   - type: AsyncAPI
     url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
-  - type: GraphQL
-    url: graphql/elevenlabs-graphql.md
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/speech-to-text/convert
   - type: Documentation
@@ -721,8 +697,6 @@ apis:
     url: https://elevenlabs.io/docs/api-reference/text-to-speech/convert
   - type: AsyncAPI
     url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
-  - type: GraphQL
-    url: graphql/elevenlabs-graphql.md
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/speech-to-text/convert
   - type: Documentation
@@ -761,8 +735,6 @@ apis:
     url: https://elevenlabs.io/docs/api-reference/text-to-speech/convert
   - type: AsyncAPI
     url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
-  - type: GraphQL
-    url: graphql/elevenlabs-graphql.md
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/speech-to-text/convert
   - type: Documentation
@@ -802,8 +774,6 @@ apis:
     url: https://elevenlabs.io/docs/api-reference/text-to-speech/convert
   - type: AsyncAPI
     url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
-  - type: GraphQL
-    url: graphql/elevenlabs-graphql.md
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/speech-to-text/convert
   - type: Documentation
@@ -846,8 +816,6 @@ apis:
     url: https://elevenlabs.io/docs/api-reference/text-to-speech/convert
   - type: AsyncAPI
     url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
-  - type: GraphQL
-    url: graphql/elevenlabs-graphql.md
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/speech-to-text/convert
   - type: Documentation
@@ -886,8 +854,6 @@ apis:
     url: https://elevenlabs.io/docs/api-reference/text-to-speech/convert
   - type: AsyncAPI
     url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
-  - type: GraphQL
-    url: graphql/elevenlabs-graphql.md
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/speech-to-text/convert
   - type: Documentation
@@ -930,8 +896,6 @@ apis:
     url: https://elevenlabs.io/docs/api-reference/text-to-speech/convert
   - type: AsyncAPI
     url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
-  - type: GraphQL
-    url: graphql/elevenlabs-graphql.md
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/speech-to-text/convert
   - type: Documentation
@@ -971,8 +935,6 @@ apis:
     url: https://elevenlabs.io/docs/api-reference/text-to-speech/convert
   - type: AsyncAPI
     url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
-  - type: GraphQL
-    url: graphql/elevenlabs-graphql.md
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/speech-to-text/convert
   - type: Documentation
@@ -1011,8 +973,6 @@ apis:
     url: https://elevenlabs.io/docs/api-reference/text-to-speech/convert
   - type: AsyncAPI
     url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
-  - type: GraphQL
-    url: graphql/elevenlabs-graphql.md
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/speech-to-text/convert
   - type: Documentation
@@ -1052,8 +1012,6 @@ apis:
     url: https://elevenlabs.io/docs/api-reference/text-to-speech/convert
   - type: AsyncAPI
     url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
-  - type: GraphQL
-    url: graphql/elevenlabs-graphql.md
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/speech-to-text/convert
   - type: Documentation
@@ -1095,8 +1053,6 @@ apis:
     url: https://elevenlabs.io/docs/api-reference/text-to-speech/convert
   - type: AsyncAPI
     url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
-  - type: GraphQL
-    url: graphql/elevenlabs-graphql.md
   - type: Documentation
     url: https://elevenlabs.io/docs/api-reference/speech-to-text/convert
   - type: Documentation
@@ -1138,11 +1094,12 @@ tags:
 - Speech-to-Text
 - Voice
 - Audio
-- Machine-Learning
+- Machine Learning
 - Conversational AI
 - Agents
 - Dubbing
 - Music Generation
+- Real-Time
 tags_raw:
 - Artificial Intelligence
 - Text-to-Speech
@@ -1154,6 +1111,8 @@ tags_raw:
 - Agents
 - Dubbing
 - Music Generation
+- Machine-Learning
+- Real-Time
 created: '2026-05-04'
 maintainers:
 - FN: Kin Lane
