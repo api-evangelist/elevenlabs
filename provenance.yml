@@ -16,7 +16,13 @@ artifacts:
     method: unknown
     evidence: no authorship recorded
   authentication/elevenlabs-authentication.yml:
-    method: derived
+    method: searched
+    evidence: declared in the artifact
+  changelog/elevenlabs-changelog.yml:
+    method: searched
+    evidence: declared in the artifact
+  cli/elevenlabs-cli.yml:
+    method: searched
     evidence: declared in the artifact
   collections/elevenlabs-agents-api.opencollection.json:
     method: derived
@@ -216,13 +222,25 @@ artifacts:
   collections/elevenlabs-voices.postman_collection.json:
     method: derived
     evidence: openapi/elevenlabs-voices
+  components/elevenlabs-components.yml:
+    method: searched
+    evidence: declared in the artifact
+  conformance/elevenlabs-conformance.yml:
+    method: unknown
+    evidence: no authorship recorded
+  conventions/elevenlabs-conventions.yml:
+    method: searched
+    evidence: declared in the artifact
+  data-model/elevenlabs-data-model.yml:
+    method: derived
+    evidence: declared in the artifact
+  errors/elevenlabs-problem-types.yml:
+    method: searched
+    evidence: declared in the artifact
   finops/elevenlabs-finops.yml:
     method: generated
     evidence: declared in the artifact
-  graphql/elevenlabs-graphql.md:
-    method: unknown
-    evidence: no authorship recorded
-  graphql/elevenlabs-schema.graphql:
+  front-door-ai/2026-09-17.yml:
     method: unknown
     evidence: no authorship recorded
   json-ld/elevenlabs-context.jsonld:
@@ -426,55 +444,7 @@ artifacts:
   json-structure/elevenlabs-structure.json:
     method: unknown
     evidence: no authorship recorded
-  kin/checks-2026-09-05T072335.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-06T210741.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-07T135032.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-10T093022.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-10T111628.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-11T211707.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-12T193225.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-17T064519.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-19T080027.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-19T082702.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-19T114122.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-20T165047.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-20T191845.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-20T205517.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-21T110057.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-24T064859.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-24T171257.yml:
+  kin/checks-2026-09-24T161608.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-08-25T125852.yml:
@@ -561,42 +531,179 @@ artifacts:
   kin/score-2026-09-05T072335.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-05T144739.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-05T195450.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-05T211839.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-06T011047.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-06T211804.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-06T224210.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-07T200636.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-07T213054.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-08T214843.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-08T232836.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-10T204815.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-10T222408.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-12T062655.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-12T080032.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-12T204651.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-12T221936.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-13T214537.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-14T064754.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-14T210656.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-14T225847.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-15T211329.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-15T230249.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-16T210549.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-16T225339.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-17T211151.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-17T233623.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-18T205255.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-18T231945.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-19T165737.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-19T193153.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-20T205903.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-20T232958.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-21T211425.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-21T233935.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-22T213221.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-23T000603.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-24T064009.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-24T090406.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-24T161608.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  lifecycle/elevenlabs-lifecycle.yml:
+    method: searched
+    evidence: declared in the artifact
   llms/elevenlabs-llms.txt:
     method: searched
     evidence: 'derive-llms-provenance.py: harvested'
+  mcp/elevenlabs-mcp.yml:
+    method: unknown
+    evidence: no authorship recorded
+  mcp/elevenlabs-tool-crosswalk.yml:
+    method: derived
+    evidence: declared in the artifact
   openapi/_original/elevenlabs-audio-isolation-openapi.yml:
     method: harvested
-    evidence: fetched from the provider as-is; byte-identical to the source
+    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
+      to the provider's source is unverified
   openapi/_original/elevenlabs-conversational-ai-openapi.yml:
     method: harvested
-    evidence: fetched from the provider as-is; byte-identical to the source
+    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
+      to the provider's source is unverified
   openapi/_original/elevenlabs-dubbing-openapi.yml:
     method: harvested
-    evidence: fetched from the provider as-is; byte-identical to the source
+    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
+      to the provider's source is unverified
   openapi/_original/elevenlabs-music-openapi.yml:
     method: harvested
-    evidence: fetched from the provider as-is; byte-identical to the source
+    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
+      to the provider's source is unverified
   openapi/_original/elevenlabs-sound-effects-openapi.yml:
     method: harvested
-    evidence: fetched from the provider as-is; byte-identical to the source
+    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
+      to the provider's source is unverified
   openapi/_original/elevenlabs-speech-to-text-openapi.yml:
     method: harvested
-    evidence: fetched from the provider as-is; byte-identical to the source
+    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
+      to the provider's source is unverified
   openapi/_original/elevenlabs-studio-openapi.yml:
     method: harvested
-    evidence: fetched from the provider as-is; byte-identical to the source
+    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
+      to the provider's source is unverified
   openapi/_original/elevenlabs-text-to-speech-openapi.yml:
     method: harvested
-    evidence: fetched from the provider as-is; byte-identical to the source
+    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
+      to the provider's source is unverified
   openapi/_original/elevenlabs-voice-changer-openapi.yml:
     method: harvested
-    evidence: fetched from the provider as-is; byte-identical to the source
+    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
+      to the provider's source is unverified
   openapi/_original/elevenlabs-voice-cloning-openapi.yml:
     method: harvested
-    evidence: fetched from the provider as-is; byte-identical to the source
+    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
+      to the provider's source is unverified
   openapi/_original/elevenlabs-voices-openapi.yml:
     method: harvested
-    evidence: fetched from the provider as-is; byte-identical to the source
+    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
+      to the provider's source is unverified
   openapi/elevenlabs-agents-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
@@ -627,6 +734,9 @@ artifacts:
   openapi/elevenlabs-music-generation-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/elevenlabs-openapi.json:
+    method: unknown
+    evidence: no authorship recorded
   openapi/elevenlabs-professional-voice-cloning-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
@@ -663,11 +773,17 @@ artifacts:
   openapi/elevenlabs-voices-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  plans/elevenlabs-plans-pricing.yml:
+  overlays/elevenlabs-openapi-overlay.yaml:
     method: generated
     evidence: declared in the artifact
+  packages/elevenlabs-packages.yml:
+    method: searched
+    evidence: declared in the artifact
+  plans/elevenlabs-plans-pricing.yml:
+    method: searched
+    evidence: declared in the artifact
   rate-limits/elevenlabs-rate-limits.yml:
-    method: generated
+    method: searched
     evidence: declared in the artifact
   rules/elevenlabs-asyncapi-spectral-rules.yml:
     method: generated
@@ -675,12 +791,72 @@ artifacts:
   rules/elevenlabs-jsonschema-spectral-rules.yml:
     method: generated
     evidence: declared in the artifact
+  scopes/elevenlabs-scopes.yml:
+    method: unknown
+    evidence: no authorship recorded
   security/elevenlabs-domain-security.yml:
     method: unknown
     evidence: no authorship recorded
+  security/elevenlabs-trust-center.yml:
+    method: searched
+    evidence: declared in the artifact
   security/elevenlabs-vulnerability-disclosure.yml:
     method: searched
     evidence: declared in the artifact
+  skills/_index.yml:
+    method: searched
+    evidence: declared in the artifact
+  skills/elevenlabs-agents.md:
+    method: unknown
+    evidence: no authorship recorded
+  skills/elevenlabs-dubbing.md:
+    method: unknown
+    evidence: no authorship recorded
+  skills/elevenlabs-music.md:
+    method: unknown
+    evidence: no authorship recorded
+  skills/elevenlabs-setup-api-key.md:
+    method: unknown
+    evidence: no authorship recorded
+  skills/elevenlabs-sound-effects.md:
+    method: unknown
+    evidence: no authorship recorded
+  skills/elevenlabs-speech-engine.md:
+    method: unknown
+    evidence: no authorship recorded
+  skills/elevenlabs-speech-to-text.md:
+    method: unknown
+    evidence: no authorship recorded
+  skills/elevenlabs-text-to-speech.md:
+    method: unknown
+    evidence: no authorship recorded
+  skills/elevenlabs-voice-changer.md:
+    method: unknown
+    evidence: no authorship recorded
+  skills/elevenlabs-voice-isolator.md:
+    method: unknown
+    evidence: no authorship recorded
   vocabulary/elevenlabs-vocabulary.yml:
+    method: unknown
+    evidence: no authorship recorded
+  well-known/elevenlabs-api-catalog.json:
+    method: unknown
+    evidence: no authorship recorded
+  well-known/elevenlabs-api-oauth-authorization-server.json:
+    method: unknown
+    evidence: no authorship recorded
+  well-known/elevenlabs-api-oauth-protected-resource.json:
+    method: unknown
+    evidence: no authorship recorded
+  well-known/elevenlabs-oauth-authorization-server.json:
+    method: unknown
+    evidence: no authorship recorded
+  well-known/elevenlabs-oauth-protected-resource.json:
+    method: unknown
+    evidence: no authorship recorded
+  well-known/elevenlabs-security.txt:
+    method: unknown
+    evidence: no authorship recorded
+  well-known/elevenlabs-well-known.yml:
     method: unknown
     evidence: no authorship recorded
