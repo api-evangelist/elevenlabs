@@ -163,27 +163,6 @@ paths:
           description: Agent not found
 components:
   schemas:
-    CreateAgentRequest:
-      type: object
-      required:
-      - conversation_config
-      properties:
-        name:
-          type: string
-          description: Display name for the agent.
-        conversation_config:
-          $ref: '#/components/schemas/ConversationConfig'
-        metadata:
-          type: object
-          description: Additional metadata for the agent.
-          additionalProperties:
-            type: string
-    AgentResponse:
-      type: object
-      properties:
-        agent_id:
-          type: string
-          description: The identifier of the agent.
     SimulateConversationRequest:
       type: object
       properties:
@@ -201,6 +180,81 @@ components:
           type: integer
           description: Maximum number of conversation turns for the simulation.
           minimum: 1
+    UpdateAgentRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Updated display name for the agent.
+        conversation_config:
+          $ref: '#/components/schemas/ConversationConfig'
+        metadata:
+          type: object
+          description: Updated metadata for the agent.
+          additionalProperties:
+            type: string
+    AgentListResponse:
+      type: object
+      properties:
+        agents:
+          type: array
+          description: List of agents.
+          items:
+            $ref: '#/components/schemas/AgentSummary'
+        has_more:
+          type: boolean
+          description: Whether there are more agents available.
+        next_cursor:
+          type: string
+          description: Cursor for retrieving the next page.
+    CreateAgentRequest:
+      type: object
+      required:
+      - conversation_config
+      properties:
+        name:
+          type: string
+          description: Display name for the agent.
+        conversation_config:
+          $ref: '#/components/schemas/ConversationConfig'
+        metadata:
+          type: object
+          description: Additional metadata for the agent.
+          additionalProperties:
+            type: string
+    Agent:
+      type: object
+      properties:
+        agent_id:
+          type: string
+          description: Unique identifier for the agent.
+        name:
+          type: string
+          description: Display name of the agent.
+        conversation_config:
+          $ref: '#/components/schemas/ConversationConfig'
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the agent was created.
+        metadata:
+          type: object
+          description: Additional metadata associated with the agent.
+          additionalProperties:
+            type: string
+    AgentSummary:
+      type: object
+      properties:
+        agent_id:
+          type: string
+          description: Unique identifier for the agent.
+        name:
+          type: string
+          description: Display name of the agent.
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the agent was created.
     SimulationResult:
       type: object
       properties:
@@ -222,6 +276,12 @@ components:
               message:
                 type: string
                 description: The spoken message content.
+    AgentResponse:
+      type: object
+      properties:
+        agent_id:
+          type: string
+          description: The identifier of the agent.
     ConversationConfig:
       type: object
       description: Configuration defining the agent's conversational behavior, voice settings, and language model parameters.
@@ -272,66 +332,6 @@ components:
               description: Controls randomness in the model's responses.
               minimum: 0
               maximum: 2
-    UpdateAgentRequest:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Updated display name for the agent.
-        conversation_config:
-          $ref: '#/components/schemas/ConversationConfig'
-        metadata:
-          type: object
-          description: Updated metadata for the agent.
-          additionalProperties:
-            type: string
-    AgentSummary:
-      type: object
-      properties:
-        agent_id:
-          type: string
-          description: Unique identifier for the agent.
-        name:
-          type: string
-          description: Display name of the agent.
-        created_at:
-          type: string
-          format: date-time
-          description: Timestamp when the agent was created.
-    Agent:
-      type: object
-      properties:
-        agent_id:
-          type: string
-          description: Unique identifier for the agent.
-        name:
-          type: string
-          description: Display name of the agent.
-        conversation_config:
-          $ref: '#/components/schemas/ConversationConfig'
-        created_at:
-          type: string
-          format: date-time
-          description: Timestamp when the agent was created.
-        metadata:
-          type: object
-          description: Additional metadata associated with the agent.
-          additionalProperties:
-            type: string
-    AgentListResponse:
-      type: object
-      properties:
-        agents:
-          type: array
-          description: List of agents.
-          items:
-            $ref: '#/components/schemas/AgentSummary'
-        has_more:
-          type: boolean
-          description: Whether there are more agents available.
-        next_cursor:
-          type: string
-          description: Cursor for retrieving the next page.
   parameters:
     agentId:
       name: agent_id

@@ -1,17 +1,11 @@
 openapi: 3.2.0
 info:
-  title: ElevenLabs Audio Isolation API
-  description: The ElevenLabs Audio Isolation API removes background noise from audio recordings, isolating vocal tracks from ambient sounds and interference. This is useful for cleaning up recordings, improving audio quality for podcasts and interviews, and preparing audio files for further processing such as voice cloning or transcription.
+  title: Elevenlabs Audio Isolation API
   version: '1.0'
-  contact:
-    name: ElevenLabs Support
-    url: https://help.elevenlabs.io
-  termsOfService: https://elevenlabs.io/terms-of-service
+  description: 'Operations tagged Audio Isolation across 2 of this provider''s published API definitions: elevenlabs-audio-isolation-openapi.yml, elevenlabs-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.elevenlabs.io
   description: Production Server
-security:
-- apiKeyAuth: []
 tags:
 - name: Audio Isolation
   description: Endpoints for isolating vocals from background noise in audio recordings.
@@ -43,6 +37,11 @@ paths:
           description: Unauthorized - invalid or missing API key
         '422':
           description: Unprocessable entity - audio file could not be processed
+      security:
+      - apiKeyAuth: []
+    servers:
+    - url: https://api.elevenlabs.io
+      description: Production Server
   /v1/audio-isolation/stream:
     post:
       operationId: isolateAudioStream
@@ -70,6 +69,115 @@ paths:
           description: Unauthorized - invalid or missing API key
         '422':
           description: Unprocessable entity - audio file could not be processed
+      security:
+      - apiKeyAuth: []
+    servers:
+    - url: https://api.elevenlabs.io
+      description: Production Server
+  /v1/audio-isolation/history:
+    get:
+      tags:
+      - Audio Isolation
+      summary: Get Audio Isolation History
+      description: Returns a list of all your audio isolation generations.
+      operationId: get_audio_isolation_history
+      parameters:
+      - name: page_size
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 1000
+          minimum: 1
+          description: How many history items to return at maximum. Defaults to 100.
+          default: 100
+          title: Page Size
+        description: How many history items to return at maximum. Defaults to 100.
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          description: Page number for search pagination (1-based). Only used when search is provided.
+          default: 1
+          title: Page
+        description: Page number for search pagination (1-based). Only used when search is provided.
+      - name: search
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Optional search term used for filtering audio isolation history (title/text).
+          examples:
+          - podcast
+          - lecture
+          title: Search
+        description: Optional search term used for filtering audio isolation history (title/text).
+      - name: xi-api-key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+          title: Xi-Api-Key
+        description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAudioIsolationHistoryResponseModel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-fern-sdk-group-name: audio_isolation
+      x-fern-sdk-method-name: list
+  /v1/audio-isolation/history/{history_item_id}:
+    delete:
+      tags:
+      - Audio Isolation
+      summary: Delete Audio Isolation History Item
+      description: Deletes a specific audio isolation history item and the associated media files.
+      operationId: delete_audio_isolation_history_item
+      parameters:
+      - name: history_item_id
+        in: path
+        required: true
+        schema:
+          type: string
+          description: Identifier of the audio isolation history item.
+          title: History Item Id
+        description: Identifier of the audio isolation history item.
+      - name: xi-api-key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+          title: Xi-Api-Key
+        description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-fern-sdk-group-name: audio_isolation
+      x-fern-sdk-method-name: delete
 components:
   schemas:
     AudioIsolationRequest:
@@ -81,6 +189,170 @@ components:
           type: string
           format: binary
           description: The audio file to process for vocal isolation. Supports common audio formats including MP3, WAV, FLAC, and OGG.
+    Body_Audio_Isolation_Stream_v1_audio_isolation_stream_post:
+      properties:
+        audio:
+          type: string
+          title: Audio
+          description: The audio file from which vocals/speech will be isolated from.
+          format: binary
+        file_format:
+          anyOf:
+          - type: string
+            enum:
+            - pcm_s16le_16
+            - other
+          - type: 'null'
+          title: File Format
+          description: The format of input audio. Options are 'pcm_s16le_16' or 'other' For `pcm_s16le_16`, the input audio must be 16-bit PCM at a 16kHz sample rate, single channel (mono), and little-endian byte order. Latency will be lower than with passing an encoded waveform.
+          default: other
+          examples:
+          - pcm_s16le_16
+          - other
+      type: object
+      required:
+      - audio
+      title: Body_Audio_Isolation_Stream_v1_audio_isolation_stream_post
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    AudioIsolationHistoryItemResponseModel:
+      properties:
+        id:
+          type: string
+          title: Id
+        title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Title
+        created_at_unix:
+          type: integer
+          title: Created At Unix
+        format:
+          type: string
+          title: Format
+        duration_seconds:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Duration Seconds
+        download_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Download Url
+        icon_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Icon Url
+        source_video_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Video Url
+        supports_video:
+          type: boolean
+          title: Supports Video
+        processing:
+          type: boolean
+          title: Processing
+        video_processing_failed:
+          type: boolean
+          title: Video Processing Failed
+        preview_b64:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Preview B64
+      type: object
+      required:
+      - id
+      - title
+      - created_at_unix
+      - format
+      - duration_seconds
+      - download_url
+      - icon_url
+      - source_video_url
+      - supports_video
+      - processing
+      - video_processing_failed
+      - preview_b64
+      title: AudioIsolationHistoryItemResponseModel
+    Body_Audio_Isolation_v1_audio_isolation_post:
+      properties:
+        audio:
+          type: string
+          title: Audio
+          description: The audio file from which vocals/speech will be isolated from.
+          format: binary
+        file_format:
+          anyOf:
+          - type: string
+            enum:
+            - pcm_s16le_16
+            - other
+          - type: 'null'
+          title: File Format
+          description: The format of input audio. Options are 'pcm_s16le_16' or 'other' For `pcm_s16le_16`, the input audio must be 16-bit PCM at a 16kHz sample rate, single channel (mono), and little-endian byte order. Latency will be lower than with passing an encoded waveform.
+          default: other
+          examples:
+          - pcm_s16le_16
+          - other
+        preview_b64:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Preview B64
+          description: Optional preview image base64 for tracking this generation.
+      type: object
+      required:
+      - audio
+      title: Body_Audio_Isolation_v1_audio_isolation_post
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    GetAudioIsolationHistoryResponseModel:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/AudioIsolationHistoryItemResponseModel'
+          type: array
+          title: Items
+        has_more:
+          type: boolean
+          title: Has More
+      type: object
+      required:
+      - items
+      - has_more
+      title: GetAudioIsolationHistoryResponseModel
   securitySchemes:
     apiKeyAuth:
       type: apiKey
@@ -90,3 +362,6 @@ components:
 externalDocs:
   description: ElevenLabs Audio Isolation API Documentation
   url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation
+x-refined-from:
+- elevenlabs-audio-isolation-openapi.yml
+- elevenlabs-openapi.json

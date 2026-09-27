@@ -160,63 +160,6 @@ common:
 - type: Webhooks
   url: asyncapi/elevenlabs-webhooks-asyncapi.yml
 apis:
-- aid: elevenlabs:elevenlabs-api
-  name: ElevenLabs API
-  description: >-
-    The complete ElevenLabs REST API as the provider publishes it — one OpenAPI 3.1.0
-    document covering 301 paths and 390 operations across ElevenCreative (text to speech,
-    speech to text, voice changer, voice cloning and design, music, sound effects, audio
-    isolation, dubbing, Studio, image and video), ElevenAgents (agents, conversations,
-    knowledge base, tools, telephony, batch calling, testing) and workspace administration.
-    Served first-party at https://api.elevenlabs.io/openapi.json and advertised from the
-    provider's own RFC 9727 /.well-known/api-catalog linkset. The 22 per-product API entries
-    below are tag-split refinements of this same surface.
-  humanURL: https://elevenlabs.io/docs/api-reference/introduction
-  baseURL: https://api.elevenlabs.io
-  tags:
-  - Text-to-Speech
-  - Speech-to-Text
-  - Voice
-  - Agents
-  - Audio
-  properties:
-  - type: OpenAPI
-    url: openapi/elevenlabs-openapi.json
-  - type: OpenAPI
-    name: OpenAPI (provider-hosted)
-    url: https://api.elevenlabs.io/openapi.json
-  - type: APIReference
-    url: https://elevenlabs.io/docs/api-reference/introduction
-  - type: Documentation
-    url: https://elevenlabs.io/docs/overview/intro
-  - type: Authentication
-    url: authentication/elevenlabs-authentication.yml
-  - type: OAuthScopes
-    url: scopes/elevenlabs-scopes.yml
-  - type: ErrorCatalog
-    url: errors/elevenlabs-problem-types.yml
-  - type: Conventions
-    url: conventions/elevenlabs-conventions.yml
-  - type: RateLimits
-    url: rate-limits/elevenlabs-rate-limits.yml
-  - type: DataModel
-    url: data-model/elevenlabs-data-model.yml
-  - type: Overlay
-    url: overlays/elevenlabs-openapi-overlay.yaml
-  - type: MCPServer
-    url: mcp/elevenlabs-mcp.yml
-  - type: AgentSkill
-    url: skills/_index.yml
-  - type: Webhooks
-    url: asyncapi/elevenlabs-webhooks-asyncapi.yml
-  - type: AsyncAPI
-    url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
-  - type: AsyncAPI
-    url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
-  - type: Lifecycle
-    url: lifecycle/elevenlabs-lifecycle.yml
-  - type: ChangeLog
-    url: changelog/elevenlabs-changelog.yml
 - aid: elevenlabs:elevenlabs-agents-api
   name: elevenlabs Agents API
   description: >-
@@ -1077,6 +1020,1168 @@ apis:
     url: asyncapi/elevenlabs-webhooks-asyncapi.yml
   - type: Documentation
     url: https://elevenlabs.io/docs/eleven-creative/products/studio
+- aid: elevenlabs:elevenlabs-access-all-api
+  name: ElevenLabs Access:all API
+  description: Endpoints accessible to all authenticated callers regardless of scope.
+  humanURL: https://elevenlabs.io/docs/api-reference/introduction
+  baseURL: https://api.elevenlabs.io
+  tags:
+  - access:all
+  properties:
+  - type: OpenAPI
+    url: openapi/elevenlabs-access-all-api-openapi.yml
+  - type: APIReference
+    url: https://elevenlabs.io/docs/api-reference/introduction
+  - type: Documentation
+    url: https://elevenlabs.io/docs/overview/intro
+  - type: Authentication
+    url: authentication/elevenlabs-authentication.yml
+  - type: OAuthScopes
+    url: scopes/elevenlabs-scopes.yml
+  - type: ErrorCatalog
+    url: errors/elevenlabs-problem-types.yml
+  - type: Conventions
+    url: conventions/elevenlabs-conventions.yml
+  - type: RateLimits
+    url: rate-limits/elevenlabs-rate-limits.yml
+  - type: DataModel
+    url: data-model/elevenlabs-data-model.yml
+  - type: Webhooks
+    url: asyncapi/elevenlabs-webhooks-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
+  - type: Lifecycle
+    url: lifecycle/elevenlabs-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/elevenlabs-changelog.yml
+- aid: elevenlabs:elevenlabs-agents-insights-api
+  name: ElevenLabs Agents Insights API
+  description: Query analytics and insights about agent conversations and performance.
+  humanURL: https://elevenlabs.io/docs/api-reference/introduction
+  baseURL: https://api.elevenlabs.io
+  tags:
+  - Agents Insights
+  properties:
+  - type: OpenAPI
+    url: openapi/elevenlabs-agents-insights-api-openapi.yml
+  - type: APIReference
+    url: https://elevenlabs.io/docs/api-reference/introduction
+  - type: Documentation
+    url: https://elevenlabs.io/docs/overview/intro
+  - type: Authentication
+    url: authentication/elevenlabs-authentication.yml
+  - type: OAuthScopes
+    url: scopes/elevenlabs-scopes.yml
+  - type: ErrorCatalog
+    url: errors/elevenlabs-problem-types.yml
+  - type: Conventions
+    url: conventions/elevenlabs-conventions.yml
+  - type: RateLimits
+    url: rate-limits/elevenlabs-rate-limits.yml
+  - type: DataModel
+    url: data-model/elevenlabs-data-model.yml
+  - type: Webhooks
+    url: asyncapi/elevenlabs-webhooks-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
+  - type: Lifecycle
+    url: lifecycle/elevenlabs-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/elevenlabs-changelog.yml
+- aid: elevenlabs:elevenlabs-agents-platform-api
+  name: ElevenLabs Agents Platform API
+  description: >-
+    Build, configure and manage Conversational AI agents, knowledge bases, tools, and conversations.
+  humanURL: https://elevenlabs.io/docs/api-reference/introduction
+  baseURL: https://api.elevenlabs.io
+  tags:
+  - Agents Platform
+  properties:
+  - type: OpenAPI
+    url: openapi/elevenlabs-agents-platform-api-openapi.yml
+  - type: APIReference
+    url: https://elevenlabs.io/docs/api-reference/introduction
+  - type: Documentation
+    url: https://elevenlabs.io/docs/overview/intro
+  - type: Authentication
+    url: authentication/elevenlabs-authentication.yml
+  - type: OAuthScopes
+    url: scopes/elevenlabs-scopes.yml
+  - type: ErrorCatalog
+    url: errors/elevenlabs-problem-types.yml
+  - type: Conventions
+    url: conventions/elevenlabs-conventions.yml
+  - type: RateLimits
+    url: rate-limits/elevenlabs-rate-limits.yml
+  - type: DataModel
+    url: data-model/elevenlabs-data-model.yml
+  - type: Webhooks
+    url: asyncapi/elevenlabs-webhooks-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
+  - type: Lifecycle
+    url: lifecycle/elevenlabs-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/elevenlabs-changelog.yml
+- aid: elevenlabs:elevenlabs-agents-workspace-analytics-api
+  name: ElevenLabs Agents Workspace Analytics API
+  description: Workspace-level analytics for Conversational AI usage.
+  humanURL: https://elevenlabs.io/docs/api-reference/introduction
+  baseURL: https://api.elevenlabs.io
+  tags:
+  - Agents Workspace Analytics
+  properties:
+  - type: OpenAPI
+    url: openapi/elevenlabs-agents-workspace-analytics-api-openapi.yml
+  - type: APIReference
+    url: https://elevenlabs.io/docs/api-reference/introduction
+  - type: Documentation
+    url: https://elevenlabs.io/docs/overview/intro
+  - type: Authentication
+    url: authentication/elevenlabs-authentication.yml
+  - type: OAuthScopes
+    url: scopes/elevenlabs-scopes.yml
+  - type: ErrorCatalog
+    url: errors/elevenlabs-problem-types.yml
+  - type: Conventions
+    url: conventions/elevenlabs-conventions.yml
+  - type: RateLimits
+    url: rate-limits/elevenlabs-rate-limits.yml
+  - type: DataModel
+    url: data-model/elevenlabs-data-model.yml
+  - type: Webhooks
+    url: asyncapi/elevenlabs-webhooks-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
+  - type: Lifecycle
+    url: lifecycle/elevenlabs-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/elevenlabs-changelog.yml
+- aid: elevenlabs:elevenlabs-api-key-api
+  name: ElevenLabs API Key API
+  description: Manage API keys for your workspace.
+  humanURL: https://elevenlabs.io/docs/api-reference/introduction
+  baseURL: https://api.elevenlabs.io
+  tags:
+  - api-key
+  properties:
+  - type: OpenAPI
+    url: openapi/elevenlabs-api-key-api-openapi.yml
+  - type: APIReference
+    url: https://elevenlabs.io/docs/api-reference/introduction
+  - type: Documentation
+    url: https://elevenlabs.io/docs/overview/intro
+  - type: Authentication
+    url: authentication/elevenlabs-authentication.yml
+  - type: OAuthScopes
+    url: scopes/elevenlabs-scopes.yml
+  - type: ErrorCatalog
+    url: errors/elevenlabs-problem-types.yml
+  - type: Conventions
+    url: conventions/elevenlabs-conventions.yml
+  - type: RateLimits
+    url: rate-limits/elevenlabs-rate-limits.yml
+  - type: DataModel
+    url: data-model/elevenlabs-data-model.yml
+  - type: Webhooks
+    url: asyncapi/elevenlabs-webhooks-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
+  - type: Lifecycle
+    url: lifecycle/elevenlabs-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/elevenlabs-changelog.yml
+- aid: elevenlabs:elevenlabs-assets-api
+  name: ElevenLabs Assets API
+  description: The Assets API from ElevenLabs — 2 operation(s) for assets.
+  humanURL: https://elevenlabs.io/docs/api-reference/introduction
+  baseURL: https://api.elevenlabs.io
+  tags:
+  - Assets
+  properties:
+  - type: OpenAPI
+    url: openapi/elevenlabs-assets-api-openapi.yml
+  - type: APIReference
+    url: https://elevenlabs.io/docs/api-reference/introduction
+  - type: Documentation
+    url: https://elevenlabs.io/docs/overview/intro
+  - type: Authentication
+    url: authentication/elevenlabs-authentication.yml
+  - type: OAuthScopes
+    url: scopes/elevenlabs-scopes.yml
+  - type: ErrorCatalog
+    url: errors/elevenlabs-problem-types.yml
+  - type: Conventions
+    url: conventions/elevenlabs-conventions.yml
+  - type: RateLimits
+    url: rate-limits/elevenlabs-rate-limits.yml
+  - type: DataModel
+    url: data-model/elevenlabs-data-model.yml
+  - type: Webhooks
+    url: asyncapi/elevenlabs-webhooks-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
+  - type: Lifecycle
+    url: lifecycle/elevenlabs-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/elevenlabs-changelog.yml
+- aid: elevenlabs:elevenlabs-convai-api
+  name: ElevenLabs Convai API
+  description: The Convai API from ElevenLabs — 14 operation(s) for convai.
+  humanURL: https://elevenlabs.io/docs/api-reference/introduction
+  baseURL: https://api.elevenlabs.io
+  tags:
+  - Convai
+  properties:
+  - type: OpenAPI
+    url: openapi/elevenlabs-convai-api-openapi.yml
+  - type: APIReference
+    url: https://elevenlabs.io/docs/api-reference/introduction
+  - type: Documentation
+    url: https://elevenlabs.io/docs/overview/intro
+  - type: Authentication
+    url: authentication/elevenlabs-authentication.yml
+  - type: OAuthScopes
+    url: scopes/elevenlabs-scopes.yml
+  - type: ErrorCatalog
+    url: errors/elevenlabs-problem-types.yml
+  - type: Conventions
+    url: conventions/elevenlabs-conventions.yml
+  - type: RateLimits
+    url: rate-limits/elevenlabs-rate-limits.yml
+  - type: DataModel
+    url: data-model/elevenlabs-data-model.yml
+  - type: Webhooks
+    url: asyncapi/elevenlabs-webhooks-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
+  - type: Lifecycle
+    url: lifecycle/elevenlabs-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/elevenlabs-changelog.yml
+- aid: elevenlabs:elevenlabs-conversational-ai-api
+  name: ElevenLabs Conversational AI API
+  description: Build and manage conversational AI agents (legacy tag — see also Agents Platform).
+  humanURL: https://elevenlabs.io/docs/api-reference/introduction
+  baseURL: https://api.elevenlabs.io
+  tags:
+  - Conversational AI
+  properties:
+  - type: OpenAPI
+    url: openapi/elevenlabs-conversational-ai-api-openapi.yml
+  - type: APIReference
+    url: https://elevenlabs.io/docs/api-reference/introduction
+  - type: Documentation
+    url: https://elevenlabs.io/docs/overview/intro
+  - type: Authentication
+    url: authentication/elevenlabs-authentication.yml
+  - type: OAuthScopes
+    url: scopes/elevenlabs-scopes.yml
+  - type: ErrorCatalog
+    url: errors/elevenlabs-problem-types.yml
+  - type: Conventions
+    url: conventions/elevenlabs-conventions.yml
+  - type: RateLimits
+    url: rate-limits/elevenlabs-rate-limits.yml
+  - type: DataModel
+    url: data-model/elevenlabs-data-model.yml
+  - type: Webhooks
+    url: asyncapi/elevenlabs-webhooks-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
+  - type: Lifecycle
+    url: lifecycle/elevenlabs-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/elevenlabs-changelog.yml
+- aid: elevenlabs:elevenlabs-docs-api
+  name: ElevenLabs Docs API
+  description: The Docs API from ElevenLabs — 1 operation(s) for docs.
+  humanURL: https://elevenlabs.io/docs/api-reference/introduction
+  baseURL: https://api.elevenlabs.io
+  tags:
+  - Docs
+  properties:
+  - type: OpenAPI
+    url: openapi/elevenlabs-docs-api-openapi.yml
+  - type: APIReference
+    url: https://elevenlabs.io/docs/api-reference/introduction
+  - type: Documentation
+    url: https://elevenlabs.io/docs/overview/intro
+  - type: Authentication
+    url: authentication/elevenlabs-authentication.yml
+  - type: OAuthScopes
+    url: scopes/elevenlabs-scopes.yml
+  - type: ErrorCatalog
+    url: errors/elevenlabs-problem-types.yml
+  - type: Conventions
+    url: conventions/elevenlabs-conventions.yml
+  - type: RateLimits
+    url: rate-limits/elevenlabs-rate-limits.yml
+  - type: DataModel
+    url: data-model/elevenlabs-data-model.yml
+  - type: Webhooks
+    url: asyncapi/elevenlabs-webhooks-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
+  - type: Lifecycle
+    url: lifecycle/elevenlabs-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/elevenlabs-changelog.yml
+- aid: elevenlabs:elevenlabs-enterprise-api
+  name: ElevenLabs Enterprise API
+  description: Endpoints available only to enterprise workspaces.
+  humanURL: https://elevenlabs.io/docs/api-reference/introduction
+  baseURL: https://api.elevenlabs.io
+  tags:
+  - enterprise
+  properties:
+  - type: OpenAPI
+    url: openapi/elevenlabs-enterprise-api-openapi.yml
+  - type: APIReference
+    url: https://elevenlabs.io/docs/api-reference/introduction
+  - type: Documentation
+    url: https://elevenlabs.io/docs/overview/intro
+  - type: Authentication
+    url: authentication/elevenlabs-authentication.yml
+  - type: OAuthScopes
+    url: scopes/elevenlabs-scopes.yml
+  - type: ErrorCatalog
+    url: errors/elevenlabs-problem-types.yml
+  - type: Conventions
+    url: conventions/elevenlabs-conventions.yml
+  - type: RateLimits
+    url: rate-limits/elevenlabs-rate-limits.yml
+  - type: DataModel
+    url: data-model/elevenlabs-data-model.yml
+  - type: Webhooks
+    url: asyncapi/elevenlabs-webhooks-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
+  - type: Lifecycle
+    url: lifecycle/elevenlabs-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/elevenlabs-changelog.yml
+- aid: elevenlabs:elevenlabs-flows-api
+  name: ElevenLabs Flows API
+  description: The Flows API from ElevenLabs — 6 operation(s) for flows.
+  humanURL: https://elevenlabs.io/docs/api-reference/introduction
+  baseURL: https://api.elevenlabs.io
+  tags:
+  - Flows
+  properties:
+  - type: OpenAPI
+    url: openapi/elevenlabs-flows-api-openapi.yml
+  - type: APIReference
+    url: https://elevenlabs.io/docs/api-reference/introduction
+  - type: Documentation
+    url: https://elevenlabs.io/docs/overview/intro
+  - type: Authentication
+    url: authentication/elevenlabs-authentication.yml
+  - type: OAuthScopes
+    url: scopes/elevenlabs-scopes.yml
+  - type: ErrorCatalog
+    url: errors/elevenlabs-problem-types.yml
+  - type: Conventions
+    url: conventions/elevenlabs-conventions.yml
+  - type: RateLimits
+    url: rate-limits/elevenlabs-rate-limits.yml
+  - type: DataModel
+    url: data-model/elevenlabs-data-model.yml
+  - type: Webhooks
+    url: asyncapi/elevenlabs-webhooks-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
+  - type: Lifecycle
+    url: lifecycle/elevenlabs-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/elevenlabs-changelog.yml
+- aid: elevenlabs:elevenlabs-forced-alignment-api
+  name: ElevenLabs Forced Alignment API
+  description: >-
+    Force align an audio file to a text transcript to get precise word-level and character level timing
+    information. Response is a list of characters with their start and end times as milliseconds elapsed
+    from the start of the recording.
+  humanURL: https://elevenlabs.io/docs/api-reference/introduction
+  baseURL: https://api.elevenlabs.io
+  tags:
+  - forced-alignment
+  properties:
+  - type: OpenAPI
+    url: openapi/elevenlabs-forced-alignment-api-openapi.yml
+  - type: APIReference
+    url: https://elevenlabs.io/docs/api-reference/introduction
+  - type: Documentation
+    url: https://elevenlabs.io/docs/overview/intro
+  - type: Authentication
+    url: authentication/elevenlabs-authentication.yml
+  - type: OAuthScopes
+    url: scopes/elevenlabs-scopes.yml
+  - type: ErrorCatalog
+    url: errors/elevenlabs-problem-types.yml
+  - type: Conventions
+    url: conventions/elevenlabs-conventions.yml
+  - type: RateLimits
+    url: rate-limits/elevenlabs-rate-limits.yml
+  - type: DataModel
+    url: data-model/elevenlabs-data-model.yml
+  - type: Webhooks
+    url: asyncapi/elevenlabs-webhooks-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
+  - type: Lifecycle
+    url: lifecycle/elevenlabs-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/elevenlabs-changelog.yml
+- aid: elevenlabs:elevenlabs-image-api
+  name: ElevenLabs Image API
+  description: The Image API from ElevenLabs — 2 operation(s) for image.
+  humanURL: https://elevenlabs.io/docs/api-reference/introduction
+  baseURL: https://api.elevenlabs.io
+  tags:
+  - Image
+  properties:
+  - type: OpenAPI
+    url: openapi/elevenlabs-image-api-openapi.yml
+  - type: APIReference
+    url: https://elevenlabs.io/docs/api-reference/introduction
+  - type: Documentation
+    url: https://elevenlabs.io/docs/overview/intro
+  - type: Authentication
+    url: authentication/elevenlabs-authentication.yml
+  - type: OAuthScopes
+    url: scopes/elevenlabs-scopes.yml
+  - type: ErrorCatalog
+    url: errors/elevenlabs-problem-types.yml
+  - type: Conventions
+    url: conventions/elevenlabs-conventions.yml
+  - type: RateLimits
+    url: rate-limits/elevenlabs-rate-limits.yml
+  - type: DataModel
+    url: data-model/elevenlabs-data-model.yml
+  - type: Webhooks
+    url: asyncapi/elevenlabs-webhooks-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
+  - type: Lifecycle
+    url: lifecycle/elevenlabs-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/elevenlabs-changelog.yml
+- aid: elevenlabs:elevenlabs-models-api
+  name: ElevenLabs Models API
+  description: Access the different models of the platform.
+  humanURL: https://elevenlabs.io/docs/api-reference/introduction
+  baseURL: https://api.elevenlabs.io
+  tags:
+  - models
+  properties:
+  - type: OpenAPI
+    url: openapi/elevenlabs-models-api-openapi.yml
+  - type: APIReference
+    url: https://elevenlabs.io/docs/api-reference/introduction
+  - type: Documentation
+    url: https://elevenlabs.io/docs/overview/intro
+  - type: Authentication
+    url: authentication/elevenlabs-authentication.yml
+  - type: OAuthScopes
+    url: scopes/elevenlabs-scopes.yml
+  - type: ErrorCatalog
+    url: errors/elevenlabs-problem-types.yml
+  - type: Conventions
+    url: conventions/elevenlabs-conventions.yml
+  - type: RateLimits
+    url: rate-limits/elevenlabs-rate-limits.yml
+  - type: DataModel
+    url: data-model/elevenlabs-data-model.yml
+  - type: Webhooks
+    url: asyncapi/elevenlabs-webhooks-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
+  - type: Lifecycle
+    url: lifecycle/elevenlabs-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/elevenlabs-changelog.yml
+- aid: elevenlabs:elevenlabs-music-finetunes-api
+  name: ElevenLabs Music Finetunes API
+  description: Create and manage music finetunes.
+  humanURL: https://elevenlabs.io/docs/api-reference/introduction
+  baseURL: https://api.elevenlabs.io
+  tags:
+  - music-finetunes
+  properties:
+  - type: OpenAPI
+    url: openapi/elevenlabs-music-finetunes-api-openapi.yml
+  - type: APIReference
+    url: https://elevenlabs.io/docs/api-reference/introduction
+  - type: Documentation
+    url: https://elevenlabs.io/docs/overview/intro
+  - type: Authentication
+    url: authentication/elevenlabs-authentication.yml
+  - type: OAuthScopes
+    url: scopes/elevenlabs-scopes.yml
+  - type: ErrorCatalog
+    url: errors/elevenlabs-problem-types.yml
+  - type: Conventions
+    url: conventions/elevenlabs-conventions.yml
+  - type: RateLimits
+    url: rate-limits/elevenlabs-rate-limits.yml
+  - type: DataModel
+    url: data-model/elevenlabs-data-model.yml
+  - type: Webhooks
+    url: asyncapi/elevenlabs-webhooks-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
+  - type: Lifecycle
+    url: lifecycle/elevenlabs-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/elevenlabs-changelog.yml
+- aid: elevenlabs:elevenlabs-productions-api
+  name: ElevenLabs Productions API
+  description: Access and manage ElevenProductions orders.
+  humanURL: https://elevenlabs.io/docs/api-reference/introduction
+  baseURL: https://api.elevenlabs.io
+  tags:
+  - productions
+  properties:
+  - type: OpenAPI
+    url: openapi/elevenlabs-productions-api-openapi.yml
+  - type: APIReference
+    url: https://elevenlabs.io/docs/api-reference/introduction
+  - type: Documentation
+    url: https://elevenlabs.io/docs/overview/intro
+  - type: Authentication
+    url: authentication/elevenlabs-authentication.yml
+  - type: OAuthScopes
+    url: scopes/elevenlabs-scopes.yml
+  - type: ErrorCatalog
+    url: errors/elevenlabs-problem-types.yml
+  - type: Conventions
+    url: conventions/elevenlabs-conventions.yml
+  - type: RateLimits
+    url: rate-limits/elevenlabs-rate-limits.yml
+  - type: DataModel
+    url: data-model/elevenlabs-data-model.yml
+  - type: Webhooks
+    url: asyncapi/elevenlabs-webhooks-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
+  - type: Lifecycle
+    url: lifecycle/elevenlabs-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/elevenlabs-changelog.yml
+- aid: elevenlabs:elevenlabs-pronunciation-dictionary-api
+  name: ElevenLabs Pronunciation Dictionary API
+  description: Manage pronunciation dictionaries that override how specific words are pronounced.
+  humanURL: https://elevenlabs.io/docs/api-reference/introduction
+  baseURL: https://api.elevenlabs.io
+  tags:
+  - Pronunciation Dictionary
+  properties:
+  - type: OpenAPI
+    url: openapi/elevenlabs-pronunciation-dictionary-api-openapi.yml
+  - type: APIReference
+    url: https://elevenlabs.io/docs/api-reference/introduction
+  - type: Documentation
+    url: https://elevenlabs.io/docs/overview/intro
+  - type: Authentication
+    url: authentication/elevenlabs-authentication.yml
+  - type: OAuthScopes
+    url: scopes/elevenlabs-scopes.yml
+  - type: ErrorCatalog
+    url: errors/elevenlabs-problem-types.yml
+  - type: Conventions
+    url: conventions/elevenlabs-conventions.yml
+  - type: RateLimits
+    url: rate-limits/elevenlabs-rate-limits.yml
+  - type: DataModel
+    url: data-model/elevenlabs-data-model.yml
+  - type: Webhooks
+    url: asyncapi/elevenlabs-webhooks-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
+  - type: Lifecycle
+    url: lifecycle/elevenlabs-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/elevenlabs-changelog.yml
+- aid: elevenlabs:elevenlabs-pvc-voices-api
+  name: ElevenLabs Pvc Voices API
+  description: Create and manage Professional Voice Clones (PVCs).
+  humanURL: https://elevenlabs.io/docs/api-reference/introduction
+  baseURL: https://api.elevenlabs.io
+  tags:
+  - pvc-voices
+  properties:
+  - type: OpenAPI
+    url: openapi/elevenlabs-pvc-voices-api-openapi.yml
+  - type: APIReference
+    url: https://elevenlabs.io/docs/api-reference/introduction
+  - type: Documentation
+    url: https://elevenlabs.io/docs/overview/intro
+  - type: Authentication
+    url: authentication/elevenlabs-authentication.yml
+  - type: OAuthScopes
+    url: scopes/elevenlabs-scopes.yml
+  - type: ErrorCatalog
+    url: errors/elevenlabs-problem-types.yml
+  - type: Conventions
+    url: conventions/elevenlabs-conventions.yml
+  - type: RateLimits
+    url: rate-limits/elevenlabs-rate-limits.yml
+  - type: DataModel
+    url: data-model/elevenlabs-data-model.yml
+  - type: Webhooks
+    url: asyncapi/elevenlabs-webhooks-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
+  - type: Lifecycle
+    url: lifecycle/elevenlabs-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/elevenlabs-changelog.yml
+- aid: elevenlabs:elevenlabs-resource-api
+  name: ElevenLabs Resource API
+  description: Manage dubbing resources, including segments, speakers, and language tracks.
+  humanURL: https://elevenlabs.io/docs/api-reference/introduction
+  baseURL: https://api.elevenlabs.io
+  tags:
+  - resource
+  properties:
+  - type: OpenAPI
+    url: openapi/elevenlabs-resource-api-openapi.yml
+  - type: APIReference
+    url: https://elevenlabs.io/docs/api-reference/introduction
+  - type: Documentation
+    url: https://elevenlabs.io/docs/overview/intro
+  - type: Authentication
+    url: authentication/elevenlabs-authentication.yml
+  - type: OAuthScopes
+    url: scopes/elevenlabs-scopes.yml
+  - type: ErrorCatalog
+    url: errors/elevenlabs-problem-types.yml
+  - type: Conventions
+    url: conventions/elevenlabs-conventions.yml
+  - type: RateLimits
+    url: rate-limits/elevenlabs-rate-limits.yml
+  - type: DataModel
+    url: data-model/elevenlabs-data-model.yml
+  - type: Webhooks
+    url: asyncapi/elevenlabs-webhooks-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
+  - type: Lifecycle
+    url: lifecycle/elevenlabs-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/elevenlabs-changelog.yml
+- aid: elevenlabs:elevenlabs-samples-api
+  name: ElevenLabs Samples API
+  description: >-
+    Access to your samples. A sample is any audio file you attached to a voice. A voice can have one or
+    more samples.
+  humanURL: https://elevenlabs.io/docs/api-reference/introduction
+  baseURL: https://api.elevenlabs.io
+  tags:
+  - samples
+  properties:
+  - type: OpenAPI
+    url: openapi/elevenlabs-samples-api-openapi.yml
+  - type: APIReference
+    url: https://elevenlabs.io/docs/api-reference/introduction
+  - type: Documentation
+    url: https://elevenlabs.io/docs/overview/intro
+  - type: Authentication
+    url: authentication/elevenlabs-authentication.yml
+  - type: OAuthScopes
+    url: scopes/elevenlabs-scopes.yml
+  - type: ErrorCatalog
+    url: errors/elevenlabs-problem-types.yml
+  - type: Conventions
+    url: conventions/elevenlabs-conventions.yml
+  - type: RateLimits
+    url: rate-limits/elevenlabs-rate-limits.yml
+  - type: DataModel
+    url: data-model/elevenlabs-data-model.yml
+  - type: Webhooks
+    url: asyncapi/elevenlabs-webhooks-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
+  - type: Lifecycle
+    url: lifecycle/elevenlabs-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/elevenlabs-changelog.yml
+- aid: elevenlabs:elevenlabs-segment-api
+  name: ElevenLabs Segment API
+  description: Manage individual segments within a dubbing resource.
+  humanURL: https://elevenlabs.io/docs/api-reference/introduction
+  baseURL: https://api.elevenlabs.io
+  tags:
+  - segment
+  properties:
+  - type: OpenAPI
+    url: openapi/elevenlabs-segment-api-openapi.yml
+  - type: APIReference
+    url: https://elevenlabs.io/docs/api-reference/introduction
+  - type: Documentation
+    url: https://elevenlabs.io/docs/overview/intro
+  - type: Authentication
+    url: authentication/elevenlabs-authentication.yml
+  - type: OAuthScopes
+    url: scopes/elevenlabs-scopes.yml
+  - type: ErrorCatalog
+    url: errors/elevenlabs-problem-types.yml
+  - type: Conventions
+    url: conventions/elevenlabs-conventions.yml
+  - type: RateLimits
+    url: rate-limits/elevenlabs-rate-limits.yml
+  - type: DataModel
+    url: data-model/elevenlabs-data-model.yml
+  - type: Webhooks
+    url: asyncapi/elevenlabs-webhooks-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
+  - type: Lifecycle
+    url: lifecycle/elevenlabs-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/elevenlabs-changelog.yml
+- aid: elevenlabs:elevenlabs-single-use-token-api
+  name: ElevenLabs Single Use Token API
+  description: Mint short-lived, single-use tokens for client-side use of Conversational AI agents.
+  humanURL: https://elevenlabs.io/docs/api-reference/introduction
+  baseURL: https://api.elevenlabs.io
+  tags:
+  - Single Use Token
+  properties:
+  - type: OpenAPI
+    url: openapi/elevenlabs-single-use-token-api-openapi.yml
+  - type: APIReference
+    url: https://elevenlabs.io/docs/api-reference/introduction
+  - type: Documentation
+    url: https://elevenlabs.io/docs/overview/intro
+  - type: Authentication
+    url: authentication/elevenlabs-authentication.yml
+  - type: OAuthScopes
+    url: scopes/elevenlabs-scopes.yml
+  - type: ErrorCatalog
+    url: errors/elevenlabs-problem-types.yml
+  - type: Conventions
+    url: conventions/elevenlabs-conventions.yml
+  - type: RateLimits
+    url: rate-limits/elevenlabs-rate-limits.yml
+  - type: DataModel
+    url: data-model/elevenlabs-data-model.yml
+  - type: Webhooks
+    url: asyncapi/elevenlabs-webhooks-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
+  - type: Lifecycle
+    url: lifecycle/elevenlabs-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/elevenlabs-changelog.yml
+- aid: elevenlabs:elevenlabs-sound-generation-api
+  name: ElevenLabs Sound Generation API
+  description: Generate sound effects and non-speech audio from a text prompt.
+  humanURL: https://elevenlabs.io/docs/api-reference/introduction
+  baseURL: https://api.elevenlabs.io
+  tags:
+  - sound-generation
+  properties:
+  - type: OpenAPI
+    url: openapi/elevenlabs-sound-generation-api-openapi.yml
+  - type: APIReference
+    url: https://elevenlabs.io/docs/api-reference/introduction
+  - type: Documentation
+    url: https://elevenlabs.io/docs/overview/intro
+  - type: Authentication
+    url: authentication/elevenlabs-authentication.yml
+  - type: OAuthScopes
+    url: scopes/elevenlabs-scopes.yml
+  - type: ErrorCatalog
+    url: errors/elevenlabs-problem-types.yml
+  - type: Conventions
+    url: conventions/elevenlabs-conventions.yml
+  - type: RateLimits
+    url: rate-limits/elevenlabs-rate-limits.yml
+  - type: DataModel
+    url: data-model/elevenlabs-data-model.yml
+  - type: Webhooks
+    url: asyncapi/elevenlabs-webhooks-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
+  - type: Lifecycle
+    url: lifecycle/elevenlabs-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/elevenlabs-changelog.yml
+- aid: elevenlabs:elevenlabs-speech-engine-api
+  name: ElevenLabs Speech Engine API
+  description: Low-latency, real-time speech generation endpoints.
+  humanURL: https://elevenlabs.io/docs/api-reference/introduction
+  baseURL: https://api.elevenlabs.io
+  tags:
+  - Speech Engine
+  properties:
+  - type: OpenAPI
+    url: openapi/elevenlabs-speech-engine-api-openapi.yml
+  - type: APIReference
+    url: https://elevenlabs.io/docs/api-reference/introduction
+  - type: Documentation
+    url: https://elevenlabs.io/docs/overview/intro
+  - type: Authentication
+    url: authentication/elevenlabs-authentication.yml
+  - type: OAuthScopes
+    url: scopes/elevenlabs-scopes.yml
+  - type: ErrorCatalog
+    url: errors/elevenlabs-problem-types.yml
+  - type: Conventions
+    url: conventions/elevenlabs-conventions.yml
+  - type: RateLimits
+    url: rate-limits/elevenlabs-rate-limits.yml
+  - type: DataModel
+    url: data-model/elevenlabs-data-model.yml
+  - type: Webhooks
+    url: asyncapi/elevenlabs-webhooks-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
+  - type: Lifecycle
+    url: lifecycle/elevenlabs-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/elevenlabs-changelog.yml
+- aid: elevenlabs:elevenlabs-speech-history-api
+  name: ElevenLabs Speech History API
+  description: >-
+    Accesses your speech history. Your speech history is a list of all your created audio including its
+    metadata using our text-to-speech and speech-to-speech models.
+  humanURL: https://elevenlabs.io/docs/api-reference/introduction
+  baseURL: https://api.elevenlabs.io
+  tags:
+  - speech-history
+  properties:
+  - type: OpenAPI
+    url: openapi/elevenlabs-speech-history-api-openapi.yml
+  - type: APIReference
+    url: https://elevenlabs.io/docs/api-reference/introduction
+  - type: Documentation
+    url: https://elevenlabs.io/docs/overview/intro
+  - type: Authentication
+    url: authentication/elevenlabs-authentication.yml
+  - type: OAuthScopes
+    url: scopes/elevenlabs-scopes.yml
+  - type: ErrorCatalog
+    url: errors/elevenlabs-problem-types.yml
+  - type: Conventions
+    url: conventions/elevenlabs-conventions.yml
+  - type: RateLimits
+    url: rate-limits/elevenlabs-rate-limits.yml
+  - type: DataModel
+    url: data-model/elevenlabs-data-model.yml
+  - type: Webhooks
+    url: asyncapi/elevenlabs-webhooks-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
+  - type: Lifecycle
+    url: lifecycle/elevenlabs-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/elevenlabs-changelog.yml
+- aid: elevenlabs:elevenlabs-studio-api
+  name: ElevenLabs Studio API
+  description: >-
+    Access, create and convert Studio Projects programmatically. Only specifically whitelisted accounts
+    can access the Studio API. If you need access please contact our sales team.
+  humanURL: https://elevenlabs.io/docs/api-reference/introduction
+  baseURL: https://api.elevenlabs.io
+  tags:
+  - studio
+  properties:
+  - type: OpenAPI
+    url: openapi/elevenlabs-studio-api-openapi.yml
+  - type: APIReference
+    url: https://elevenlabs.io/docs/api-reference/introduction
+  - type: Documentation
+    url: https://elevenlabs.io/docs/overview/intro
+  - type: Authentication
+    url: authentication/elevenlabs-authentication.yml
+  - type: OAuthScopes
+    url: scopes/elevenlabs-scopes.yml
+  - type: ErrorCatalog
+    url: errors/elevenlabs-problem-types.yml
+  - type: Conventions
+    url: conventions/elevenlabs-conventions.yml
+  - type: RateLimits
+    url: rate-limits/elevenlabs-rate-limits.yml
+  - type: DataModel
+    url: data-model/elevenlabs-data-model.yml
+  - type: Webhooks
+    url: asyncapi/elevenlabs-webhooks-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
+  - type: Lifecycle
+    url: lifecycle/elevenlabs-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/elevenlabs-changelog.yml
+- aid: elevenlabs:elevenlabs-text-to-voice-api
+  name: ElevenLabs Text To Voice API
+  description: Design and generate custom voices from a text prompt.
+  humanURL: https://elevenlabs.io/docs/api-reference/introduction
+  baseURL: https://api.elevenlabs.io
+  tags:
+  - text-to-voice
+  properties:
+  - type: OpenAPI
+    url: openapi/elevenlabs-text-to-voice-api-openapi.yml
+  - type: APIReference
+    url: https://elevenlabs.io/docs/api-reference/introduction
+  - type: Documentation
+    url: https://elevenlabs.io/docs/overview/intro
+  - type: Authentication
+    url: authentication/elevenlabs-authentication.yml
+  - type: OAuthScopes
+    url: scopes/elevenlabs-scopes.yml
+  - type: ErrorCatalog
+    url: errors/elevenlabs-problem-types.yml
+  - type: Conventions
+    url: conventions/elevenlabs-conventions.yml
+  - type: RateLimits
+    url: rate-limits/elevenlabs-rate-limits.yml
+  - type: DataModel
+    url: data-model/elevenlabs-data-model.yml
+  - type: Webhooks
+    url: asyncapi/elevenlabs-webhooks-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
+  - type: Lifecycle
+    url: lifecycle/elevenlabs-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/elevenlabs-changelog.yml
+- aid: elevenlabs:elevenlabs-usage-api
+  name: ElevenLabs Usage API
+  description: The Usage API from ElevenLabs — 1 operation(s) for usage.
+  humanURL: https://elevenlabs.io/docs/api-reference/introduction
+  baseURL: https://api.elevenlabs.io
+  tags:
+  - Usage
+  properties:
+  - type: OpenAPI
+    url: openapi/elevenlabs-usage-api-openapi.yml
+  - type: APIReference
+    url: https://elevenlabs.io/docs/api-reference/introduction
+  - type: Documentation
+    url: https://elevenlabs.io/docs/overview/intro
+  - type: Authentication
+    url: authentication/elevenlabs-authentication.yml
+  - type: OAuthScopes
+    url: scopes/elevenlabs-scopes.yml
+  - type: ErrorCatalog
+    url: errors/elevenlabs-problem-types.yml
+  - type: Conventions
+    url: conventions/elevenlabs-conventions.yml
+  - type: RateLimits
+    url: rate-limits/elevenlabs-rate-limits.yml
+  - type: DataModel
+    url: data-model/elevenlabs-data-model.yml
+  - type: Webhooks
+    url: asyncapi/elevenlabs-webhooks-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
+  - type: Lifecycle
+    url: lifecycle/elevenlabs-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/elevenlabs-changelog.yml
+- aid: elevenlabs:elevenlabs-user-api
+  name: ElevenLabs User API
+  description: The User API from ElevenLabs — 2 operation(s) for user.
+  humanURL: https://elevenlabs.io/docs/api-reference/introduction
+  baseURL: https://api.elevenlabs.io
+  tags:
+  - User
+  properties:
+  - type: OpenAPI
+    url: openapi/elevenlabs-user-api-openapi.yml
+  - type: APIReference
+    url: https://elevenlabs.io/docs/api-reference/introduction
+  - type: Documentation
+    url: https://elevenlabs.io/docs/overview/intro
+  - type: Authentication
+    url: authentication/elevenlabs-authentication.yml
+  - type: OAuthScopes
+    url: scopes/elevenlabs-scopes.yml
+  - type: ErrorCatalog
+    url: errors/elevenlabs-problem-types.yml
+  - type: Conventions
+    url: conventions/elevenlabs-conventions.yml
+  - type: RateLimits
+    url: rate-limits/elevenlabs-rate-limits.yml
+  - type: DataModel
+    url: data-model/elevenlabs-data-model.yml
+  - type: Webhooks
+    url: asyncapi/elevenlabs-webhooks-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
+  - type: Lifecycle
+    url: lifecycle/elevenlabs-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/elevenlabs-changelog.yml
+- aid: elevenlabs:elevenlabs-video-api
+  name: ElevenLabs Video API
+  description: The Video API from ElevenLabs — 2 operation(s) for video.
+  humanURL: https://elevenlabs.io/docs/api-reference/introduction
+  baseURL: https://api.elevenlabs.io
+  tags:
+  - Video
+  properties:
+  - type: OpenAPI
+    url: openapi/elevenlabs-video-api-openapi.yml
+  - type: APIReference
+    url: https://elevenlabs.io/docs/api-reference/introduction
+  - type: Documentation
+    url: https://elevenlabs.io/docs/overview/intro
+  - type: Authentication
+    url: authentication/elevenlabs-authentication.yml
+  - type: OAuthScopes
+    url: scopes/elevenlabs-scopes.yml
+  - type: ErrorCatalog
+    url: errors/elevenlabs-problem-types.yml
+  - type: Conventions
+    url: conventions/elevenlabs-conventions.yml
+  - type: RateLimits
+    url: rate-limits/elevenlabs-rate-limits.yml
+  - type: DataModel
+    url: data-model/elevenlabs-data-model.yml
+  - type: Webhooks
+    url: asyncapi/elevenlabs-webhooks-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
+  - type: Lifecycle
+    url: lifecycle/elevenlabs-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/elevenlabs-changelog.yml
+- aid: elevenlabs:elevenlabs-video-to-music-api
+  name: ElevenLabs Video To Music API
+  description: Generate music that matches the content and mood of a video.
+  humanURL: https://elevenlabs.io/docs/api-reference/introduction
+  baseURL: https://api.elevenlabs.io
+  tags:
+  - video-to-music
+  properties:
+  - type: OpenAPI
+    url: openapi/elevenlabs-video-to-music-api-openapi.yml
+  - type: APIReference
+    url: https://elevenlabs.io/docs/api-reference/introduction
+  - type: Documentation
+    url: https://elevenlabs.io/docs/overview/intro
+  - type: Authentication
+    url: authentication/elevenlabs-authentication.yml
+  - type: OAuthScopes
+    url: scopes/elevenlabs-scopes.yml
+  - type: ErrorCatalog
+    url: errors/elevenlabs-problem-types.yml
+  - type: Conventions
+    url: conventions/elevenlabs-conventions.yml
+  - type: RateLimits
+    url: rate-limits/elevenlabs-rate-limits.yml
+  - type: DataModel
+    url: data-model/elevenlabs-data-model.yml
+  - type: Webhooks
+    url: asyncapi/elevenlabs-webhooks-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
+  - type: Lifecycle
+    url: lifecycle/elevenlabs-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/elevenlabs-changelog.yml
+- aid: elevenlabs:elevenlabs-workspace-api
+  name: ElevenLabs Workspace API
+  description: Access to workspace related endpoints.
+  humanURL: https://elevenlabs.io/docs/api-reference/introduction
+  baseURL: https://api.elevenlabs.io
+  tags:
+  - workspace
+  properties:
+  - type: OpenAPI
+    url: openapi/elevenlabs-workspace-api-openapi.yml
+  - type: APIReference
+    url: https://elevenlabs.io/docs/api-reference/introduction
+  - type: Documentation
+    url: https://elevenlabs.io/docs/overview/intro
+  - type: Authentication
+    url: authentication/elevenlabs-authentication.yml
+  - type: OAuthScopes
+    url: scopes/elevenlabs-scopes.yml
+  - type: ErrorCatalog
+    url: errors/elevenlabs-problem-types.yml
+  - type: Conventions
+    url: conventions/elevenlabs-conventions.yml
+  - type: RateLimits
+    url: rate-limits/elevenlabs-rate-limits.yml
+  - type: DataModel
+    url: data-model/elevenlabs-data-model.yml
+  - type: Webhooks
+    url: asyncapi/elevenlabs-webhooks-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-text-to-speech-streaming-asyncapi.yml
+  - type: AsyncAPI
+    url: asyncapi/elevenlabs-conversational-ai-asyncapi.yml
+  - type: Lifecycle
+    url: lifecycle/elevenlabs-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/elevenlabs-changelog.yml
 description: >-
   ElevenLabs is an AI research and product company building voice and audio models, founded
   in 2022 and launched publicly in January 2023 with the first human-like AI voice model. It
@@ -1100,6 +2205,8 @@ tags:
 - Dubbing
 - Music Generation
 - Real-Time
+- Voice AI
+- Voice Agents
 tags_raw:
 - Artificial Intelligence
 - Text-to-Speech
@@ -1113,6 +2220,8 @@ tags_raw:
 - Music Generation
 - Machine-Learning
 - Real-Time
+- Voice AI
+- Voice Agents
 created: '2026-05-04'
 maintainers:
 - FN: Kin Lane

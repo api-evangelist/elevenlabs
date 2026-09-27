@@ -1,0 +1,325 @@
+openapi: 3.2.0
+info:
+  title: ElevenLabs API Documentation Agents Insights API
+  description: This is the documentation for the ElevenLabs API. You can use this API to use our service programmatically, this is done by using your API key. You can find your API key in the dashboard at https://elevenlabs.io/app/settings/api-keys.
+  version: '1.0'
+tags:
+- name: Agents Insights
+  description: Query analytics and insights about agent conversations and performance.
+paths:
+  /v1/convai/agents/{agent_id}/topics:
+    get:
+      tags:
+      - Agents Insights
+      summary: Get Agent Conversation Topics
+      description: Returns the latest topic discovery run results for a given agent.
+      operationId: get_agent_topics_route
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: string
+          description: ID of the agent
+          title: Agent Id
+        description: ID of the agent
+      - name: page_size
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+            maximum: 100
+            minimum: 1
+          - type: 'null'
+          description: Number of top-level topic groups to return.
+          title: Page Size
+        description: Number of top-level topic groups to return.
+      - name: sort_by
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/TopicSortBy'
+          description: Column to rank topics by. Use conversations for volume, sentiment with sort_direction=asc for the most negative topics, and frustration with sort_direction=desc for the most frustrated ones. Topics with no score are always ranked last.
+          default: conversations
+        description: Column to rank topics by. Use conversations for volume, sentiment with sort_direction=asc for the most negative topics, and frustration with sort_direction=desc for the most frustrated ones. Topics with no score are always ranked last.
+      - name: sort_direction
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/SortDirection'
+          description: Direction to sort topics.
+          default: desc
+        description: Direction to sort topics.
+      - name: from_unix_secs
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          description: Start of the window to view topics for. When set with to_unix_secs, the completed daily topic-discovery runs in the range are aggregated together, so the window scopes the metrics as well as the topic set. Floored to the start of its UTC day because runs cover whole UTC days; aggregated_run_count reports how many runs were summed. Omit both bounds to get the single latest run.
+          title: From Unix Secs
+        description: Start of the window to view topics for. When set with to_unix_secs, the completed daily topic-discovery runs in the range are aggregated together, so the window scopes the metrics as well as the topic set. Floored to the start of its UTC day because runs cover whole UTC days; aggregated_run_count reports how many runs were summed. Omit both bounds to get the single latest run.
+      - name: to_unix_secs
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          description: End of the window to view topics for.
+          title: To Unix Secs
+        description: End of the window to view topics for.
+      - name: include_evaluation_criteria
+        in: query
+        required: false
+        schema:
+          type: boolean
+          description: 'Include the per-criteria evaluation breakdown on each topic''s metrics. Pass false to drop it: it dominates the payload and the weighted success_rate is returned either way.'
+          default: true
+          title: Include Evaluation Criteria
+        description: 'Include the per-criteria evaluation breakdown on each topic''s metrics. Pass false to drop it: it dominates the payload and the weighted success_rate is returned either way.'
+      - name: cursor
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Used for fetching next page. Cursor is returned in the response.
+          title: Cursor
+        description: Used for fetching next page. Cursor is returned in the response.
+      - name: xi-api-key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+          title: Xi-Api-Key
+        description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAgentTopicsResponseModel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-fern-sdk-group-name:
+      - conversational_ai
+      - conversations
+      - topics
+      x-fern-sdk-method-name: get
+components:
+  schemas:
+    TopicSentimentAggregate:
+      properties:
+        sentiment:
+          $ref: '#/components/schemas/NumericDistributionAggregate'
+        frustration:
+          $ref: '#/components/schemas/NumericDistributionAggregate'
+        positive_count:
+          type: integer
+          title: Positive Count
+          default: 0
+        neutral_count:
+          type: integer
+          title: Neutral Count
+          default: 0
+        negative_count:
+          type: integer
+          title: Negative Count
+          default: 0
+      type: object
+      title: TopicSentimentAggregate
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    TopicMetricsAggregate:
+      properties:
+        conversation_count:
+          type: integer
+          title: Conversation Count
+          default: 0
+        sentiment:
+          anyOf:
+          - $ref: '#/components/schemas/TopicSentimentAggregate'
+          - type: 'null'
+        evaluation_criteria:
+          items:
+            $ref: '#/components/schemas/TopicEvaluationCriteriaAggregate'
+          type: array
+          title: Evaluation Criteria
+      type: object
+      title: TopicMetricsAggregate
+    AgentTopicResponseModel:
+      properties:
+        topic_id:
+          type: string
+          title: Topic Id
+        label:
+          type: string
+          title: Label
+        description:
+          type: string
+          title: Description
+        conversation_count:
+          type: integer
+          title: Conversation Count
+        parent_topic_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Parent Topic Id
+        x_2d:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: X 2D
+        y_2d:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Y 2D
+        metrics:
+          anyOf:
+          - $ref: '#/components/schemas/TopicMetricsAggregate'
+          - type: 'null'
+        success_rate:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Success Rate
+          description: Success rate across the topic's evaluation criteria, weighted by scored conversations. Returned regardless of include_evaluation_criteria.
+      type: object
+      required:
+      - topic_id
+      - label
+      - description
+      - conversation_count
+      title: AgentTopicResponseModel
+    TopicSortBy:
+      type: string
+      enum:
+      - conversations
+      - sentiment
+      - success_rate
+      - frustration
+      title: TopicSortBy
+    TopicEvaluationCriteriaAggregate:
+      properties:
+        criteria_id:
+          type: string
+          title: Criteria Id
+        success_count:
+          type: integer
+          title: Success Count
+          default: 0
+        failure_count:
+          type: integer
+          title: Failure Count
+          default: 0
+        unknown_count:
+          type: integer
+          title: Unknown Count
+          default: 0
+      type: object
+      required:
+      - criteria_id
+      title: TopicEvaluationCriteriaAggregate
+    GetAgentTopicsResponseModel:
+      properties:
+        topics:
+          items:
+            $ref: '#/components/schemas/AgentTopicResponseModel'
+          type: array
+          title: Topics
+        window_start_unix_secs:
+          type: integer
+          title: Window Start Unix Secs
+        window_end_unix_secs:
+          type: integer
+          title: Window End Unix Secs
+        aggregated_run_count:
+          type: integer
+          title: Aggregated Run Count
+          description: Number of daily topic-discovery runs the returned metrics were summed over.
+          default: 0
+        has_more:
+          type: boolean
+          title: Has More
+          default: false
+        next_cursor:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Next Cursor
+      type: object
+      required:
+      - topics
+      - window_start_unix_secs
+      - window_end_unix_secs
+      title: GetAgentTopicsResponseModel
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    NumericDistributionAggregate:
+      properties:
+        count:
+          type: integer
+          title: Count
+          default: 0
+        sum:
+          type: number
+          title: Sum
+          default: 0.0
+        min:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Min
+        max:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Max
+      type: object
+      title: NumericDistributionAggregate
+    SortDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: SortDirection

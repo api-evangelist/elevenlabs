@@ -44,6 +44,12 @@ paths:
           description: Unprocessable entity - audio too short or low quality
 components:
   schemas:
+    VoiceCloneResponse:
+      type: object
+      properties:
+        voice_id:
+          type: string
+          description: The unique identifier of the newly created voice clone.
     InstantVoiceCloneRequest:
       type: object
       required:
@@ -65,12 +71,6 @@ components:
           items:
             type: string
             format: binary
-    VoiceCloneResponse:
-      type: object
-      properties:
-        voice_id:
-          type: string
-          description: The unique identifier of the newly created voice clone.
   securitySchemes:
     apiKeyAuth:
       type: apiKey

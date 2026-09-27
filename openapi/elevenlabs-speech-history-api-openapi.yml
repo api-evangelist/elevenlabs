@@ -1,0 +1,658 @@
+openapi: 3.2.0
+info:
+  title: ElevenLabs API Documentation Speech History API
+  description: This is the documentation for the ElevenLabs API. You can use this API to use our service programmatically, this is done by using your API key. You can find your API key in the dashboard at https://elevenlabs.io/app/settings/api-keys.
+  version: '1.0'
+tags:
+- name: speech-history
+  description: Accesses your speech history. Your speech history is a list of all your created audio including its metadata using our text-to-speech and speech-to-speech models.
+paths:
+  /v1/history:
+    get:
+      tags:
+      - speech-history
+      summary: List Generated Items
+      description: Returns a list of your generated audio (e.g. text to speech, speech to speech, Studio, dubbing). Music and SFX generations are not included and cannot currently be retrieved via the API.
+      operationId: get_speech_history
+      parameters:
+      - name: page_size
+        in: query
+        required: false
+        schema:
+          type: integer
+          description: How many history items to return at maximum. Can not exceed 1000, defaults to 100.
+          default: 100
+          title: Page Size
+        description: How many history items to return at maximum. Can not exceed 1000, defaults to 100.
+      - name: start_after_history_item_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: After which ID to start fetching, use this parameter to paginate across a large collection of history items. In case this parameter is not provided history items will be fetched starting from the most recently created one ordered descending by their creation date.
+          title: Start After History Item Id
+        description: After which ID to start fetching, use this parameter to paginate across a large collection of history items. In case this parameter is not provided history items will be fetched starting from the most recently created one ordered descending by their creation date.
+      - name: voice_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Voice ID to be filtered for, you can use GET https://api.elevenlabs.io/v1/voices to receive a list of voices and their IDs.
+          title: Voice Id
+        description: Voice ID to be filtered for, you can use GET https://api.elevenlabs.io/v1/voices to receive a list of voices and their IDs.
+      - name: model_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Model ID to filter history items by.
+          examples:
+          - eleven_turbo_v2
+          - eleven_multilingual_v2
+          title: Model Id
+        description: Model ID to filter history items by.
+      - name: date_before_unix
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          description: Unix timestamp to filter history items before this date (exclusive).
+          examples:
+          - 1640995200
+          title: Date Before Unix
+        description: Unix timestamp to filter history items before this date (exclusive).
+      - name: date_after_unix
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          description: Unix timestamp to filter history items after this date (inclusive).
+          examples:
+          - 1640995200
+          title: Date After Unix
+        description: Unix timestamp to filter history items after this date (inclusive).
+      - name: sort_direction
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - enum:
+            - asc
+            - desc
+            type: string
+          - type: 'null'
+          description: Sort direction for the results.
+          examples:
+          - desc
+          - asc
+          default: desc
+          title: Sort Direction
+        description: Sort direction for the results.
+      - name: search
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: search term used for filtering
+          examples:
+          - In the land far far away
+          title: Search
+        description: search term used for filtering
+      - name: source
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - enum:
+            - TTS
+            - STS
+            - Flows
+            type: string
+          - type: 'null'
+          description: Source of the generated history item
+          examples:
+          - TTS
+          title: Source
+        description: Source of the generated history item
+      - name: xi-api-key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+          title: Xi-Api-Key
+        description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetSpeechHistoryResponseModel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-fern-sdk-group-name: history
+      x-fern-sdk-method-name: list
+  /v1/history/{history_item_id}:
+    get:
+      tags:
+      - speech-history
+      summary: Get History Item
+      description: Retrieves a history item.
+      operationId: get_speech_history_item_by_id
+      parameters:
+      - name: history_item_id
+        in: path
+        required: true
+        schema:
+          type: string
+          description: History item ID to be used, you can use GET https://api.elevenlabs.io/v1/history to receive a list of history items and their IDs.
+          examples:
+          - VW7YKqPnjY4h39yTbx2L
+          title: History Item Id
+        description: History item ID to be used, you can use GET https://api.elevenlabs.io/v1/history to receive a list of history items and their IDs.
+      - name: xi-api-key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+          title: Xi-Api-Key
+        description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SpeechHistoryItemResponseModel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-fern-sdk-group-name: history
+      x-fern-sdk-method-name: get
+    delete:
+      tags:
+      - speech-history
+      summary: Delete History Item
+      description: Delete a history item by its ID
+      operationId: delete_speech_history_item
+      parameters:
+      - name: history_item_id
+        in: path
+        required: true
+        schema:
+          type: string
+          description: History item ID to be used, you can use GET https://api.elevenlabs.io/v1/history to receive a list of history items and their IDs.
+          examples:
+          - VW7YKqPnjY4h39yTbx2L
+          title: History Item Id
+        description: History item ID to be used, you can use GET https://api.elevenlabs.io/v1/history to receive a list of history items and their IDs.
+      - name: xi-api-key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+          title: Xi-Api-Key
+        description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteHistoryItemResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-fern-sdk-group-name: history
+      x-fern-sdk-method-name: delete
+  /v1/history/{history_item_id}/audio:
+    get:
+      tags:
+      - speech-history
+      summary: Get Audio From History Item
+      description: Returns the audio of an history item.
+      operationId: get_audio_full_from_speech_history_item
+      parameters:
+      - name: history_item_id
+        in: path
+        required: true
+        schema:
+          type: string
+          description: History item ID to be used, you can use GET https://api.elevenlabs.io/v1/history to receive a list of history items and their IDs.
+          examples:
+          - VW7YKqPnjY4h39yTbx2L
+          title: History Item Id
+        description: History item ID to be used, you can use GET https://api.elevenlabs.io/v1/history to receive a list of history items and their IDs.
+      - name: xi-api-key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+          title: Xi-Api-Key
+        description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+      responses:
+        '200':
+          description: The audio file of the history item.
+          content:
+            audio/mpeg:
+              schema:
+                type: string
+                format: binary
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-fern-sdk-group-name: history
+      x-fern-sdk-method-name: get_audio
+  /v1/history/download:
+    post:
+      tags:
+      - speech-history
+      summary: Download History Items
+      description: Download one or more history items. If one history item ID is provided, we will return a single audio file. If more than one history item IDs are provided, we will provide the history items packed into a .zip file.
+      operationId: download_speech_history_items
+      parameters:
+      - name: xi-api-key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+          title: Xi-Api-Key
+        description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Body_Download_history_items_v1_history_download_post'
+      responses:
+        '200':
+          description: The requested audio file, or a zip file containing multiple audio files when multiple history items are requested.
+          content:
+            application/zip:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+              example:
+                error: invalid_output_format
+                message: output_format must be wav or none
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-fern-sdk-group-name: history
+      x-fern-sdk-method-name: download
+components:
+  schemas:
+    HistoryAlignmentsResponseModel:
+      properties:
+        alignment:
+          $ref: '#/components/schemas/HistoryAlignmentResponseModel'
+          description: The alignment of the text.
+        normalized_alignment:
+          $ref: '#/components/schemas/HistoryAlignmentResponseModel'
+          description: The normalized alignment of the text.
+      type: object
+      required:
+      - alignment
+      - normalized_alignment
+      title: HistoryAlignmentsResponseModel
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    Body_Download_history_items_v1_history_download_post:
+      properties:
+        history_item_ids:
+          items:
+            type: string
+          type: array
+          title: History Item Ids
+          description: A list of history items to download, you can get IDs of history items and other metadata using the GET https://api.elevenlabs.io/v1/history endpoint.
+        output_format:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Output Format
+          description: Output format to transcode the audio file, can be wav or default.
+      type: object
+      required:
+      - history_item_ids
+      title: Body_Download_history_items_v1_history_download_post
+    HistoryAlignmentResponseModel:
+      properties:
+        characters:
+          items:
+            type: string
+          type: array
+          title: Characters
+          description: The characters in the alignment.
+        character_start_times_seconds:
+          items:
+            type: number
+          type: array
+          title: Character Start Times Seconds
+          description: The start times of the characters in seconds.
+        character_end_times_seconds:
+          items:
+            type: number
+          type: array
+          title: Character End Times Seconds
+          description: The end times of the characters in seconds.
+      type: object
+      required:
+      - characters
+      - character_start_times_seconds
+      - character_end_times_seconds
+      title: HistoryAlignmentResponseModel
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    DialogueInputResponseModel:
+      properties:
+        text:
+          type: string
+          title: Text
+          description: The text of the dialogue input line.
+        voice_id:
+          type: string
+          title: Voice Id
+          description: The ID of the voice used for this dialogue input line.
+        voice_name:
+          type: string
+          title: Voice Name
+          description: The name of the voice used for this dialogue input line.
+      type: object
+      required:
+      - text
+      - voice_id
+      - voice_name
+      title: DialogueInputResponseModel
+    GetSpeechHistoryResponseModel:
+      properties:
+        history:
+          items:
+            $ref: '#/components/schemas/SpeechHistoryItemResponseModel'
+          type: array
+          title: History
+          description: A list of speech history items.
+        last_history_item_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Last History Item Id
+          description: The ID of the last history item.
+        has_more:
+          type: boolean
+          title: Has More
+          description: Whether there are more history items to fetch.
+        scanned_until:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Scanned Until
+          description: The timestamp of the last history item.
+      type: object
+      required:
+      - history
+      - has_more
+      title: GetSpeechHistoryResponseModel
+      example:
+        has_more: true
+        history:
+        - character_count_change_from: 17189
+          character_count_change_to: 17231
+          content_type: audio/mpeg
+          date_unix: 1714650306
+          history_item_id: ja9xsmfGhxYcymxGcOGB
+          model_id: eleven_multilingual_v2
+          request_id: BF0BZg4IwLGBlaVjv9Im
+          settings:
+            similarity_boost: 0.5
+            stability: 0.71
+            style: 0
+            use_speaker_boost: true
+          source: TTS
+          state: created
+          text: Hello, world!
+          voice_category: premade
+          voice_id: 21m00Tcm4TlvDq8ikWAM
+          voice_name: Rachel
+        last_history_item_id: ja9xsmfGhxYcymxGcOGB
+        scanned_until: 1714650306
+    SpeechHistoryItemResponseModel:
+      properties:
+        history_item_id:
+          type: string
+          title: History Item Id
+          description: The ID of the history item.
+        request_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Request Id
+          description: The ID of the request.
+        voice_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Voice Id
+          description: The ID of the voice used.
+        model_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Model Id
+          description: The ID of the model.
+        voice_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Voice Name
+          description: The name of the voice.
+        voice_category:
+          anyOf:
+          - type: string
+            enum:
+            - premade
+            - cloned
+            - generated
+            - professional
+          - type: 'null'
+          title: Voice Category
+          description: The category of the voice. Either 'premade', 'cloned', 'generated' or 'professional'.
+        text:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Text
+          description: The text used to generate the audio item.
+        date_unix:
+          type: integer
+          title: Date Unix
+          description: Unix timestamp of when the item was created.
+        character_count_change_from:
+          type: integer
+          title: Character Count Change From
+          description: The character count change from.
+        character_count_change_to:
+          type: integer
+          title: Character Count Change To
+          description: The character count change to.
+        content_type:
+          type: string
+          title: Content Type
+          description: The content type of the generated item.
+        state:
+          type: string
+          enum:
+          - created
+          - deleted
+          - processing
+          title: State
+          description: The state of the history item.
+        settings:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Settings
+          description: The settings of the history item.
+        share_link_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Share Link Id
+          description: The ID of the share link.
+        source:
+          anyOf:
+          - type: string
+            enum:
+            - TTS
+            - STS
+            - Projects
+            - PD
+            - AN
+            - Dubbing
+            - PlayAPI
+            - ConvAI
+            - VoiceGeneration
+            - InVPC
+            - Flows
+          - type: 'null'
+          title: Source
+          description: The source of the history item. Either TTS (text to speech), STS (speech to text), AN (audio native), Projects, Dubbing, PlayAPI, PD (pronunciation dictionary) or ConvAI (Agents Platform).
+        alignments:
+          anyOf:
+          - $ref: '#/components/schemas/HistoryAlignmentsResponseModel'
+          - type: 'null'
+          description: The alignments of the history item.
+        dialogue:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/DialogueInputResponseModel'
+            type: array
+          - type: 'null'
+          title: Dialogue
+          description: The dialogue (voice and text pairs) used to generate the audio item. If this is set then the top level `text` and `voice_id` fields will be empty.
+        output_format:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Output Format
+          description: The output format the audio was originally generated in.
+      type: object
+      required:
+      - history_item_id
+      - date_unix
+      - character_count_change_from
+      - character_count_change_to
+      - content_type
+      - state
+      title: SpeechHistoryItemResponseModel
+      example:
+        character_count_change_from: 17189
+        character_count_change_to: 17231
+        content_type: audio/mpeg
+        date_unix: 1714650306
+        history_item_id: ja9xsmfGhxYcymxGcOGB
+        model_id: eleven_multilingual_v2
+        request_id: BF0BZg4IwLGBlaVjv9Im
+        settings:
+          similarity_boost: 0.5
+          stability: 0.71
+          style: 0
+          use_speaker_boost: true
+        source: TTS
+        state: created
+        text: Hello, world!
+        voice_category: premade
+        voice_id: 21m00Tcm4TlvDq8ikWAM
+        voice_name: Rachel
+    DeleteHistoryItemResponse:
+      properties:
+        status:
+          type: string
+          title: Status
+          description: The status of the deletion request. If the request was successful, the status will be 'ok'. Otherwise an error message with http code 500 will be returned.
+      type: object
+      required:
+      - status
+      title: DeleteHistoryItemResponse
+      example:
+        status: ok

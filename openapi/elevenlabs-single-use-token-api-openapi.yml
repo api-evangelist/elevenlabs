@@ -1,0 +1,100 @@
+openapi: 3.2.0
+info:
+  title: ElevenLabs API Documentation Single Use Token API
+  description: This is the documentation for the ElevenLabs API. You can use this API to use our service programmatically, this is done by using your API key. You can find your API key in the dashboard at https://elevenlabs.io/app/settings/api-keys.
+  version: '1.0'
+tags:
+- name: Single Use Token
+  description: Mint short-lived, single-use tokens for client-side use of Conversational AI agents.
+paths:
+  /v1/single-use-token/{token_type}:
+    post:
+      tags:
+      - Single Use Token
+      summary: Create Single Use Token
+      description: Generate a time limited single-use token with embedded authentication for frontend clients.
+      operationId: get_single_use_token
+      parameters:
+      - name: token_type
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/SingleUseTokenType'
+      - name: xi-api-key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+          title: Xi-Api-Key
+        description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingleUseTokenResponseModel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-fern-sdk-group-name:
+      - tokens
+      - single_use
+      x-fern-sdk-method-name: create
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    SingleUseTokenResponseModel:
+      properties:
+        token:
+          type: string
+          title: Token
+          description: A time bound single use token that expires after 15 minutes. Will be consumed on use.
+      type: object
+      required:
+      - token
+      title: SingleUseTokenResponseModel
+      example:
+        token: sutkn_1234567890
+    SingleUseTokenType:
+      type: string
+      enum:
+      - realtime_scribe
+      - batch_scribe
+      - tts_websocket
+      title: SingleUseTokenType

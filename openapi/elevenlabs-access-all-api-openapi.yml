@@ -1,0 +1,328 @@
+openapi: 3.2.0
+info:
+  title: ElevenLabs API Documentation Access:all API
+  description: This is the documentation for the ElevenLabs API. You can use this API to use our service programmatically, this is done by using your API key. You can find your API key in the dashboard at https://elevenlabs.io/app/settings/api-keys.
+  version: '1.0'
+tags:
+- name: access:all
+  description: Endpoints accessible to all authenticated callers regardless of scope.
+paths:
+  /v1/workspace/analytics/query/usage-by-product-over-time:
+    post:
+      tags:
+      - access:all
+      summary: Get Workspace Usage
+      description: Returns credit usage broken down by product type over time. The response is a tabular structure with columns, column_types, column_units, and rows.
+      operationId: usage_by_product_over_time
+      parameters:
+      - name: xi-api-key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+          title: Xi-Api-Key
+        description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Body_Get_Workspace_Usage_v1_workspace_analytics_query_usage_by_product_over_time_post'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceAnalyticsQueryResponseModel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-fern-sdk-group-name:
+      - workspace
+      - usage
+      x-fern-sdk-method-name: get_usage_by_product_over_time
+  /v1/workspace/analytics/requests:
+    post:
+      tags:
+      - access:all
+      summary: List Api Requests
+      description: Returns a list of API requests. Supports filtering by time range, column filters, and search terms. At least one of start_time or end_time must be provided. An optional sort parameter controls timestamp ordering. Results are ordered by timestamp. Descending if end_time is used, ascending if start_time is used. The response is a tabular structure with columns, column_types, column_units, and rows.
+      operationId: requests_list
+      parameters:
+      - name: xi-api-key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+          title: Xi-Api-Key
+        description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Body_List_API_requests_v1_workspace_analytics_requests_post'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceAnalyticsQueryResponseModel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-fern-sdk-group-name:
+      - workspace
+      - analytics
+      - requests
+      x-fern-sdk-method-name: get
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ColumnUnit:
+      type: string
+      enum:
+      - ms
+      - s
+      - min
+      - duration
+      - credits
+      - usd
+      - eur
+      - inr
+      - pln
+      - gbp
+      - ratio
+      - rating
+      title: ColumnUnit
+    WorkspaceAnalyticsQueryResponseModel:
+      properties:
+        columns:
+          items:
+            type: string
+          type: array
+          title: Columns
+        column_types:
+          items:
+            type: string
+            enum:
+            - String
+            - Float
+            - DateTime
+            - Int
+            - Bool
+            - JSON
+            - Map
+            - Array
+          type: array
+          title: Column Types
+        rows:
+          items:
+            items:
+              anyOf:
+              - type: string
+              - type: integer
+              - type: number
+              - type: boolean
+              - type: string
+                format: date-time
+              - type: 'null'
+            type: array
+          type: array
+          title: Rows
+        column_units:
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/ColumnUnit'
+            - type: 'null'
+          type: array
+          title: Column Units
+      type: object
+      required:
+      - columns
+      - column_types
+      - rows
+      - column_units
+      title: WorkspaceAnalyticsQueryResponseModel
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    Body_Get_Workspace_Usage_v1_workspace_analytics_query_usage_by_product_over_time_post:
+      properties:
+        start_time:
+          type: integer
+          minimum: 1577836800000.0
+          title: Start Time
+          description: Start of the time range as a Unix timestamp in milliseconds. Must be at least 2020-01-01.
+        end_time:
+          type: integer
+          minimum: 1577836800000.0
+          title: End Time
+          description: End of the time range as a Unix timestamp in milliseconds. Must be at least 2020-01-01.
+        interval_seconds:
+          type: integer
+          minimum: 1.0
+          title: Interval Seconds
+          description: 'Bucket size in seconds. Each row in the response covers this many seconds of the selected time range. For example, pass 3600 for hourly buckets or 86400 for daily buckets. Whether `time_zone` shifts bucket boundaries depends on this value: whole-day multiples (e.g. 86400) align to local midnight; whole-hour multiples up to 24 hours (e.g. 3600, 14400) align to local hour boundaries from midnight; sub-hour values and other sizes remain UTC-anchored regardless of `time_zone`.'
+          default: 60
+        group_by:
+          anyOf:
+          - items:
+              type: string
+              enum:
+              - product_type
+              - model
+              - voice_id
+              - user_id
+              - fiat_currency
+              - fiat_charge_type
+              - region
+              - reporting_workspace_id
+              - request_source
+              - resource_id
+              - subresource_id
+              - request_queue_type
+              - voice_multiplier
+              - hashed_xi_api_key
+              - billing_group_id
+              - surface
+              - actor
+            type: array
+          - type: 'null'
+          title: Group By
+        filters:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/ColumnFilter'
+            type: array
+          - type: 'null'
+          title: Filters
+        time_zone:
+          type: string
+          title: Time Zone
+          description: IANA time zone identifier (e.g. 'America/New_York', 'Europe/London', 'UTC') used to align bucket boundaries for eligible `interval_seconds` values. Whole-day multiples start at local midnight; whole-hour multiples up to 24 hours align to local hour boundaries from midnight. Sub-hour intervals and other bucket sizes remain UTC-anchored regardless of this setting. Defaults to UTC.
+          default: UTC
+      type: object
+      required:
+      - start_time
+      - end_time
+      title: Body_Get_Workspace_Usage_v1_workspace_analytics_query_usage_by_product_over_time_post
+    Body_List_API_requests_v1_workspace_analytics_requests_post:
+      properties:
+        start_time:
+          anyOf:
+          - type: integer
+            minimum: 1577836800000.0
+          - type: 'null'
+          title: Start Time
+          description: Start of the time range as a Unix timestamp in milliseconds.
+        end_time:
+          anyOf:
+          - type: integer
+            minimum: 1577836800000.0
+          - type: 'null'
+          title: End Time
+          description: End of the time range as a Unix timestamp in milliseconds.
+        limit:
+          type: integer
+          maximum: 1000.0
+          minimum: 1.0
+          title: Limit
+          default: 100
+        sort:
+          anyOf:
+          - type: string
+            enum:
+            - asc
+            - desc
+          - type: 'null'
+          title: Sort
+          description: Optional timestamp sort direction. If omitted, defaults to desc when end_time is provided, otherwise asc.
+        filters:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/ColumnFilter'
+            type: array
+          - type: 'null'
+          title: Filters
+        search:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Search
+      type: object
+      title: Body_List_API_requests_v1_workspace_analytics_requests_post
+    ColumnFilter:
+      properties:
+        column:
+          type: string
+          title: Column
+        operation:
+          type: string
+          enum:
+          - in
+          - not_in
+          - le
+          - ge
+          - lt
+          - gt
+          - eq
+          - neq
+          title: Operation
+        values:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+            - type: number
+            - type: string
+              format: date-time
+            - type: boolean
+            - type: 'null'
+          type: array
+          title: Values
+      type: object
+      required:
+      - column
+      - operation
+      - values
+      title: ColumnFilter

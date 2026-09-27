@@ -1,0 +1,1360 @@
+openapi: 3.2.0
+info:
+  title: ElevenLabs API Documentation Segment API
+  description: This is the documentation for the ElevenLabs API. You can use this API to use our service programmatically, this is done by using your API key. You can find your API key in the dashboard at https://elevenlabs.io/app/settings/api-keys.
+  version: '1.0'
+tags:
+- name: Segment
+  description: Manage individual segments within a dubbing resource.
+paths:
+  /v1/dubbing/resource/{dubbing_id}:
+    get:
+      tags:
+      - Segment
+      summary: Get The Dubbing Resource For An Id
+      description: Given a dubbing ID generated from the '/v1/dubbing' endpoint with studio enabled, returns the dubbing resource.
+      operationId: get_dubbing_resource
+      deprecated: true
+      parameters:
+      - name: dubbing_id
+        in: path
+        required: true
+        schema:
+          type: string
+          description: ID of the dubbing project.
+          title: Dubbing Id
+        description: ID of the dubbing project.
+      - name: xi-api-key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+          title: Xi-Api-Key
+        description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DubbingResource'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-fern-sdk-group-name:
+      - dubbing
+      - resource
+      x-fern-sdk-method-name: get
+  /v1/dubbing/resource/{dubbing_id}/language:
+    post:
+      tags:
+      - Segment
+      summary: Add A Language To The Resource
+      description: Adds the given ElevenLab Turbo V2/V2.5 language code to the resource. Does not automatically generate transcripts/translations/audio.
+      operationId: add_language
+      deprecated: true
+      parameters:
+      - name: dubbing_id
+        in: path
+        required: true
+        schema:
+          type: string
+          description: ID of the dubbing project.
+          title: Dubbing Id
+        description: ID of the dubbing project.
+      - name: xi-api-key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+          title: Xi-Api-Key
+        description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Body_Add_a_language_to_the_resource_v1_dubbing_resource__dubbing_id__language_post'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LanguageAddedResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-fern-sdk-group-name:
+      - dubbing
+      - resource
+      - language
+      x-fern-sdk-method-name: add
+  /v1/dubbing/resource/{dubbing_id}/speaker/{speaker_id}/segment:
+    post:
+      tags:
+      - Segment
+      summary: Create A Segment For The Speaker
+      description: Creates a new segment in dubbing resource with a start and end time for the speaker in every available language. Does not automatically generate transcripts/translations/audio.
+      operationId: create_clip
+      deprecated: true
+      parameters:
+      - name: dubbing_id
+        in: path
+        required: true
+        schema:
+          type: string
+          description: ID of the dubbing project.
+          title: Dubbing Id
+        description: ID of the dubbing project.
+      - name: speaker_id
+        in: path
+        required: true
+        schema:
+          type: string
+          description: ID of the speaker.
+          title: Speaker Id
+        description: ID of the speaker.
+      - name: xi-api-key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+          title: Xi-Api-Key
+        description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SegmentCreatePayload'
+              description: The text, and start and end times of a segment.
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SegmentCreateResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-fern-sdk-group-name:
+      - dubbing
+      - resource
+      - speaker
+      - segment
+      x-fern-sdk-method-name: create
+  /v1/dubbing/resource/{dubbing_id}/segment/{segment_id}/{language}:
+    patch:
+      tags:
+      - Segment
+      summary: Modify A Single Segment
+      description: Modifies a single segment with new text and/or start/end times. Will update the values for only a specific language of a segment. Does not automatically regenerate the dub.
+      operationId: update_segment_language
+      deprecated: true
+      parameters:
+      - name: dubbing_id
+        in: path
+        required: true
+        schema:
+          type: string
+          description: ID of the dubbing project.
+          title: Dubbing Id
+        description: ID of the dubbing project.
+      - name: segment_id
+        in: path
+        required: true
+        schema:
+          type: string
+          description: ID of the segment
+          title: Segment Id
+        description: ID of the segment
+      - name: language
+        in: path
+        required: true
+        schema:
+          type: string
+          description: ID of the language.
+          title: Language
+        description: ID of the language.
+      - name: xi-api-key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+          title: Xi-Api-Key
+        description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SegmentUpdatePayload'
+              description: The text, and start and end times of a segment.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SegmentUpdateResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-fern-sdk-group-name:
+      - dubbing
+      - resource
+      - segment
+      x-fern-sdk-method-name: update
+  /v1/dubbing/resource/{dubbing_id}/migrate-segments:
+    post:
+      tags:
+      - Segment
+      summary: Move Segments Between Speakers
+      description: Change the attribution of one or more segments to a different speaker.
+      operationId: migrate_segments
+      deprecated: true
+      parameters:
+      - name: dubbing_id
+        in: path
+        required: true
+        schema:
+          type: string
+          description: ID of the dubbing project.
+          title: Dubbing Id
+        description: ID of the dubbing project.
+      - name: xi-api-key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+          title: Xi-Api-Key
+        description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Body_Move_segments_between_speakers_v1_dubbing_resource__dubbing_id__migrate_segments_post'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SegmentMigrationResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-fern-sdk-group-name:
+      - dubbing
+      - resource
+      x-fern-sdk-method-name: migrate_segments
+  /v1/dubbing/resource/{dubbing_id}/segment/{segment_id}:
+    delete:
+      tags:
+      - Segment
+      summary: Deletes A Single Segment
+      description: Deletes a single segment from the dubbing.
+      operationId: delete_segment
+      deprecated: true
+      parameters:
+      - name: dubbing_id
+        in: path
+        required: true
+        schema:
+          type: string
+          description: ID of the dubbing project.
+          title: Dubbing Id
+        description: ID of the dubbing project.
+      - name: segment_id
+        in: path
+        required: true
+        schema:
+          type: string
+          description: ID of the segment
+          title: Segment Id
+        description: ID of the segment
+      - name: xi-api-key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+          title: Xi-Api-Key
+        description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SegmentDeleteResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-fern-sdk-group-name:
+      - dubbing
+      - resource
+      - segment
+      x-fern-sdk-method-name: delete
+  /v1/dubbing/resource/{dubbing_id}/transcribe:
+    post:
+      tags:
+      - Segment
+      summary: Transcribes Segments
+      description: Regenerate the transcriptions for the specified segments. Does not automatically regenerate translations or dubs.
+      operationId: transcribe
+      deprecated: true
+      parameters:
+      - name: dubbing_id
+        in: path
+        required: true
+        schema:
+          type: string
+          description: ID of the dubbing project.
+          title: Dubbing Id
+        description: ID of the dubbing project.
+      - name: xi-api-key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+          title: Xi-Api-Key
+        description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Body_Transcribes_segments_v1_dubbing_resource__dubbing_id__transcribe_post'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SegmentTranscriptionResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-fern-sdk-group-name:
+      - dubbing
+      - resource
+      x-fern-sdk-method-name: transcribe
+  /v1/dubbing/resource/{dubbing_id}/translate:
+    post:
+      tags:
+      - Segment
+      summary: Translates All Or Some Segments And Languages
+      description: Regenerate the translations for either the entire resource or the specified segments/languages. Will automatically transcribe missing transcriptions. Will not automatically regenerate the dubs.
+      operationId: translate
+      deprecated: true
+      parameters:
+      - name: dubbing_id
+        in: path
+        required: true
+        schema:
+          type: string
+          description: ID of the dubbing project.
+          title: Dubbing Id
+        description: ID of the dubbing project.
+      - name: xi-api-key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+          title: Xi-Api-Key
+        description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Body_Translates_all_or_some_segments_and_languages_v1_dubbing_resource__dubbing_id__translate_post'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SegmentTranslationResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-fern-sdk-group-name:
+      - dubbing
+      - resource
+      x-fern-sdk-method-name: translate
+  /v1/dubbing/resource/{dubbing_id}/dub:
+    post:
+      tags:
+      - Segment
+      summary: Dubs All Or Some Segments And Languages
+      description: Regenerate the dubs for either the entire resource or the specified segments/languages. Will automatically transcribe and translate any missing transcriptions and translations.
+      operationId: dub
+      deprecated: true
+      parameters:
+      - name: dubbing_id
+        in: path
+        required: true
+        schema:
+          type: string
+          description: ID of the dubbing project.
+          title: Dubbing Id
+        description: ID of the dubbing project.
+      - name: xi-api-key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+          title: Xi-Api-Key
+        description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Body_Dubs_all_or_some_segments_and_languages_v1_dubbing_resource__dubbing_id__dub_post'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SegmentDubResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-fern-sdk-group-name:
+      - dubbing
+      - resource
+      x-fern-sdk-method-name: dub
+  /v1/dubbing/resource/{dubbing_id}/speaker/{speaker_id}:
+    patch:
+      tags:
+      - Segment
+      summary: Update Metadata For A Speaker
+      description: Amend the metadata associated with a speaker, such as their voice. Both voice cloning and using voices from the ElevenLabs library are supported.
+      operationId: update_speaker
+      deprecated: true
+      parameters:
+      - name: dubbing_id
+        in: path
+        required: true
+        schema:
+          type: string
+          description: ID of the dubbing project.
+          title: Dubbing Id
+        description: ID of the dubbing project.
+      - name: speaker_id
+        in: path
+        required: true
+        schema:
+          type: string
+          description: ID of the speaker.
+          title: Speaker Id
+        description: ID of the speaker.
+      - name: xi-api-key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+          title: Xi-Api-Key
+        description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Body_Update_metadata_for_a_speaker_v1_dubbing_resource__dubbing_id__speaker__speaker_id__patch'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SpeakerUpdatedResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-fern-sdk-group-name:
+      - dubbing
+      - resource
+      - speaker
+      x-fern-sdk-method-name: update
+  /v1/dubbing/resource/{dubbing_id}/speaker:
+    post:
+      tags:
+      - Segment
+      summary: Create A New Speaker
+      description: Creates a new speaker in a dubbing resource. The speaker is added to every available language and can optionally be associated with an ElevenLabs voice and voice settings.
+      operationId: create_speaker
+      deprecated: true
+      parameters:
+      - name: dubbing_id
+        in: path
+        required: true
+        schema:
+          type: string
+          description: ID of the dubbing project.
+          title: Dubbing Id
+        description: ID of the dubbing project.
+      - name: xi-api-key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+          title: Xi-Api-Key
+        description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Body_Create_a_new_speaker_v1_dubbing_resource__dubbing_id__speaker_post'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SpeakerCreatedResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-fern-sdk-group-name:
+      - dubbing
+      - resource
+      - speaker
+      x-fern-sdk-method-name: create
+  /v1/dubbing/resource/{dubbing_id}/speaker/{speaker_id}/similar-voices:
+    get:
+      tags:
+      - Segment
+      summary: Search The Elevenlabs Library For Voices Similar To A Speaker
+      description: Fetch the top 10 similar voices to a speaker, including the voice IDs, names, descriptions, and, where possible, a sample audio recording.
+      operationId: get_similar_voices_for_speaker
+      deprecated: true
+      parameters:
+      - name: dubbing_id
+        in: path
+        required: true
+        schema:
+          type: string
+          description: ID of the dubbing project.
+          title: Dubbing Id
+        description: ID of the dubbing project.
+      - name: speaker_id
+        in: path
+        required: true
+        schema:
+          type: string
+          description: ID of the speaker.
+          title: Speaker Id
+        description: ID of the speaker.
+      - name: xi-api-key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+          title: Xi-Api-Key
+        description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimilarVoicesForSpeakerResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-fern-sdk-group-name:
+      - dubbing
+      - resource
+      - speaker
+      x-fern-sdk-method-name: find_similar_voices
+  /v1/dubbing/resource/{dubbing_id}/render/{language}:
+    post:
+      tags:
+      - Segment
+      summary: Render Audio Or Video For The Given Language
+      description: Regenerate the output media for a language using the latest Studio state. Please ensure all segments have been dubbed before rendering, otherwise they will be omitted. Renders are generated asynchronously, and to check the status of all renders please use the 'Get Dubbing Resource' endpoint.
+      operationId: render
+      deprecated: true
+      parameters:
+      - name: dubbing_id
+        in: path
+        required: true
+        schema:
+          type: string
+          description: ID of the dubbing project.
+          title: Dubbing Id
+        description: ID of the dubbing project.
+      - name: language
+        in: path
+        required: true
+        schema:
+          type: string
+          description: The target language code to render, eg. 'es'. To render the source track use 'original'.
+          title: Language
+        description: The target language code to render, eg. 'es'. To render the source track use 'original'.
+      - name: xi-api-key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+          title: Xi-Api-Key
+        description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Body_Render_audio_or_video_for_the_given_language_v1_dubbing_resource__dubbing_id__render__language__post'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DubbingRenderResponseModel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-fern-sdk-group-name:
+      - dubbing
+      - resource
+      x-fern-sdk-method-name: render
+components:
+  schemas:
+    SegmentCreatePayload:
+      properties:
+        start_time:
+          type: number
+          title: Start Time
+        end_time:
+          type: number
+          title: End Time
+        text:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Text
+        translations:
+          anyOf:
+          - additionalProperties:
+              type: string
+            type: object
+          - type: 'null'
+          title: Translations
+      type: object
+      required:
+      - start_time
+      - end_time
+      title: SegmentCreatePayload
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    SegmentCreateResponse:
+      properties:
+        version:
+          type: integer
+          title: Version
+        new_segment:
+          type: string
+          title: New Segment
+      type: object
+      required:
+      - version
+      - new_segment
+      title: SegmentCreateResponse
+    SegmentTranscriptionResponse:
+      properties:
+        version:
+          type: integer
+          title: Version
+      type: object
+      required:
+      - version
+      title: SegmentTranscriptionResponse
+    SegmentUpdatePayload:
+      properties:
+        start_time:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Start Time
+        end_time:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: End Time
+        text:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Text
+      type: object
+      title: SegmentUpdatePayload
+    SegmentDubResponse:
+      properties:
+        version:
+          type: integer
+          title: Version
+      type: object
+      required:
+      - version
+      title: SegmentDubResponse
+    Body_Transcribes_segments_v1_dubbing_resource__dubbing_id__transcribe_post:
+      properties:
+        segments:
+          items:
+            type: string
+          type: array
+          title: Segments
+          description: Transcribe this specific list of segments.
+      type: object
+      required:
+      - segments
+      title: Body_Transcribes_segments_v1_dubbing_resource__dubbing_id__transcribe_post
+    SpeakerSegment:
+      properties:
+        id:
+          type: string
+          title: Id
+        start_time:
+          type: number
+          title: Start Time
+        end_time:
+          type: number
+          title: End Time
+        text:
+          type: string
+          title: Text
+        subtitles:
+          items:
+            $ref: '#/components/schemas/SegmentSubtitleFrame'
+          type: array
+          title: Subtitles
+        dubs:
+          additionalProperties:
+            $ref: '#/components/schemas/DubbedSegment'
+          type: object
+          title: Dubs
+      type: object
+      required:
+      - id
+      - start_time
+      - end_time
+      - text
+      - subtitles
+      - dubs
+      title: SpeakerSegment
+    SpeakerCreatedResponse:
+      properties:
+        version:
+          type: integer
+          title: Version
+        speaker_id:
+          type: string
+          title: Speaker Id
+      type: object
+      required:
+      - version
+      - speaker_id
+      title: SpeakerCreatedResponse
+    SegmentTranslationResponse:
+      properties:
+        version:
+          type: integer
+          title: Version
+      type: object
+      required:
+      - version
+      title: SegmentTranslationResponse
+    SegmentMigrationResponse:
+      properties:
+        version:
+          type: integer
+          title: Version
+      type: object
+      required:
+      - version
+      title: SegmentMigrationResponse
+    DubbingRenderResponseModel:
+      properties:
+        version:
+          type: integer
+          title: Version
+        render_id:
+          type: string
+          title: Render Id
+      type: object
+      required:
+      - version
+      - render_id
+      title: DubbingRenderResponseModel
+    Body_Add_a_language_to_the_resource_v1_dubbing_resource__dubbing_id__language_post:
+      properties:
+        language:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Language
+          description: The Target language.
+      type: object
+      required:
+      - language
+      title: Body_Add_a_language_to_the_resource_v1_dubbing_resource__dubbing_id__language_post
+    LanguageAddedResponse:
+      properties:
+        version:
+          type: integer
+          title: Version
+      type: object
+      required:
+      - version
+      title: LanguageAddedResponse
+    SegmentUpdateResponse:
+      properties:
+        version:
+          type: integer
+          title: Version
+      type: object
+      required:
+      - version
+      title: SegmentUpdateResponse
+    SimilarVoice:
+      properties:
+        voice_id:
+          type: string
+          title: Voice Id
+        name:
+          type: string
+          title: Name
+        category:
+          $ref: '#/components/schemas/VOICE_CATEGORY'
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        preview_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Preview Url
+      type: object
+      required:
+      - voice_id
+      - name
+      - category
+      title: SimilarVoice
+    Render:
+      properties:
+        id:
+          type: string
+          title: Id
+        version:
+          type: integer
+          title: Version
+        language:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Language
+        type:
+          anyOf:
+          - $ref: '#/components/schemas/RenderType'
+          - type: 'null'
+        media_ref:
+          anyOf:
+          - $ref: '#/components/schemas/DubbingMediaReference'
+          - type: 'null'
+        status:
+          type: string
+          enum:
+          - complete
+          - processing
+          - failed
+          title: Status
+      type: object
+      required:
+      - id
+      - version
+      - language
+      - type
+      - media_ref
+      - status
+      title: Render
+    Body_Translates_all_or_some_segments_and_languages_v1_dubbing_resource__dubbing_id__translate_post:
+      properties:
+        segments:
+          items:
+            type: string
+          type: array
+          title: Segments
+          description: Translate only this list of segments.
+        languages:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Languages
+          description: Translate only these languages for each segment.
+      type: object
+      required:
+      - segments
+      - languages
+      title: Body_Translates_all_or_some_segments_and_languages_v1_dubbing_resource__dubbing_id__translate_post
+    DubbingMediaReference:
+      properties:
+        src:
+          type: string
+          title: Src
+        content_type:
+          type: string
+          title: Content Type
+        bucket_name:
+          type: string
+          title: Bucket Name
+        random_path_slug:
+          type: string
+          title: Random Path Slug
+        duration_secs:
+          type: number
+          title: Duration Secs
+        is_audio:
+          type: boolean
+          title: Is Audio
+        url:
+          type: string
+          title: Url
+      type: object
+      required:
+      - src
+      - content_type
+      - bucket_name
+      - random_path_slug
+      - duration_secs
+      - is_audio
+      - url
+      title: DubbingMediaReference
+    Body_Render_audio_or_video_for_the_given_language_v1_dubbing_resource__dubbing_id__render__language__post:
+      properties:
+        render_type:
+          $ref: '#/components/schemas/RenderType'
+          description: The type of the render. One of ['mp4', 'aac', 'mp3', 'wav', 'aaf', 'tracks_zip', 'clips_zip']
+        normalize_volume:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Normalize Volume
+          description: Whether to normalize the volume of the rendered audio.
+          default: false
+      type: object
+      required:
+      - render_type
+      title: Body_Render_audio_or_video_for_the_given_language_v1_dubbing_resource__dubbing_id__render__language__post
+    Body_Update_metadata_for_a_speaker_v1_dubbing_resource__dubbing_id__speaker__speaker_id__patch:
+      properties:
+        speaker_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Speaker Name
+          description: Name to attribute to this speaker.
+        voice_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Voice Id
+          description: Either the identifier of a voice from the ElevenLabs voice library, or one of ['track-clone', 'clip-clone'].
+        voice_stability:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Voice Stability
+          description: For models that support it, the voice similarity value to use. This will default to 0.65, with a valid range of [0.0, 1.0].
+        voice_similarity:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Voice Similarity
+          description: For models that support it, the voice similarity value to use. This will default to 1.0, with a valid range of [0.0, 1.0].
+        voice_style:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Voice Style
+          description: For models that support it, the voice style value to use. This will default to 1.0, with a valid range of [0.0, 1.0].
+        languages:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Languages
+          description: Languages to apply these changes to. If empty, will apply to all languages.
+      type: object
+      title: Body_Update_metadata_for_a_speaker_v1_dubbing_resource__dubbing_id__speaker__speaker_id__patch
+    SpeakerUpdatedResponse:
+      properties:
+        version:
+          type: integer
+          title: Version
+      type: object
+      required:
+      - version
+      title: SpeakerUpdatedResponse
+    SpeakerTrack:
+      properties:
+        id:
+          type: string
+          title: Id
+        media_ref:
+          $ref: '#/components/schemas/DubbingMediaReference'
+        speaker_name:
+          type: string
+          title: Speaker Name
+        voices:
+          additionalProperties:
+            type: string
+          type: object
+          title: Voices
+        segments:
+          items:
+            type: string
+          type: array
+          title: Segments
+      type: object
+      required:
+      - id
+      - media_ref
+      - speaker_name
+      - voices
+      - segments
+      title: SpeakerTrack
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    Body_Dubs_all_or_some_segments_and_languages_v1_dubbing_resource__dubbing_id__dub_post:
+      properties:
+        segments:
+          items:
+            type: string
+          type: array
+          title: Segments
+          description: Dub only this list of segments.
+        languages:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Languages
+          description: Dub only these languages for each segment.
+      type: object
+      required:
+      - segments
+      - languages
+      title: Body_Dubs_all_or_some_segments_and_languages_v1_dubbing_resource__dubbing_id__dub_post
+    RenderType:
+      type: string
+      enum:
+      - mp4
+      - aac
+      - mp3
+      - wav
+      - aaf
+      - tracks_zip
+      - clips_zip
+      - zip
+      title: RenderType
+    Body_Create_a_new_speaker_v1_dubbing_resource__dubbing_id__speaker_post:
+      properties:
+        speaker_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Speaker Name
+          description: Name to attribute to this speaker.
+        voice_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Voice Id
+          description: Either the identifier of a voice from the ElevenLabs voice library, or one of ['track-clone', 'clip-clone'].
+        voice_stability:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Voice Stability
+          description: For models that support it, the voice similarity value to use. This will default to 0.65, with a valid range of [0.0, 1.0].
+        voice_similarity:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Voice Similarity
+          description: For models that support it, the voice similarity value to use. This will default to 1.0, with a valid range of [0.0, 1.0].
+        voice_style:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Voice Style
+          description: For models that support it, the voice style value to use. This will default to 1.0, with a valid range of [0.0, 1.0].
+      type: object
+      title: Body_Create_a_new_speaker_v1_dubbing_resource__dubbing_id__speaker_post
+    Body_Move_segments_between_speakers_v1_dubbing_resource__dubbing_id__migrate_segments_post:
+      properties:
+        segment_ids:
+          items:
+            type: string
+          type: array
+          title: Segment Ids
+        speaker_id:
+          type: string
+          title: Speaker Id
+      type: object
+      required:
+      - segment_ids
+      - speaker_id
+      title: Body_Move_segments_between_speakers_v1_dubbing_resource__dubbing_id__migrate_segments_post
+    DubbingResource:
+      properties:
+        id:
+          type: string
+          title: Id
+        version:
+          type: integer
+          title: Version
+        source_language:
+          type: string
+          title: Source Language
+        target_languages:
+          items:
+            type: string
+          type: array
+          title: Target Languages
+        input:
+          $ref: '#/components/schemas/DubbingMediaReference'
+        background:
+          anyOf:
+          - $ref: '#/components/schemas/DubbingMediaReference'
+          - type: 'null'
+        foreground:
+          anyOf:
+          - $ref: '#/components/schemas/DubbingMediaReference'
+          - type: 'null'
+        speaker_tracks:
+          additionalProperties:
+            $ref: '#/components/schemas/SpeakerTrack'
+          type: object
+          title: Speaker Tracks
+        speaker_segments:
+          additionalProperties:
+            $ref: '#/components/schemas/SpeakerSegment'
+          type: object
+          title: Speaker Segments
+        renders:
+          additionalProperties:
+            $ref: '#/components/schemas/Render'
+          type: object
+          title: Renders
+      type: object
+      required:
+      - id
+      - version
+      - source_language
+      - target_languages
+      - input
+      - background
+      - foreground
+      - speaker_tracks
+      - speaker_segments
+      - renders
+      title: DubbingResource
+    SegmentSubtitleFrame:
+      properties:
+        start_time:
+          type: number
+          title: Start Time
+        end_time:
+          type: number
+          title: End Time
+        lines:
+          items:
+            type: string
+          type: array
+          title: Lines
+      type: object
+      required:
+      - start_time
+      - end_time
+      - lines
+      title: SegmentSubtitleFrame
+    SimilarVoicesForSpeakerResponse:
+      properties:
+        voices:
+          items:
+            $ref: '#/components/schemas/SimilarVoice'
+          type: array
+          title: Voices
+      type: object
+      required:
+      - voices
+      title: SimilarVoicesForSpeakerResponse
+    VOICE_CATEGORY:
+      type: string
+      enum:
+      - premade
+      - cloned
+      - generated
+      - professional
+      - famous
+    SegmentDeleteResponse:
+      properties:
+        version:
+          type: integer
+          title: Version
+      type: object
+      required:
+      - version
+      title: SegmentDeleteResponse
+    DubbedSegment:
+      properties:
+        start_time:
+          type: number
+          title: Start Time
+        end_time:
+          type: number
+          title: End Time
+        text:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Text
+        subtitles:
+          items:
+            $ref: '#/components/schemas/SegmentSubtitleFrame'
+          type: array
+          title: Subtitles
+        audio_stale:
+          type: boolean
+          title: Audio Stale
+        media_ref:
+          anyOf:
+          - $ref: '#/components/schemas/DubbingMediaReference'
+          - type: 'null'
+      type: object
+      required:
+      - start_time
+      - end_time
+      - text
+      - subtitles
+      - audio_stale
+      - media_ref
+      title: DubbedSegment

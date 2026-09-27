@@ -45,14 +45,6 @@ paths:
         '422':
           description: Unprocessable entity - insufficient audio quality or duration
 components:
-  parameters:
-    voiceId:
-      name: voice_id
-      in: path
-      required: true
-      description: The identifier of the voice to apply professional cloning to.
-      schema:
-        type: string
   schemas:
     VoiceCloneResponse:
       type: object
@@ -75,6 +67,14 @@ components:
           type: string
           format: binary
           description: A signed consent form or audio consent from the voice owner authorizing the creation of the voice clone.
+  parameters:
+    voiceId:
+      name: voice_id
+      in: path
+      required: true
+      description: The identifier of the voice to apply professional cloning to.
+      schema:
+        type: string
   securitySchemes:
     apiKeyAuth:
       type: apiKey

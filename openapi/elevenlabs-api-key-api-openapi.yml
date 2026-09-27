@@ -1,0 +1,128 @@
+openapi: 3.2.0
+info:
+  title: ElevenLabs API Documentation API Key API
+  description: This is the documentation for the ElevenLabs API. You can use this API to use our service programmatically, this is done by using your API key. You can find your API key in the dashboard at https://elevenlabs.io/app/settings/api-keys.
+  version: '1.0'
+tags:
+- name: API Key
+  description: Manage API keys for your workspace.
+paths:
+  /v1/workspaces/api-keys/disable:
+    post:
+      tags:
+      - API Key
+      summary: Disable Api Key
+      description: Disable the API key used to authenticate this request. Requires the query parameter `api_key_name=self` as an explicit confirmation.
+      operationId: disable
+      parameters:
+      - name: api_key_name
+        in: query
+        required: true
+        schema:
+          type: string
+          description: Must be set to `self` to disable the API key used to authenticate this request. Required as an explicit confirmation to avoid accidentally disabling the wrong key.
+          title: Api Key Name
+        description: Must be set to `self` to disable the API key used to authenticate this request. Required as an explicit confirmation to avoid accidentally disabling the wrong key.
+      - name: xi-api-key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+          title: Xi-Api-Key
+        description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-fern-sdk-group-name:
+      - workspaces
+      - api_keys
+      x-fern-sdk-method-name: disable
+  /v1/workspaces/api-keys/third-party-disabling:
+    post:
+      tags:
+      - API Key
+      summary: Set Workspace Third-Party Disabling Policy
+      description: Set the workspace-wide Third-Party Disabling policy. When set, it forces, for every API key in the workspace, whether the holder of a key (potentially a third party who found it) may disable it via the self-disable endpoint or when it leaks publicly — overriding each key's own setting. Pass `true` to allow it for all keys, `false` to forbid it for all keys, or `null` to clear the override so per-key values and the plan default apply again. Workspace admins only.
+      operationId: set_third_party_disabling_policy
+      parameters:
+      - name: xi-api-key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+          title: Xi-Api-Key
+        description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Body_Set_workspace_Third_Party_Disabling_policy_v1_workspaces_api_keys_third_party_disabling_post'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    Body_Set_workspace_Third_Party_Disabling_policy_v1_workspaces_api_keys_third_party_disabling_post:
+      properties:
+        third_party_disable_allowed:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Third Party Disable Allowed
+          description: '`true` forces every key in the workspace to be disable-able by its holder; `false` forbids it for every key; `null` clears the override (per-key values and the plan default apply).'
+      type: object
+      title: Body_Set_workspace_Third_Party_Disabling_policy_v1_workspaces_api_keys_third_party_disabling_post

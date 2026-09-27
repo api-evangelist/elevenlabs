@@ -1,0 +1,161 @@
+openapi: 3.2.0
+info:
+  title: ElevenLabs API Documentation Video To Music API
+  description: This is the documentation for the ElevenLabs API. You can use this API to use our service programmatically, this is done by using your API key. You can find your API key in the dashboard at https://elevenlabs.io/app/settings/api-keys.
+  version: '1.0'
+tags:
+- name: video-to-music
+  description: Generate music that matches the content and mood of a video.
+paths:
+  /v1/music/video-to-music:
+    post:
+      tags:
+      - video-to-music
+      summary: Video To Music
+      description: Generate background music from one or more video files. Videos are combined in order. Optional description and style tags influence the generated music.
+      operationId: video_to_music
+      parameters:
+      - name: output_format
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/AllowedOutputFormats'
+          title: Output format of the generated audio.
+          description: Output format of the generated audio. Formatted as codec_sample_rate_bitrate. So an mp3 with 22.05kHz sample rate at 32kbs is represented as mp3_22050_32. MP3 with 192kbps bitrate requires you to be subscribed to Creator tier or above. PCM with 44.1kHz sample rate requires you to be subscribed to Pro tier or above. Note that the μ-law format (sometimes written mu-law, often approximated as u-law) is commonly used for Twilio audio inputs.
+          enum:
+          - mp3_22050_32
+          - mp3_24000_48
+          - mp3_44100_32
+          - mp3_44100_64
+          - mp3_44100_96
+          - mp3_44100_128
+          - mp3_44100_192
+          - pcm_8000
+          - pcm_16000
+          - pcm_22050
+          - pcm_24000
+          - pcm_32000
+          - pcm_44100
+          - pcm_48000
+          - ulaw_8000
+          - alaw_8000
+          - opus_48000_32
+          - opus_48000_64
+          - opus_48000_96
+          - opus_48000_128
+          - opus_48000_192
+          default: mp3_44100_128
+        description: Output format of the generated audio. Formatted as codec_sample_rate_bitrate. So an mp3 with 22.05kHz sample rate at 32kbs is represented as mp3_22050_32. MP3 with 192kbps bitrate requires you to be subscribed to Creator tier or above. PCM with 44.1kHz sample rate requires you to be subscribed to Pro tier or above. Note that the μ-law format (sometimes written mu-law, often approximated as u-law) is commonly used for Twilio audio inputs.
+      - name: xi-api-key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+          title: Xi-Api-Key
+        description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Body_Video_to_Music_v1_music_video_to_music_post'
+      responses:
+        '200':
+          description: Generated audio file matching the video. Content-Type and file extension depend on the output_format parameter (default mp3).
+          content:
+            audio/*:
+              schema:
+                type: string
+                format: binary
+            application/zip:
+              schema:
+                type: string
+                format: binary
+        '403':
+          description: Subscription required.
+        '422':
+          description: Validation error (e.g. invalid or missing videos).
+      x-fern-sdk-group-name: music
+      x-fern-sdk-method-name: video_to_music
+components:
+  schemas:
+    Body_Video_to_Music_v1_music_video_to_music_post:
+      properties:
+        videos:
+          items:
+            type: string
+            format: binary
+          type: array
+          maxItems: 10
+          minItems: 1
+          title: Videos
+          description: "\n            One or more video files sent via FormData array (multipart/form-data). They will be combined into one codec in order.\n            A maximum of 10 videos is allowed, where the total size of the combined video is limited to 200MB.\n            In total, the video can be up to 600 seconds long. Note that combining multiple videos may increase the request duration significantly. If possible, combine the videos beforehand.\n            "
+        description:
+          anyOf:
+          - type: string
+            maxLength: 1000
+            minLength: 1
+          - type: 'null'
+          title: Description
+          description: Optional text description of the music you want. A maximum of 1000 characters is allowed.
+        tags:
+          items:
+            type: string
+          type: array
+          maxItems: 10
+          minItems: 0
+          title: Tags
+          description: Optional list of style tags (e.g. ['upbeat', 'cinematic']). A maximum of 10 tags is allowed.
+          default: []
+        model_id:
+          $ref: '#/components/schemas/MusicModelID'
+          description: The model to use for the generation.
+          default: music_v1
+        sign_with_c2pa:
+          type: boolean
+          title: Sign With C2Pa
+          description: Whether to sign the generated song with C2PA. Applicable only for mp3 files.
+          default: false
+      type: object
+      required:
+      - videos
+      title: Body_Video_to_Music_v1_music_video_to_music_post
+    AllowedOutputFormats:
+      type: string
+      enum:
+      - mp3_22050_32
+      - mp3_24000_48
+      - mp3_44100_32
+      - mp3_44100_64
+      - mp3_44100_96
+      - mp3_44100_128
+      - mp3_44100_192
+      - pcm_8000
+      - pcm_16000
+      - pcm_22050
+      - pcm_24000
+      - pcm_32000
+      - pcm_44100
+      - pcm_48000
+      - ulaw_8000
+      - alaw_8000
+      - opus_48000_32
+      - opus_48000_64
+      - opus_48000_96
+      - opus_48000_128
+      - opus_48000_192
+    MusicModelID:
+      type: string
+      enum:
+      - music_v1
+      - music_v2
+      - music_v2_5
+      title: MusicModelID
+      x-fern-enum:
+        music_v1:
+          description: 'Deprecated: Deprecated.'
+          deprecated: true
+      default: music_v1

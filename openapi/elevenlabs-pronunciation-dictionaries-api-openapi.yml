@@ -41,6 +41,14 @@ paths:
         '404':
           description: Project not found
 components:
+  parameters:
+    projectId:
+      name: project_id
+      in: path
+      required: true
+      description: The unique identifier of the Studio project.
+      schema:
+        type: string
   schemas:
     ProjectPronunciationRequest:
       type: object
@@ -62,14 +70,6 @@ components:
               version_id:
                 type: string
                 description: The pronunciation dictionary version identifier.
-  parameters:
-    projectId:
-      name: project_id
-      in: path
-      required: true
-      description: The unique identifier of the Studio project.
-      schema:
-        type: string
   securitySchemes:
     apiKeyAuth:
       type: apiKey

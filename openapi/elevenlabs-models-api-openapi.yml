@@ -1,0 +1,226 @@
+openapi: 3.2.0
+info:
+  title: ElevenLabs API Documentation Models API
+  description: This is the documentation for the ElevenLabs API. You can use this API to use our service programmatically, this is done by using your API key. You can find your API key in the dashboard at https://elevenlabs.io/app/settings/api-keys.
+  version: '1.0'
+tags:
+- name: Models
+  description: Access the different models of the platform.
+paths:
+  /v1/models:
+    get:
+      tags:
+      - Models
+      summary: Get Models
+      description: Gets a list of available models.
+      operationId: get_models
+      parameters:
+      - name: xi-api-key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+          title: Xi-Api-Key
+        description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ModelResponseModel'
+                title: Response Get Models V1 Models Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-fern-sdk-group-name: models
+      x-fern-sdk-method-name: list
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    LanguageResponseModel:
+      properties:
+        language_id:
+          type: string
+          title: Language Id
+          description: The unique identifier of the language.
+        name:
+          type: string
+          title: Name
+          description: The name of the language.
+      type: object
+      required:
+      - language_id
+      - name
+      title: LanguageResponseModel
+      example:
+        language_id: en
+        name: English
+    ModelRatesResponseModel:
+      properties:
+        character_cost_multiplier:
+          type: number
+          title: Character Cost Multiplier
+          description: The cost multiplier for characters.
+        cost_discount_multiplier:
+          type: number
+          title: Cost Discount Multiplier
+          description: Discount multiplier applied to cost estimates. Defaults to 1.0 (no discount).
+          default: 1.0
+      type: object
+      required:
+      - character_cost_multiplier
+      title: ModelRatesResponseModel
+      example:
+        character_cost_multiplier: 1.0
+        cost_discount_multiplier: 1.0
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ModelResponseModel:
+      properties:
+        model_id:
+          type: string
+          title: Model Id
+          description: The unique identifier of the model.
+        name:
+          type: string
+          title: Name
+          description: The name of the model.
+        can_be_finetuned:
+          type: boolean
+          title: Can Be Finetuned
+          description: Whether the model can be finetuned.
+        can_do_text_to_speech:
+          type: boolean
+          title: Can Do Text To Speech
+          description: Whether the model can do text-to-speech.
+        can_do_voice_conversion:
+          type: boolean
+          title: Can Do Voice Conversion
+          description: Whether the model can do voice conversion.
+        can_use_style:
+          type: boolean
+          title: Can Use Style
+          description: Whether the model can use style.
+        can_use_speaker_boost:
+          type: boolean
+          title: Can Use Speaker Boost
+          description: Whether the model can use speaker boost.
+        serves_pro_voices:
+          type: boolean
+          title: Serves Pro Voices
+          description: Whether the model serves pro voices.
+        token_cost_factor:
+          type: number
+          title: Token Cost Factor
+          description: The cost factor for the model.
+        description:
+          type: string
+          title: Description
+          description: The description of the model.
+        requires_alpha_access:
+          type: boolean
+          title: Requires Alpha Access
+          description: Whether the model requires alpha access.
+        max_characters_request_free_user:
+          type: integer
+          title: Max Characters Request Free User
+          description: The maximum number of characters that can be requested by a free user.
+        max_characters_request_subscribed_user:
+          type: integer
+          title: Max Characters Request Subscribed User
+          description: The maximum number of characters that can be requested by a subscribed user.
+        maximum_text_length_per_request:
+          type: integer
+          title: Maximum Text Length Per Request
+          description: The maximum length of text that can be requested for this model.
+        languages:
+          items:
+            $ref: '#/components/schemas/LanguageResponseModel'
+          type: array
+          title: Languages
+          description: The languages supported by the model.
+        model_rates:
+          $ref: '#/components/schemas/ModelRatesResponseModel'
+          description: The rates for the model.
+        concurrency_group:
+          type: string
+          title: Concurrency Group
+          description: The concurrency group for the model.
+      type: object
+      required:
+      - model_id
+      - name
+      - can_be_finetuned
+      - can_do_text_to_speech
+      - can_do_voice_conversion
+      - can_use_style
+      - can_use_speaker_boost
+      - serves_pro_voices
+      - token_cost_factor
+      - description
+      - requires_alpha_access
+      - max_characters_request_free_user
+      - max_characters_request_subscribed_user
+      - maximum_text_length_per_request
+      - languages
+      - model_rates
+      - concurrency_group
+      title: ModelResponseModel
+      example:
+        can_be_finetuned: true
+        can_do_text_to_speech: true
+        can_do_voice_conversion: true
+        can_use_speaker_boost: true
+        can_use_style: true
+        concurrency_group: standard_eleven_multilingual_v2
+        description: Our state of the art multilingual speech synthesis model, able to generate life-like speech in 29 languages.
+        languages:
+        - language_id: en
+          name: English
+        max_characters_request_free_user: 2500
+        max_characters_request_subscribed_user: 5000
+        maximum_text_length_per_request: 1000000
+        model_id: eleven_multilingual_v2
+        model_rates:
+          character_cost_multiplier: 1.0
+          cost_discount_multiplier: 1.0
+        name: Eleven Multilingual v2
+        requires_alpha_access: false
+        serves_pro_voices: false
+        token_cost_factor: 1.0

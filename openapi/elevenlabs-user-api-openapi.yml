@@ -1,0 +1,796 @@
+openapi: 3.2.0
+info:
+  title: ElevenLabs API Documentation User API
+  description: This is the documentation for the ElevenLabs API. You can use this API to use our service programmatically, this is done by using your API key. You can find your API key in the dashboard at https://elevenlabs.io/app/settings/api-keys.
+  version: '1.0'
+tags:
+- name: User
+paths:
+  /v1/user:
+    get:
+      summary: Get User Info
+      description: Gets information about the user
+      operationId: get_user_info
+      parameters:
+      - name: xi-api-key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+          title: Xi-Api-Key
+        description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponseModel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-fern-sdk-group-name: user
+      x-fern-sdk-method-name: get
+      tags:
+      - User
+  /v1/user/subscription:
+    get:
+      summary: Get User Subscription Info
+      description: Gets extended information about the users subscription
+      operationId: get_user_subscription_info
+      parameters:
+      - name: xi-api-key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+          title: Xi-Api-Key
+        description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExtendedSubscriptionResponseModel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-fern-sdk-group-name:
+      - user
+      - subscription
+      x-fern-sdk-method-name: get
+      tags:
+      - User
+components:
+  schemas:
+    DiscountResponseModel:
+      properties:
+        discount_percent_off:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Discount Percent Off
+          description: The discount applied to the invoice. E.g. [20.0f] for 20% off.
+        discount_amount_off:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Discount Amount Off
+          description: The discount applied to the invoice. E.g. [20.0f] for 20 cents off.
+      type: object
+      title: DiscountResponseModel
+    BillingPeriod:
+      type: string
+      enum:
+      - monthly_period
+      - 3_month_period
+      - 6_month_period
+      - annual_period
+      title: BillingPeriod
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    CharacterRefreshPeriod:
+      type: string
+      enum:
+      - monthly_period
+      - 3_month_period
+      - 6_month_period
+      - annual_period
+      title: CharacterRefreshPeriod
+    SeatType:
+      type: string
+      enum:
+      - workspace_admin
+      - workspace_member
+      - workspace_lite_member
+      title: SeatType
+      description: Seat types for workspace members.
+    PendingSubscriptionSwitchResponseModel:
+      properties:
+        kind:
+          type: string
+          const: change
+          title: Kind
+          default: change
+        next_tier:
+          type: string
+          enum:
+          - free
+          - starter
+          - go
+          - creator
+          - pro
+          - growing_business
+          - scale_2024_08_10
+          - grant_tier_1_2025_07_23
+          - grant_tier_2_2025_07_23
+          - grant
+          - trial
+          - enterprise
+          title: Next Tier
+          description: The tier to change to.
+        next_billing_period:
+          $ref: '#/components/schemas/BillingPeriod'
+          description: The billing period to change to.
+        timestamp_seconds:
+          type: integer
+          title: Timestamp Seconds
+          description: The timestamp of the change.
+      type: object
+      required:
+      - next_tier
+      - next_billing_period
+      - timestamp_seconds
+      title: PendingSubscriptionSwitchResponseModel
+    UserResponseModel:
+      properties:
+        user_id:
+          type: string
+          title: User Id
+          description: The unique identifier of the user.
+        subscription:
+          $ref: '#/components/schemas/SubscriptionResponseModel'
+          description: Details of the user's subscription.
+        is_new_user:
+          type: boolean
+          title: Is New User
+          description: Whether the user is new. This field is deprecated and will be removed in the future. Use 'created_at' instead.
+          deprecated: true
+        can_use_delayed_payment_methods:
+          type: boolean
+          title: Can Use Delayed Payment Methods
+          description: This field is deprecated and will be removed in a future major version. Instead use subscription.trust_on_invoice_creation.
+          deprecated: true
+        is_onboarding_completed:
+          type: boolean
+          title: Is Onboarding Completed
+          description: Whether the user's onboarding is completed.
+        is_onboarding_checklist_completed:
+          type: boolean
+          title: Is Onboarding Checklist Completed
+          description: Whether the user's onboarding checklist is completed.
+        show_compliance_terms:
+          type: boolean
+          title: Show Compliance Terms
+          description: Whether to show compliance terms (ToS, Privacy Policy, biometric consent) during onboarding. Set for users signing up from the marketing site.
+          default: false
+        first_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: First Name
+          description: First name of the user.
+        is_api_key_hashed:
+          type: boolean
+          title: Is Api Key Hashed
+          description: Whether the user's API key is hashed.
+          default: false
+        xi_api_key_preview:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Xi Api Key Preview
+          description: The preview of the user's API key.
+        referral_link_code:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Referral Link Code
+          description: The referral link code of the user.
+        partnerstack_partner_default_link:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Partnerstack Partner Default Link
+          description: The Partnerstack partner default link of the user.
+        created_at:
+          type: integer
+          title: Created At
+          description: The unix timestamp of the user's creation. 0 if the user was created before the unix timestamp was added.
+        seat_type:
+          $ref: '#/components/schemas/SeatType'
+          description: The seat type of the user.
+      type: object
+      required:
+      - user_id
+      - subscription
+      - is_new_user
+      - can_use_delayed_payment_methods
+      - is_onboarding_completed
+      - is_onboarding_checklist_completed
+      - created_at
+      - seat_type
+      title: UserResponseModel
+      example:
+        can_use_delayed_payment_methods: false
+        created_at: 1753999199
+        first_name: John
+        is_api_key_hashed: false
+        is_new_user: false
+        is_onboarding_checklist_completed: true
+        is_onboarding_completed: true
+        seat_type: workspace_member
+        show_compliance_terms: false
+        subscription:
+          allowed_to_extend_character_limit: false
+          billing_period: monthly_period
+          can_extend_character_limit: false
+          can_extend_voice_limit: false
+          can_use_instant_voice_cloning: true
+          can_use_professional_voice_cloning: true
+          character_count: 17231
+          character_limit: 100000
+          character_refresh_period: monthly_period
+          currency: usd
+          current_overage:
+            amount: '0'
+            currency: usd
+          max_character_limit_extension: 10000
+          max_credit_limit_extension: 10000
+          max_voice_add_edits: 230
+          next_character_count_reset_unix: 1738356858
+          professional_voice_limit: 1
+          professional_voice_slots_used: 0
+          professional_voice_slots_used_in_workspace: 0
+          status: free
+          tier: trial
+          voice_add_edit_counter: 212
+          voice_limit: 120
+          voice_slots_used: 1
+        user_id: '1234567890'
+    SubscriptionResponseModel:
+      properties:
+        tier:
+          type: string
+          title: Tier
+          description: The tier of the user's subscription.
+        character_count:
+          type: integer
+          title: Character Count
+          description: The number of characters used by the user.
+        character_limit:
+          type: integer
+          title: Character Limit
+          description: The maximum number of characters allowed in the current billing period.
+        max_character_limit_extension:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Max Character Limit Extension
+          description: 'Deprecated: use `max_credit_limit_extension`. Maximum number of characters that the character limit can be exceeded by. Managed by the workspace admin.'
+        max_credit_limit_extension:
+          anyOf:
+          - type: integer
+          - type: string
+            const: unlimited
+          title: Max Credit Limit Extension
+          description: Maximum number of credits that the credit limit can be exceeded by. Managed by the workspace admin. `"unlimited"` means no cap, `0` means usage-based billing is disabled.
+        can_extend_character_limit:
+          type: boolean
+          title: Can Extend Character Limit
+          description: Whether the workspace is entitled to enter overages (usage-based billing).
+        allowed_to_extend_character_limit:
+          type: boolean
+          title: Allowed To Extend Character Limit
+          description: 'Deprecated: use `max_credit_limit_extension != 0`. Whether the user is allowed to extend their character limit.'
+        next_character_count_reset_unix:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Next Character Count Reset Unix
+          description: The Unix timestamp of the next character count reset.
+        voice_slots_used:
+          type: integer
+          title: Voice Slots Used
+          description: The number of voice slots used by the user.
+        professional_voice_slots_used:
+          type: integer
+          title: Professional Voice Slots Used
+          description: The number of professional voice slots used. For consolidated billing this is the group-wide count across all workspaces in the group; see professional_voice_slots_used_in_workspace for the current workspace only.
+        professional_voice_slots_used_in_workspace:
+          type: integer
+          title: Professional Voice Slots Used In Workspace
+          description: The number of professional voice slots used in the current workspace. For consolidated billing, professional_voice_slots_used counts across all workspaces in the group, while this counts only the current workspace.
+        voice_limit:
+          type: integer
+          title: Voice Limit
+          description: The maximum number of voice slots allowed for the user.
+        max_voice_add_edits:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Max Voice Add Edits
+          description: The maximum number of voice add/edits allowed for the user.
+        voice_add_edit_counter:
+          type: integer
+          title: Voice Add Edit Counter
+          description: The number of voice add/edits used by the user.
+        professional_voice_limit:
+          type: integer
+          title: Professional Voice Limit
+          description: The maximum number of professional voices allowed for the user.
+        can_extend_voice_limit:
+          type: boolean
+          title: Can Extend Voice Limit
+          description: Whether the user can extend their voice limit.
+        can_use_instant_voice_cloning:
+          type: boolean
+          title: Can Use Instant Voice Cloning
+          description: Whether the user can use instant voice cloning.
+        can_use_professional_voice_cloning:
+          type: boolean
+          title: Can Use Professional Voice Cloning
+          description: Whether the user can use professional voice cloning.
+        currency:
+          anyOf:
+          - $ref: '#/components/schemas/Currency'
+          - type: 'null'
+          description: The currency of the user's subscription.
+        current_overage:
+          $ref: '#/components/schemas/Price'
+          description: The current usage-based overage cost.
+        status:
+          $ref: '#/components/schemas/SubscriptionStatusType'
+          description: The status of the user's subscription.
+        billing_period:
+          anyOf:
+          - $ref: '#/components/schemas/BillingPeriod'
+          - type: 'null'
+          description: The billing period of the user's subscription.
+        character_refresh_period:
+          anyOf:
+          - $ref: '#/components/schemas/CharacterRefreshPeriod'
+          - type: 'null'
+          description: The character refresh period of the user's subscription.
+      type: object
+      required:
+      - tier
+      - character_count
+      - character_limit
+      - max_character_limit_extension
+      - max_credit_limit_extension
+      - can_extend_character_limit
+      - allowed_to_extend_character_limit
+      - voice_slots_used
+      - professional_voice_slots_used
+      - professional_voice_slots_used_in_workspace
+      - voice_limit
+      - voice_add_edit_counter
+      - professional_voice_limit
+      - can_extend_voice_limit
+      - can_use_instant_voice_cloning
+      - can_use_professional_voice_cloning
+      - current_overage
+      - status
+      title: SubscriptionResponseModel
+      example:
+        allowed_to_extend_character_limit: false
+        billing_period: monthly_period
+        can_extend_character_limit: false
+        can_extend_voice_limit: false
+        can_use_instant_voice_cloning: true
+        can_use_professional_voice_cloning: true
+        character_count: 17231
+        character_limit: 100000
+        character_refresh_period: monthly_period
+        currency: usd
+        current_overage:
+          amount: '0'
+          currency: usd
+        max_character_limit_extension: 10000
+        max_credit_limit_extension: 10000
+        max_voice_add_edits: 230
+        next_character_count_reset_unix: 1738356858
+        professional_voice_limit: 1
+        professional_voice_slots_used: 0
+        professional_voice_slots_used_in_workspace: 0
+        status: free
+        tier: trial
+        voice_add_edit_counter: 212
+        voice_limit: 120
+        voice_slots_used: 1
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    PendingCancellationResponseModel:
+      properties:
+        kind:
+          type: string
+          const: cancellation
+          title: Kind
+          default: cancellation
+        timestamp_seconds:
+          type: integer
+          title: Timestamp Seconds
+          description: The timestamp of the cancellation.
+      type: object
+      required:
+      - timestamp_seconds
+      title: PendingCancellationResponseModel
+    SubscriptionStatusType:
+      type: string
+      enum:
+      - trialing
+      - active
+      - incomplete
+      - past_due
+      - free
+      - free_disabled
+      title: SubscriptionStatusType
+    Price:
+      properties:
+        amount:
+          type: string
+          pattern: ^(?!^[-+.]*$)[+-]?0*\d*\.?\d*$
+          title: Amount
+        currency:
+          $ref: '#/components/schemas/Currency'
+      type: object
+      required:
+      - amount
+      - currency
+      title: Price
+      description: Currency/amount pair.
+    InvoiceResponseModel:
+      properties:
+        amount_due_cents:
+          type: integer
+          title: Amount Due Cents
+          description: The amount due in cents.
+        subtotal_cents:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Subtotal Cents
+          description: The subtotal amount in cents before tax (exclusive of tax and discounts).
+        tax_cents:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Tax Cents
+          description: The tax amount in cents.
+        discount_percent_off:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Discount Percent Off
+          description: Deprecated. Use [discounts] instead. The discount applied to the invoice. E.g. [20.0f] for 20% off.
+        discount_amount_off:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Discount Amount Off
+          description: Deprecated. Use [discounts] instead. The discount applied to the invoice. E.g. [20.0f] for 20 cents off.
+        discounts:
+          items:
+            $ref: '#/components/schemas/DiscountResponseModel'
+          type: array
+          title: Discounts
+          description: The discounts applied to the invoice.
+        next_payment_attempt_unix:
+          type: integer
+          title: Next Payment Attempt Unix
+          description: The Unix timestamp of the next payment attempt. -1 when there is no next payment attempt.
+        payment_intent_status:
+          anyOf:
+          - type: string
+            enum:
+            - canceled
+            - processing
+            - requires_action
+            - requires_capture
+            - requires_confirmation
+            - requires_payment_method
+            - succeeded
+          - type: 'null'
+          title: Payment Intent Status
+          description: Deprecated. Use [payment_intent_statusses] instead. The status of this invoice's first payment intent. None when there is no payment intent.
+        payment_intent_statusses:
+          items:
+            type: string
+            enum:
+            - canceled
+            - processing
+            - requires_action
+            - requires_capture
+            - requires_confirmation
+            - requires_payment_method
+            - succeeded
+          type: array
+          title: Payment Intent Statusses
+          description: The statuses of this invoice's payment intents. Empty list when there are no payment intents.
+      type: object
+      required:
+      - amount_due_cents
+      - discounts
+      - next_payment_attempt_unix
+      - payment_intent_status
+      - payment_intent_statusses
+      title: InvoiceResponseModel
+      example:
+        amount_due_cents: 1000
+        discounts:
+        - discount_percent_off: 20.0
+        next_payment_attempt_unix: 1738356858
+        payment_intent_status: processing
+        payment_intent_statusses:
+        - processing
+        - succeeded
+        subtotal_cents: 900
+        tax_cents: 100
+    ExtendedSubscriptionResponseModel:
+      properties:
+        tier:
+          type: string
+          title: Tier
+          description: The tier of the user's subscription.
+        character_count:
+          type: integer
+          title: Character Count
+          description: The number of characters used by the user.
+        character_limit:
+          type: integer
+          title: Character Limit
+          description: The maximum number of characters allowed in the current billing period.
+        max_character_limit_extension:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Max Character Limit Extension
+          description: 'Deprecated: use `max_credit_limit_extension`. Maximum number of characters that the character limit can be exceeded by. Managed by the workspace admin.'
+        max_credit_limit_extension:
+          anyOf:
+          - type: integer
+          - type: string
+            const: unlimited
+          title: Max Credit Limit Extension
+          description: Maximum number of credits that the credit limit can be exceeded by. Managed by the workspace admin. `"unlimited"` means no cap, `0` means usage-based billing is disabled.
+        can_extend_character_limit:
+          type: boolean
+          title: Can Extend Character Limit
+          description: Whether the workspace is entitled to enter overages (usage-based billing).
+        allowed_to_extend_character_limit:
+          type: boolean
+          title: Allowed To Extend Character Limit
+          description: 'Deprecated: use `max_credit_limit_extension != 0`. Whether the user is allowed to extend their character limit.'
+        next_character_count_reset_unix:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Next Character Count Reset Unix
+          description: The Unix timestamp of the next character count reset.
+        voice_slots_used:
+          type: integer
+          title: Voice Slots Used
+          description: The number of voice slots used by the user.
+        professional_voice_slots_used:
+          type: integer
+          title: Professional Voice Slots Used
+          description: The number of professional voice slots used. For consolidated billing this is the group-wide count across all workspaces in the group; see professional_voice_slots_used_in_workspace for the current workspace only.
+        professional_voice_slots_used_in_workspace:
+          type: integer
+          title: Professional Voice Slots Used In Workspace
+          description: The number of professional voice slots used in the current workspace. For consolidated billing, professional_voice_slots_used counts across all workspaces in the group, while this counts only the current workspace.
+        voice_limit:
+          type: integer
+          title: Voice Limit
+          description: The maximum number of voice slots allowed for the user.
+        max_voice_add_edits:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Max Voice Add Edits
+          description: The maximum number of voice add/edits allowed for the user.
+        voice_add_edit_counter:
+          type: integer
+          title: Voice Add Edit Counter
+          description: The number of voice add/edits used by the user.
+        professional_voice_limit:
+          type: integer
+          title: Professional Voice Limit
+          description: The maximum number of professional voices allowed for the user.
+        can_extend_voice_limit:
+          type: boolean
+          title: Can Extend Voice Limit
+          description: Whether the user can extend their voice limit.
+        can_use_instant_voice_cloning:
+          type: boolean
+          title: Can Use Instant Voice Cloning
+          description: Whether the user can use instant voice cloning.
+        can_use_professional_voice_cloning:
+          type: boolean
+          title: Can Use Professional Voice Cloning
+          description: Whether the user can use professional voice cloning.
+        currency:
+          anyOf:
+          - $ref: '#/components/schemas/Currency'
+          - type: 'null'
+          description: The currency of the user's subscription.
+        current_overage:
+          $ref: '#/components/schemas/Price'
+          description: The current usage-based overage cost.
+        status:
+          $ref: '#/components/schemas/SubscriptionStatusType'
+          description: The status of the user's subscription.
+        billing_period:
+          anyOf:
+          - $ref: '#/components/schemas/BillingPeriod'
+          - type: 'null'
+          description: The billing period of the user's subscription.
+        character_refresh_period:
+          anyOf:
+          - $ref: '#/components/schemas/CharacterRefreshPeriod'
+          - type: 'null'
+          description: The character refresh period of the user's subscription.
+        next_invoice:
+          anyOf:
+          - $ref: '#/components/schemas/InvoiceResponseModel'
+          - type: 'null'
+          description: The next invoice for the user.
+        open_invoices:
+          items:
+            $ref: '#/components/schemas/InvoiceResponseModel'
+          type: array
+          title: Open Invoices
+          description: The open invoices for the user.
+        has_open_invoices:
+          type: boolean
+          title: Has Open Invoices
+          description: Whether the user has open invoices.
+        pending_change:
+          anyOf:
+          - $ref: '#/components/schemas/PendingSubscriptionSwitchResponseModel'
+          - $ref: '#/components/schemas/PendingCancellationResponseModel'
+          - type: 'null'
+          title: Pending Change
+          description: The pending change for the user.
+        has_used_starter_coupon_on_account:
+          type: boolean
+          title: Has Used Starter Coupon On Account
+          description: True if any workspace owned by this user's auth account has redeemed the starter first-month discount coupon.
+          default: false
+        has_used_creator_coupon_on_account:
+          type: boolean
+          title: Has Used Creator Coupon On Account
+          description: True if any workspace owned by this user's auth account has redeemed the creator first-month discount coupon.
+          default: false
+      type: object
+      required:
+      - tier
+      - character_count
+      - character_limit
+      - max_character_limit_extension
+      - max_credit_limit_extension
+      - can_extend_character_limit
+      - allowed_to_extend_character_limit
+      - voice_slots_used
+      - professional_voice_slots_used
+      - professional_voice_slots_used_in_workspace
+      - voice_limit
+      - voice_add_edit_counter
+      - professional_voice_limit
+      - can_extend_voice_limit
+      - can_use_instant_voice_cloning
+      - can_use_professional_voice_cloning
+      - current_overage
+      - status
+      - open_invoices
+      - has_open_invoices
+      title: ExtendedSubscriptionResponseModel
+      example:
+        allowed_to_extend_character_limit: true
+        billing_period: monthly_period
+        can_extend_character_limit: true
+        can_extend_voice_limit: true
+        can_use_instant_voice_cloning: true
+        can_use_professional_voice_cloning: true
+        character_count: 1000
+        character_limit: 10000
+        character_refresh_period: monthly_period
+        currency: usd
+        current_overage:
+          amount: '0'
+          currency: usd
+        has_open_invoices: true
+        has_used_creator_coupon_on_account: false
+        has_used_starter_coupon_on_account: false
+        max_character_limit_extension: 10000
+        max_credit_limit_extension: 10000
+        next_character_count_reset_unix: 1738356858
+        next_invoice:
+          amount_due_cents: 1000
+          discounts:
+          - discount_percent_off: 20.0
+          next_payment_attempt_unix: 1738356858
+          payment_intent_status: processing
+          payment_intent_statusses:
+          - processing
+          - succeeded
+          subtotal_cents: 900
+          tax_cents: 100
+        open_invoices:
+        - amount_due_cents: 1000
+          discounts:
+          - discount_percent_off: 20.0
+          next_payment_attempt_unix: 1738356858
+          payment_intent_status: processing
+          payment_intent_statusses:
+          - processing
+          - succeeded
+          subtotal_cents: 900
+          tax_cents: 100
+        professional_voice_limit: 1
+        professional_voice_slots_used: 0
+        professional_voice_slots_used_in_workspace: 0
+        status: active
+        tier: starter
+        voice_add_edit_counter: 0
+        voice_limit: 10
+        voice_slots_used: 1
+    Currency:
+      type: string
+      enum:
+      - usd
+      - eur
+      - inr
+      - pln
+      - gbp
+      title: Currency

@@ -1,0 +1,319 @@
+openapi: 3.2.0
+info:
+  title: ElevenLabs API Documentation Assets API
+  description: This is the documentation for the ElevenLabs API. You can use this API to use our service programmatically, this is done by using your API key. You can find your API key in the dashboard at https://elevenlabs.io/app/settings/api-keys.
+  version: '1.0'
+tags:
+- name: Assets
+paths:
+  /v1/assets:
+    post:
+      tags:
+      - Assets
+      summary: Upload Asset
+      description: Upload a new asset.
+      operationId: upload_asset
+      parameters:
+      - name: xi-api-key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+          title: Xi-Api-Key
+        description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Body_Upload_asset_v1_assets_post'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssetResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-fern-sdk-group-name:
+      - assets
+      x-fern-sdk-method-name: create
+    get:
+      tags:
+      - Assets
+      summary: List Assets
+      description: List assets in the workspace, most recently created first.
+      operationId: list_assets
+      parameters:
+      - name: page_size
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+          minimum: 1
+          description: Number of assets to return.
+          default: 30
+          title: Page Size
+        description: Number of assets to return.
+      - name: cursor
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Token from a previous response's `next_cursor`. Omit to fetch the first page.
+          title: Cursor
+        description: Token from a previous response's `next_cursor`. Omit to fetch the first page.
+      - name: search
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Optional free-text search filter over asset names.
+          title: Search
+        description: Optional free-text search filter over asset names.
+      - name: xi-api-key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+          title: Xi-Api-Key
+        description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssetListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-fern-sdk-group-name:
+      - assets
+      x-fern-sdk-method-name: list
+  /v1/assets/{asset_id}:
+    get:
+      tags:
+      - Assets
+      summary: Get Asset
+      description: Retrieve a single asset by ID.
+      operationId: get_asset
+      parameters:
+      - name: asset_id
+        in: path
+        required: true
+        schema:
+          type: string
+          description: ID of the asset.
+          examples:
+          - 5xM2KqOnZyce22SPZ9d4
+          title: Asset Id
+        description: ID of the asset.
+      - name: xi-api-key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+          title: Xi-Api-Key
+        description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssetResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-fern-sdk-group-name:
+      - assets
+      x-fern-sdk-method-name: get
+    delete:
+      tags:
+      - Assets
+      summary: Delete Asset
+      description: Delete an asset by ID.
+      operationId: delete_asset_endpoint
+      parameters:
+      - name: asset_id
+        in: path
+        required: true
+        schema:
+          type: string
+          description: ID of the asset.
+          examples:
+          - 5xM2KqOnZyce22SPZ9d4
+          title: Asset Id
+        description: ID of the asset.
+      - name: xi-api-key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+          title: Xi-Api-Key
+        description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-fern-sdk-group-name:
+      - assets
+      x-fern-sdk-method-name: delete
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    Body_Upload_asset_v1_assets_post:
+      properties:
+        asset:
+          type: string
+          title: Asset
+          description: The file to upload.
+          format: binary
+        name:
+          type: string
+          title: Name
+          description: Display name for the asset.
+          examples:
+          - podcast-intro.mp3
+      type: object
+      required:
+      - asset
+      - name
+      title: Body_Upload_asset_v1_assets_post
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    AssetListResponse:
+      properties:
+        assets:
+          items:
+            $ref: '#/components/schemas/AssetResponse'
+          type: array
+          title: Assets
+          description: List of Asset objects.
+        next_cursor:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Next Cursor
+          description: Pass as `cursor` to fetch the next page. `null` if there are no more results.
+        has_more:
+          type: boolean
+          title: Has More
+          description: Whether there are more results to fetch.
+          readOnly: true
+      type: object
+      required:
+      - assets
+      - next_cursor
+      - has_more
+      title: AssetListResponse
+      description: One page of the workspace's assets, most recently created first.
+      example:
+        assets:
+        - asset_id: 5xM2KqOnZyce22SPZ9d4
+          content_url: https://.../a1b2c3d4/content?...
+          created_at_unix: 1721520000
+          mime_type: audio/mpeg
+          name: podcast-intro.mp3
+        has_more: true
+        next_cursor: eyJvZmZzZXQiOjEwfQ
+    AssetResponse:
+      properties:
+        asset_id:
+          type: string
+          title: Asset Id
+          description: Unique identifier for the asset.
+        name:
+          type: string
+          title: Name
+          description: Display name of the asset.
+        mime_type:
+          type: string
+          title: Mime Type
+          description: MIME type of the uploaded file (e.g. `audio/mpeg`).
+        created_at_unix:
+          type: integer
+          title: Created At Unix
+          description: Unix timestamp (seconds) the asset was created.
+        content_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Content Url
+          description: Signed URL to fetch the asset's content. May be `null` if the asset has not finished processing. Do not rely on it being valid for more than 1 hour; fetch the asset again for a fresh URL.
+      type: object
+      required:
+      - asset_id
+      - name
+      - mime_type
+      - created_at_unix
+      - content_url
+      title: AssetResponse
+      description: The public Asset object.
+      example:
+        asset_id: 5xM2KqOnZyce22SPZ9d4
+        content_url: https://.../a1b2c3d4/content?...
+        created_at_unix: 1721520000
+        mime_type: audio/mpeg
+        name: podcast-intro.mp3

@@ -1,0 +1,652 @@
+openapi: 3.2.0
+info:
+  title: ElevenLabs API Documentation Conversational AI API
+  description: This is the documentation for the ElevenLabs API. You can use this API to use our service programmatically, this is done by using your API key. You can find your API key in the dashboard at https://elevenlabs.io/app/settings/api-keys.
+  version: '1.0'
+tags:
+- name: Conversational AI
+  description: Build and manage conversational AI agents (legacy tag — see also Agents Platform).
+paths:
+  /v1/convai/knowledge-base/crawl:
+    post:
+      tags:
+      - Conversational AI
+      summary: Create Crawl Job
+      description: Create a crawl job to crawl the given URL with specified depth and page limits.
+      operationId: create_crawl_job_route
+      parameters:
+      - name: xi-api-key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+          title: Xi-Api-Key
+        description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Body_Create_crawl_job_v1_convai_knowledge_base_crawl_post'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateCrawlJobResponseModel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-fern-sdk-group-name:
+      - conversational_ai
+      - knowledge_base
+      - crawl_jobs
+      x-fern-sdk-method-name: create
+    get:
+      tags:
+      - Conversational AI
+      summary: List Ongoing And Recent Crawl Jobs Created By A User
+      description: Get a list of ongoing and recent crawl jobs for the user.
+      operationId: list_crawl_jobs_route
+      parameters:
+      - name: include_job_ids
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: array
+            items:
+              type: string
+          - type: 'null'
+          description: Ids of additional crawl jobs to retrieve
+          title: Include Job Ids
+        description: Ids of additional crawl jobs to retrieve
+      - name: page_size
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+          minimum: 1
+          description: How many documents to return at maximum. Can not exceed 100, defaults to 30.
+          default: 30
+          title: Page Size
+        description: How many documents to return at maximum. Can not exceed 100, defaults to 30.
+      - name: cursor
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Used for fetching next page. Cursor is returned in the response.
+          title: Cursor
+        description: Used for fetching next page. Cursor is returned in the response.
+      - name: xi-api-key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+          title: Xi-Api-Key
+        description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListCrawlJobsResponseModel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-fern-sdk-group-name:
+      - conversational_ai
+      - knowledge_base
+      - crawl_jobs
+      x-fern-sdk-method-name: list
+  /v1/convai/knowledge-base/crawl/{crawl_job_id}:
+    get:
+      tags:
+      - Conversational AI
+      summary: Get Crawl Job Details
+      description: Get details about a specific crawl job including status and progress.
+      operationId: get_crawl_job_route
+      parameters:
+      - name: crawl_job_id
+        in: path
+        required: true
+        schema:
+          type: string
+          description: The id of the crawl job to retrieve
+          embed: true
+          title: Crawl Job Id
+        description: The id of the crawl job to retrieve
+      - name: xi-api-key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+          title: Xi-Api-Key
+        description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCrawlJobResponseModel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-fern-sdk-group-name:
+      - conversational_ai
+      - knowledge_base
+      - crawl_jobs
+      x-fern-sdk-method-name: get
+  /v1/convai/knowledge-base/crawl/{crawl_job_id}/cancel:
+    post:
+      tags:
+      - Conversational AI
+      summary: Cancel Crawl Job
+      description: Cancel a crawl job and delete all associated documents and folders.
+      operationId: cancel_crawl_job_route
+      parameters:
+      - name: crawl_job_id
+        in: path
+        required: true
+        schema:
+          type: string
+          description: The id of the crawl job to retrieve
+          embed: true
+          title: Crawl Job Id
+        description: The id of the crawl job to retrieve
+      - name: xi-api-key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+          title: Xi-Api-Key
+        description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-fern-sdk-group-name:
+      - conversational_ai
+      - knowledge_base
+      - crawl_jobs
+      x-fern-sdk-method-name: cancel
+  /v1/convai/knowledge-base/folder:
+    post:
+      tags:
+      - Conversational AI
+      summary: Create Folder
+      description: Create a folder used for grouping documents together.
+      operationId: create_folder_route
+      parameters:
+      - name: xi-api-key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+          title: Xi-Api-Key
+        description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Body_Create_folder_v1_convai_knowledge_base_folder_post'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddKnowledgeBaseResponseModel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-fern-sdk-group-name:
+      - conversational_ai
+      - knowledge_base
+      - documents
+      x-fern-sdk-method-name: create_folder
+  /v1/convai/knowledge-base/{document_id}/move:
+    post:
+      tags:
+      - Conversational AI
+      summary: Move Entity To Folder
+      description: Moves the entity from one folder to another.
+      operationId: post_knowledge_base_move_route
+      parameters:
+      - name: document_id
+        in: path
+        required: true
+        schema:
+          type: string
+          description: The id of a document from the knowledge base. This is returned on document addition.
+          examples:
+          - 21m00Tcm4TlvDq8ikWAM
+          embed: true
+          title: Document Id
+        description: The id of a document from the knowledge base. This is returned on document addition.
+      - name: xi-api-key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+          title: Xi-Api-Key
+        description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Body_Move_entity_to_folder_v1_convai_knowledge_base__document_id__move_post'
+      responses:
+        '200':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-fern-sdk-group-name:
+      - conversational_ai
+      - knowledge_base
+      - documents
+      x-fern-sdk-method-name: move
+  /v1/convai/knowledge-base/bulk-move:
+    post:
+      tags:
+      - Conversational AI
+      summary: Bulk Move Entities To Folder
+      description: Moves multiple entities from one folder to another.
+      operationId: post_knowledge_base_bulk_move_route
+      parameters:
+      - name: xi-api-key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+          title: Xi-Api-Key
+        description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Body_Bulk_move_entities_to_folder_v1_convai_knowledge_base_bulk_move_post'
+      responses:
+        '200':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-fern-sdk-group-name:
+      - conversational_ai
+      - knowledge_base
+      - documents
+      x-fern-sdk-method-name: bulk_move
+components:
+  schemas:
+    Body_Create_crawl_job_v1_convai_knowledge_base_crawl_post:
+      properties:
+        url:
+          type: string
+          title: Url
+          description: URL to a page of documentation that the agent will have access to in order to interact with users.
+        max_depth:
+          type: integer
+          maximum: 5.0
+          minimum: 1.0
+          title: Max Depth
+          description: Maximum depth for crawling (1-5), defaults to 3.
+          default: 3
+        max_pages:
+          type: integer
+          maximum: 10000.0
+          minimum: 1.0
+          title: Max Pages
+          description: Maximum number of pages to crawl (1-10,000), defaults to 1000.
+          default: 1000
+        pattern:
+          anyOf:
+          - type: string
+            maxLength: 2048
+          - type: 'null'
+          title: Pattern
+          description: If set, only URLs that match this pattern are included.
+        sitemap_urls:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Sitemap Urls
+          description: List of URLs to crawl from sitemap (optional, overrides automatic URL discovery).
+        parent_folder_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Parent Folder Id
+          description: If set, the created document or folder will be placed inside the given folder.
+        enable_auto_sync:
+          type: boolean
+          title: Enable Auto Sync
+          description: Whether to enable auto-sync for this URL document.
+          default: false
+        auto_remove:
+          type: boolean
+          title: Auto Remove
+          description: Whether to automatically remove the document if the URL becomes unavailable. Only applicable when auto-sync is enabled.
+          default: false
+        minimum_frequency_days:
+          anyOf:
+          - type: integer
+            maximum: 180.0
+            minimum: 1.0
+          - type: 'null'
+          title: Minimum Frequency Days
+          description: Minimum frequency (in days) at which the underlying eligible documents are refreshed. The actual interval may be shorter, never longer. Defaults to 7, tightened to the parent folder's frequency if that is stricter. Only applicable when auto-sync is enabled.
+      type: object
+      required:
+      - url
+      title: Body_Create_crawl_job_v1_convai_knowledge_base_crawl_post
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    CrawlStatus:
+      type: string
+      enum:
+      - queued
+      - processing
+      - succeeded
+      - failed
+      - skipped
+      - cancelled
+      title: CrawlStatus
+      default: queued
+    KnowledgeBaseFolderPathSegmentSummaryResponseModel:
+      properties:
+        id:
+          type: string
+          title: Id
+      type: object
+      required:
+      - id
+      title: KnowledgeBaseFolderPathSegmentSummaryResponseModel
+    CreateCrawlJobResponseModel:
+      properties:
+        id:
+          type: string
+          title: Id
+        type:
+          $ref: '#/components/schemas/CrawlType'
+        root_folder_id:
+          type: string
+          title: Root Folder Id
+        status:
+          type: string
+          title: Status
+        created_at:
+          type: integer
+          title: Created At
+        folder_path:
+          items:
+            $ref: '#/components/schemas/KnowledgeBaseFolderPathSegmentSummaryResponseModel'
+          type: array
+          title: Folder Path
+          description: The folder path segments leading to the root folder, from root to parent folder.
+      type: object
+      required:
+      - id
+      - type
+      - root_folder_id
+      - status
+      - created_at
+      title: CreateCrawlJobResponseModel
+    AddKnowledgeBaseResponseModel:
+      properties:
+        id:
+          type: string
+          title: Id
+        name:
+          type: string
+          title: Name
+        folder_path:
+          items:
+            $ref: '#/components/schemas/KnowledgeBaseFolderPathSegmentSummaryResponseModel'
+          type: array
+          title: Folder Path
+          description: The folder path segments leading to this entity, from root to parent folder.
+      type: object
+      required:
+      - id
+      - name
+      title: AddKnowledgeBaseResponseModel
+    Body_Bulk_move_entities_to_folder_v1_convai_knowledge_base_bulk_move_post:
+      properties:
+        document_ids:
+          items:
+            type: string
+          type: array
+          maxItems: 20
+          minItems: 1
+          uniqueItems: true
+          title: Document Ids
+          description: The ids of documents or folders from the knowledge base.
+          examples:
+          - - 21m00Tcm4TlvDq8ikWAM
+            - 31m00Tcm4TlvDq8ikWBM
+        move_to:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Move To
+          description: The folder to move the entities to. If not set, the entities will be moved to the root folder.
+      type: object
+      required:
+      - document_ids
+      title: Body_Bulk_move_entities_to_folder_v1_convai_knowledge_base_bulk_move_post
+    GetCrawlJobResponseModel:
+      properties:
+        type:
+          $ref: '#/components/schemas/CrawlType'
+          default: discovery
+        seed_url:
+          type: string
+          title: Seed Url
+        pattern:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Pattern
+        max_depth:
+          type: integer
+          title: Max Depth
+        max_pages:
+          type: integer
+          title: Max Pages
+        status:
+          $ref: '#/components/schemas/CrawlStatus'
+          default: queued
+        pages_identified:
+          type: integer
+          title: Pages Identified
+          default: 0
+        pages_scraped:
+          type: integer
+          title: Pages Scraped
+          default: 0
+        pages_skipped:
+          type: integer
+          title: Pages Skipped
+          default: 0
+        pages_failed:
+          type: integer
+          title: Pages Failed
+          default: 0
+        root_folder_id:
+          type: string
+          title: Root Folder Id
+        updated_at:
+          type: integer
+          title: Updated At
+        id:
+          type: string
+          title: Id
+        created_at:
+          type: integer
+          title: Created At
+      type: object
+      required:
+      - seed_url
+      - max_depth
+      - max_pages
+      - root_folder_id
+      - updated_at
+      - id
+      - created_at
+      title: GetCrawlJobResponseModel
+    CrawlType:
+      type: string
+      enum:
+      - discovery
+      - sitemap
+      title: CrawlType
+      default: discovery
+    Body_Move_entity_to_folder_v1_convai_knowledge_base__document_id__move_post:
+      properties:
+        move_to:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Move To
+          description: The folder to move the entities to. If not set, the entities will be moved to the root folder.
+      type: object
+      title: Body_Move_entity_to_folder_v1_convai_knowledge_base__document_id__move_post
+    ListCrawlJobsResponseModel:
+      properties:
+        crawl_jobs:
+          items:
+            $ref: '#/components/schemas/GetCrawlJobResponseModel'
+          type: array
+          title: Crawl Jobs
+        next_cursor:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Next Cursor
+      type: object
+      required:
+      - crawl_jobs
+      title: ListCrawlJobsResponseModel
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    Body_Create_folder_v1_convai_knowledge_base_folder_post:
+      properties:
+        name:
+          type: string
+          minLength: 1
+          title: Name
+          description: A custom, human-readable name for the document.
+        parent_folder_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Parent Folder Id
+          description: If set, the created document or folder will be placed inside the given folder.
+        enable_auto_sync:
+          type: boolean
+          title: Enable Auto Sync
+          description: Whether to enable auto-sync for this URL document.
+          default: false
+        auto_remove:
+          type: boolean
+          title: Auto Remove
+          description: Whether to automatically remove the document if the URL becomes unavailable. Only applicable when auto-sync is enabled.
+          default: false
+        minimum_frequency_days:
+          anyOf:
+          - type: integer
+            maximum: 180.0
+            minimum: 1.0
+          - type: 'null'
+          title: Minimum Frequency Days
+          description: Minimum frequency (in days) at which the underlying eligible documents are refreshed. The actual interval may be shorter, never longer. Defaults to 7, tightened to the parent folder's frequency if that is stricter. Only applicable when auto-sync is enabled.
+      type: object
+      required:
+      - name
+      title: Body_Create_folder_v1_convai_knowledge_base_folder_post

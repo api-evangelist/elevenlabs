@@ -128,14 +128,29 @@ paths:
           description: Project not found
 components:
   schemas:
-    SnapshotListResponse:
+    CreateProjectRequest:
       type: object
+      required:
+      - name
+      - default_voice_id
       properties:
-        snapshots:
-          type: array
-          description: List of rendered project snapshots.
-          items:
-            $ref: '#/components/schemas/Snapshot'
+        name:
+          type: string
+          description: Display name for the project.
+        default_voice_id:
+          type: string
+          description: The default voice identifier for the project.
+        default_model_id:
+          type: string
+          description: The default TTS model for the project.
+        from_url:
+          type: string
+          format: uri
+          description: A URL to import content from.
+        from_document:
+          type: string
+          format: binary
+          description: A document file to import content from.
     ProjectListResponse:
       type: object
       properties:
@@ -144,6 +159,18 @@ components:
           description: List of Studio projects.
           items:
             $ref: '#/components/schemas/ProjectSummary'
+    ChapterSummary:
+      type: object
+      properties:
+        chapter_id:
+          type: string
+          description: Unique identifier for the chapter.
+        name:
+          type: string
+          description: Display name of the chapter.
+        state:
+          type: string
+          description: Current rendering state of the chapter.
     Project:
       type: object
       properties:
@@ -187,19 +214,14 @@ components:
           type: string
           format: date-time
           description: Timestamp when the project was created.
-    Snapshot:
+    SnapshotListResponse:
       type: object
       properties:
-        snapshot_id:
-          type: string
-          description: Unique identifier for the snapshot.
-        project_id:
-          type: string
-          description: The project this snapshot belongs to.
-        created_at:
-          type: string
-          format: date-time
-          description: Timestamp when the snapshot was rendered.
+        snapshots:
+          type: array
+          description: List of rendered project snapshots.
+          items:
+            $ref: '#/components/schemas/Snapshot'
     ProjectSummary:
       type: object
       properties:
@@ -220,41 +242,19 @@ components:
           type: string
           format: date-time
           description: Timestamp when the project was created.
-    CreateProjectRequest:
-      type: object
-      required:
-      - name
-      - default_voice_id
-      properties:
-        name:
-          type: string
-          description: Display name for the project.
-        default_voice_id:
-          type: string
-          description: The default voice identifier for the project.
-        default_model_id:
-          type: string
-          description: The default TTS model for the project.
-        from_url:
-          type: string
-          format: uri
-          description: A URL to import content from.
-        from_document:
-          type: string
-          format: binary
-          description: A document file to import content from.
-    ChapterSummary:
+    Snapshot:
       type: object
       properties:
-        chapter_id:
+        snapshot_id:
           type: string
-          description: Unique identifier for the chapter.
-        name:
+          description: Unique identifier for the snapshot.
+        project_id:
           type: string
-          description: Display name of the chapter.
-        state:
+          description: The project this snapshot belongs to.
+        created_at:
           type: string
-          description: Current rendering state of the chapter.
+          format: date-time
+          description: Timestamp when the snapshot was rendered.
   parameters:
     projectId:
       name: project_id

@@ -74,22 +74,15 @@ paths:
         '404':
           description: Chapter not found
 components:
-  parameters:
-    projectId:
-      name: project_id
-      in: path
-      required: true
-      description: The unique identifier of the Studio project.
-      schema:
-        type: string
-    chapterId:
-      name: chapter_id
-      in: path
-      required: true
-      description: The unique identifier of the chapter.
-      schema:
-        type: string
   schemas:
+    ChapterListResponse:
+      type: object
+      properties:
+        chapters:
+          type: array
+          description: List of chapters.
+          items:
+            $ref: '#/components/schemas/ChapterSummary'
     ChapterSummary:
       type: object
       properties:
@@ -102,14 +95,6 @@ components:
         state:
           type: string
           description: Current rendering state of the chapter.
-    ChapterListResponse:
-      type: object
-      properties:
-        chapters:
-          type: array
-          description: List of chapters.
-          items:
-            $ref: '#/components/schemas/ChapterSummary'
     Chapter:
       type: object
       properties:
@@ -128,6 +113,21 @@ components:
         state:
           type: string
           description: Current rendering state of the chapter.
+  parameters:
+    chapterId:
+      name: chapter_id
+      in: path
+      required: true
+      description: The unique identifier of the chapter.
+      schema:
+        type: string
+    projectId:
+      name: project_id
+      in: path
+      required: true
+      description: The unique identifier of the Studio project.
+      schema:
+        type: string
   securitySchemes:
     apiKeyAuth:
       type: apiKey

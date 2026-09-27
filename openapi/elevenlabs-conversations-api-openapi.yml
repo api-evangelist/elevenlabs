@@ -118,29 +118,6 @@ components:
       schema:
         type: string
   schemas:
-    ConversationSummary:
-      type: object
-      properties:
-        conversation_id:
-          type: string
-          description: Unique identifier for the conversation.
-        agent_id:
-          type: string
-          description: The agent involved in the conversation.
-        status:
-          type: string
-          description: Current status of the conversation.
-          enum:
-          - active
-          - completed
-          - failed
-        started_at:
-          type: string
-          format: date-time
-          description: Timestamp when the conversation started.
-        duration_seconds:
-          type: number
-          description: Duration of the conversation in seconds.
     Conversation:
       type: object
       properties:
@@ -187,6 +164,29 @@ components:
           description: Additional metadata about the conversation.
           additionalProperties:
             type: string
+    ConversationSummary:
+      type: object
+      properties:
+        conversation_id:
+          type: string
+          description: Unique identifier for the conversation.
+        agent_id:
+          type: string
+          description: The agent involved in the conversation.
+        status:
+          type: string
+          description: Current status of the conversation.
+          enum:
+          - active
+          - completed
+          - failed
+        started_at:
+          type: string
+          format: date-time
+          description: Timestamp when the conversation started.
+        duration_seconds:
+          type: number
+          description: Duration of the conversation in seconds.
     ConversationListResponse:
       type: object
       properties:

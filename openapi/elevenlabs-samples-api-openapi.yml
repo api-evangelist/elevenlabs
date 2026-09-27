@@ -1,0 +1,160 @@
+openapi: 3.2.0
+info:
+  title: ElevenLabs API Documentation Samples API
+  description: This is the documentation for the ElevenLabs API. You can use this API to use our service programmatically, this is done by using your API key. You can find your API key in the dashboard at https://elevenlabs.io/app/settings/api-keys.
+  version: '1.0'
+tags:
+- name: Samples
+  description: Access to your samples. A sample is any audio file you attached to a voice. A voice can have one or more samples.
+paths:
+  /v1/voices/{voice_id}/samples/{sample_id}:
+    delete:
+      tags:
+      - Samples
+      summary: Delete Sample
+      description: Removes a sample by its ID.
+      operationId: delete_sample
+      parameters:
+      - name: voice_id
+        in: path
+        required: true
+        schema:
+          type: string
+          description: Voice ID to be used, you can use https://api.elevenlabs.io/v1/voices to list all the available voices.
+          examples:
+          - 21m00Tcm4TlvDq8ikWAM
+          title: Voice Id
+        description: Voice ID to be used, you can use https://api.elevenlabs.io/v1/voices to list all the available voices.
+      - name: sample_id
+        in: path
+        required: true
+        schema:
+          type: string
+          description: Sample ID to be used, you can use GET https://api.elevenlabs.io/v1/voices/{voice_id} to list all the available samples for a voice.
+          examples:
+          - VW7YKqPnjY4h39yTbx2L
+          title: Sample Id
+        description: Sample ID to be used, you can use GET https://api.elevenlabs.io/v1/voices/{voice_id} to list all the available samples for a voice.
+      - name: xi-api-key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+          title: Xi-Api-Key
+        description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteSampleResponseModel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-fern-sdk-group-name: samples
+      x-fern-sdk-method-name: delete
+  /v1/voices/{voice_id}/samples/{sample_id}/audio:
+    get:
+      tags:
+      - Samples
+      summary: Get Audio From Sample
+      description: Returns the audio corresponding to a sample attached to a voice.
+      operationId: get_audio_from_sample
+      parameters:
+      - name: voice_id
+        in: path
+        required: true
+        schema:
+          type: string
+          description: Voice ID to be used, you can use https://api.elevenlabs.io/v1/voices to list all the available voices.
+          examples:
+          - 21m00Tcm4TlvDq8ikWAM
+          title: Voice Id
+        description: Voice ID to be used, you can use https://api.elevenlabs.io/v1/voices to list all the available voices.
+      - name: sample_id
+        in: path
+        required: true
+        schema:
+          type: string
+          description: Sample ID to be used, you can use GET https://api.elevenlabs.io/v1/voices/{voice_id} to list all the available samples for a voice.
+          examples:
+          - VW7YKqPnjY4h39yTbx2L
+          title: Sample Id
+        description: Sample ID to be used, you can use GET https://api.elevenlabs.io/v1/voices/{voice_id} to list all the available samples for a voice.
+      - name: xi-api-key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+          title: Xi-Api-Key
+        description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            audio/*: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-fern-sdk-group-name:
+      - voices
+      - samples
+      - audio
+      x-fern-sdk-method-name: get
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    DeleteSampleResponseModel:
+      properties:
+        status:
+          type: string
+          title: Status
+          description: The status of the sample deletion request. If the request was successful, the status will be 'ok'. Otherwise an error message with status 500 will be returned.
+      type: object
+      required:
+      - status
+      title: DeleteSampleResponseModel
+      example:
+        status: ok

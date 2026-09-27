@@ -1,0 +1,20 @@
+openapi: 3.2.0
+info:
+  title: ElevenLabs API Documentation Docs API
+  description: This is the documentation for the ElevenLabs API. You can use this API to use our service programmatically, this is done by using your API key. You can find your API key in the dashboard at https://elevenlabs.io/app/settings/api-keys.
+  version: '1.0'
+tags:
+- name: Docs
+paths:
+  /docs:
+    get:
+      summary: Redirect To Mintlify
+      operationId: redirect_to_mintlify
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      tags:
+      - Docs
