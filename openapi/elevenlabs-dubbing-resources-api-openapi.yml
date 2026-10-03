@@ -147,38 +147,7 @@ paths:
         '404':
           description: Dubbing project or segment not found
 components:
-  parameters:
-    dubbingId:
-      name: dubbing_id
-      in: path
-      required: true
-      description: The unique identifier of the dubbing project.
-      schema:
-        type: string
   schemas:
-    TranscriptSegment:
-      type: object
-      properties:
-        start:
-          type: number
-          description: Start time of the segment in seconds.
-        end:
-          type: number
-          description: End time of the segment in seconds.
-        text:
-          type: string
-          description: The transcribed or translated text for this segment.
-        speaker:
-          type: string
-          description: The speaker identifier for this segment.
-    DubbingTranscript:
-      type: object
-      properties:
-        segments:
-          type: array
-          description: Transcript segments with timing information.
-          items:
-            $ref: '#/components/schemas/TranscriptSegment'
     DubbingResource:
       type: object
       properties:
@@ -214,6 +183,14 @@ components:
         language_code:
           type: string
           description: The language code for the dubbed output.
+    DubbingTranscript:
+      type: object
+      properties:
+        segments:
+          type: array
+          description: Transcript segments with timing information.
+          items:
+            $ref: '#/components/schemas/TranscriptSegment'
     TranslateSegmentRequest:
       type: object
       required:
@@ -226,6 +203,29 @@ components:
         target_lang:
           type: string
           description: The target language code for the translation.
+    TranscriptSegment:
+      type: object
+      properties:
+        start:
+          type: number
+          description: Start time of the segment in seconds.
+        end:
+          type: number
+          description: End time of the segment in seconds.
+        text:
+          type: string
+          description: The transcribed or translated text for this segment.
+        speaker:
+          type: string
+          description: The speaker identifier for this segment.
+  parameters:
+    dubbingId:
+      name: dubbing_id
+      in: path
+      required: true
+      description: The unique identifier of the dubbing project.
+      schema:
+        type: string
   securitySchemes:
     apiKeyAuth:
       type: apiKey

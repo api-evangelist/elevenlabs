@@ -164,6 +164,20 @@ components:
           description: Additional metadata about the conversation.
           additionalProperties:
             type: string
+    ConversationListResponse:
+      type: object
+      properties:
+        conversations:
+          type: array
+          description: List of conversations.
+          items:
+            $ref: '#/components/schemas/ConversationSummary'
+        has_more:
+          type: boolean
+          description: Whether there are more conversations available.
+        next_cursor:
+          type: string
+          description: Cursor for pagination.
     ConversationSummary:
       type: object
       properties:
@@ -187,20 +201,6 @@ components:
         duration_seconds:
           type: number
           description: Duration of the conversation in seconds.
-    ConversationListResponse:
-      type: object
-      properties:
-        conversations:
-          type: array
-          description: List of conversations.
-          items:
-            $ref: '#/components/schemas/ConversationSummary'
-        has_more:
-          type: boolean
-          description: Whether there are more conversations available.
-        next_cursor:
-          type: string
-          description: Cursor for pagination.
   securitySchemes:
     apiKeyAuth:
       type: apiKey

@@ -91,6 +91,41 @@ paths:
       x-fern-sdk-method-name: get
 components:
   schemas:
+    ColumnFilter:
+      properties:
+        column:
+          type: string
+          title: Column
+        operation:
+          type: string
+          enum:
+          - in
+          - not_in
+          - le
+          - ge
+          - lt
+          - gt
+          - eq
+          - neq
+          title: Operation
+        values:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+            - type: number
+            - type: string
+              format: date-time
+            - type: boolean
+            - type: 'null'
+          type: array
+          title: Values
+      type: object
+      required:
+      - column
+      - operation
+      - values
+      title: ColumnFilter
     HTTPValidationError:
       properties:
         detail:
@@ -100,22 +135,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    ColumnUnit:
-      type: string
-      enum:
-      - ms
-      - s
-      - min
-      - duration
-      - credits
-      - usd
-      - eur
-      - inr
-      - pln
-      - gbp
-      - ratio
-      - rating
-      title: ColumnUnit
     WorkspaceAnalyticsQueryResponseModel:
       properties:
         columns:
@@ -165,6 +184,22 @@ components:
       - rows
       - column_units
       title: WorkspaceAnalyticsQueryResponseModel
+    ColumnUnit:
+      type: string
+      enum:
+      - ms
+      - s
+      - min
+      - duration
+      - credits
+      - usd
+      - eur
+      - inr
+      - pln
+      - gbp
+      - ratio
+      - rating
+      title: ColumnUnit
     ValidationError:
       properties:
         loc:
@@ -186,6 +221,51 @@ components:
       - msg
       - type
       title: ValidationError
+    Body_List_API_requests_v1_workspace_analytics_requests_post:
+      properties:
+        start_time:
+          anyOf:
+          - type: integer
+            minimum: 1577836800000.0
+          - type: 'null'
+          title: Start Time
+          description: Start of the time range as a Unix timestamp in milliseconds.
+        end_time:
+          anyOf:
+          - type: integer
+            minimum: 1577836800000.0
+          - type: 'null'
+          title: End Time
+          description: End of the time range as a Unix timestamp in milliseconds.
+        limit:
+          type: integer
+          maximum: 1000.0
+          minimum: 1.0
+          title: Limit
+          default: 100
+        sort:
+          anyOf:
+          - type: string
+            enum:
+            - asc
+            - desc
+          - type: 'null'
+          title: Sort
+          description: Optional timestamp sort direction. If omitted, defaults to desc when end_time is provided, otherwise asc.
+        filters:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/ColumnFilter'
+            type: array
+          - type: 'null'
+          title: Filters
+        search:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Search
+      type: object
+      title: Body_List_API_requests_v1_workspace_analytics_requests_post
     Body_Get_Workspace_Usage_v1_workspace_analytics_query_usage_by_product_over_time_post:
       properties:
         start_time:
@@ -246,83 +326,3 @@ components:
       - start_time
       - end_time
       title: Body_Get_Workspace_Usage_v1_workspace_analytics_query_usage_by_product_over_time_post
-    Body_List_API_requests_v1_workspace_analytics_requests_post:
-      properties:
-        start_time:
-          anyOf:
-          - type: integer
-            minimum: 1577836800000.0
-          - type: 'null'
-          title: Start Time
-          description: Start of the time range as a Unix timestamp in milliseconds.
-        end_time:
-          anyOf:
-          - type: integer
-            minimum: 1577836800000.0
-          - type: 'null'
-          title: End Time
-          description: End of the time range as a Unix timestamp in milliseconds.
-        limit:
-          type: integer
-          maximum: 1000.0
-          minimum: 1.0
-          title: Limit
-          default: 100
-        sort:
-          anyOf:
-          - type: string
-            enum:
-            - asc
-            - desc
-          - type: 'null'
-          title: Sort
-          description: Optional timestamp sort direction. If omitted, defaults to desc when end_time is provided, otherwise asc.
-        filters:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/ColumnFilter'
-            type: array
-          - type: 'null'
-          title: Filters
-        search:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Search
-      type: object
-      title: Body_List_API_requests_v1_workspace_analytics_requests_post
-    ColumnFilter:
-      properties:
-        column:
-          type: string
-          title: Column
-        operation:
-          type: string
-          enum:
-          - in
-          - not_in
-          - le
-          - ge
-          - lt
-          - gt
-          - eq
-          - neq
-          title: Operation
-        values:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-            - type: number
-            - type: string
-              format: date-time
-            - type: boolean
-            - type: 'null'
-          type: array
-          title: Values
-      type: object
-      required:
-      - column
-      - operation
-      - values
-      title: ColumnFilter

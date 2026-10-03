@@ -120,26 +120,6 @@ paths:
       x-fern-sdk-method-name: get
 components:
   schemas:
-    TopicSentimentAggregate:
-      properties:
-        sentiment:
-          $ref: '#/components/schemas/NumericDistributionAggregate'
-        frustration:
-          $ref: '#/components/schemas/NumericDistributionAggregate'
-        positive_count:
-          type: integer
-          title: Positive Count
-          default: 0
-        neutral_count:
-          type: integer
-          title: Neutral Count
-          default: 0
-        negative_count:
-          type: integer
-          title: Negative Count
-          default: 0
-      type: object
-      title: TopicSentimentAggregate
     HTTPValidationError:
       properties:
         detail:
@@ -149,23 +129,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    TopicMetricsAggregate:
-      properties:
-        conversation_count:
-          type: integer
-          title: Conversation Count
-          default: 0
-        sentiment:
-          anyOf:
-          - $ref: '#/components/schemas/TopicSentimentAggregate'
-          - type: 'null'
-        evaluation_criteria:
-          items:
-            $ref: '#/components/schemas/TopicEvaluationCriteriaAggregate'
-          type: array
-          title: Evaluation Criteria
-      type: object
-      title: TopicMetricsAggregate
     AgentTopicResponseModel:
       properties:
         topic_id:
@@ -220,27 +183,26 @@ components:
       - success_rate
       - frustration
       title: TopicSortBy
-    TopicEvaluationCriteriaAggregate:
+    TopicSentimentAggregate:
       properties:
-        criteria_id:
-          type: string
-          title: Criteria Id
-        success_count:
+        sentiment:
+          $ref: '#/components/schemas/NumericDistributionAggregate'
+        frustration:
+          $ref: '#/components/schemas/NumericDistributionAggregate'
+        positive_count:
           type: integer
-          title: Success Count
+          title: Positive Count
           default: 0
-        failure_count:
+        neutral_count:
           type: integer
-          title: Failure Count
+          title: Neutral Count
           default: 0
-        unknown_count:
+        negative_count:
           type: integer
-          title: Unknown Count
+          title: Negative Count
           default: 0
       type: object
-      required:
-      - criteria_id
-      title: TopicEvaluationCriteriaAggregate
+      title: TopicSentimentAggregate
     GetAgentTopicsResponseModel:
       properties:
         topics:
@@ -274,27 +236,6 @@ components:
       - window_start_unix_secs
       - window_end_unix_secs
       title: GetAgentTopicsResponseModel
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     NumericDistributionAggregate:
       properties:
         count:
@@ -323,3 +264,62 @@ components:
       - asc
       - desc
       title: SortDirection
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    TopicMetricsAggregate:
+      properties:
+        conversation_count:
+          type: integer
+          title: Conversation Count
+          default: 0
+        sentiment:
+          anyOf:
+          - $ref: '#/components/schemas/TopicSentimentAggregate'
+          - type: 'null'
+        evaluation_criteria:
+          items:
+            $ref: '#/components/schemas/TopicEvaluationCriteriaAggregate'
+          type: array
+          title: Evaluation Criteria
+      type: object
+      title: TopicMetricsAggregate
+    TopicEvaluationCriteriaAggregate:
+      properties:
+        criteria_id:
+          type: string
+          title: Criteria Id
+        success_count:
+          type: integer
+          title: Success Count
+          default: 0
+        failure_count:
+          type: integer
+          title: Failure Count
+          default: 0
+        unknown_count:
+          type: integer
+          title: Unknown Count
+          default: 0
+      type: object
+      required:
+      - criteria_id
+      title: TopicEvaluationCriteriaAggregate

@@ -48,31 +48,6 @@ paths:
       x-fern-sdk-method-name: create
 components:
   schemas:
-    ForcedAlignmentCharacterResponseModel:
-      properties:
-        text:
-          type: string
-          title: Text
-          description: The character that was transcribed.
-        start:
-          type: number
-          title: Start
-          description: The start time of the character in seconds.
-        end:
-          type: number
-          title: End
-          description: The end time of the character in seconds.
-      type: object
-      required:
-      - text
-      - start
-      - end
-      title: ForcedAlignmentCharacterResponseModel
-      description: Model representing a single character with its timing information from the aligner.
-      example:
-        end: 0.02
-        start: 0.0
-        text: H
     HTTPValidationError:
       properties:
         detail:
@@ -82,6 +57,53 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    Body_Create_forced_alignment_v1_forced_alignment_post:
+      properties:
+        file:
+          type: string
+          title: File
+          description: The file to align. All major audio formats are supported. The file size must be less than 1GB.
+          format: binary
+        text:
+          type: string
+          title: Text
+          description: The text to align with the audio. The input text can be in any format, however diarization is not supported at this time.
+      type: object
+      required:
+      - file
+      - text
+      title: Body_Create_forced_alignment_v1_forced_alignment_post
+    ForcedAlignmentWordResponseModel:
+      properties:
+        text:
+          type: string
+          title: Text
+          description: The word that was transcribed.
+        start:
+          type: number
+          title: Start
+          description: The start time of the word in seconds.
+        end:
+          type: number
+          title: End
+          description: The end time of the word in seconds.
+        loss:
+          type: number
+          title: Loss
+          description: The average alignment loss/confidence score for this word, calculated from its constituent characters.
+      type: object
+      required:
+      - text
+      - start
+      - end
+      - loss
+      title: ForcedAlignmentWordResponseModel
+      description: Model representing a single word with its timing information from the aligner.
+      example:
+        end: 1.02
+        loss: 0.12
+        start: 0.0
+        text: Hello
     ForcedAlignmentResponseModel:
       properties:
         characters:
@@ -128,50 +150,28 @@ components:
       - msg
       - type
       title: ValidationError
-    ForcedAlignmentWordResponseModel:
+    ForcedAlignmentCharacterResponseModel:
       properties:
         text:
           type: string
           title: Text
-          description: The word that was transcribed.
+          description: The character that was transcribed.
         start:
           type: number
           title: Start
-          description: The start time of the word in seconds.
+          description: The start time of the character in seconds.
         end:
           type: number
           title: End
-          description: The end time of the word in seconds.
-        loss:
-          type: number
-          title: Loss
-          description: The average alignment loss/confidence score for this word, calculated from its constituent characters.
+          description: The end time of the character in seconds.
       type: object
       required:
       - text
       - start
       - end
-      - loss
-      title: ForcedAlignmentWordResponseModel
-      description: Model representing a single word with its timing information from the aligner.
+      title: ForcedAlignmentCharacterResponseModel
+      description: Model representing a single character with its timing information from the aligner.
       example:
-        end: 1.02
-        loss: 0.12
+        end: 0.02
         start: 0.0
-        text: Hello
-    Body_Create_forced_alignment_v1_forced_alignment_post:
-      properties:
-        file:
-          type: string
-          title: File
-          description: The file to align. All major audio formats are supported. The file size must be less than 1GB.
-          format: binary
-        text:
-          type: string
-          title: Text
-          description: The text to align with the audio. The input text can be in any format, however diarization is not supported at this time.
-      type: object
-      required:
-      - file
-      - text
-      title: Body_Create_forced_alignment_v1_forced_alignment_post
+        text: H

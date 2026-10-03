@@ -336,6 +336,85 @@ paths:
       x-fern-sdk-method-name: bulk_move
 components:
   schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    KnowledgeBaseFolderPathSegmentSummaryResponseModel:
+      properties:
+        id:
+          type: string
+          title: Id
+      type: object
+      required:
+      - id
+      title: KnowledgeBaseFolderPathSegmentSummaryResponseModel
+    ListCrawlJobsResponseModel:
+      properties:
+        crawl_jobs:
+          items:
+            $ref: '#/components/schemas/GetCrawlJobResponseModel'
+          type: array
+          title: Crawl Jobs
+        next_cursor:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Next Cursor
+      type: object
+      required:
+      - crawl_jobs
+      title: ListCrawlJobsResponseModel
+    CrawlStatus:
+      type: string
+      enum:
+      - queued
+      - processing
+      - succeeded
+      - failed
+      - skipped
+      - cancelled
+      title: CrawlStatus
+      default: queued
+    Body_Bulk_move_entities_to_folder_v1_convai_knowledge_base_bulk_move_post:
+      properties:
+        document_ids:
+          items:
+            type: string
+          type: array
+          maxItems: 20
+          minItems: 1
+          uniqueItems: true
+          title: Document Ids
+          description: The ids of documents or folders from the knowledge base.
+          examples:
+          - - 21m00Tcm4TlvDq8ikWAM
+            - 31m00Tcm4TlvDq8ikWBM
+        move_to:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Move To
+          description: The folder to move the entities to. If not set, the entities will be moved to the root folder.
+      type: object
+      required:
+      - document_ids
+      title: Body_Bulk_move_entities_to_folder_v1_convai_knowledge_base_bulk_move_post
+    Body_Move_entity_to_folder_v1_convai_knowledge_base__document_id__move_post:
+      properties:
+        move_to:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Move To
+          description: The folder to move the entities to. If not set, the entities will be moved to the root folder.
+      type: object
+      title: Body_Move_entity_to_folder_v1_convai_knowledge_base__document_id__move_post
     Body_Create_crawl_job_v1_convai_knowledge_base_crawl_post:
       properties:
         url:
@@ -399,108 +478,6 @@ components:
       required:
       - url
       title: Body_Create_crawl_job_v1_convai_knowledge_base_crawl_post
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    CrawlStatus:
-      type: string
-      enum:
-      - queued
-      - processing
-      - succeeded
-      - failed
-      - skipped
-      - cancelled
-      title: CrawlStatus
-      default: queued
-    KnowledgeBaseFolderPathSegmentSummaryResponseModel:
-      properties:
-        id:
-          type: string
-          title: Id
-      type: object
-      required:
-      - id
-      title: KnowledgeBaseFolderPathSegmentSummaryResponseModel
-    CreateCrawlJobResponseModel:
-      properties:
-        id:
-          type: string
-          title: Id
-        type:
-          $ref: '#/components/schemas/CrawlType'
-        root_folder_id:
-          type: string
-          title: Root Folder Id
-        status:
-          type: string
-          title: Status
-        created_at:
-          type: integer
-          title: Created At
-        folder_path:
-          items:
-            $ref: '#/components/schemas/KnowledgeBaseFolderPathSegmentSummaryResponseModel'
-          type: array
-          title: Folder Path
-          description: The folder path segments leading to the root folder, from root to parent folder.
-      type: object
-      required:
-      - id
-      - type
-      - root_folder_id
-      - status
-      - created_at
-      title: CreateCrawlJobResponseModel
-    AddKnowledgeBaseResponseModel:
-      properties:
-        id:
-          type: string
-          title: Id
-        name:
-          type: string
-          title: Name
-        folder_path:
-          items:
-            $ref: '#/components/schemas/KnowledgeBaseFolderPathSegmentSummaryResponseModel'
-          type: array
-          title: Folder Path
-          description: The folder path segments leading to this entity, from root to parent folder.
-      type: object
-      required:
-      - id
-      - name
-      title: AddKnowledgeBaseResponseModel
-    Body_Bulk_move_entities_to_folder_v1_convai_knowledge_base_bulk_move_post:
-      properties:
-        document_ids:
-          items:
-            type: string
-          type: array
-          maxItems: 20
-          minItems: 1
-          uniqueItems: true
-          title: Document Ids
-          description: The ids of documents or folders from the knowledge base.
-          examples:
-          - - 21m00Tcm4TlvDq8ikWAM
-            - 31m00Tcm4TlvDq8ikWBM
-        move_to:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Move To
-          description: The folder to move the entities to. If not set, the entities will be moved to the root folder.
-      type: object
-      required:
-      - document_ids
-      title: Body_Bulk_move_entities_to_folder_v1_convai_knowledge_base_bulk_move_post
     GetCrawlJobResponseModel:
       properties:
         type:
@@ -561,39 +538,6 @@ components:
       - id
       - created_at
       title: GetCrawlJobResponseModel
-    CrawlType:
-      type: string
-      enum:
-      - discovery
-      - sitemap
-      title: CrawlType
-      default: discovery
-    Body_Move_entity_to_folder_v1_convai_knowledge_base__document_id__move_post:
-      properties:
-        move_to:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Move To
-          description: The folder to move the entities to. If not set, the entities will be moved to the root folder.
-      type: object
-      title: Body_Move_entity_to_folder_v1_convai_knowledge_base__document_id__move_post
-    ListCrawlJobsResponseModel:
-      properties:
-        crawl_jobs:
-          items:
-            $ref: '#/components/schemas/GetCrawlJobResponseModel'
-          type: array
-          title: Crawl Jobs
-        next_cursor:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Next Cursor
-      type: object
-      required:
-      - crawl_jobs
-      title: ListCrawlJobsResponseModel
     ValidationError:
       properties:
         loc:
@@ -650,3 +594,59 @@ components:
       required:
       - name
       title: Body_Create_folder_v1_convai_knowledge_base_folder_post
+    CreateCrawlJobResponseModel:
+      properties:
+        id:
+          type: string
+          title: Id
+        type:
+          $ref: '#/components/schemas/CrawlType'
+        root_folder_id:
+          type: string
+          title: Root Folder Id
+        status:
+          type: string
+          title: Status
+        created_at:
+          type: integer
+          title: Created At
+        folder_path:
+          items:
+            $ref: '#/components/schemas/KnowledgeBaseFolderPathSegmentSummaryResponseModel'
+          type: array
+          title: Folder Path
+          description: The folder path segments leading to the root folder, from root to parent folder.
+      type: object
+      required:
+      - id
+      - type
+      - root_folder_id
+      - status
+      - created_at
+      title: CreateCrawlJobResponseModel
+    CrawlType:
+      type: string
+      enum:
+      - discovery
+      - sitemap
+      title: CrawlType
+      default: discovery
+    AddKnowledgeBaseResponseModel:
+      properties:
+        id:
+          type: string
+          title: Id
+        name:
+          type: string
+          title: Name
+        folder_path:
+          items:
+            $ref: '#/components/schemas/KnowledgeBaseFolderPathSegmentSummaryResponseModel'
+          type: array
+          title: Folder Path
+          description: The folder path segments leading to this entity, from root to parent folder.
+      type: object
+      required:
+      - id
+      - name
+      title: AddKnowledgeBaseResponseModel

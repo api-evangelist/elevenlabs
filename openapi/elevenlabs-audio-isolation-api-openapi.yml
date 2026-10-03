@@ -1,83 +1,53 @@
 openapi: 3.2.0
 info:
-  title: Elevenlabs Audio Isolation API
+  title: ElevenLabs API Documentation Audio Isolation API
+  description: This is the documentation for the ElevenLabs API. You can use this API to use our service programmatically, this is done by using your API key. You can find your API key in the dashboard at https://elevenlabs.io/app/settings/api-keys.
   version: '1.0'
-  description: 'Operations tagged Audio Isolation across 2 of this provider''s published API definitions: elevenlabs-audio-isolation-openapi.yml, elevenlabs-openapi.json. Each path carries the servers of the definition it was published in.'
-servers:
-- url: https://api.elevenlabs.io
-  description: Production Server
 tags:
-- name: Audio Isolation
-  description: Endpoints for isolating vocals from background noise in audio recordings.
+- name: audio-isolation
+  description: Isolate speech from background noise in an audio file.
 paths:
   /v1/audio-isolation:
     post:
-      operationId: isolateAudio
-      summary: Isolate audio
-      description: Removes background noise from an audio file, isolating the vocal content. Processes the uploaded audio and returns a cleaned version with background noise removed while preserving the vocal track.
       tags:
-      - Audio Isolation
+      - audio-isolation
+      summary: Audio Isolation
+      description: Removes background noise from audio
+      operationId: audio_isolation
+      parameters:
+      - name: xi-api-key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+          title: Xi-Api-Key
+        description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
       requestBody:
         required: true
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/AudioIsolationRequest'
+              $ref: '#/components/schemas/Body_Audio_Isolation_v1_audio_isolation_post'
       responses:
         '200':
-          description: Audio isolation completed successfully
+          description: Successful Response
           content:
-            audio/mpeg:
-              schema:
-                type: string
-                format: binary
-        '400':
-          description: Bad request - invalid audio file
-        '401':
-          description: Unauthorized - invalid or missing API key
+            audio/mpeg: {}
         '422':
-          description: Unprocessable entity - audio file could not be processed
-      security:
-      - apiKeyAuth: []
-    servers:
-    - url: https://api.elevenlabs.io
-      description: Production Server
-  /v1/audio-isolation/stream:
-    post:
-      operationId: isolateAudioStream
-      summary: Isolate audio with streaming
-      description: Removes background noise from an audio file and streams the cleaned audio back using chunked transfer encoding. Useful for processing larger files where streaming output is preferred.
-      tags:
-      - Audio Isolation
-      requestBody:
-        required: true
-        content:
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/AudioIsolationRequest'
-      responses:
-        '200':
-          description: Streaming isolated audio response
+          description: Validation Error
           content:
-            audio/mpeg:
+            application/json:
               schema:
-                type: string
-                format: binary
-        '400':
-          description: Bad request - invalid audio file
-        '401':
-          description: Unauthorized - invalid or missing API key
-        '422':
-          description: Unprocessable entity - audio file could not be processed
-      security:
-      - apiKeyAuth: []
-    servers:
-    - url: https://api.elevenlabs.io
-      description: Production Server
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-fern-sdk-group-name: audio_isolation
+      x-fern-sdk-method-name: convert
   /v1/audio-isolation/history:
     get:
       tags:
-      - Audio Isolation
+      - audio-isolation
       summary: Get Audio Isolation History
       description: Returns a list of all your audio isolation generations.
       operationId: get_audio_isolation_history
@@ -144,7 +114,7 @@ paths:
   /v1/audio-isolation/history/{history_item_id}:
     delete:
       tags:
-      - Audio Isolation
+      - audio-isolation
       summary: Delete Audio Isolation History Item
       description: Deletes a specific audio isolation history item and the associated media files.
       operationId: delete_audio_isolation_history_item
@@ -178,17 +148,100 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
       x-fern-sdk-group-name: audio_isolation
       x-fern-sdk-method-name: delete
+  /v1/audio-isolation/stream:
+    post:
+      tags:
+      - audio-isolation
+      summary: Audio Isolation Stream
+      description: Removes background noise from audio and streams the result
+      operationId: audio_isolation_stream
+      parameters:
+      - name: xi-api-key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+          title: Xi-Api-Key
+        description: Your API key. This is required by most endpoints to access our API programmatically. You can view your xi-api-key using the 'Profile' tab on the website.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Body_Audio_Isolation_Stream_v1_audio_isolation_stream_post'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            audio/mpeg: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-fern-sdk-group-name: audio_isolation
+      x-fern-sdk-method-name: stream
+      x-fern-streaming: true
 components:
   schemas:
-    AudioIsolationRequest:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    GetAudioIsolationHistoryResponseModel:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/AudioIsolationHistoryItemResponseModel'
+          type: array
+          title: Items
+        has_more:
+          type: boolean
+          title: Has More
       type: object
       required:
-      - audio
+      - items
+      - has_more
+      title: GetAudioIsolationHistoryResponseModel
+    Body_Audio_Isolation_v1_audio_isolation_post:
       properties:
         audio:
           type: string
+          title: Audio
+          description: The audio file from which vocals/speech will be isolated from.
           format: binary
-          description: The audio file to process for vocal isolation. Supports common audio formats including MP3, WAV, FLAC, and OGG.
+        file_format:
+          anyOf:
+          - type: string
+            enum:
+            - pcm_s16le_16
+            - other
+          - type: 'null'
+          title: File Format
+          description: The format of input audio. Options are 'pcm_s16le_16' or 'other' For `pcm_s16le_16`, the input audio must be 16-bit PCM at a 16kHz sample rate, single channel (mono), and little-endian byte order. Latency will be lower than with passing an encoded waveform.
+          default: other
+          examples:
+          - pcm_s16le_16
+          - other
+        preview_b64:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Preview B64
+          description: Optional preview image base64 for tracking this generation.
+      type: object
+      required:
+      - audio
+      title: Body_Audio_Isolation_v1_audio_isolation_post
     Body_Audio_Isolation_Stream_v1_audio_isolation_stream_post:
       properties:
         audio:
@@ -213,15 +266,27 @@ components:
       required:
       - audio
       title: Body_Audio_Isolation_Stream_v1_audio_isolation_stream_post
-    HTTPValidationError:
+    ValidationError:
       properties:
-        detail:
+        loc:
           items:
-            $ref: '#/components/schemas/ValidationError'
+            anyOf:
+            - type: string
+            - type: integer
           type: array
-          title: Detail
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
       type: object
-      title: HTTPValidationError
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     AudioIsolationHistoryItemResponseModel:
       properties:
         id:
@@ -287,81 +352,3 @@ components:
       - video_processing_failed
       - preview_b64
       title: AudioIsolationHistoryItemResponseModel
-    Body_Audio_Isolation_v1_audio_isolation_post:
-      properties:
-        audio:
-          type: string
-          title: Audio
-          description: The audio file from which vocals/speech will be isolated from.
-          format: binary
-        file_format:
-          anyOf:
-          - type: string
-            enum:
-            - pcm_s16le_16
-            - other
-          - type: 'null'
-          title: File Format
-          description: The format of input audio. Options are 'pcm_s16le_16' or 'other' For `pcm_s16le_16`, the input audio must be 16-bit PCM at a 16kHz sample rate, single channel (mono), and little-endian byte order. Latency will be lower than with passing an encoded waveform.
-          default: other
-          examples:
-          - pcm_s16le_16
-          - other
-        preview_b64:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Preview B64
-          description: Optional preview image base64 for tracking this generation.
-      type: object
-      required:
-      - audio
-      title: Body_Audio_Isolation_v1_audio_isolation_post
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    GetAudioIsolationHistoryResponseModel:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/AudioIsolationHistoryItemResponseModel'
-          type: array
-          title: Items
-        has_more:
-          type: boolean
-          title: Has More
-      type: object
-      required:
-      - items
-      - has_more
-      title: GetAudioIsolationHistoryResponseModel
-  securitySchemes:
-    apiKeyAuth:
-      type: apiKey
-      in: header
-      name: xi-api-key
-      description: ElevenLabs API key passed in the xi-api-key header for authentication.
-externalDocs:
-  description: ElevenLabs Audio Isolation API Documentation
-  url: https://elevenlabs.io/docs/api-reference/audio-isolation/audio-isolation
-x-refined-from:
-- elevenlabs-audio-isolation-openapi.yml
-- elevenlabs-openapi.json

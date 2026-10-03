@@ -204,45 +204,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    Body_Upload_asset_v1_assets_post:
-      properties:
-        asset:
-          type: string
-          title: Asset
-          description: The file to upload.
-          format: binary
-        name:
-          type: string
-          title: Name
-          description: Display name for the asset.
-          examples:
-          - podcast-intro.mp3
-      type: object
-      required:
-      - asset
-      - name
-      title: Body_Upload_asset_v1_assets_post
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     AssetListResponse:
       properties:
         assets:
@@ -317,3 +278,42 @@ components:
         created_at_unix: 1721520000
         mime_type: audio/mpeg
         name: podcast-intro.mp3
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    Body_Upload_asset_v1_assets_post:
+      properties:
+        asset:
+          type: string
+          title: Asset
+          description: The file to upload.
+          format: binary
+        name:
+          type: string
+          title: Name
+          description: Display name for the asset.
+          examples:
+          - podcast-intro.mp3
+      type: object
+      required:
+      - asset
+      - name
+      title: Body_Upload_asset_v1_assets_post

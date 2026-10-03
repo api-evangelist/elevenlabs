@@ -336,19 +336,6 @@ paths:
       x-fern-sdk-method-name: download
 components:
   schemas:
-    HistoryAlignmentsResponseModel:
-      properties:
-        alignment:
-          $ref: '#/components/schemas/HistoryAlignmentResponseModel'
-          description: The alignment of the text.
-        normalized_alignment:
-          $ref: '#/components/schemas/HistoryAlignmentResponseModel'
-          description: The normalized alignment of the text.
-      type: object
-      required:
-      - alignment
-      - normalized_alignment
-      title: HistoryAlignmentsResponseModel
     HTTPValidationError:
       properties:
         detail:
@@ -358,143 +345,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    Body_Download_history_items_v1_history_download_post:
-      properties:
-        history_item_ids:
-          items:
-            type: string
-          type: array
-          title: History Item Ids
-          description: A list of history items to download, you can get IDs of history items and other metadata using the GET https://api.elevenlabs.io/v1/history endpoint.
-        output_format:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Output Format
-          description: Output format to transcode the audio file, can be wav or default.
-      type: object
-      required:
-      - history_item_ids
-      title: Body_Download_history_items_v1_history_download_post
-    HistoryAlignmentResponseModel:
-      properties:
-        characters:
-          items:
-            type: string
-          type: array
-          title: Characters
-          description: The characters in the alignment.
-        character_start_times_seconds:
-          items:
-            type: number
-          type: array
-          title: Character Start Times Seconds
-          description: The start times of the characters in seconds.
-        character_end_times_seconds:
-          items:
-            type: number
-          type: array
-          title: Character End Times Seconds
-          description: The end times of the characters in seconds.
-      type: object
-      required:
-      - characters
-      - character_start_times_seconds
-      - character_end_times_seconds
-      title: HistoryAlignmentResponseModel
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    DialogueInputResponseModel:
-      properties:
-        text:
-          type: string
-          title: Text
-          description: The text of the dialogue input line.
-        voice_id:
-          type: string
-          title: Voice Id
-          description: The ID of the voice used for this dialogue input line.
-        voice_name:
-          type: string
-          title: Voice Name
-          description: The name of the voice used for this dialogue input line.
-      type: object
-      required:
-      - text
-      - voice_id
-      - voice_name
-      title: DialogueInputResponseModel
-    GetSpeechHistoryResponseModel:
-      properties:
-        history:
-          items:
-            $ref: '#/components/schemas/SpeechHistoryItemResponseModel'
-          type: array
-          title: History
-          description: A list of speech history items.
-        last_history_item_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Last History Item Id
-          description: The ID of the last history item.
-        has_more:
-          type: boolean
-          title: Has More
-          description: Whether there are more history items to fetch.
-        scanned_until:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Scanned Until
-          description: The timestamp of the last history item.
-      type: object
-      required:
-      - history
-      - has_more
-      title: GetSpeechHistoryResponseModel
-      example:
-        has_more: true
-        history:
-        - character_count_change_from: 17189
-          character_count_change_to: 17231
-          content_type: audio/mpeg
-          date_unix: 1714650306
-          history_item_id: ja9xsmfGhxYcymxGcOGB
-          model_id: eleven_multilingual_v2
-          request_id: BF0BZg4IwLGBlaVjv9Im
-          settings:
-            similarity_boost: 0.5
-            stability: 0.71
-            style: 0
-            use_speaker_boost: true
-          source: TTS
-          state: created
-          text: Hello, world!
-          voice_category: premade
-          voice_id: 21m00Tcm4TlvDq8ikWAM
-          voice_name: Rachel
-        last_history_item_id: ja9xsmfGhxYcymxGcOGB
-        scanned_until: 1714650306
     SpeechHistoryItemResponseModel:
       properties:
         history_item_id:
@@ -644,6 +494,26 @@ components:
         voice_category: premade
         voice_id: 21m00Tcm4TlvDq8ikWAM
         voice_name: Rachel
+    DialogueInputResponseModel:
+      properties:
+        text:
+          type: string
+          title: Text
+          description: The text of the dialogue input line.
+        voice_id:
+          type: string
+          title: Voice Id
+          description: The ID of the voice used for this dialogue input line.
+        voice_name:
+          type: string
+          title: Voice Name
+          description: The name of the voice used for this dialogue input line.
+      type: object
+      required:
+      - text
+      - voice_id
+      - voice_name
+      title: DialogueInputResponseModel
     DeleteHistoryItemResponse:
       properties:
         status:
@@ -656,3 +526,133 @@ components:
       title: DeleteHistoryItemResponse
       example:
         status: ok
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    GetSpeechHistoryResponseModel:
+      properties:
+        history:
+          items:
+            $ref: '#/components/schemas/SpeechHistoryItemResponseModel'
+          type: array
+          title: History
+          description: A list of speech history items.
+        last_history_item_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Last History Item Id
+          description: The ID of the last history item.
+        has_more:
+          type: boolean
+          title: Has More
+          description: Whether there are more history items to fetch.
+        scanned_until:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Scanned Until
+          description: The timestamp of the last history item.
+      type: object
+      required:
+      - history
+      - has_more
+      title: GetSpeechHistoryResponseModel
+      example:
+        has_more: true
+        history:
+        - character_count_change_from: 17189
+          character_count_change_to: 17231
+          content_type: audio/mpeg
+          date_unix: 1714650306
+          history_item_id: ja9xsmfGhxYcymxGcOGB
+          model_id: eleven_multilingual_v2
+          request_id: BF0BZg4IwLGBlaVjv9Im
+          settings:
+            similarity_boost: 0.5
+            stability: 0.71
+            style: 0
+            use_speaker_boost: true
+          source: TTS
+          state: created
+          text: Hello, world!
+          voice_category: premade
+          voice_id: 21m00Tcm4TlvDq8ikWAM
+          voice_name: Rachel
+        last_history_item_id: ja9xsmfGhxYcymxGcOGB
+        scanned_until: 1714650306
+    HistoryAlignmentResponseModel:
+      properties:
+        characters:
+          items:
+            type: string
+          type: array
+          title: Characters
+          description: The characters in the alignment.
+        character_start_times_seconds:
+          items:
+            type: number
+          type: array
+          title: Character Start Times Seconds
+          description: The start times of the characters in seconds.
+        character_end_times_seconds:
+          items:
+            type: number
+          type: array
+          title: Character End Times Seconds
+          description: The end times of the characters in seconds.
+      type: object
+      required:
+      - characters
+      - character_start_times_seconds
+      - character_end_times_seconds
+      title: HistoryAlignmentResponseModel
+    HistoryAlignmentsResponseModel:
+      properties:
+        alignment:
+          $ref: '#/components/schemas/HistoryAlignmentResponseModel'
+          description: The alignment of the text.
+        normalized_alignment:
+          $ref: '#/components/schemas/HistoryAlignmentResponseModel'
+          description: The normalized alignment of the text.
+      type: object
+      required:
+      - alignment
+      - normalized_alignment
+      title: HistoryAlignmentsResponseModel
+    Body_Download_history_items_v1_history_download_post:
+      properties:
+        history_item_ids:
+          items:
+            type: string
+          type: array
+          title: History Item Ids
+          description: A list of history items to download, you can get IDs of history items and other metadata using the GET https://api.elevenlabs.io/v1/history endpoint.
+        output_format:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Output Format
+          description: Output format to transcode the audio file, can be wav or default.
+      type: object
+      required:
+      - history_item_ids
+      title: Body_Download_history_items_v1_history_download_post

@@ -108,14 +108,6 @@ components:
           type: string
           format: date-time
           description: Timestamp when the tool was created.
-    ToolListResponse:
-      type: object
-      properties:
-        tools:
-          type: array
-          description: List of configured tools.
-          items:
-            $ref: '#/components/schemas/Tool'
     CreateToolRequest:
       type: object
       required:
@@ -142,6 +134,14 @@ components:
         parameters:
           type: object
           description: JSON Schema defining the parameters the tool accepts.
+    ToolListResponse:
+      type: object
+      properties:
+        tools:
+          type: array
+          description: List of configured tools.
+          items:
+            $ref: '#/components/schemas/Tool'
   securitySchemes:
     apiKeyAuth:
       type: apiKey

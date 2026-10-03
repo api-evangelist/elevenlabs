@@ -123,6 +123,18 @@ components:
       required:
       - videos
       title: Body_Video_to_Music_v1_music_video_to_music_post
+    MusicModelID:
+      type: string
+      enum:
+      - music_v1
+      - music_v2
+      - music_v2_5
+      title: MusicModelID
+      x-fern-enum:
+        music_v1:
+          description: 'Deprecated: Deprecated.'
+          deprecated: true
+      default: music_v1
     AllowedOutputFormats:
       type: string
       enum:
@@ -147,15 +159,3 @@ components:
       - opus_48000_96
       - opus_48000_128
       - opus_48000_192
-    MusicModelID:
-      type: string
-      enum:
-      - music_v1
-      - music_v2
-      - music_v2_5
-      title: MusicModelID
-      x-fern-enum:
-        music_v1:
-          description: 'Deprecated: Deprecated.'
-          deprecated: true
-      default: music_v1

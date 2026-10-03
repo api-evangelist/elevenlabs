@@ -77,14 +77,6 @@ paths:
         '401':
           description: Unauthorized - invalid or missing API key
 components:
-  parameters:
-    voiceId:
-      name: voice_id
-      in: path
-      required: true
-      description: The identifier of the voice.
-      schema:
-        type: string
   schemas:
     VoiceSettings:
       type: object
@@ -109,6 +101,14 @@ components:
           type: boolean
           description: Enables speaker boost to increase voice clarity.
           default: true
+  parameters:
+    voiceId:
+      name: voice_id
+      in: path
+      required: true
+      description: The identifier of the voice.
+      schema:
+        type: string
   securitySchemes:
     apiKeyAuth:
       type: apiKey

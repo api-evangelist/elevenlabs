@@ -705,6 +705,25 @@ paths:
       x-fern-sdk-method-name: render
 components:
   schemas:
+    SegmentSubtitleFrame:
+      properties:
+        start_time:
+          type: number
+          title: Start Time
+        end_time:
+          type: number
+          title: End Time
+        lines:
+          items:
+            type: string
+          type: array
+          title: Lines
+      type: object
+      required:
+      - start_time
+      - end_time
+      - lines
+      title: SegmentSubtitleFrame
     SegmentCreatePayload:
       properties:
         start_time:
@@ -751,259 +770,18 @@ components:
       - msg
       - type
       title: ValidationError
-    SegmentCreateResponse:
-      properties:
-        version:
-          type: integer
-          title: Version
-        new_segment:
-          type: string
-          title: New Segment
-      type: object
-      required:
-      - version
-      - new_segment
-      title: SegmentCreateResponse
-    SegmentTranscriptionResponse:
-      properties:
-        version:
-          type: integer
-          title: Version
-      type: object
-      required:
-      - version
-      title: SegmentTranscriptionResponse
-    SegmentUpdatePayload:
-      properties:
-        start_time:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Start Time
-        end_time:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: End Time
-        text:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Text
-      type: object
-      title: SegmentUpdatePayload
-    SegmentDubResponse:
-      properties:
-        version:
-          type: integer
-          title: Version
-      type: object
-      required:
-      - version
-      title: SegmentDubResponse
-    Body_Transcribes_segments_v1_dubbing_resource__dubbing_id__transcribe_post:
-      properties:
-        segments:
-          items:
-            type: string
-          type: array
-          title: Segments
-          description: Transcribe this specific list of segments.
-      type: object
-      required:
-      - segments
-      title: Body_Transcribes_segments_v1_dubbing_resource__dubbing_id__transcribe_post
-    SpeakerSegment:
-      properties:
-        id:
-          type: string
-          title: Id
-        start_time:
-          type: number
-          title: Start Time
-        end_time:
-          type: number
-          title: End Time
-        text:
-          type: string
-          title: Text
-        subtitles:
-          items:
-            $ref: '#/components/schemas/SegmentSubtitleFrame'
-          type: array
-          title: Subtitles
-        dubs:
-          additionalProperties:
-            $ref: '#/components/schemas/DubbedSegment'
-          type: object
-          title: Dubs
-      type: object
-      required:
-      - id
-      - start_time
-      - end_time
-      - text
-      - subtitles
-      - dubs
-      title: SpeakerSegment
-    SpeakerCreatedResponse:
-      properties:
-        version:
-          type: integer
-          title: Version
-        speaker_id:
-          type: string
-          title: Speaker Id
-      type: object
-      required:
-      - version
-      - speaker_id
-      title: SpeakerCreatedResponse
-    SegmentTranslationResponse:
-      properties:
-        version:
-          type: integer
-          title: Version
-      type: object
-      required:
-      - version
-      title: SegmentTranslationResponse
-    SegmentMigrationResponse:
-      properties:
-        version:
-          type: integer
-          title: Version
-      type: object
-      required:
-      - version
-      title: SegmentMigrationResponse
-    DubbingRenderResponseModel:
-      properties:
-        version:
-          type: integer
-          title: Version
-        render_id:
-          type: string
-          title: Render Id
-      type: object
-      required:
-      - version
-      - render_id
-      title: DubbingRenderResponseModel
-    Body_Add_a_language_to_the_resource_v1_dubbing_resource__dubbing_id__language_post:
-      properties:
-        language:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Language
-          description: The Target language.
-      type: object
-      required:
-      - language
-      title: Body_Add_a_language_to_the_resource_v1_dubbing_resource__dubbing_id__language_post
-    LanguageAddedResponse:
-      properties:
-        version:
-          type: integer
-          title: Version
-      type: object
-      required:
-      - version
-      title: LanguageAddedResponse
-    SegmentUpdateResponse:
-      properties:
-        version:
-          type: integer
-          title: Version
-      type: object
-      required:
-      - version
-      title: SegmentUpdateResponse
-    SimilarVoice:
-      properties:
-        voice_id:
-          type: string
-          title: Voice Id
-        name:
-          type: string
-          title: Name
-        category:
-          $ref: '#/components/schemas/VOICE_CATEGORY'
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-        preview_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Preview Url
-      type: object
-      required:
-      - voice_id
-      - name
-      - category
-      title: SimilarVoice
-    Render:
-      properties:
-        id:
-          type: string
-          title: Id
-        version:
-          type: integer
-          title: Version
-        language:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Language
-        type:
-          anyOf:
-          - $ref: '#/components/schemas/RenderType'
-          - type: 'null'
-        media_ref:
-          anyOf:
-          - $ref: '#/components/schemas/DubbingMediaReference'
-          - type: 'null'
-        status:
-          type: string
-          enum:
-          - complete
-          - processing
-          - failed
-          title: Status
-      type: object
-      required:
-      - id
-      - version
-      - language
-      - type
-      - media_ref
-      - status
-      title: Render
-    Body_Translates_all_or_some_segments_and_languages_v1_dubbing_resource__dubbing_id__translate_post:
-      properties:
-        segments:
-          items:
-            type: string
-          type: array
-          title: Segments
-          description: Translate only this list of segments.
-        languages:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Languages
-          description: Translate only these languages for each segment.
-      type: object
-      required:
-      - segments
-      - languages
-      title: Body_Translates_all_or_some_segments_and_languages_v1_dubbing_resource__dubbing_id__translate_post
+    RenderType:
+      type: string
+      enum:
+      - mp4
+      - aac
+      - mp3
+      - wav
+      - aaf
+      - tracks_zip
+      - clips_zip
+      - zip
+      title: RenderType
     DubbingMediaReference:
       properties:
         src:
@@ -1037,6 +815,204 @@ components:
       - is_audio
       - url
       title: DubbingMediaReference
+    SpeakerSegment:
+      properties:
+        id:
+          type: string
+          title: Id
+        start_time:
+          type: number
+          title: Start Time
+        end_time:
+          type: number
+          title: End Time
+        text:
+          type: string
+          title: Text
+        subtitles:
+          items:
+            $ref: '#/components/schemas/SegmentSubtitleFrame'
+          type: array
+          title: Subtitles
+        dubs:
+          additionalProperties:
+            $ref: '#/components/schemas/DubbedSegment'
+          type: object
+          title: Dubs
+      type: object
+      required:
+      - id
+      - start_time
+      - end_time
+      - text
+      - subtitles
+      - dubs
+      title: SpeakerSegment
+    LanguageAddedResponse:
+      properties:
+        version:
+          type: integer
+          title: Version
+      type: object
+      required:
+      - version
+      title: LanguageAddedResponse
+    SegmentUpdateResponse:
+      properties:
+        version:
+          type: integer
+          title: Version
+      type: object
+      required:
+      - version
+      title: SegmentUpdateResponse
+    SegmentCreateResponse:
+      properties:
+        version:
+          type: integer
+          title: Version
+        new_segment:
+          type: string
+          title: New Segment
+      type: object
+      required:
+      - version
+      - new_segment
+      title: SegmentCreateResponse
+    SegmentDeleteResponse:
+      properties:
+        version:
+          type: integer
+          title: Version
+      type: object
+      required:
+      - version
+      title: SegmentDeleteResponse
+    SpeakerUpdatedResponse:
+      properties:
+        version:
+          type: integer
+          title: Version
+      type: object
+      required:
+      - version
+      title: SpeakerUpdatedResponse
+    SegmentTranslationResponse:
+      properties:
+        version:
+          type: integer
+          title: Version
+      type: object
+      required:
+      - version
+      title: SegmentTranslationResponse
+    DubbedSegment:
+      properties:
+        start_time:
+          type: number
+          title: Start Time
+        end_time:
+          type: number
+          title: End Time
+        text:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Text
+        subtitles:
+          items:
+            $ref: '#/components/schemas/SegmentSubtitleFrame'
+          type: array
+          title: Subtitles
+        audio_stale:
+          type: boolean
+          title: Audio Stale
+        media_ref:
+          anyOf:
+          - $ref: '#/components/schemas/DubbingMediaReference'
+          - type: 'null'
+      type: object
+      required:
+      - start_time
+      - end_time
+      - text
+      - subtitles
+      - audio_stale
+      - media_ref
+      title: DubbedSegment
+    SegmentUpdatePayload:
+      properties:
+        start_time:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Start Time
+        end_time:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: End Time
+        text:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Text
+      type: object
+      title: SegmentUpdatePayload
+    DubbingRenderResponseModel:
+      properties:
+        version:
+          type: integer
+          title: Version
+        render_id:
+          type: string
+          title: Render Id
+      type: object
+      required:
+      - version
+      - render_id
+      title: DubbingRenderResponseModel
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    SimilarVoicesForSpeakerResponse:
+      properties:
+        voices:
+          items:
+            $ref: '#/components/schemas/SimilarVoice'
+          type: array
+          title: Voices
+      type: object
+      required:
+      - voices
+      title: SimilarVoicesForSpeakerResponse
+    Body_Dubs_all_or_some_segments_and_languages_v1_dubbing_resource__dubbing_id__dub_post:
+      properties:
+        segments:
+          items:
+            type: string
+          type: array
+          title: Segments
+          description: Dub only this list of segments.
+        languages:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Languages
+          description: Dub only these languages for each segment.
+      type: object
+      required:
+      - segments
+      - languages
+      title: Body_Dubs_all_or_some_segments_and_languages_v1_dubbing_resource__dubbing_id__dub_post
     Body_Render_audio_or_video_for_the_given_language_v1_dubbing_resource__dubbing_id__render__language__post:
       properties:
         render_type:
@@ -1053,6 +1029,18 @@ components:
       required:
       - render_type
       title: Body_Render_audio_or_video_for_the_given_language_v1_dubbing_resource__dubbing_id__render__language__post
+    Body_Transcribes_segments_v1_dubbing_resource__dubbing_id__transcribe_post:
+      properties:
+        segments:
+          items:
+            type: string
+          type: array
+          title: Segments
+          description: Transcribe this specific list of segments.
+      type: object
+      required:
+      - segments
+      title: Body_Transcribes_segments_v1_dubbing_resource__dubbing_id__transcribe_post
     Body_Update_metadata_for_a_speaker_v1_dubbing_resource__dubbing_id__speaker__speaker_id__patch:
       properties:
         speaker_name:
@@ -1095,7 +1083,7 @@ components:
           description: Languages to apply these changes to. If empty, will apply to all languages.
       type: object
       title: Body_Update_metadata_for_a_speaker_v1_dubbing_resource__dubbing_id__speaker__speaker_id__patch
-    SpeakerUpdatedResponse:
+    SegmentDubResponse:
       properties:
         version:
           type: integer
@@ -1103,77 +1091,7 @@ components:
       type: object
       required:
       - version
-      title: SpeakerUpdatedResponse
-    SpeakerTrack:
-      properties:
-        id:
-          type: string
-          title: Id
-        media_ref:
-          $ref: '#/components/schemas/DubbingMediaReference'
-        speaker_name:
-          type: string
-          title: Speaker Name
-        voices:
-          additionalProperties:
-            type: string
-          type: object
-          title: Voices
-        segments:
-          items:
-            type: string
-          type: array
-          title: Segments
-      type: object
-      required:
-      - id
-      - media_ref
-      - speaker_name
-      - voices
-      - segments
-      title: SpeakerTrack
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    Body_Dubs_all_or_some_segments_and_languages_v1_dubbing_resource__dubbing_id__dub_post:
-      properties:
-        segments:
-          items:
-            type: string
-          type: array
-          title: Segments
-          description: Dub only this list of segments.
-        languages:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Languages
-          description: Dub only these languages for each segment.
-      type: object
-      required:
-      - segments
-      - languages
-      title: Body_Dubs_all_or_some_segments_and_languages_v1_dubbing_resource__dubbing_id__dub_post
-    RenderType:
-      type: string
-      enum:
-      - mp4
-      - aac
-      - mp3
-      - wav
-      - aaf
-      - tracks_zip
-      - clips_zip
-      - zip
-      title: RenderType
+      title: SegmentDubResponse
     Body_Create_a_new_speaker_v1_dubbing_resource__dubbing_id__speaker_post:
       properties:
         speaker_name:
@@ -1223,6 +1141,18 @@ components:
       - segment_ids
       - speaker_id
       title: Body_Move_segments_between_speakers_v1_dubbing_resource__dubbing_id__migrate_segments_post
+    Body_Add_a_language_to_the_resource_v1_dubbing_resource__dubbing_id__language_post:
+      properties:
+        language:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Language
+          description: The Target language.
+      type: object
+      required:
+      - language
+      title: Body_Add_a_language_to_the_resource_v1_dubbing_resource__dubbing_id__language_post
     DubbingResource:
       properties:
         id:
@@ -1277,36 +1207,128 @@ components:
       - speaker_segments
       - renders
       title: DubbingResource
-    SegmentSubtitleFrame:
+    SpeakerCreatedResponse:
       properties:
-        start_time:
-          type: number
-          title: Start Time
-        end_time:
-          type: number
-          title: End Time
-        lines:
+        version:
+          type: integer
+          title: Version
+        speaker_id:
+          type: string
+          title: Speaker Id
+      type: object
+      required:
+      - version
+      - speaker_id
+      title: SpeakerCreatedResponse
+    Render:
+      properties:
+        id:
+          type: string
+          title: Id
+        version:
+          type: integer
+          title: Version
+        language:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Language
+        type:
+          anyOf:
+          - $ref: '#/components/schemas/RenderType'
+          - type: 'null'
+        media_ref:
+          anyOf:
+          - $ref: '#/components/schemas/DubbingMediaReference'
+          - type: 'null'
+        status:
+          type: string
+          enum:
+          - complete
+          - processing
+          - failed
+          title: Status
+      type: object
+      required:
+      - id
+      - version
+      - language
+      - type
+      - media_ref
+      - status
+      title: Render
+    SegmentTranscriptionResponse:
+      properties:
+        version:
+          type: integer
+          title: Version
+      type: object
+      required:
+      - version
+      title: SegmentTranscriptionResponse
+    SimilarVoice:
+      properties:
+        voice_id:
+          type: string
+          title: Voice Id
+        name:
+          type: string
+          title: Name
+        category:
+          $ref: '#/components/schemas/VOICE_CATEGORY'
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        preview_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Preview Url
+      type: object
+      required:
+      - voice_id
+      - name
+      - category
+      title: SimilarVoice
+    SegmentMigrationResponse:
+      properties:
+        version:
+          type: integer
+          title: Version
+      type: object
+      required:
+      - version
+      title: SegmentMigrationResponse
+    SpeakerTrack:
+      properties:
+        id:
+          type: string
+          title: Id
+        media_ref:
+          $ref: '#/components/schemas/DubbingMediaReference'
+        speaker_name:
+          type: string
+          title: Speaker Name
+        voices:
+          additionalProperties:
+            type: string
+          type: object
+          title: Voices
+        segments:
           items:
             type: string
           type: array
-          title: Lines
+          title: Segments
       type: object
       required:
-      - start_time
-      - end_time
-      - lines
-      title: SegmentSubtitleFrame
-    SimilarVoicesForSpeakerResponse:
-      properties:
-        voices:
-          items:
-            $ref: '#/components/schemas/SimilarVoice'
-          type: array
-          title: Voices
-      type: object
-      required:
+      - id
+      - media_ref
+      - speaker_name
       - voices
-      title: SimilarVoicesForSpeakerResponse
+      - segments
+      title: SpeakerTrack
     VOICE_CATEGORY:
       type: string
       enum:
@@ -1315,46 +1337,24 @@ components:
       - generated
       - professional
       - famous
-    SegmentDeleteResponse:
+    Body_Translates_all_or_some_segments_and_languages_v1_dubbing_resource__dubbing_id__translate_post:
       properties:
-        version:
-          type: integer
-          title: Version
-      type: object
-      required:
-      - version
-      title: SegmentDeleteResponse
-    DubbedSegment:
-      properties:
-        start_time:
-          type: number
-          title: Start Time
-        end_time:
-          type: number
-          title: End Time
-        text:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Text
-        subtitles:
+        segments:
           items:
-            $ref: '#/components/schemas/SegmentSubtitleFrame'
+            type: string
           type: array
-          title: Subtitles
-        audio_stale:
-          type: boolean
-          title: Audio Stale
-        media_ref:
+          title: Segments
+          description: Translate only this list of segments.
+        languages:
           anyOf:
-          - $ref: '#/components/schemas/DubbingMediaReference'
+          - items:
+              type: string
+            type: array
           - type: 'null'
+          title: Languages
+          description: Translate only these languages for each segment.
       type: object
       required:
-      - start_time
-      - end_time
-      - text
-      - subtitles
-      - audio_stale
-      - media_ref
-      title: DubbedSegment
+      - segments
+      - languages
+      title: Body_Translates_all_or_some_segments_and_languages_v1_dubbing_resource__dubbing_id__translate_post

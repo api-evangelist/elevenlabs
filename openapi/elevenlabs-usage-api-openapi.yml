@@ -114,6 +114,61 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    MetricType:
+      type: string
+      enum:
+      - credits
+      - tts_characters
+      - minutes_used
+      - request_count
+      - ttfb_avg
+      - ttfb_p95
+      - fiat_units_spent
+      - concurrency
+      - concurrency_average
+      title: MetricType
+    BreakdownTypes:
+      type: string
+      enum:
+      - none
+      - voice
+      - voice_multiplier
+      - user
+      - groups
+      - api_keys
+      - all_api_keys
+      - product_type
+      - model
+      - resource
+      - request_queue
+      - region
+      - subresource_id
+      - reporting_workspace_id
+      - has_api_key
+      - request_source
+      title: BreakdownTypes
+      description: How to break down the information. Cannot be "user" or "api_key" if include_workspace_metrics is False.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     UsageCharactersResponseModel:
       properties:
         time:
@@ -143,40 +198,6 @@ components:
           All:
           - 49
           - 1053
-    BreakdownTypes:
-      type: string
-      enum:
-      - none
-      - voice
-      - voice_multiplier
-      - user
-      - groups
-      - api_keys
-      - all_api_keys
-      - product_type
-      - model
-      - resource
-      - request_queue
-      - region
-      - subresource_id
-      - reporting_workspace_id
-      - has_api_key
-      - request_source
-      title: BreakdownTypes
-      description: How to break down the information. Cannot be "user" or "api_key" if include_workspace_metrics is False.
-    MetricType:
-      type: string
-      enum:
-      - credits
-      - tts_characters
-      - minutes_used
-      - request_count
-      - ttfb_avg
-      - ttfb_p95
-      - fiat_units_spent
-      - concurrency
-      - concurrency_average
-      title: MetricType
     UsageAggregationInterval:
       type: string
       enum:
@@ -187,24 +208,3 @@ components:
       - cumulative
       title: UsageAggregationInterval
       description: The time interval over which to aggregate the usage data.
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError

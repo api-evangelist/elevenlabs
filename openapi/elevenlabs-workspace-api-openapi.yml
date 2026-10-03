@@ -1390,1249 +1390,23 @@ paths:
       x-fern-sdk-method-name: delete
 components:
   schemas:
-    DependentAvailableToolIdentifier:
+    DependentUnknownToolIdentifier:
       properties:
-        id:
-          type: string
-          title: Id
-        name:
-          type: string
-          title: Name
         type:
           type: string
-          const: available
+          const: unknown
           title: Type
-          default: available
-        created_at_unix_secs:
-          type: integer
-          title: Created At Unix Secs
-        access_level:
-          type: string
-          enum:
-          - admin
-          - editor
-          - commenter
-          - viewer
-          title: Access Level
-      type: object
-      required:
-      - id
-      - name
-      - created_at_unix_secs
-      - access_level
-      title: DependentAvailableToolIdentifier
-    Body_Set_workspace_Third_Party_Disabling_policy_v1_workspaces_api_keys_third_party_disabling_post:
-      properties:
-        third_party_disable_allowed:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Third Party Disable Allowed
-          description: '`true` forces every key in the workspace to be disable-able by its holder; `false` forbids it for every key; `null` clears the override (per-key values and the plan default apply).'
-      type: object
-      title: Body_Set_workspace_Third_Party_Disabling_policy_v1_workspaces_api_keys_third_party_disabling_post
-    UserModel:
-      properties:
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-          description: Username
-        uid:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Uid
-          description: Unique user identifier
-        type_id:
-          $ref: '#/components/schemas/UserTypeId'
-          description: Account type identifier
-          default: 1
-        type:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Type
-          description: Account type description
-        email_addr:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Email Addr
-          description: User email address
-        full_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Full Name
-          description: Full name of the user
-        domain:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Domain
-          description: User's domain
-      additionalProperties: false
-      type: object
-      title: UserModel
-      description: 'OCSF User object.
-
-
-        Spec: https://schema.ocsf.io/1.6.0/objects/user'
-    DefaultSharingGroupResponseModel:
-      properties:
-        group:
-          $ref: '#/components/schemas/WorkspaceGroupResponseModel'
-          description: The group to share with by default
-        permission_level:
-          type: string
-          enum:
-          - admin
-          - editor
-          - viewer
-          title: Permission Level
-          description: The permission level to grant to the group
-      type: object
-      required:
-      - group
-      - permission_level
-      title: DefaultSharingGroupResponseModel
-    BearerAuthResponse:
-      properties:
-        name:
-          type: string
-          title: Name
-        auth_type:
-          type: string
-          const: bearer_auth
-          title: Auth Type
-          default: bearer_auth
-        provider:
-          type: string
-          title: Provider
+          default: unknown
         id:
           type: string
           title: Id
-        used_by:
-          anyOf:
-          - $ref: '#/components/schemas/AuthConnectionDependencies'
-          - type: 'null'
-        status:
-          $ref: '#/components/schemas/AuthConnectionStatus'
-          default: active
-        status_detail:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Status Detail
-        status_updated_at:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Status Updated At
       type: object
       required:
-      - name
-      - provider
       - id
-      title: BearerAuthResponse
-      description: Response model for bearer auth
-    WorkspaceApiKeyResponseModel:
-      properties:
-        name:
-          type: string
-          title: Name
-        hint:
-          type: string
-          title: Hint
-        key_id:
-          type: string
-          title: Key Id
-        service_account_user_id:
-          type: string
-          title: Service Account User Id
-        created_at_unix:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Created At Unix
-        is_disabled:
-          type: boolean
-          title: Is Disabled
-          default: false
-        permissions:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/PermissionType'
-            type: array
-          - type: 'null'
-          title: Permissions
-        disable_reason:
-          anyOf:
-          - $ref: '#/components/schemas/LockReason'
-          - type: 'null'
-        character_limit:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Character Limit
-          description: Maximum number of credits allowed in the current billing period.
-        character_count:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Character Count
-          description: Credits already used in the current billing period.
-        hashed_xi_api_key:
-          type: string
-          title: Hashed Xi Api Key
-        allowed_ips:
-          anyOf:
-          - items:
-              type: string
-            type: array
-            maxItems: 100
-            minItems: 1
-          - type: 'null'
-          title: Allowed Ips
-        third_party_disable_allowed:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Third Party Disable Allowed
-        platform_limits:
-          anyOf:
-          - $ref: '#/components/schemas/PlatformLimits'
-          - type: 'null'
-          description: Per-API-key concurrency limits (TTS/dubbing/music). Enterprise-only.
-      type: object
-      required:
-      - name
-      - hint
-      - key_id
-      - service_account_user_id
-      - hashed_xi_api_key
-      title: WorkspaceApiKeyResponseModel
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    CreateBearerAuthRequest:
-      properties:
-        name:
-          type: string
-          title: Name
-        auth_type:
-          type: string
-          const: bearer_auth
-          title: Auth Type
-          default: bearer_auth
-        provider:
-          type: string
-          title: Provider
-        token:
-          type: string
-          title: Token
-      type: object
-      required:
-      - name
-      - provider
-      - token
-      title: CreateBearerAuthRequest
-      description: Request model for creating Bearer Auth connections - inherits common settings and includes sensitive fields
-    Body_Update_workspace_webhook_v1_workspace_webhooks__webhook_id__patch:
-      properties:
-        is_disabled:
-          type: boolean
-          title: Is Disabled
-          description: Whether to disable or enable the webhook
-          examples:
-          - true
-        name:
-          type: string
-          title: Name
-          description: The display name of the webhook (used for display purposes only).
-          examples:
-          - My Callback Webhook
-        retry_enabled:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Retry Enabled
-          description: Whether to enable automatic retries for transient failures (5xx, 429, timeout)
-          examples:
-          - true
-        request_headers:
-          anyOf:
-          - additionalProperties:
-              type: string
-            type: object
-          - type: 'null'
-          title: Request Headers
-          description: A list of request headers to include with the webhook delivery (optional)
-        events:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/WorkspaceWebhookEventType'
-            type: array
-          - type: 'null'
-          title: Events
-          description: The complete set of workspace-level events this webhook should be subscribed to. The webhook is added to the events in the list and removed from any not in the list. Omit to leave the current event subscriptions unchanged.
-          examples:
-          - - voice_library_removal_notice
-            - speech_to_text
-      type: object
-      required:
-      - is_disabled
-      - name
-      title: Body_Update_workspace_webhook_v1_workspace_webhooks__webhook_id__patch
-    WorkspaceWebhookEventType:
-      type: string
-      enum:
-      - voice_library_removal_notice
-      - speech_to_text
-      - agent_qa
-      - flows
-      title: WorkspaceWebhookEventType
-    PermissionType:
-      type: string
-      enum:
-      - text_to_speech
-      - speech_to_speech
-      - speech_to_text
-      - models_read
-      - models_write
-      - voices_read
-      - voices_write
-      - speech_history_read
-      - speech_history_write
-      - sound_generation
-      - audio_isolation
-      - voice_generation
-      - dubbing_read
-      - dubbing_write
-      - pronunciation_dictionaries_read
-      - pronunciation_dictionaries_write
-      - user_read
-      - user_write
-      - projects_read
-      - projects_write
-      - audio_native_read
-      - audio_native_write
-      - workspace_read
-      - workspace_write
-      - forced_alignment
-      - convai_read
-      - convai_write
-      - music_generation
-      - image_video_generation
-      - flows
-      - templates
-      - add_voice_from_voice_library
-      - create_instant_voice_clone
-      - create_professional_voice_clone
-      - publish_voice_to_voice_library
-      - share_voice_externally
-      - create_user_api_key
-      - workspace_analytics_full_read
-      - webhooks_write
-      - service_account_write
-      - group_members_manage
-      - workspace_members_read
-      - workspace_members_invite
-      - workspace_members_remove
-      - terms_of_service_accept
-      - audit_log_read
-      - conversation_privacy_manage
-      - copy_resources_cross_workspace
-      - synthid_detector
-      title: PermissionType
-    StoredUsagePlatformLimit:
-      properties:
-        limit:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Limit
-        usage:
-          type: integer
-          title: Usage
-          description: Current usage
-          default: 0
-      type: object
-      title: StoredUsagePlatformLimit
-      description: 'Platform limit with usage stored in Firestore. Example: credit usage tracked in Firestore.'
-    Body_Invite_multiple_users_v1_workspace_invites_add_bulk_post:
-      properties:
-        emails:
-          items:
-            type: string
-          type: array
-          title: Emails
-          description: The email of the customer
-          examples:
-          - john.doe@testmail.com
-        seat_type:
-          anyOf:
-          - $ref: '#/components/schemas/SeatType'
-          - type: 'null'
-          description: The seat type of the user
-          examples:
-          - workspace_member
-          - workspace_admin
-        group_ids:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Group Ids
-          description: The group ids of the user
-          examples:
-          - - group_id_1
-            - group_id_2
-        usage_limit:
-          anyOf:
-          - type: integer
-            minimum: 0.0
-          - type: 'null'
-          title: Usage Limit
-          description: Monthly credit usage limit for the invitee. Omit or set to null for no custom cap.
-          examples:
-          - 5000
-      type: object
-      required:
-      - emails
-      title: Body_Invite_multiple_users_v1_workspace_invites_add_bulk_post
-    CreateBasicAuthRequest:
-      properties:
-        name:
-          type: string
-          title: Name
-        auth_type:
-          type: string
-          const: basic_auth
-          title: Auth Type
-          default: basic_auth
-        provider:
-          type: string
-          title: Provider
-        username:
-          type: string
-          title: Username
-        password:
-          type: string
-          title: Password
-      type: object
-      required:
-      - name
-      - provider
-      - username
-      - password
-      title: CreateBasicAuthRequest
-      description: Request model for creating Basic Auth connections - inherits common settings and includes sensitive fields
-    WorkspaceGroupResponseModel:
-      properties:
-        name:
-          type: string
-          title: Name
-        id:
-          type: string
-          title: Id
-        members:
-          items:
-            type: string
-          type: array
-          title: Members
-        permissions:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/WorkspaceGroupPermission'
-            type: array
-          - type: 'null'
-          title: Permissions
-        group_usage_limit:
-          anyOf:
-          - type: integer
-          - type: string
-            const: unlimited
-          - type: 'null'
-          title: Group Usage Limit
-        group_pvc_limit:
-          anyOf:
-          - type: integer
-          - type: string
-            const: unlimited
-          - type: 'null'
-          title: Group Pvc Limit
-        character_count:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Character Count
-        is_scim_synced:
-          type: boolean
-          title: Is Scim Synced
-          default: false
-        scim_group:
-          anyOf:
-          - $ref: '#/components/schemas/ScimGroupResponseModel'
-          - type: 'null'
-        scim_frozen:
-          type: boolean
-          title: Scim Frozen
-          default: false
-      type: object
-      required:
-      - name
-      - id
-      - members
-      - permissions
-      title: WorkspaceGroupResponseModel
-    OAuth2JWTResponse:
-      properties:
-        name:
-          type: string
-          title: Name
-        auth_type:
-          type: string
-          const: oauth2_jwt
-          title: Auth Type
-          default: oauth2_jwt
-        provider:
-          type: string
-          title: Provider
-        algorithm:
-          type: string
-          enum:
-          - HS256
-          - HS384
-          - HS512
-          - RS256
-          - RS384
-          - RS512
-          title: Algorithm
-          description: JWT signing algorithm
-          default: HS256
-        key_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Key Id
-          description: Key ID (kid) for JWT header - useful for key rotation
-        issuer:
-          type: string
-          title: Issuer
-          description: JWT issuer (iss claim)
-        audience:
-          type: string
-          title: Audience
-          description: JWT audience (aud claim)
-        subject:
-          type: string
-          title: Subject
-          description: JWT subject (sub claim)
-        expiration_seconds:
-          type: integer
-          maximum: 86400.0
-          minimum: 60.0
-          title: Expiration Seconds
-          description: Token expiration time in seconds
-          default: 3600
-        extra_params:
-          additionalProperties:
-            type: string
-          type: object
-          title: Extra Params
-          description: Additional custom claims to include in the JWT
-        token_url:
-          type: string
-          title: Token Url
-          description: Token endpoint URL for exchanging JWT for access token
-        scopes:
-          items:
-            type: string
-          type: array
-          title: Scopes
-          description: OAuth2 scopes to request when exchanging JWT for access token
-        token_response_field:
-          type: string
-          enum:
-          - access_token
-          - id_token
-          title: Token Response Field
-          description: Token field to extract from the token endpoint response.
-          default: access_token
-        id:
-          type: string
-          title: Id
-        used_by:
-          anyOf:
-          - $ref: '#/components/schemas/AuthConnectionDependencies'
-          - type: 'null'
-        status:
-          $ref: '#/components/schemas/AuthConnectionStatus'
-          default: active
-        status_detail:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Status Detail
-        status_updated_at:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Status Updated At
-      type: object
-      required:
-      - name
-      - provider
-      - issuer
-      - audience
-      - subject
-      - token_url
-      - id
-      title: OAuth2JWTResponse
-      description: Response model for OAuth2 JWT auth connections
-    CreateMTLSAuthRequest:
-      properties:
-        name:
-          type: string
-          title: Name
-        auth_type:
-          type: string
-          const: mtls
-          title: Auth Type
-          default: mtls
-        provider:
-          type: string
-          title: Provider
-        client_certificate:
-          type: string
-          title: Client Certificate
-        client_key:
-          type: string
-          title: Client Key
-        ca_certificate:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Ca Certificate
-        key_passphrase:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Key Passphrase
-      type: object
-      required:
-      - name
-      - provider
-      - client_certificate
-      - client_key
-      title: CreateMTLSAuthRequest
-      description: Request model for creating mTLS auth connections.
-    Body_Unshare_workspace_resource_v1_workspace_resources__resource_id__unshare_post:
-      properties:
-        resource_type:
-          $ref: '#/components/schemas/WorkspaceResourceType'
-          description: Resource type of the target resource.
-        user_email:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: User Email
-          description: The email of the user or service account.
-        group_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Group Id
-          description: The ID of the target group. Use 'default' to set the resource's baseline role — every workspace member receives this role unless they hold a higher one through a direct user grant, group membership, or workspace (service account) API key.
-        workspace_api_key_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Workspace Api Key Id
-          description: The ID of the target workspace (service account) API key. This is not the API key string itself that you pass in the header for authentication — it is the key's ID, which workspace admins can find under Developers → Service Accounts.
-      type: object
-      required:
-      - resource_type
-      title: Body_Unshare_workspace_resource_v1_workspace_resources__resource_id__unshare_post
-    Body_Delete_existing_invitation_v1_workspace_invites_delete:
-      properties:
-        email:
-          type: string
-          title: Email
-          description: The email of the customer
-          examples:
-          - john.doe@testmail.com
-      type: object
-      required:
-      - email
-      title: Body_Delete_existing_invitation_v1_workspace_invites_delete
-    WorkspaceServiceAccountResponseModel:
-      properties:
-        service_account_user_id:
-          type: string
-          title: Service Account User Id
-        name:
-          type: string
-          title: Name
-        created_at_unix:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Created At Unix
-        api-keys:
-          items:
-            $ref: '#/components/schemas/WorkspaceApiKeyResponseModel'
-          type: array
-          title: Api-Keys
-        default_sharing_groups:
-          items:
-            $ref: '#/components/schemas/DefaultSharingGroupResponseModel'
-          type: array
-          title: Default Sharing Groups
-          default: []
-      type: object
-      required:
-      - service_account_user_id
-      - name
-      - api-keys
-      title: WorkspaceServiceAccountResponseModel
-    WebhookHMACSettings:
-      properties:
-        auth_type:
-          type: string
-          const: hmac
-          title: Auth Type
-          description: The authentication type for this webhook
-        name:
-          type: string
-          title: Name
-          description: The display name for this webhook
-        webhook_url:
-          type: string
-          title: Webhook Url
-          description: The HTTPS callback URL that will be called when this webhook is triggered
-        request_headers:
-          anyOf:
-          - additionalProperties:
-              type: string
-            type: object
-          - type: 'null'
-          title: Request Headers
-          description: Optional custom request headers to include with each webhook delivery
-      type: object
-      required:
-      - auth_type
-      - name
-      - webhook_url
-      title: WebhookHMACSettings
-      description: Settings for creating an HMAC-authenticated webhook
-    OAuth2ClientCredsResponse:
-      properties:
-        name:
-          type: string
-          title: Name
-        auth_type:
-          type: string
-          const: oauth2_client_credentials
-          title: Auth Type
-          default: oauth2_client_credentials
-        provider:
-          type: string
-          title: Provider
-        client_id:
-          type: string
-          title: Client Id
-        token_url:
-          type: string
-          title: Token Url
-        scopes:
-          items:
-            type: string
-          type: array
-          title: Scopes
-          default: []
-        extra_params:
-          additionalProperties:
-            type: string
-          type: object
-          title: Extra Params
-          default: {}
-        basic_auth_in_header:
-          type: boolean
-          title: Basic Auth In Header
-          description: If True, send client credentials in Authorization header as Basic Auth instead of request body
-          default: false
-        id:
-          type: string
-          title: Id
-        used_by:
-          anyOf:
-          - $ref: '#/components/schemas/AuthConnectionDependencies'
-          - type: 'null'
-        status:
-          $ref: '#/components/schemas/AuthConnectionStatus'
-          default: active
-        status_detail:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Status Detail
-        status_updated_at:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Status Updated At
-        custom_headers:
-          additionalProperties:
-            type: string
-          type: object
-          title: Custom Headers
-          description: Custom headers configured for OAuth2 token requests
-      type: object
-      required:
-      - name
-      - provider
-      - client_id
-      - token_url
-      - id
-      title: OAuth2ClientCredsResponse
-      description: Response model for oauth2 client creds
-    AccountChangeActivityId:
-      type: integer
-      enum:
-      - 0
-      - 1
-      - 2
-      - 3
-      - 4
-      - 5
-      - 6
-      - 7
-      - 8
-      - 9
-      - 10
-      - 11
-      - 12
-      - 99
-      title: AccountChangeActivityId
-      description: 'OCSF Activity IDs for Account Change [3001] events.
+      title: DependentUnknownToolIdentifier
+      description: 'A model that represents an tool dependent on a knowledge base/tools
 
-
-        Spec: https://schema.ocsf.io/1.6.0/classes/account_change'
-    GroupManagementActivityId:
-      type: integer
-      enum:
-      - 0
-      - 1
-      - 2
-      - 3
-      - 4
-      - 5
-      - 6
-      - 7
-      - 8
-      - 9
-      - 99
-      title: GroupManagementActivityId
-      description: 'OCSF Activity IDs for Group Management [3006] events.
-
-
-        Spec: https://schema.ocsf.io/1.6.0/classes/group_management'
-    Body_Update_member_v1_workspace_members_post:
-      properties:
-        email:
-          type: string
-          title: Email
-          description: Email of the target user.
-        is_locked:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Is Locked
-          description: Whether to lock or unlock the user account.
-        workspace_role:
-          anyOf:
-          - $ref: '#/components/schemas/SeatType'
-          - type: 'null'
-          description: The workspace role of the user. This is deprecated, use `workspace_seat_type` instead.
-          deprecated: true
-          examples:
-          - workspace_admin
-          - workspace_member
-        workspace_seat_type:
-          anyOf:
-          - $ref: '#/components/schemas/SeatType'
-          - type: 'null'
-          description: The workspace seat type
-      type: object
-      required:
-      - email
-      title: Body_Update_member_v1_workspace_members_post
-    LockReason:
-      type: string
-      enum:
-      - trial_ended
-      - subscription_downgrade
-      - exposed_publicly
-      - self_disabled
-      title: LockReason
-    WorkspaceAuditLogsPageResponse:
-      properties:
-        entries:
-          items:
-            $ref: '#/components/schemas/WorkspaceAuditLogEntryResponse'
-          type: array
-          title: Entries
-        has_more:
-          type: boolean
-          title: Has More
-        next_cursor:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Next Cursor
-      type: object
-      required:
-      - entries
-      - has_more
-      - next_cursor
-      title: WorkspaceAuditLogsPageResponse
-      description: Paginated workspace audit log response.
-    DeleteWorkspaceGroupMemberResponseModel:
-      properties:
-        status:
-          type: string
-          title: Status
-          description: The status of the workspace group member deletion request. If the request was successful, the status will be 'ok'. Otherwise an error message with status 500 will be returned.
-      type: object
-      required:
-      - status
-      title: DeleteWorkspaceGroupMemberResponseModel
-      example:
-        status: ok
-    ResourceMetadataResponseModel:
-      properties:
-        resource_id:
-          type: string
-          title: Resource Id
-          description: The ID of the resource.
-        resource_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Resource Name
-          description: The name of the resource, if available.
-        resource_type:
-          $ref: '#/components/schemas/WorkspaceResourceType'
-          description: The type of the resource.
-        creator_user_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Creator User Id
-          description: The ID of the user who created the resource.
-        anonymous_access_level_override:
-          anyOf:
-          - type: string
-            enum:
-            - admin
-            - editor
-            - commenter
-            - viewer
-          - type: 'null'
-          title: Anonymous Access Level Override
-          description: The access level for anonymous users. If None, the resource is not shared publicly.
-        role_to_group_ids:
-          additionalProperties:
-            items:
-              type: string
-            type: array
-          type: object
-          title: Role To Group Ids
-          description: A mapping of grant slots to group IDs. Keys are the preset access roles plus workspace custom-role ids ('role_...'). When the resource is shared with a user, the group id is the user's id.
-        share_options:
-          items:
-            $ref: '#/components/schemas/ShareOptionResponseModel'
-          type: array
-          title: Share Options
-          description: List of options for sharing the resource further in the workspace. These are users who don't have access to the resource yet.
-      type: object
-      required:
-      - resource_id
-      - resource_name
-      - resource_type
-      - creator_user_id
-      - anonymous_access_level_override
-      - role_to_group_ids
-      - share_options
-      title: ResourceMetadataResponseModel
-      example:
-        anonymous_access_level_override: viewer
-        creator_user_id: 5zavrE1kZXv2lFw9BKgEkf0B5Wqo
-        resource_id: 4ZUqyldxf71HqUbcP2Lc
-        resource_name: My Custom Voice
-        resource_type: voice
-        role_to_group_ids:
-          admin:
-          - 5zavrE1kZXv2lFw9BKgEkf0B5Wqo
-          editor:
-          - 8ruQDGM2R4w1mFbHI5aROCUjIpJZ
-          role_01jd7yq2k8f0abcd1234wxyz:
-          - 9mQrTx4vNb2wKpLs6ZyE1cHgUdFa
-          viewer: []
-        share_options:
-        - id: i2YYI6huwBmcgYydAXARmQJc3pmX
-          name: user@example.com
-          type: user
-        - id: x1AfvYKAmiqxCnbvZeNXHqqthJaC
-          name: mygroup
-          type: group
-    MTLSAuthResponse:
-      properties:
-        name:
-          type: string
-          title: Name
-        auth_type:
-          type: string
-          const: mtls
-          title: Auth Type
-          default: mtls
-        provider:
-          type: string
-          title: Provider
-        id:
-          type: string
-          title: Id
-        used_by:
-          anyOf:
-          - $ref: '#/components/schemas/AuthConnectionDependencies'
-          - type: 'null'
-        status:
-          $ref: '#/components/schemas/AuthConnectionStatus'
-          default: active
-        status_detail:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Status Detail
-        status_updated_at:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Status Updated At
-      type: object
-      required:
-      - name
-      - provider
-      - id
-      title: MTLSAuthResponse
-      description: Response model for mTLS auth connections.
-    UpdateWorkspaceMemberResponseModel:
-      properties:
-        status:
-          type: string
-          title: Status
-          description: The status of the workspace member update request. If the request was successful, the status will be 'ok'. Otherwise an error message with status 500 will be returned.
-      type: object
-      required:
-      - status
-      title: UpdateWorkspaceMemberResponseModel
-      example:
-        status: ok
-    EntityManagementActivityId:
-      type: integer
-      enum:
-      - 0
-      - 1
-      - 2
-      - 3
-      - 4
-      - 5
-      - 6
-      - 7
-      - 8
-      - 9
-      - 10
-      - 11
-      - 12
-      - 13
-      - 99
-      title: EntityManagementActivityId
-      description: 'OCSF Activity IDs for Entity Management [3004] events.
-
-
-        Spec: https://schema.ocsf.io/1.6.0/classes/entity_management'
-    CreateOAuth2JWTRequest:
-      properties:
-        name:
-          type: string
-          title: Name
-        auth_type:
-          type: string
-          const: oauth2_jwt
-          title: Auth Type
-          default: oauth2_jwt
-        provider:
-          type: string
-          title: Provider
-        algorithm:
-          type: string
-          enum:
-          - HS256
-          - HS384
-          - HS512
-          - RS256
-          - RS384
-          - RS512
-          title: Algorithm
-          description: JWT signing algorithm
-          default: HS256
-        key_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Key Id
-          description: Key ID (kid) for JWT header - useful for key rotation
-        issuer:
-          type: string
-          title: Issuer
-          description: JWT issuer (iss claim)
-        audience:
-          type: string
-          title: Audience
-          description: JWT audience (aud claim)
-        subject:
-          type: string
-          title: Subject
-          description: JWT subject (sub claim)
-        expiration_seconds:
-          type: integer
-          maximum: 86400.0
-          minimum: 60.0
-          title: Expiration Seconds
-          description: Token expiration time in seconds
-          default: 3600
-        extra_params:
-          additionalProperties:
-            type: string
-          type: object
-          title: Extra Params
-          description: Additional custom claims to include in the JWT
-        token_url:
-          type: string
-          title: Token Url
-          description: Token endpoint URL for exchanging JWT for access token
-        scopes:
-          items:
-            type: string
-          type: array
-          title: Scopes
-          description: OAuth2 scopes to request when exchanging JWT for access token
-        token_response_field:
-          type: string
-          enum:
-          - access_token
-          - id_token
-          title: Token Response Field
-          description: Token field to extract from the token endpoint response.
-          default: access_token
-        secret_key:
-          type: string
-          title: Secret Key
-      type: object
-      required:
-      - name
-      - provider
-      - issuer
-      - audience
-      - subject
-      - token_url
-      - secret_key
-      title: CreateOAuth2JWTRequest
-      description: Request model for creating OAuth2 JWT auth connections - inherits common settings and includes sensitive fields
-    Body_Delete_member_from_user_group_v1_workspace_groups__group_id__members_remove_post:
-      properties:
-        email:
-          type: string
-          title: Email
-          description: The email of the target workspace member.
-      type: object
-      required:
-      - email
-      title: Body_Delete_member_from_user_group_v1_workspace_groups__group_id__members_remove_post
-    UrlSecretAuthResponse:
-      properties:
-        name:
-          type: string
-          title: Name
-        auth_type:
-          type: string
-          const: url_secret
-          title: Auth Type
-          default: url_secret
-        provider:
-          type: string
-          title: Provider
-        id:
-          type: string
-          title: Id
-        used_by:
-          anyOf:
-          - $ref: '#/components/schemas/AuthConnectionDependencies'
-          - type: 'null'
-        status:
-          $ref: '#/components/schemas/AuthConnectionStatus'
-          default: active
-        status_detail:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Status Detail
-        status_updated_at:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Status Updated At
-      type: object
-      required:
-      - name
-      - provider
-      - id
-      title: UrlSecretAuthResponse
-    UserAccessManagementActivityId:
-      type: integer
-      enum:
-      - 0
-      - 1
-      - 2
-      - 99
-      title: UserAccessManagementActivityId
-      description: 'OCSF Activity IDs for User Access Management [3005] events.
-
-
-        Spec: https://schema.ocsf.io/1.6.0/classes/user_access_management'
+        to which the user has no direct access.'
     WorkspaceAuditLogEntryResponse:
       properties:
         metadata:
@@ -2738,155 +1512,51 @@ components:
       - type_name
       title: WorkspaceAuditLogEntryResponse
       description: Audit log entry with Firestore document ID for API responses.
-    ApiIntegrationOAuth2AuthCodeResponse:
+    Body_Set_workspace_Third_Party_Disabling_policy_v1_workspaces_api_keys_third_party_disabling_post:
       properties:
-        name:
-          type: string
-          title: Name
-        auth_type:
-          type: string
-          const: api_integration_oauth2_auth_code
-          title: Auth Type
-          default: api_integration_oauth2_auth_code
-        provider:
-          type: string
-          title: Provider
-        token_url:
-          type: string
-          title: Token Url
-        scopes:
-          items:
-            type: string
-          type: array
-          title: Scopes
-        scope_separator:
-          type: string
-          enum:
-          - ' '
-          - ','
-          title: Scope Separator
-          description: Separator for scopes
-          default: ' '
-        expires_at:
-          type: string
-          title: Expires At
-          description: ISO 8601 timestamp of when the access token expires
-        integration_id:
-          type: string
-          title: Integration Id
-        credential_id:
-          type: string
-          title: Credential Id
-        id:
-          type: string
-          title: Id
-        used_by:
+        third_party_disable_allowed:
           anyOf:
-          - $ref: '#/components/schemas/AuthConnectionDependencies'
+          - type: boolean
           - type: 'null'
-        status:
-          $ref: '#/components/schemas/AuthConnectionStatus'
-          default: active
-        status_detail:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Status Detail
-        status_updated_at:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Status Updated At
+          title: Third Party Disable Allowed
+          description: '`true` forces every key in the workspace to be disable-able by its holder; `false` forbids it for every key; `null` clears the override (per-key values and the plan default apply).'
+      type: object
+      title: Body_Set_workspace_Third_Party_Disabling_policy_v1_workspaces_api_keys_third_party_disabling_post
+    WorkspaceCreateServiceAccountResponseModel:
+      properties:
+        service-account-user-id:
+          type: string
+          title: Service-Account-User-Id
       type: object
       required:
-      - name
-      - provider
-      - token_url
-      - expires_at
-      - integration_id
-      - credential_id
-      - id
-      title: ApiIntegrationOAuth2AuthCodeResponse
-      description: Response model for integration-managed OAuth2 Auth Code auth connections
-    RefreshTokenAuthResponse:
+      - service-account-user-id
+      title: WorkspaceCreateServiceAccountResponseModel
+    PatchWorkspaceWebhookResponseModel:
       properties:
-        name:
-          type: string
-          title: Name
-        auth_type:
-          type: string
-          const: refresh_token_auth
-          title: Auth Type
-          default: refresh_token_auth
-        provider:
-          type: string
-          title: Provider
-        client_id:
-          type: string
-          title: Client Id
-        token_url:
-          type: string
-          title: Token Url
-        scopes:
-          items:
-            type: string
-          type: array
-          title: Scopes
-          default: []
-        extra_params:
-          additionalProperties:
-            type: string
-          type: object
-          title: Extra Params
-          default: {}
-        id:
-          type: string
-          title: Id
-        used_by:
-          anyOf:
-          - $ref: '#/components/schemas/AuthConnectionDependencies'
-          - type: 'null'
         status:
-          $ref: '#/components/schemas/AuthConnectionStatus'
-          default: active
-        status_detail:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Status Detail
-        status_updated_at:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Status Updated At
+          type: string
+          title: Status
+          description: The status of the workspace webhook patch request. If the request was successful, the status will be 'ok'. Otherwise an error message with status 500 will be returned.
       type: object
       required:
-      - name
-      - provider
-      - client_id
-      - token_url
-      - id
-      title: RefreshTokenAuthResponse
-      description: Response model for OAuth2 refresh-token-grant auth connections
-    AuthConnectionStatus:
-      type: string
+      - status
+      title: PatchWorkspaceWebhookResponseModel
+      example:
+        status: ok
+    UserTypeId:
+      type: integer
       enum:
-      - active
-      - refresh_failed
-      - revoked
-      - credential_invalid
-      title: AuthConnectionStatus
-      description: 'Single status field shared by every auth type''s stored credential.
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 99
+      title: UserTypeId
+      description: 'OCSF User type IDs.
 
 
-        OAuth values (``REFRESH_FAILED``, ``REVOKED``) are written by the OAuth
-
-        token-manager refresh path. ``CREDENTIAL_INVALID`` is written by the
-
-        tool execution path when an upstream response matches a credential''s
-
-        ``failure_signatures`` entry (Bearer, Basic auth, etc.).'
-      default: active
+        Spec: https://schema.ocsf.io/1.6.0/objects/user'
     Body_Invite_user_v1_workspace_invites_add_post:
       properties:
         email:
@@ -2937,79 +1607,167 @@ components:
       required:
       - email
       title: Body_Invite_user_v1_workspace_invites_add_post
-    WebhookAuthMethodType:
-      type: string
-      enum:
-      - hmac
-      - oauth2
-      - mtls
-      title: WebhookAuthMethodType
-    WorkspaceResourceType:
-      type: string
-      enum:
-      - voice
-      - voice_collection
-      - pronunciation_dictionary
-      - dubbing
-      - dubbing_project
-      - project
-      - convai_agents
-      - convai_knowledge_base_documents
-      - convai_tools
-      - convai_settings
-      - convai_secrets
-      - workspace_auth_connections
-      - convai_phone_numbers
-      - convai_mcp_servers
-      - convai_api_integration_connections
-      - convai_api_integration_trigger_connections
-      - convai_batch_calls
-      - convai_agent_response_tests
-      - convai_test_suite_invocations
-      - convai_crawl_jobs
-      - convai_crawl_tasks
-      - convai_kb_external_sync_jobs
-      - convai_whatsapp_accounts
-      - convai_agent_versions
-      - convai_agent_branches
-      - convai_agent_versions_deployments
-      - convai_agent_experiments
-      - convai_memory_entries
-      - convai_templates
-      - dashboard
-      - dashboard_configuration
-      - convai_agent_drafts
-      - resource_locators
-      - assets
-      - content_generations
-      - content_templates
-      - content_skills
-      - songs
-      - transcription_tasks
-      - avatars
-      - avatar_video_generations
-      - resource_collection
-      - studio_projects
-      - convai_analysis_items
-      title: WorkspaceResourceType
-      description: Resource types that can be shared in the workspace. The name always need to match the collection names
-    DependentUnknownToolIdentifier:
+    CreatePrivateKeyJWTRequest:
       properties:
-        type:
+        name:
           type: string
-          const: unknown
-          title: Type
-          default: unknown
+          title: Name
+        auth_type:
+          type: string
+          const: private_key_jwt
+          title: Auth Type
+          default: private_key_jwt
+        provider:
+          type: string
+          title: Provider
+        algorithm:
+          type: string
+          enum:
+          - HS256
+          - HS384
+          - HS512
+          - RS256
+          - RS384
+          - RS512
+          title: Algorithm
+          description: JWT signing algorithm
+          default: HS256
+        key_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Key Id
+          description: Key ID (kid) for JWT header - useful for key rotation
+        issuer:
+          type: string
+          title: Issuer
+          description: JWT issuer (iss claim)
+        audience:
+          type: string
+          title: Audience
+          description: JWT audience (aud claim)
+        subject:
+          type: string
+          title: Subject
+          description: JWT subject (sub claim)
+        expiration_seconds:
+          type: integer
+          maximum: 86400.0
+          minimum: 60.0
+          title: Expiration Seconds
+          description: Token expiration time in seconds
+          default: 3600
+        extra_params:
+          additionalProperties:
+            type: string
+          type: object
+          title: Extra Params
+          description: Additional custom claims to include in the JWT
+        secret_key:
+          type: string
+          title: Secret Key
+      type: object
+      required:
+      - name
+      - provider
+      - issuer
+      - audience
+      - subject
+      - secret_key
+      title: CreatePrivateKeyJWTRequest
+      description: Request model for creating Private Key JWT auth connections - inherits common settings and includes sensitive fields
+    ListAuthConnectionsResponse:
+      properties:
+        auth_connections:
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/OAuth2ClientCredsResponse'
+            - $ref: '#/components/schemas/RefreshTokenAuthResponse'
+            - $ref: '#/components/schemas/BasicAuthResponse'
+            - $ref: '#/components/schemas/BearerAuthResponse'
+            - $ref: '#/components/schemas/OAuth2JWTResponse'
+            - $ref: '#/components/schemas/PrivateKeyJWTResponse'
+            - $ref: '#/components/schemas/MTLSAuthResponse'
+            - $ref: '#/components/schemas/CustomHeaderAuthResponse'
+            - $ref: '#/components/schemas/ApiIntegrationOAuth2AuthCodeResponse'
+            - $ref: '#/components/schemas/ApiIntegrationOAuth2CustomAppResponse'
+            - $ref: '#/components/schemas/WhatsAppAuthResponse'
+            - $ref: '#/components/schemas/SlackBotAuthResponse'
+            - $ref: '#/components/schemas/UrlSecretAuthResponse'
+            description: The type of auth connection config
+            discriminator:
+              propertyName: auth_type
+              mapping:
+                api_integration_oauth2_auth_code: '#/components/schemas/ApiIntegrationOAuth2AuthCodeResponse'
+                api_integration_oauth2_custom_app: '#/components/schemas/ApiIntegrationOAuth2CustomAppResponse'
+                basic_auth: '#/components/schemas/BasicAuthResponse'
+                bearer_auth: '#/components/schemas/BearerAuthResponse'
+                custom_header_auth: '#/components/schemas/CustomHeaderAuthResponse'
+                mtls: '#/components/schemas/MTLSAuthResponse'
+                oauth2_client_credentials: '#/components/schemas/OAuth2ClientCredsResponse'
+                oauth2_jwt: '#/components/schemas/OAuth2JWTResponse'
+                private_key_jwt: '#/components/schemas/PrivateKeyJWTResponse'
+                refresh_token_auth: '#/components/schemas/RefreshTokenAuthResponse'
+                slack_bot_auth: '#/components/schemas/SlackBotAuthResponse'
+                url_secret: '#/components/schemas/UrlSecretAuthResponse'
+                whatsapp_auth: '#/components/schemas/WhatsAppAuthResponse'
+          type: array
+          title: Auth Connections
+      type: object
+      required:
+      - auth_connections
+      title: ListAuthConnectionsResponse
+    DeleteWorkspaceGroupMemberResponseModel:
+      properties:
+        status:
+          type: string
+          title: Status
+          description: The status of the workspace group member deletion request. If the request was successful, the status will be 'ok'. Otherwise an error message with status 500 will be returned.
+      type: object
+      required:
+      - status
+      title: DeleteWorkspaceGroupMemberResponseModel
+      example:
+        status: ok
+    WorkspaceGroupByNameResponseModel:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: The name of the workspace group.
         id:
           type: string
           title: Id
+          description: The ID of the workspace group.
+        members_emails:
+          items:
+            type: string
+          type: array
+          title: Members Emails
+          description: The emails of the members of the workspace group.
       type: object
       required:
+      - name
       - id
-      title: DependentUnknownToolIdentifier
-      description: 'A model that represents an tool dependent on a knowledge base/tools
-
-        to which the user has no direct access.'
+      - members_emails
+      title: WorkspaceGroupByNameResponseModel
+      example:
+        id: '1234567890'
+        members_emails:
+        - john.doe@example.com
+        - jane.smith@example.com
+        name: My Workspace Group
+    WorkspaceServiceAccountListResponseModel:
+      properties:
+        service-accounts:
+          items:
+            $ref: '#/components/schemas/WorkspaceServiceAccountResponseModel'
+          type: array
+          title: Service-Accounts
+      type: object
+      required:
+      - service-accounts
+      title: WorkspaceServiceAccountListResponseModel
     UpdateOAuth2JWTRequest:
       properties:
         auth_type:
@@ -3090,211 +1848,6 @@ components:
           title: Secret Key
       type: object
       title: UpdateOAuth2JWTRequest
-    DeleteWorkspaceInviteResponseModel:
-      properties:
-        status:
-          type: string
-          title: Status
-          description: The status of the workspace invite deletion request. If the request was successful, the status will be 'ok'. Otherwise an error message with status 500 will be returned.
-      type: object
-      required:
-      - status
-      title: DeleteWorkspaceInviteResponseModel
-      example:
-        status: ok
-    WorkspaceApiKeyListResponseModel:
-      properties:
-        api-keys:
-          items:
-            $ref: '#/components/schemas/WorkspaceApiKeyResponseModel'
-          type: array
-          title: Api-Keys
-      type: object
-      required:
-      - api-keys
-      title: WorkspaceApiKeyListResponseModel
-    WhatsAppAuthResponse:
-      properties:
-        name:
-          type: string
-          title: Name
-        auth_type:
-          type: string
-          const: whatsapp_auth
-          title: Auth Type
-          default: whatsapp_auth
-        provider:
-          type: string
-          const: whatsapp
-          title: Provider
-          default: whatsapp
-        phone_number_id:
-          type: string
-          title: Phone Number Id
-        id:
-          type: string
-          title: Id
-        used_by:
-          anyOf:
-          - $ref: '#/components/schemas/AuthConnectionDependencies'
-          - type: 'null'
-        status:
-          $ref: '#/components/schemas/AuthConnectionStatus'
-          default: active
-        status_detail:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Status Detail
-        status_updated_at:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Status Updated At
-      type: object
-      required:
-      - name
-      - phone_number_id
-      - id
-      title: WhatsAppAuthResponse
-    AuthenticationActivityId:
-      type: integer
-      enum:
-      - 0
-      - 1
-      - 2
-      - 3
-      - 4
-      - 5
-      - 6
-      - 7
-      - 99
-      title: AuthenticationActivityId
-      description: 'OCSF Activity IDs for Authentication [3002] events.
-
-
-        Spec: https://schema.ocsf.io/1.6.0/classes/authentication'
-    ActorModel:
-      properties:
-        user:
-          $ref: '#/components/schemas/UserModel'
-          description: User who performed the action
-        app_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: App Name
-          description: Client application or service name
-        app_uid:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: App Uid
-          description: Client application unique identifier
-        session:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Session
-          description: Session information
-      additionalProperties: false
-      type: object
-      required:
-      - user
-      title: ActorModel
-      description: 'OCSF Actor object - describes the entity that performed the action.
-
-
-        Spec: https://schema.ocsf.io/1.6.0/objects/actor'
-    Body_Create_workspace_webhook_v1_workspace_webhooks_post:
-      properties:
-        settings:
-          $ref: '#/components/schemas/WebhookHMACSettings'
-          description: Webhook settings object containing auth_type and corresponding configuration
-      type: object
-      required:
-      - settings
-      title: Body_Create_workspace_webhook_v1_workspace_webhooks_post
-    ListAuthConnectionsResponse:
-      properties:
-        auth_connections:
-          items:
-            oneOf:
-            - $ref: '#/components/schemas/OAuth2ClientCredsResponse'
-            - $ref: '#/components/schemas/RefreshTokenAuthResponse'
-            - $ref: '#/components/schemas/BasicAuthResponse'
-            - $ref: '#/components/schemas/BearerAuthResponse'
-            - $ref: '#/components/schemas/OAuth2JWTResponse'
-            - $ref: '#/components/schemas/PrivateKeyJWTResponse'
-            - $ref: '#/components/schemas/MTLSAuthResponse'
-            - $ref: '#/components/schemas/CustomHeaderAuthResponse'
-            - $ref: '#/components/schemas/ApiIntegrationOAuth2AuthCodeResponse'
-            - $ref: '#/components/schemas/ApiIntegrationOAuth2CustomAppResponse'
-            - $ref: '#/components/schemas/WhatsAppAuthResponse'
-            - $ref: '#/components/schemas/SlackBotAuthResponse'
-            - $ref: '#/components/schemas/UrlSecretAuthResponse'
-            description: The type of auth connection config
-            discriminator:
-              propertyName: auth_type
-              mapping:
-                api_integration_oauth2_auth_code: '#/components/schemas/ApiIntegrationOAuth2AuthCodeResponse'
-                api_integration_oauth2_custom_app: '#/components/schemas/ApiIntegrationOAuth2CustomAppResponse'
-                basic_auth: '#/components/schemas/BasicAuthResponse'
-                bearer_auth: '#/components/schemas/BearerAuthResponse'
-                custom_header_auth: '#/components/schemas/CustomHeaderAuthResponse'
-                mtls: '#/components/schemas/MTLSAuthResponse'
-                oauth2_client_credentials: '#/components/schemas/OAuth2ClientCredsResponse'
-                oauth2_jwt: '#/components/schemas/OAuth2JWTResponse'
-                private_key_jwt: '#/components/schemas/PrivateKeyJWTResponse'
-                refresh_token_auth: '#/components/schemas/RefreshTokenAuthResponse'
-                slack_bot_auth: '#/components/schemas/SlackBotAuthResponse'
-                url_secret: '#/components/schemas/UrlSecretAuthResponse'
-                whatsapp_auth: '#/components/schemas/WhatsAppAuthResponse'
-          type: array
-          title: Auth Connections
-      type: object
-      required:
-      - auth_connections
-      title: ListAuthConnectionsResponse
-    DeviceModel:
-      properties:
-        ip:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Ip
-          description: IP address
-        hostname:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Hostname
-          description: Device hostname
-        type_id:
-          type: integer
-          title: Type Id
-          description: Device type ID (99 = Unknown)
-          default: 99
-      additionalProperties: false
-      type: object
-      title: DeviceModel
-      description: 'Device information.
-
-
-        Spec: https://schema.ocsf.io/1.6.0/objects/device'
-    AddWorkspaceGroupMemberResponseModel:
-      properties:
-        status:
-          type: string
-          title: Status
-          description: The status of the workspace group member addition request. If the request was successful, the status will be 'ok'. Otherwise an error message with status 500 will be returned.
-      type: object
-      required:
-      - status
-      title: AddWorkspaceGroupMemberResponseModel
-      example:
-        status: ok
     Body_Share_workspace_resource_v1_workspace_resources__resource_id__share_post:
       properties:
         role:
@@ -3332,16 +1885,172 @@ components:
       - role
       - resource_type
       title: Body_Share_workspace_resource_v1_workspace_resources__resource_id__share_post
-    CreatePrivateKeyJWTRequest:
+    LockReason:
+      type: string
+      enum:
+      - trial_ended
+      - subscription_downgrade
+      - exposed_publicly
+      - self_disabled
+      title: LockReason
+    WorkspaceWebhookUsageResponseModel:
+      properties:
+        usage_type:
+          $ref: '#/components/schemas/WebhookUsageType'
+      type: object
+      required:
+      - usage_type
+      title: WorkspaceWebhookUsageResponseModel
+    EntityManagementActivityId:
+      type: integer
+      enum:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 10
+      - 11
+      - 12
+      - 13
+      - 99
+      title: EntityManagementActivityId
+      description: 'OCSF Activity IDs for Entity Management [3004] events.
+
+
+        Spec: https://schema.ocsf.io/1.6.0/classes/entity_management'
+    RefreshTokenAuthResponse:
       properties:
         name:
           type: string
           title: Name
         auth_type:
           type: string
-          const: private_key_jwt
+          const: refresh_token_auth
           title: Auth Type
-          default: private_key_jwt
+          default: refresh_token_auth
+        provider:
+          type: string
+          title: Provider
+        client_id:
+          type: string
+          title: Client Id
+        token_url:
+          type: string
+          title: Token Url
+        scopes:
+          items:
+            type: string
+          type: array
+          title: Scopes
+          default: []
+        extra_params:
+          additionalProperties:
+            type: string
+          type: object
+          title: Extra Params
+          default: {}
+        id:
+          type: string
+          title: Id
+        used_by:
+          anyOf:
+          - $ref: '#/components/schemas/AuthConnectionDependencies'
+          - type: 'null'
+        status:
+          $ref: '#/components/schemas/AuthConnectionStatus'
+          default: active
+        status_detail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status Detail
+        status_updated_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status Updated At
+      type: object
+      required:
+      - name
+      - provider
+      - client_id
+      - token_url
+      - id
+      title: RefreshTokenAuthResponse
+      description: Response model for OAuth2 refresh-token-grant auth connections
+    AuthenticationActivityId:
+      type: integer
+      enum:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 99
+      title: AuthenticationActivityId
+      description: 'OCSF Activity IDs for Authentication [3002] events.
+
+
+        Spec: https://schema.ocsf.io/1.6.0/classes/authentication'
+    CreateCustomHeaderAuthRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+        auth_type:
+          type: string
+          const: custom_header_auth
+          title: Auth Type
+          default: custom_header_auth
+        provider:
+          type: string
+          title: Provider
+        header_name:
+          type: string
+          title: Header Name
+          description: The name of the header to use for authentication (e.g., 'x-api-key')
+        token:
+          type: string
+          title: Token
+      type: object
+      required:
+      - name
+      - provider
+      - header_name
+      - token
+      title: CreateCustomHeaderAuthRequest
+    WorkspaceCreateApiKeyResponseModel:
+      properties:
+        xi-api-key:
+          type: string
+          title: Xi-Api-Key
+        key_id:
+          type: string
+          title: Key Id
+      type: object
+      required:
+      - xi-api-key
+      - key_id
+      title: WorkspaceCreateApiKeyResponseModel
+    CreateOAuth2JWTRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+        auth_type:
+          type: string
+          const: oauth2_jwt
+          title: Auth Type
+          default: oauth2_jwt
         provider:
           type: string
           title: Provider
@@ -3388,6 +2097,24 @@ components:
           type: object
           title: Extra Params
           description: Additional custom claims to include in the JWT
+        token_url:
+          type: string
+          title: Token Url
+          description: Token endpoint URL for exchanging JWT for access token
+        scopes:
+          items:
+            type: string
+          type: array
+          title: Scopes
+          description: OAuth2 scopes to request when exchanging JWT for access token
+        token_response_field:
+          type: string
+          enum:
+          - access_token
+          - id_token
+          title: Token Response Field
+          description: Token field to extract from the token endpoint response.
+          default: access_token
         secret_key:
           type: string
           title: Secret Key
@@ -3398,20 +2125,468 @@ components:
       - issuer
       - audience
       - subject
+      - token_url
       - secret_key
-      title: CreatePrivateKeyJWTRequest
-      description: Request model for creating Private Key JWT auth connections - inherits common settings and includes sensitive fields
-    WorkspaceServiceAccountListResponseModel:
+      title: CreateOAuth2JWTRequest
+      description: Request model for creating OAuth2 JWT auth connections - inherits common settings and includes sensitive fields
+    Body_Unshare_workspace_resource_v1_workspace_resources__resource_id__unshare_post:
       properties:
-        service-accounts:
-          items:
-            $ref: '#/components/schemas/WorkspaceServiceAccountResponseModel'
-          type: array
-          title: Service-Accounts
+        resource_type:
+          $ref: '#/components/schemas/WorkspaceResourceType'
+          description: Resource type of the target resource.
+        user_email:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: User Email
+          description: The email of the user or service account.
+        group_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Group Id
+          description: The ID of the target group. Use 'default' to set the resource's baseline role — every workspace member receives this role unless they hold a higher one through a direct user grant, group membership, or workspace (service account) API key.
+        workspace_api_key_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Workspace Api Key Id
+          description: The ID of the target workspace (service account) API key. This is not the API key string itself that you pass in the header for authentication — it is the key's ID, which workspace admins can find under Developers → Service Accounts.
       type: object
       required:
-      - service-accounts
-      title: WorkspaceServiceAccountListResponseModel
+      - resource_type
+      title: Body_Unshare_workspace_resource_v1_workspace_resources__resource_id__unshare_post
+    WorkspaceCreateWebhookResponseModel:
+      properties:
+        webhook_id:
+          type: string
+          title: Webhook Id
+        webhook_secret:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Webhook Secret
+      type: object
+      required:
+      - webhook_id
+      title: WorkspaceCreateWebhookResponseModel
+    UpdateBasicAuthRequest:
+      properties:
+        auth_type:
+          type: string
+          const: basic_auth
+          title: Auth Type
+          default: basic_auth
+        provider:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Provider
+        username:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Username
+        password:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Password
+      type: object
+      title: UpdateBasicAuthRequest
+    ShareOptionResponseModel:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: The name of the principal.
+        id:
+          type: string
+          title: Id
+          description: The ID of the principal.
+        type:
+          type: string
+          enum:
+          - user
+          - group
+          - key
+          title: Type
+          description: 'The type of the principal: user, group, or service account (under ''key'').'
+      type: object
+      required:
+      - name
+      - id
+      - type
+      title: ShareOptionResponseModel
+    WorkspaceServiceAccountResponseModel:
+      properties:
+        service_account_user_id:
+          type: string
+          title: Service Account User Id
+        name:
+          type: string
+          title: Name
+        created_at_unix:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Created At Unix
+        api-keys:
+          items:
+            $ref: '#/components/schemas/WorkspaceApiKeyResponseModel'
+          type: array
+          title: Api-Keys
+        default_sharing_groups:
+          items:
+            $ref: '#/components/schemas/DefaultSharingGroupResponseModel'
+          type: array
+          title: Default Sharing Groups
+          default: []
+      type: object
+      required:
+      - service_account_user_id
+      - name
+      - api-keys
+      title: WorkspaceServiceAccountResponseModel
+    WebhookAuthMethodType:
+      type: string
+      enum:
+      - hmac
+      - oauth2
+      - mtls
+      title: WebhookAuthMethodType
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    UpdateWorkspaceMemberResponseModel:
+      properties:
+        status:
+          type: string
+          title: Status
+          description: The status of the workspace member update request. If the request was successful, the status will be 'ok'. Otherwise an error message with status 500 will be returned.
+      type: object
+      required:
+      - status
+      title: UpdateWorkspaceMemberResponseModel
+      example:
+        status: ok
+    CustomHeaderAuthResponse:
+      properties:
+        name:
+          type: string
+          title: Name
+        auth_type:
+          type: string
+          const: custom_header_auth
+          title: Auth Type
+          default: custom_header_auth
+        provider:
+          type: string
+          title: Provider
+        header_name:
+          type: string
+          title: Header Name
+          description: The name of the header to use for authentication (e.g., 'x-api-key')
+        id:
+          type: string
+          title: Id
+        used_by:
+          anyOf:
+          - $ref: '#/components/schemas/AuthConnectionDependencies'
+          - type: 'null'
+        status:
+          $ref: '#/components/schemas/AuthConnectionStatus'
+          default: active
+        status_detail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status Detail
+        status_updated_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status Updated At
+      type: object
+      required:
+      - name
+      - provider
+      - header_name
+      - id
+      title: CustomHeaderAuthResponse
+      description: Response model for Custom Header Auth auth connections
+    MTLSAuthResponse:
+      properties:
+        name:
+          type: string
+          title: Name
+        auth_type:
+          type: string
+          const: mtls
+          title: Auth Type
+          default: mtls
+        provider:
+          type: string
+          title: Provider
+        id:
+          type: string
+          title: Id
+        used_by:
+          anyOf:
+          - $ref: '#/components/schemas/AuthConnectionDependencies'
+          - type: 'null'
+        status:
+          $ref: '#/components/schemas/AuthConnectionStatus'
+          default: active
+        status_detail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status Detail
+        status_updated_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status Updated At
+      type: object
+      required:
+      - name
+      - provider
+      - id
+      title: MTLSAuthResponse
+      description: Response model for mTLS auth connections.
+    DeviceModel:
+      properties:
+        ip:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Ip
+          description: IP address
+        hostname:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Hostname
+          description: Device hostname
+        type_id:
+          type: integer
+          title: Type Id
+          description: Device type ID (99 = Unknown)
+          default: 99
+      additionalProperties: false
+      type: object
+      title: DeviceModel
+      description: 'Device information.
+
+
+        Spec: https://schema.ocsf.io/1.6.0/objects/device'
+    Body_Invite_multiple_users_v1_workspace_invites_add_bulk_post:
+      properties:
+        emails:
+          items:
+            type: string
+          type: array
+          title: Emails
+          description: The email of the customer
+          examples:
+          - john.doe@testmail.com
+        seat_type:
+          anyOf:
+          - $ref: '#/components/schemas/SeatType'
+          - type: 'null'
+          description: The seat type of the user
+          examples:
+          - workspace_member
+          - workspace_admin
+        group_ids:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Group Ids
+          description: The group ids of the user
+          examples:
+          - - group_id_1
+            - group_id_2
+        usage_limit:
+          anyOf:
+          - type: integer
+            minimum: 0.0
+          - type: 'null'
+          title: Usage Limit
+          description: Monthly credit usage limit for the invitee. Omit or set to null for no custom cap.
+          examples:
+          - 5000
+      type: object
+      required:
+      - emails
+      title: Body_Invite_multiple_users_v1_workspace_invites_add_bulk_post
+    Body_Delete_existing_invitation_v1_workspace_invites_delete:
+      properties:
+        email:
+          type: string
+          title: Email
+          description: The email of the customer
+          examples:
+          - john.doe@testmail.com
+      type: object
+      required:
+      - email
+      title: Body_Delete_existing_invitation_v1_workspace_invites_delete
+    UserAccessManagementActivityId:
+      type: integer
+      enum:
+      - 0
+      - 1
+      - 2
+      - 99
+      title: UserAccessManagementActivityId
+      description: 'OCSF Activity IDs for User Access Management [3005] events.
+
+
+        Spec: https://schema.ocsf.io/1.6.0/classes/user_access_management'
+    PlatformLimits:
+      properties:
+        credits:
+          $ref: '#/components/schemas/StoredUsagePlatformLimit'
+          description: Credit usage limit (limit=None means unlimited)
+        pvc:
+          $ref: '#/components/schemas/ComputedUsagePlatformLimit'
+          description: Professional Voice Clone count limit (limit=None means unlimited)
+        concurrency:
+          $ref: '#/components/schemas/ComputedUsagePlatformLimit'
+          description: TTS concurrency limit (limit=None means unlimited)
+        dubbing_concurrency:
+          $ref: '#/components/schemas/ComputedUsagePlatformLimit'
+          description: Dubbing concurrency limit (limit=None means unlimited)
+        music_concurrency:
+          $ref: '#/components/schemas/ComputedUsagePlatformLimit'
+          description: Music generation concurrency limit (limit=None means unlimited)
+      type: object
+      title: PlatformLimits
+      description: 'Unified container for all platform limits.
+
+
+        Can be used by:
+
+        - Billing groups (WorkspaceGroupDBModel.platform_limits)
+
+        - Child workspaces (SubscriptionDBModel.platform_limits)
+
+        - API keys (XiApiKeyMetadataDBModel.platform_limits)
+
+
+        All fields are required when platform_limits exists. Use limit=None for unlimited.'
+    CreateBasicAuthRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+        auth_type:
+          type: string
+          const: basic_auth
+          title: Auth Type
+          default: basic_auth
+        provider:
+          type: string
+          title: Provider
+        username:
+          type: string
+          title: Username
+        password:
+          type: string
+          title: Password
+      type: object
+      required:
+      - name
+      - provider
+      - username
+      - password
+      title: CreateBasicAuthRequest
+      description: Request model for creating Basic Auth connections - inherits common settings and includes sensitive fields
+    ComputedUsagePlatformLimit:
+      properties:
+        limit:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Limit
+      type: object
+      title: ComputedUsagePlatformLimit
+      description: 'Platform limit with usage computed externally. Example: PVCs use the count_owned_pro_voices_in_billing_group function to compute the usage.'
+    SlackBotAuthResponse:
+      properties:
+        name:
+          type: string
+          title: Name
+        auth_type:
+          type: string
+          const: slack_bot_auth
+          title: Auth Type
+          default: slack_bot_auth
+        provider:
+          type: string
+          const: Slack
+          title: Provider
+          default: Slack
+        id:
+          type: string
+          title: Id
+        used_by:
+          anyOf:
+          - $ref: '#/components/schemas/AuthConnectionDependencies'
+          - type: 'null'
+        status:
+          $ref: '#/components/schemas/AuthConnectionStatus'
+          default: active
+        status_detail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status Detail
+        status_updated_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status Updated At
+      type: object
+      required:
+      - name
+      - id
+      title: SlackBotAuthResponse
+      description: Response model for the internal Slack BYO bot auth connection.
+    StatusId:
+      type: integer
+      enum:
+      - 0
+      - 1
+      - 2
+      - 99
+      title: StatusId
+      description: 'OCSF Status levels.
+
+
+        Spec: https://schema.ocsf.io/1.6.0/objects/status_id'
     Body_edit_service_account_api_key_v1_service_accounts__service_account_user_id__api_keys__api_key_id__patch:
       properties:
         is_enabled:
@@ -3479,150 +2654,78 @@ components:
           default: no_update
       type: object
       title: Body_edit_service_account_api_key_v1_service_accounts__service_account_user_id__api_keys__api_key_id__patch
-    ApiIntegrationOAuth2CustomAppResponse:
+    CreateBearerAuthRequest:
       properties:
         name:
           type: string
           title: Name
         auth_type:
           type: string
-          const: api_integration_oauth2_custom_app
+          const: bearer_auth
           title: Auth Type
-          default: api_integration_oauth2_custom_app
+          default: bearer_auth
         provider:
           type: string
           title: Provider
-        token_url:
+        token:
           type: string
-          title: Token Url
-        scopes:
-          items:
-            type: string
-          type: array
-          title: Scopes
-        scope_separator:
-          type: string
-          enum:
-          - ' '
-          - ','
-          title: Scope Separator
-          description: Separator for scopes
-          default: ' '
-        expires_at:
-          type: string
-          title: Expires At
-          description: ISO 8601 timestamp of when the access token expires
-        integration_id:
-          type: string
-          title: Integration Id
-        credential_id:
-          type: string
-          title: Credential Id
-        client_id:
-          type: string
-          title: Client Id
-          description: OAuth client ID (rendered from template if credential uses templated credentials, None for legacy connections)
-        id:
-          type: string
-          title: Id
-        used_by:
-          anyOf:
-          - $ref: '#/components/schemas/AuthConnectionDependencies'
-          - type: 'null'
-        status:
-          $ref: '#/components/schemas/AuthConnectionStatus'
-          default: active
-        status_detail:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Status Detail
-        status_updated_at:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Status Updated At
+          title: Token
       type: object
       required:
       - name
       - provider
-      - token_url
-      - expires_at
-      - integration_id
-      - credential_id
-      - client_id
-      - id
-      title: ApiIntegrationOAuth2CustomAppResponse
-      description: Response model for user-owned OAuth2 Custom App auth connections
-    ShareOptionResponseModel:
+      - token
+      title: CreateBearerAuthRequest
+      description: Request model for creating Bearer Auth connections - inherits common settings and includes sensitive fields
+    WorkspaceApiKeyResponseModel:
       properties:
         name:
           type: string
           title: Name
-          description: The name of the principal.
-        id:
+        hint:
           type: string
-          title: Id
-          description: The ID of the principal.
-        type:
+          title: Hint
+        key_id:
           type: string
-          enum:
-          - user
-          - group
-          - key
-          title: Type
-          description: 'The type of the principal: user, group, or service account (under ''key'').'
-      type: object
-      required:
-      - name
-      - id
-      - type
-      title: ShareOptionResponseModel
-    Body_create_service_account_v1_service_accounts_post:
-      properties:
-        name:
+          title: Key Id
+        service_account_user_id:
           type: string
-          title: Name
-        default_sharing_groups:
+          title: Service Account User Id
+        created_at_unix:
           anyOf:
-          - items:
-              $ref: '#/components/schemas/DefaultSharingGroupConfig'
-            type: array
+          - type: integer
           - type: 'null'
-          title: Default Sharing Groups
-          description: List of groups with their permission levels to share with by default. Each entry should specify a group_id and a permission_level (admin, editor, or viewer).
-      type: object
-      required:
-      - name
-      title: Body_create_service_account_v1_service_accounts_post
-    WorkspaceWebhookUsageResponseModel:
-      properties:
-        usage_type:
-          $ref: '#/components/schemas/WebhookUsageType'
-      type: object
-      required:
-      - usage_type
-      title: WorkspaceWebhookUsageResponseModel
-    Body_create_service_account_api_key_v1_service_accounts__service_account_user_id__api_keys_post:
-      properties:
-        name:
-          type: string
-          title: Name
+          title: Created At Unix
+        is_disabled:
+          type: boolean
+          title: Is Disabled
+          default: false
         permissions:
           anyOf:
           - items:
               $ref: '#/components/schemas/PermissionType'
             type: array
-          - type: string
-            const: all
+          - type: 'null'
           title: Permissions
-          description: The permissions of the XI API.
+        disable_reason:
+          anyOf:
+          - $ref: '#/components/schemas/LockReason'
+          - type: 'null'
         character_limit:
           anyOf:
           - type: integer
           - type: 'null'
           title: Character Limit
-          description: The character limit of the XI API key. If provided this will limit the usage of this api key to n characters per month where n is the chosen value. Requests that incur charges will fail after reaching this monthly limit.
+          description: Maximum number of credits allowed in the current billing period.
+        character_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Character Count
+          description: Credits already used in the current billing period.
+        hashed_xi_api_key:
+          type: string
+          title: Hashed Xi Api Key
         allowed_ips:
           anyOf:
           - items:
@@ -3632,18 +2735,24 @@ components:
             minItems: 1
           - type: 'null'
           title: Allowed Ips
-          description: List of IP addresses or CIDR ranges allowed to use this API key. Each entry may be a CIDR range (e.g. '10.0.0.0/24') or a bare IP address (normalized to /32 or /128). On create, omit or pass null to allow all IPs. On update, omit to leave the allowlist unchanged, or pass "clear" to remove it.
         third_party_disable_allowed:
           anyOf:
           - type: boolean
           - type: 'null'
           title: Third Party Disable Allowed
-          description: Whether the holder of this key may disable it via the self-disable endpoint. On create, omit or pass null to use the workspace's default (enabled for non-Enterprise plans, disabled for Enterprise plans). On update, omit to leave it unchanged, or pass "clear" to reset it to the workspace default. Only honored for workspaces with self-disable access enabled.
+        platform_limits:
+          anyOf:
+          - $ref: '#/components/schemas/PlatformLimits'
+          - type: 'null'
+          description: Per-API-key concurrency limits (TTS/dubbing/music). Enterprise-only.
       type: object
       required:
       - name
-      - permissions
-      title: Body_create_service_account_api_key_v1_service_accounts__service_account_user_id__api_keys_post
+      - hint
+      - key_id
+      - service_account_user_id
+      - hashed_xi_api_key
+      title: WorkspaceApiKeyResponseModel
     UpdateOAuth2ClientCredsRequest:
       properties:
         auth_type:
@@ -3694,35 +2803,354 @@ components:
           title: Custom Headers
       type: object
       title: UpdateOAuth2ClientCredsRequest
-    AddWorkspaceInviteResponseModel:
-      properties:
-        status:
-          type: string
-          title: Status
-          description: The status of the workspace invite request. If the request was successful, the status will be 'ok'. Otherwise an error message with status 500 will be returned.
-      type: object
-      required:
-      - status
-      title: AddWorkspaceInviteResponseModel
-      example:
-        status: ok
-    CustomHeaderAuthResponse:
+    WhatsAppAuthResponse:
       properties:
         name:
           type: string
           title: Name
         auth_type:
           type: string
-          const: custom_header_auth
+          const: whatsapp_auth
           title: Auth Type
-          default: custom_header_auth
+          default: whatsapp_auth
+        provider:
+          type: string
+          const: whatsapp
+          title: Provider
+          default: whatsapp
+        phone_number_id:
+          type: string
+          title: Phone Number Id
+        id:
+          type: string
+          title: Id
+        used_by:
+          anyOf:
+          - $ref: '#/components/schemas/AuthConnectionDependencies'
+          - type: 'null'
+        status:
+          $ref: '#/components/schemas/AuthConnectionStatus'
+          default: active
+        status_detail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status Detail
+        status_updated_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status Updated At
+      type: object
+      required:
+      - name
+      - phone_number_id
+      - id
+      title: WhatsAppAuthResponse
+    WorkspaceGroupResponseModel:
+      properties:
+        name:
+          type: string
+          title: Name
+        id:
+          type: string
+          title: Id
+        members:
+          items:
+            type: string
+          type: array
+          title: Members
+        permissions:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/WorkspaceGroupPermission'
+            type: array
+          - type: 'null'
+          title: Permissions
+        group_usage_limit:
+          anyOf:
+          - type: integer
+          - type: string
+            const: unlimited
+          - type: 'null'
+          title: Group Usage Limit
+        group_pvc_limit:
+          anyOf:
+          - type: integer
+          - type: string
+            const: unlimited
+          - type: 'null'
+          title: Group Pvc Limit
+        character_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Character Count
+        is_scim_synced:
+          type: boolean
+          title: Is Scim Synced
+          default: false
+        scim_group:
+          anyOf:
+          - $ref: '#/components/schemas/ScimGroupResponseModel'
+          - type: 'null'
+        scim_frozen:
+          type: boolean
+          title: Scim Frozen
+          default: false
+      type: object
+      required:
+      - name
+      - id
+      - members
+      - permissions
+      title: WorkspaceGroupResponseModel
+    CreateMTLSAuthRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+        auth_type:
+          type: string
+          const: mtls
+          title: Auth Type
+          default: mtls
         provider:
           type: string
           title: Provider
-        header_name:
+        client_certificate:
           type: string
-          title: Header Name
-          description: The name of the header to use for authentication (e.g., 'x-api-key')
+          title: Client Certificate
+        client_key:
+          type: string
+          title: Client Key
+        ca_certificate:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Ca Certificate
+        key_passphrase:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Key Passphrase
+      type: object
+      required:
+      - name
+      - provider
+      - client_certificate
+      - client_key
+      title: CreateMTLSAuthRequest
+      description: Request model for creating mTLS auth connections.
+    AddWorkspaceGroupMemberResponseModel:
+      properties:
+        status:
+          type: string
+          title: Status
+          description: The status of the workspace group member addition request. If the request was successful, the status will be 'ok'. Otherwise an error message with status 500 will be returned.
+      type: object
+      required:
+      - status
+      title: AddWorkspaceGroupMemberResponseModel
+      example:
+        status: ok
+    Body_Delete_member_from_user_group_v1_workspace_groups__group_id__members_remove_post:
+      properties:
+        email:
+          type: string
+          title: Email
+          description: The email of the target workspace member.
+      type: object
+      required:
+      - email
+      title: Body_Delete_member_from_user_group_v1_workspace_groups__group_id__members_remove_post
+    WorkspaceGroupPermission:
+      type: string
+      enum:
+      - text_to_speech
+      - speech_to_speech
+      - speech_to_text
+      - voice_lab
+      - sound_effects
+      - projects
+      - voiceover_studio
+      - dubbing
+      - audio_native
+      - conversational_ai
+      - conversational_ai_read
+      - voice_isolator
+      - ai_speech_classifier
+      - synthid_detector
+      - add_voice_from_voice_library
+      - create_instant_voice_clone
+      - create_professional_voice_clone
+      - create_user_api_key
+      - publish_studio_project
+      - music
+      - image_video_generation
+      - flows
+      - templates
+      - share_voice_externally
+      - publish_voice_to_voice_library
+      - view_fiat_balance
+      - workspace_analytics_full_read
+      - service_accounts_manage
+      - webhooks_manage
+      - group_members_manage
+      - workspace_members_invite
+      - workspace_members_remove
+      - terms_of_service_accept
+      - audit_log_read
+      - conversation_privacy_manage
+      - copy_resources_cross_workspace
+      - voice_design
+      title: WorkspaceGroupPermission
+    Body_Create_workspace_webhook_v1_workspace_webhooks_post:
+      properties:
+        settings:
+          $ref: '#/components/schemas/WebhookHMACSettings'
+          description: Webhook settings object containing auth_type and corresponding configuration
+      type: object
+      required:
+      - settings
+      title: Body_Create_workspace_webhook_v1_workspace_webhooks_post
+    Body_create_service_account_api_key_v1_service_accounts__service_account_user_id__api_keys_post:
+      properties:
+        name:
+          type: string
+          title: Name
+        permissions:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/PermissionType'
+            type: array
+          - type: string
+            const: all
+          title: Permissions
+          description: The permissions of the XI API.
+        character_limit:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Character Limit
+          description: The character limit of the XI API key. If provided this will limit the usage of this api key to n characters per month where n is the chosen value. Requests that incur charges will fail after reaching this monthly limit.
+        allowed_ips:
+          anyOf:
+          - items:
+              type: string
+            type: array
+            maxItems: 100
+            minItems: 1
+          - type: 'null'
+          title: Allowed Ips
+          description: List of IP addresses or CIDR ranges allowed to use this API key. Each entry may be a CIDR range (e.g. '10.0.0.0/24') or a bare IP address (normalized to /32 or /128). On create, omit or pass null to allow all IPs. On update, omit to leave the allowlist unchanged, or pass "clear" to remove it.
+        third_party_disable_allowed:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Third Party Disable Allowed
+          description: Whether the holder of this key may disable it via the self-disable endpoint. On create, omit or pass null to use the workspace's default (enabled for non-Enterprise plans, disabled for Enterprise plans). On update, omit to leave it unchanged, or pass "clear" to reset it to the workspace default. Only honored for workspaces with self-disable access enabled.
+      type: object
+      required:
+      - name
+      - permissions
+      title: Body_create_service_account_api_key_v1_service_accounts__service_account_user_id__api_keys_post
+    AuthConnectionStatus:
+      type: string
+      enum:
+      - active
+      - refresh_failed
+      - revoked
+      - credential_invalid
+      title: AuthConnectionStatus
+      description: 'Single status field shared by every auth type''s stored credential.
+
+
+        OAuth values (``REFRESH_FAILED``, ``REVOKED``) are written by the OAuth
+
+        token-manager refresh path. ``CREDENTIAL_INVALID`` is written by the
+
+        tool execution path when an upstream response matches a credential''s
+
+        ``failure_signatures`` entry (Bearer, Basic auth, etc.).'
+      default: active
+    AuthConnectionDependencies:
+      properties:
+        tools:
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/DependentAvailableToolIdentifier'
+            - $ref: '#/components/schemas/DependentUnknownToolIdentifier'
+            discriminator:
+              propertyName: type
+              mapping:
+                available: '#/components/schemas/DependentAvailableToolIdentifier'
+                unknown: '#/components/schemas/DependentUnknownToolIdentifier'
+          type: array
+          title: Tools
+          default: []
+        mcp_servers:
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/DependentAvailableMCPServerIdentifier'
+            - $ref: '#/components/schemas/DependentUnknownMCPServerIdentifier'
+            discriminator:
+              propertyName: type
+              mapping:
+                available: '#/components/schemas/DependentAvailableMCPServerIdentifier'
+                unknown: '#/components/schemas/DependentUnknownMCPServerIdentifier'
+          type: array
+          title: Mcp Servers
+          default: []
+        integration_connections:
+          items:
+            $ref: '#/components/schemas/DependentIntegrationConnectionIdentifier'
+          type: array
+          title: Integration Connections
+          default: []
+      type: object
+      title: AuthConnectionDependencies
+      description: Dependencies that use an auth connection
+    WebhookUsageType:
+      type: string
+      enum:
+      - ConvAI Agent Settings
+      - ConvAI Settings
+      - Voice Library Removal Notices
+      - Speech to Text
+      - Agent QA Evaluations
+      - ConvAI Alerting
+      - Flows
+      - Dubbing
+      title: WebhookUsageType
+    StoredUsagePlatformLimit:
+      properties:
+        limit:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Limit
+        usage:
+          type: integer
+          title: Usage
+          description: Current usage
+          default: 0
+      type: object
+      title: StoredUsagePlatformLimit
+      description: 'Platform limit with usage stored in Firestore. Example: credit usage tracked in Firestore.'
+    UrlSecretAuthResponse:
+      properties:
+        name:
+          type: string
+          title: Name
+        auth_type:
+          type: string
+          const: url_secret
+          title: Auth Type
+          default: url_secret
+        provider:
+          type: string
+          title: Provider
         id:
           type: string
           title: Id
@@ -3747,29 +3175,705 @@ components:
       required:
       - name
       - provider
-      - header_name
       - id
-      title: CustomHeaderAuthResponse
-      description: Response model for Custom Header Auth auth connections
-    UpdateBearerAuthRequest:
+      title: UrlSecretAuthResponse
+    BasicAuthResponse:
       properties:
+        name:
+          type: string
+          title: Name
+        auth_type:
+          type: string
+          const: basic_auth
+          title: Auth Type
+          default: basic_auth
+        provider:
+          type: string
+          title: Provider
+        username:
+          type: string
+          title: Username
+        id:
+          type: string
+          title: Id
+        used_by:
+          anyOf:
+          - $ref: '#/components/schemas/AuthConnectionDependencies'
+          - type: 'null'
+        status:
+          $ref: '#/components/schemas/AuthConnectionStatus'
+          default: active
+        status_detail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status Detail
+        status_updated_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status Updated At
+      type: object
+      required:
+      - name
+      - provider
+      - username
+      - id
+      title: BasicAuthResponse
+      description: Response model for basic auth
+    DeleteWorkspaceWebhookResponseModel:
+      properties:
+        status:
+          type: string
+          title: Status
+          description: The status of the workspace webhook deletion request. If the request was successful, the status will be 'ok'. Otherwise an error message with status 500 will be returned.
+      type: object
+      required:
+      - status
+      title: DeleteWorkspaceWebhookResponseModel
+      example:
+        status: ok
+    Body_create_service_account_v1_service_accounts_post:
+      properties:
+        name:
+          type: string
+          title: Name
+        default_sharing_groups:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/DefaultSharingGroupConfig'
+            type: array
+          - type: 'null'
+          title: Default Sharing Groups
+          description: List of groups with their permission levels to share with by default. Each entry should specify a group_id and a permission_level (admin, editor, or viewer).
+      type: object
+      required:
+      - name
+      title: Body_create_service_account_v1_service_accounts_post
+    Body_Add_member_to_user_group_v1_workspace_groups__group_id__members_post:
+      properties:
+        email:
+          type: string
+          title: Email
+          description: The email of the target workspace member.
+      type: object
+      required:
+      - email
+      title: Body_Add_member_to_user_group_v1_workspace_groups__group_id__members_post
+    ScimGroupResponseModel:
+      properties:
+        scim_external_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Scim External Id
+        display_name:
+          type: string
+          title: Display Name
+        created_at_unix:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Created At Unix
+        updated_at_unix:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Updated At Unix
+        seat_type:
+          anyOf:
+          - $ref: '#/components/schemas/SeatType'
+          - type: 'null'
+      type: object
+      required:
+      - scim_external_id
+      - display_name
+      title: ScimGroupResponseModel
+    DefaultSharingGroupResponseModel:
+      properties:
+        group:
+          $ref: '#/components/schemas/WorkspaceGroupResponseModel'
+          description: The group to share with by default
+        permission_level:
+          type: string
+          enum:
+          - admin
+          - editor
+          - viewer
+          title: Permission Level
+          description: The permission level to grant to the group
+      type: object
+      required:
+      - group
+      - permission_level
+      title: DefaultSharingGroupResponseModel
+    HttpRequestModel:
+      properties:
+        http_method:
+          type: string
+          title: Http Method
+          description: HTTP method (GET, POST, etc.)
+        url:
+          $ref: '#/components/schemas/UrlModel'
+          description: Request URL object
+        user_agent:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: User Agent
+          description: User agent string
+        x_forwarded_for:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: X Forwarded For
+          description: X-Forwarded-For header as a list
+      additionalProperties: false
+      type: object
+      required:
+      - http_method
+      - url
+      title: HttpRequestModel
+      description: 'HTTP request details.
+
+
+        Spec: https://schema.ocsf.io/1.6.0/objects/http_request'
+    WorkspaceAuditLogsPageResponse:
+      properties:
+        entries:
+          items:
+            $ref: '#/components/schemas/WorkspaceAuditLogEntryResponse'
+          type: array
+          title: Entries
+        has_more:
+          type: boolean
+          title: Has More
+        next_cursor:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Next Cursor
+      type: object
+      required:
+      - entries
+      - has_more
+      - next_cursor
+      title: WorkspaceAuditLogsPageResponse
+      description: Paginated workspace audit log response.
+    UrlModel:
+      properties:
+        url_string:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Url String
+          description: Full URL string
+        scheme:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Scheme
+          description: URL scheme (e.g., https)
+        hostname:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Hostname
+          description: URL hostname
+        port:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Port
+          description: URL port
+        path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Path
+          description: URL path
+        query_string:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Query String
+          description: URL query string
+      additionalProperties: false
+      type: object
+      title: UrlModel
+      description: 'OCSF URL object.
+
+
+        Spec: https://schema.ocsf.io/1.6.0/objects/url'
+    ActorModel:
+      properties:
+        user:
+          $ref: '#/components/schemas/UserModel'
+          description: User who performed the action
+        app_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: App Name
+          description: Client application or service name
+        app_uid:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: App Uid
+          description: Client application unique identifier
+        session:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Session
+          description: Session information
+      additionalProperties: false
+      type: object
+      required:
+      - user
+      title: ActorModel
+      description: 'OCSF Actor object - describes the entity that performed the action.
+
+
+        Spec: https://schema.ocsf.io/1.6.0/objects/actor'
+    DependentUnknownMCPServerIdentifier:
+      properties:
+        id:
+          type: string
+          title: Id
+        type:
+          type: string
+          const: unknown
+          title: Type
+          default: unknown
+      type: object
+      required:
+      - id
+      title: DependentUnknownMCPServerIdentifier
+    WebhookHMACSettings:
+      properties:
+        auth_type:
+          type: string
+          const: hmac
+          title: Auth Type
+          description: The authentication type for this webhook
+        name:
+          type: string
+          title: Name
+          description: The display name for this webhook
+        webhook_url:
+          type: string
+          title: Webhook Url
+          description: The HTTPS callback URL that will be called when this webhook is triggered
+        request_headers:
+          anyOf:
+          - additionalProperties:
+              type: string
+            type: object
+          - type: 'null'
+          title: Request Headers
+          description: Optional custom request headers to include with each webhook delivery
+      type: object
+      required:
+      - auth_type
+      - name
+      - webhook_url
+      title: WebhookHMACSettings
+      description: Settings for creating an HMAC-authenticated webhook
+    DefaultSharingGroupConfig:
+      properties:
+        group_id:
+          type: string
+          title: Group Id
+          description: The ID of the group to share with
+        permission_level:
+          type: string
+          enum:
+          - admin
+          - editor
+          - viewer
+          title: Permission Level
+          description: The permission level to grant to the group
+      type: object
+      required:
+      - group_id
+      - permission_level
+      title: DefaultSharingGroupConfig
+    DependentAvailableToolIdentifier:
+      properties:
+        id:
+          type: string
+          title: Id
+        name:
+          type: string
+          title: Name
+        type:
+          type: string
+          const: available
+          title: Type
+          default: available
+        created_at_unix_secs:
+          type: integer
+          title: Created At Unix Secs
+        access_level:
+          type: string
+          enum:
+          - admin
+          - editor
+          - commenter
+          - viewer
+          title: Access Level
+      type: object
+      required:
+      - id
+      - name
+      - created_at_unix_secs
+      - access_level
+      title: DependentAvailableToolIdentifier
+    AddWorkspaceInviteResponseModel:
+      properties:
+        status:
+          type: string
+          title: Status
+          description: The status of the workspace invite request. If the request was successful, the status will be 'ok'. Otherwise an error message with status 500 will be returned.
+      type: object
+      required:
+      - status
+      title: AddWorkspaceInviteResponseModel
+      example:
+        status: ok
+    Body_Update_member_v1_workspace_members_post:
+      properties:
+        email:
+          type: string
+          title: Email
+          description: Email of the target user.
+        is_locked:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Locked
+          description: Whether to lock or unlock the user account.
+        workspace_role:
+          anyOf:
+          - $ref: '#/components/schemas/SeatType'
+          - type: 'null'
+          description: The workspace role of the user. This is deprecated, use `workspace_seat_type` instead.
+          deprecated: true
+          examples:
+          - workspace_admin
+          - workspace_member
+        workspace_seat_type:
+          anyOf:
+          - $ref: '#/components/schemas/SeatType'
+          - type: 'null'
+          description: The workspace seat type
+      type: object
+      required:
+      - email
+      title: Body_Update_member_v1_workspace_members_post
+    WorkspaceApiKeyListResponseModel:
+      properties:
+        api-keys:
+          items:
+            $ref: '#/components/schemas/WorkspaceApiKeyResponseModel'
+          type: array
+          title: Api-Keys
+      type: object
+      required:
+      - api-keys
+      title: WorkspaceApiKeyListResponseModel
+    WorkspaceWebhookResponseModel:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: The display name for this webhook.
+        webhook_id:
+          type: string
+          title: Webhook Id
+          description: The unique ID for this webhook.
+        webhook_url:
+          type: string
+          title: Webhook Url
+          description: The HTTPS callback URL that is called when this webhook is triggered in the platform.
+        is_disabled:
+          type: boolean
+          title: Is Disabled
+          description: Whether the webhook has been manually disabled by a user.
+        is_auto_disabled:
+          type: boolean
+          title: Is Auto Disabled
+          description: Whether the webhook has been automatically disabled due to repeated consecutive failures over a long period of time.
+        created_at_unix:
+          type: integer
+          title: Created At Unix
+          description: Original creation time of the webhook.
+        auth_type:
+          $ref: '#/components/schemas/WebhookAuthMethodType'
+          description: The authentication mode used to secure the webhook.
+        usage:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/WorkspaceWebhookUsageResponseModel'
+            type: array
+          - type: 'null'
+          title: Usage
+          description: The list of products that are currently configured to trigger this webhook.
+        events:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/WorkspaceWebhookEventType'
+            type: array
+          - type: 'null'
+          title: Events
+          description: The workspace-level events this webhook is currently subscribed to. Only populated when usages are requested.
+        most_recent_failure_error_code:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Most Recent Failure Error Code
+          description: The most recent error code returned from the callback URL.
+        most_recent_failure_timestamp:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Most Recent Failure Timestamp
+          description: The most recent time the webhook failed, failures are any non-200 codes returned by the callback URL.
+      type: object
+      required:
+      - name
+      - webhook_id
+      - webhook_url
+      - is_disabled
+      - is_auto_disabled
+      - created_at_unix
+      - auth_type
+      title: WorkspaceWebhookResponseModel
+    BearerAuthResponse:
+      properties:
+        name:
+          type: string
+          title: Name
         auth_type:
           type: string
           const: bearer_auth
           title: Auth Type
           default: bearer_auth
         provider:
-          anyOf:
-          - type: string
-          - type: 'null'
+          type: string
           title: Provider
-        token:
+        id:
+          type: string
+          title: Id
+        used_by:
+          anyOf:
+          - $ref: '#/components/schemas/AuthConnectionDependencies'
+          - type: 'null'
+        status:
+          $ref: '#/components/schemas/AuthConnectionStatus'
+          default: active
+        status_detail:
           anyOf:
           - type: string
           - type: 'null'
-          title: Token
+          title: Status Detail
+        status_updated_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status Updated At
       type: object
-      title: UpdateBearerAuthRequest
+      required:
+      - name
+      - provider
+      - id
+      title: BearerAuthResponse
+      description: Response model for bearer auth
+    UserModel:
+      properties:
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+          description: Username
+        uid:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Uid
+          description: Unique user identifier
+        type_id:
+          $ref: '#/components/schemas/UserTypeId'
+          description: Account type identifier
+          default: 1
+        type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Type
+          description: Account type description
+        email_addr:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Email Addr
+          description: User email address
+        full_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Full Name
+          description: Full name of the user
+        domain:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Domain
+          description: User's domain
+      additionalProperties: false
+      type: object
+      title: UserModel
+      description: 'OCSF User object.
+
+
+        Spec: https://schema.ocsf.io/1.6.0/objects/user'
+    WorkspaceWebhookEventType:
+      type: string
+      enum:
+      - voice_library_removal_notice
+      - speech_to_text
+      - agent_qa
+      - flows
+      title: WorkspaceWebhookEventType
+    DependentAvailableMCPServerIdentifier:
+      properties:
+        id:
+          type: string
+          title: Id
+        name:
+          type: string
+          title: Name
+        type:
+          type: string
+          const: available
+          title: Type
+          default: available
+        created_at_unix_secs:
+          type: integer
+          title: Created At Unix Secs
+        access_level:
+          type: string
+          enum:
+          - admin
+          - editor
+          - commenter
+          - viewer
+          title: Access Level
+      type: object
+      required:
+      - id
+      - name
+      - created_at_unix_secs
+      - access_level
+      title: DependentAvailableMCPServerIdentifier
+    ApiIntegrationOAuth2AuthCodeResponse:
+      properties:
+        name:
+          type: string
+          title: Name
+        auth_type:
+          type: string
+          const: api_integration_oauth2_auth_code
+          title: Auth Type
+          default: api_integration_oauth2_auth_code
+        provider:
+          type: string
+          title: Provider
+        token_url:
+          type: string
+          title: Token Url
+        scopes:
+          items:
+            type: string
+          type: array
+          title: Scopes
+        scope_separator:
+          type: string
+          enum:
+          - ' '
+          - ','
+          title: Scope Separator
+          description: Separator for scopes
+          default: ' '
+        expires_at:
+          type: string
+          title: Expires At
+          description: ISO 8601 timestamp of when the access token expires
+        integration_id:
+          type: string
+          title: Integration Id
+        credential_id:
+          type: string
+          title: Credential Id
+        id:
+          type: string
+          title: Id
+        used_by:
+          anyOf:
+          - $ref: '#/components/schemas/AuthConnectionDependencies'
+          - type: 'null'
+        status:
+          $ref: '#/components/schemas/AuthConnectionStatus'
+          default: active
+        status_detail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status Detail
+        status_updated_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status Updated At
+      type: object
+      required:
+      - name
+      - provider
+      - token_url
+      - expires_at
+      - integration_id
+      - credential_id
+      - id
+      title: ApiIntegrationOAuth2AuthCodeResponse
+      description: Response model for integration-managed OAuth2 Auth Code auth connections
+    SeatType:
+      type: string
+      enum:
+      - workspace_admin
+      - workspace_member
+      - workspace_lite_member
+      title: SeatType
+      description: Seat types for workspace members.
+    DependentIntegrationConnectionIdentifier:
+      properties:
+        id:
+          type: string
+          title: Id
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - id
+      - name
+      title: DependentIntegrationConnectionIdentifier
+      description: Identifier for an integration connection that depends on an auth connection
     PrivateKeyJWTResponse:
       properties:
         name:
@@ -3856,382 +3960,87 @@ components:
       - id
       title: PrivateKeyJWTResponse
       description: Response model for Private Key JWT auth connections
-    WorkspaceWebhookListResponseModel:
+    HTTPValidationError:
       properties:
-        webhooks:
+        detail:
           items:
-            $ref: '#/components/schemas/WorkspaceWebhookResponseModel'
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          title: Webhooks
-          description: List of webhooks currently configured for the workspace
+          title: Detail
       type: object
-      required:
-      - webhooks
-      title: WorkspaceWebhookListResponseModel
-      example:
-        webhooks:
-        - auth_type: hmac
-          created_at_unix: 123456789
-          is_auto_disabled: false
-          is_disabled: false
-          most_recent_failure_error_code: 404
-          most_recent_failure_timestamp: 123456799
-          name: My Webhook
-          usage:
-          - usage_type: ConvAI Settings
-          webhook_id: '123'
-          webhook_url: https://elevenlabs.io/example-callback-url
-    SeatType:
-      type: string
-      enum:
-      - workspace_admin
-      - workspace_member
-      - workspace_lite_member
-      title: SeatType
-      description: Seat types for workspace members.
-    ComputedUsagePlatformLimit:
-      properties:
-        limit:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Limit
-      type: object
-      title: ComputedUsagePlatformLimit
-      description: 'Platform limit with usage computed externally. Example: PVCs use the count_owned_pro_voices_in_billing_group function to compute the usage.'
-    Body_Add_member_to_user_group_v1_workspace_groups__group_id__members_post:
-      properties:
-        email:
-          type: string
-          title: Email
-          description: The email of the target workspace member.
-      type: object
-      required:
-      - email
-      title: Body_Add_member_to_user_group_v1_workspace_groups__group_id__members_post
-    ScimGroupResponseModel:
-      properties:
-        scim_external_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Scim External Id
-        display_name:
-          type: string
-          title: Display Name
-        created_at_unix:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Created At Unix
-        updated_at_unix:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Updated At Unix
-        seat_type:
-          anyOf:
-          - $ref: '#/components/schemas/SeatType'
-          - type: 'null'
-      type: object
-      required:
-      - scim_external_id
-      - display_name
-      title: ScimGroupResponseModel
-    StatusId:
-      type: integer
-      enum:
-      - 0
-      - 1
-      - 2
-      - 99
-      title: StatusId
-      description: 'OCSF Status levels.
-
-
-        Spec: https://schema.ocsf.io/1.6.0/objects/status_id'
-    WebhookUsageType:
-      type: string
-      enum:
-      - ConvAI Agent Settings
-      - ConvAI Settings
-      - Voice Library Removal Notices
-      - Speech to Text
-      - Agent QA Evaluations
-      - ConvAI Alerting
-      - Flows
-      - Dubbing
-      title: WebhookUsageType
-    UserTypeId:
-      type: integer
-      enum:
-      - 0
-      - 1
-      - 2
-      - 3
-      - 4
-      - 99
-      title: UserTypeId
-      description: 'OCSF User type IDs.
-
-
-        Spec: https://schema.ocsf.io/1.6.0/objects/user'
-    SlackBotAuthResponse:
-      properties:
-        name:
-          type: string
-          title: Name
-        auth_type:
-          type: string
-          const: slack_bot_auth
-          title: Auth Type
-          default: slack_bot_auth
-        provider:
-          type: string
-          const: Slack
-          title: Provider
-          default: Slack
-        id:
-          type: string
-          title: Id
-        used_by:
-          anyOf:
-          - $ref: '#/components/schemas/AuthConnectionDependencies'
-          - type: 'null'
-        status:
-          $ref: '#/components/schemas/AuthConnectionStatus'
-          default: active
-        status_detail:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Status Detail
-        status_updated_at:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Status Updated At
-      type: object
-      required:
-      - name
-      - id
-      title: SlackBotAuthResponse
-      description: Response model for the internal Slack BYO bot auth connection.
-    WorkspaceMemberResponseModel:
-      properties:
-        user_id:
-          type: string
-          title: User Id
-          description: The user ID of the workspace member.
-        email:
-          type: string
-          title: Email
-          description: The email address of the workspace member.
-        first_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: First Name
-          description: The first name of the workspace member, if available.
-        seat_type:
-          anyOf:
-          - $ref: '#/components/schemas/SeatType'
-          - type: 'null'
-          description: The seat type (role) of the workspace member.
-        is_owner:
-          type: boolean
-          title: Is Owner
-          description: Whether the member is the workspace owner.
-        is_locked:
-          type: boolean
-          title: Is Locked
-          description: Whether the member's account is locked in this workspace.
-      type: object
-      required:
-      - user_id
-      - email
-      - first_name
-      - seat_type
-      - is_owner
-      - is_locked
-      title: WorkspaceMemberResponseModel
-      description: Public workspace member fields exposed via GET /v1/workspace/members.
-    DependentAvailableMCPServerIdentifier:
-      properties:
-        id:
-          type: string
-          title: Id
-        name:
-          type: string
-          title: Name
-        type:
-          type: string
-          const: available
-          title: Type
-          default: available
-        created_at_unix_secs:
-          type: integer
-          title: Created At Unix Secs
-        access_level:
-          type: string
-          enum:
-          - admin
-          - editor
-          - commenter
-          - viewer
-          title: Access Level
-      type: object
-      required:
-      - id
-      - name
-      - created_at_unix_secs
-      - access_level
-      title: DependentAvailableMCPServerIdentifier
-    PatchWorkspaceWebhookResponseModel:
-      properties:
-        status:
-          type: string
-          title: Status
-          description: The status of the workspace webhook patch request. If the request was successful, the status will be 'ok'. Otherwise an error message with status 500 will be returned.
-      type: object
-      required:
-      - status
-      title: PatchWorkspaceWebhookResponseModel
-      example:
-        status: ok
-    UpdateBasicAuthRequest:
+      title: HTTPValidationError
+    UpdateBearerAuthRequest:
       properties:
         auth_type:
           type: string
-          const: basic_auth
+          const: bearer_auth
           title: Auth Type
-          default: basic_auth
+          default: bearer_auth
         provider:
           anyOf:
           - type: string
           - type: 'null'
           title: Provider
-        username:
+        token:
           anyOf:
           - type: string
           - type: 'null'
-          title: Username
-        password:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Password
+          title: Token
       type: object
-      title: UpdateBasicAuthRequest
-    WorkspaceWebhookResponseModel:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: The display name for this webhook.
-        webhook_id:
-          type: string
-          title: Webhook Id
-          description: The unique ID for this webhook.
-        webhook_url:
-          type: string
-          title: Webhook Url
-          description: The HTTPS callback URL that is called when this webhook is triggered in the platform.
-        is_disabled:
-          type: boolean
-          title: Is Disabled
-          description: Whether the webhook has been manually disabled by a user.
-        is_auto_disabled:
-          type: boolean
-          title: Is Auto Disabled
-          description: Whether the webhook has been automatically disabled due to repeated consecutive failures over a long period of time.
-        created_at_unix:
-          type: integer
-          title: Created At Unix
-          description: Original creation time of the webhook.
-        auth_type:
-          $ref: '#/components/schemas/WebhookAuthMethodType'
-          description: The authentication mode used to secure the webhook.
-        usage:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/WorkspaceWebhookUsageResponseModel'
-            type: array
-          - type: 'null'
-          title: Usage
-          description: The list of products that are currently configured to trigger this webhook.
-        events:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/WorkspaceWebhookEventType'
-            type: array
-          - type: 'null'
-          title: Events
-          description: The workspace-level events this webhook is currently subscribed to. Only populated when usages are requested.
-        most_recent_failure_error_code:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Most Recent Failure Error Code
-          description: The most recent error code returned from the callback URL.
-        most_recent_failure_timestamp:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Most Recent Failure Timestamp
-          description: The most recent time the webhook failed, failures are any non-200 codes returned by the callback URL.
-      type: object
-      required:
-      - name
-      - webhook_id
-      - webhook_url
-      - is_disabled
-      - is_auto_disabled
-      - created_at_unix
-      - auth_type
-      title: WorkspaceWebhookResponseModel
-    WorkspaceGroupByNameResponseModel:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: The name of the workspace group.
-        id:
-          type: string
-          title: Id
-          description: The ID of the workspace group.
-        members_emails:
-          items:
-            type: string
-          type: array
-          title: Members Emails
-          description: The emails of the members of the workspace group.
-      type: object
-      required:
-      - name
-      - id
-      - members_emails
-      title: WorkspaceGroupByNameResponseModel
-      example:
-        id: '1234567890'
-        members_emails:
-        - john.doe@example.com
-        - jane.smith@example.com
-        name: My Workspace Group
-    DependentIntegrationConnectionIdentifier:
-      properties:
-        id:
-          type: string
-          title: Id
-        name:
-          type: string
-          title: Name
-      type: object
-      required:
-      - id
-      - name
-      title: DependentIntegrationConnectionIdentifier
-      description: Identifier for an integration connection that depends on an auth connection
+      title: UpdateBearerAuthRequest
+    PermissionType:
+      type: string
+      enum:
+      - text_to_speech
+      - speech_to_speech
+      - speech_to_text
+      - models_read
+      - models_write
+      - voices_read
+      - voices_write
+      - speech_history_read
+      - speech_history_write
+      - sound_generation
+      - audio_isolation
+      - voice_generation
+      - dubbing_read
+      - dubbing_write
+      - pronunciation_dictionaries_read
+      - pronunciation_dictionaries_write
+      - user_read
+      - user_write
+      - projects_read
+      - projects_write
+      - audio_native_read
+      - audio_native_write
+      - workspace_read
+      - workspace_write
+      - forced_alignment
+      - convai_read
+      - convai_write
+      - music_generation
+      - image_video_generation
+      - flows
+      - templates
+      - add_voice_from_voice_library
+      - create_instant_voice_clone
+      - create_professional_voice_clone
+      - publish_voice_to_voice_library
+      - share_voice_externally
+      - create_user_api_key
+      - workspace_analytics_full_read
+      - webhooks_write
+      - service_account_write
+      - group_members_manage
+      - workspace_members_read
+      - workspace_members_invite
+      - workspace_members_remove
+      - terms_of_service_accept
+      - audit_log_read
+      - conversation_privacy_manage
+      - copy_resources_cross_workspace
+      - synthid_detector
+      title: PermissionType
     CreateOAuth2ClientCredsRequest:
       properties:
         name:
@@ -4286,104 +4095,105 @@ components:
       - client_secret
       title: CreateOAuth2ClientCredsRequest
       description: Request model for creating auth connections - inherits common settings and includes sensitive fields
-    AuthConnectionDependencies:
-      properties:
-        tools:
-          items:
-            oneOf:
-            - $ref: '#/components/schemas/DependentAvailableToolIdentifier'
-            - $ref: '#/components/schemas/DependentUnknownToolIdentifier'
-            discriminator:
-              propertyName: type
-              mapping:
-                available: '#/components/schemas/DependentAvailableToolIdentifier'
-                unknown: '#/components/schemas/DependentUnknownToolIdentifier'
-          type: array
-          title: Tools
-          default: []
-        mcp_servers:
-          items:
-            oneOf:
-            - $ref: '#/components/schemas/DependentAvailableMCPServerIdentifier'
-            - $ref: '#/components/schemas/DependentUnknownMCPServerIdentifier'
-            discriminator:
-              propertyName: type
-              mapping:
-                available: '#/components/schemas/DependentAvailableMCPServerIdentifier'
-                unknown: '#/components/schemas/DependentUnknownMCPServerIdentifier'
-          type: array
-          title: Mcp Servers
-          default: []
-        integration_connections:
-          items:
-            $ref: '#/components/schemas/DependentIntegrationConnectionIdentifier'
-          type: array
-          title: Integration Connections
-          default: []
-      type: object
-      title: AuthConnectionDependencies
-      description: Dependencies that use an auth connection
-    UrlModel:
-      properties:
-        url_string:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Url String
-          description: Full URL string
-        scheme:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Scheme
-          description: URL scheme (e.g., https)
-        hostname:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Hostname
-          description: URL hostname
-        port:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Port
-          description: URL port
-        path:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Path
-          description: URL path
-        query_string:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Query String
-          description: URL query string
-      additionalProperties: false
-      type: object
-      title: UrlModel
-      description: 'OCSF URL object.
+    GroupManagementActivityId:
+      type: integer
+      enum:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 99
+      title: GroupManagementActivityId
+      description: 'OCSF Activity IDs for Group Management [3006] events.
 
 
-        Spec: https://schema.ocsf.io/1.6.0/objects/url'
-    BasicAuthResponse:
+        Spec: https://schema.ocsf.io/1.6.0/classes/group_management'
+    DeleteWorkspaceInviteResponseModel:
+      properties:
+        status:
+          type: string
+          title: Status
+          description: The status of the workspace invite deletion request. If the request was successful, the status will be 'ok'. Otherwise an error message with status 500 will be returned.
+      type: object
+      required:
+      - status
+      title: DeleteWorkspaceInviteResponseModel
+      example:
+        status: ok
+    WorkspaceWebhookListResponseModel:
+      properties:
+        webhooks:
+          items:
+            $ref: '#/components/schemas/WorkspaceWebhookResponseModel'
+          type: array
+          title: Webhooks
+          description: List of webhooks currently configured for the workspace
+      type: object
+      required:
+      - webhooks
+      title: WorkspaceWebhookListResponseModel
+      example:
+        webhooks:
+        - auth_type: hmac
+          created_at_unix: 123456789
+          is_auto_disabled: false
+          is_disabled: false
+          most_recent_failure_error_code: 404
+          most_recent_failure_timestamp: 123456799
+          name: My Webhook
+          usage:
+          - usage_type: ConvAI Settings
+          webhook_id: '123'
+          webhook_url: https://elevenlabs.io/example-callback-url
+    ApiIntegrationOAuth2CustomAppResponse:
       properties:
         name:
           type: string
           title: Name
         auth_type:
           type: string
-          const: basic_auth
+          const: api_integration_oauth2_custom_app
           title: Auth Type
-          default: basic_auth
+          default: api_integration_oauth2_custom_app
         provider:
           type: string
           title: Provider
-        username:
+        token_url:
           type: string
-          title: Username
+          title: Token Url
+        scopes:
+          items:
+            type: string
+          type: array
+          title: Scopes
+        scope_separator:
+          type: string
+          enum:
+          - ' '
+          - ','
+          title: Scope Separator
+          description: Separator for scopes
+          default: ' '
+        expires_at:
+          type: string
+          title: Expires At
+          description: ISO 8601 timestamp of when the access token expires
+        integration_id:
+          type: string
+          title: Integration Id
+        credential_id:
+          type: string
+          title: Credential Id
+        client_id:
+          type: string
+          title: Client Id
+          description: OAuth client ID (rendered from template if credential uses templated credentials, None for legacy connections)
         id:
           type: string
           title: Id
@@ -4408,200 +4218,99 @@ components:
       required:
       - name
       - provider
-      - username
+      - token_url
+      - expires_at
+      - integration_id
+      - credential_id
+      - client_id
       - id
-      title: BasicAuthResponse
-      description: Response model for basic auth
-    WorkspaceGroupPermission:
-      type: string
-      enum:
-      - text_to_speech
-      - speech_to_speech
-      - speech_to_text
-      - voice_lab
-      - sound_effects
-      - projects
-      - voiceover_studio
-      - dubbing
-      - audio_native
-      - conversational_ai
-      - conversational_ai_read
-      - voice_isolator
-      - ai_speech_classifier
-      - synthid_detector
-      - add_voice_from_voice_library
-      - create_instant_voice_clone
-      - create_professional_voice_clone
-      - create_user_api_key
-      - publish_studio_project
-      - music
-      - image_video_generation
-      - flows
-      - templates
-      - share_voice_externally
-      - publish_voice_to_voice_library
-      - view_fiat_balance
-      - workspace_analytics_full_read
-      - service_accounts_manage
-      - webhooks_manage
-      - group_members_manage
-      - workspace_members_invite
-      - workspace_members_remove
-      - terms_of_service_accept
-      - audit_log_read
-      - conversation_privacy_manage
-      - copy_resources_cross_workspace
-      - voice_design
-      title: WorkspaceGroupPermission
-    CreateCustomHeaderAuthRequest:
+      title: ApiIntegrationOAuth2CustomAppResponse
+      description: Response model for user-owned OAuth2 Custom App auth connections
+    WorkspaceMemberResponseModel:
       properties:
-        name:
+        user_id:
           type: string
-          title: Name
-        auth_type:
+          title: User Id
+          description: The user ID of the workspace member.
+        email:
           type: string
-          const: custom_header_auth
-          title: Auth Type
-          default: custom_header_auth
-        provider:
-          type: string
-          title: Provider
-        header_name:
-          type: string
-          title: Header Name
-          description: The name of the header to use for authentication (e.g., 'x-api-key')
-        token:
-          type: string
-          title: Token
-      type: object
-      required:
-      - name
-      - provider
-      - header_name
-      - token
-      title: CreateCustomHeaderAuthRequest
-    DefaultSharingGroupConfig:
-      properties:
-        group_id:
-          type: string
-          title: Group Id
-          description: The ID of the group to share with
-        permission_level:
-          type: string
-          enum:
-          - admin
-          - editor
-          - viewer
-          title: Permission Level
-          description: The permission level to grant to the group
-      type: object
-      required:
-      - group_id
-      - permission_level
-      title: DefaultSharingGroupConfig
-    PlatformLimits:
-      properties:
-        credits:
-          $ref: '#/components/schemas/StoredUsagePlatformLimit'
-          description: Credit usage limit (limit=None means unlimited)
-        pvc:
-          $ref: '#/components/schemas/ComputedUsagePlatformLimit'
-          description: Professional Voice Clone count limit (limit=None means unlimited)
-        concurrency:
-          $ref: '#/components/schemas/ComputedUsagePlatformLimit'
-          description: TTS concurrency limit (limit=None means unlimited)
-        dubbing_concurrency:
-          $ref: '#/components/schemas/ComputedUsagePlatformLimit'
-          description: Dubbing concurrency limit (limit=None means unlimited)
-        music_concurrency:
-          $ref: '#/components/schemas/ComputedUsagePlatformLimit'
-          description: Music generation concurrency limit (limit=None means unlimited)
-      type: object
-      title: PlatformLimits
-      description: 'Unified container for all platform limits.
-
-
-        Can be used by:
-
-        - Billing groups (WorkspaceGroupDBModel.platform_limits)
-
-        - Child workspaces (SubscriptionDBModel.platform_limits)
-
-        - API keys (XiApiKeyMetadataDBModel.platform_limits)
-
-
-        All fields are required when platform_limits exists. Use limit=None for unlimited.'
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    DeleteWorkspaceWebhookResponseModel:
-      properties:
-        status:
-          type: string
-          title: Status
-          description: The status of the workspace webhook deletion request. If the request was successful, the status will be 'ok'. Otherwise an error message with status 500 will be returned.
-      type: object
-      required:
-      - status
-      title: DeleteWorkspaceWebhookResponseModel
-      example:
-        status: ok
-    WorkspaceCreateWebhookResponseModel:
-      properties:
-        webhook_id:
-          type: string
-          title: Webhook Id
-        webhook_secret:
+          title: Email
+          description: The email address of the workspace member.
+        first_name:
           anyOf:
           - type: string
           - type: 'null'
-          title: Webhook Secret
+          title: First Name
+          description: The first name of the workspace member, if available.
+        seat_type:
+          anyOf:
+          - $ref: '#/components/schemas/SeatType'
+          - type: 'null'
+          description: The seat type (role) of the workspace member.
+        is_owner:
+          type: boolean
+          title: Is Owner
+          description: Whether the member is the workspace owner.
+        is_locked:
+          type: boolean
+          title: Is Locked
+          description: Whether the member's account is locked in this workspace.
       type: object
       required:
-      - webhook_id
-      title: WorkspaceCreateWebhookResponseModel
-    WorkspaceCreateApiKeyResponseModel:
+      - user_id
+      - email
+      - first_name
+      - seat_type
+      - is_owner
+      - is_locked
+      title: WorkspaceMemberResponseModel
+      description: Public workspace member fields exposed via GET /v1/workspace/members.
+    Body_Update_workspace_webhook_v1_workspace_webhooks__webhook_id__patch:
       properties:
-        xi-api-key:
+        is_disabled:
+          type: boolean
+          title: Is Disabled
+          description: Whether to disable or enable the webhook
+          examples:
+          - true
+        name:
           type: string
-          title: Xi-Api-Key
-        key_id:
-          type: string
-          title: Key Id
+          title: Name
+          description: The display name of the webhook (used for display purposes only).
+          examples:
+          - My Callback Webhook
+        retry_enabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Retry Enabled
+          description: Whether to enable automatic retries for transient failures (5xx, 429, timeout)
+          examples:
+          - true
+        request_headers:
+          anyOf:
+          - additionalProperties:
+              type: string
+            type: object
+          - type: 'null'
+          title: Request Headers
+          description: A list of request headers to include with the webhook delivery (optional)
+        events:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/WorkspaceWebhookEventType'
+            type: array
+          - type: 'null'
+          title: Events
+          description: The complete set of workspace-level events this webhook should be subscribed to. The webhook is added to the events in the list and removed from any not in the list. Omit to leave the current event subscriptions unchanged.
+          examples:
+          - - voice_library_removal_notice
+            - speech_to_text
       type: object
       required:
-      - xi-api-key
-      - key_id
-      title: WorkspaceCreateApiKeyResponseModel
-    WorkspaceCreateServiceAccountResponseModel:
-      properties:
-        service-account-user-id:
-          type: string
-          title: Service-Account-User-Id
-      type: object
-      required:
-      - service-account-user-id
-      title: WorkspaceCreateServiceAccountResponseModel
-    DependentUnknownMCPServerIdentifier:
-      properties:
-        id:
-          type: string
-          title: Id
-        type:
-          type: string
-          const: unknown
-          title: Type
-          default: unknown
-      type: object
-      required:
-      - id
-      title: DependentUnknownMCPServerIdentifier
+      - is_disabled
+      - name
+      title: Body_Update_workspace_webhook_v1_workspace_webhooks__webhook_id__patch
     SeverityId:
       type: integer
       enum:
@@ -4618,36 +4327,327 @@ components:
 
 
         Spec: https://schema.ocsf.io/1.6.0/objects/severity_id'
-    HttpRequestModel:
+    OAuth2JWTResponse:
       properties:
-        http_method:
+        name:
           type: string
-          title: Http Method
-          description: HTTP method (GET, POST, etc.)
-        url:
-          $ref: '#/components/schemas/UrlModel'
-          description: Request URL object
-        user_agent:
+          title: Name
+        auth_type:
+          type: string
+          const: oauth2_jwt
+          title: Auth Type
+          default: oauth2_jwt
+        provider:
+          type: string
+          title: Provider
+        algorithm:
+          type: string
+          enum:
+          - HS256
+          - HS384
+          - HS512
+          - RS256
+          - RS384
+          - RS512
+          title: Algorithm
+          description: JWT signing algorithm
+          default: HS256
+        key_id:
           anyOf:
           - type: string
           - type: 'null'
-          title: User Agent
-          description: User agent string
-        x_forwarded_for:
+          title: Key Id
+          description: Key ID (kid) for JWT header - useful for key rotation
+        issuer:
+          type: string
+          title: Issuer
+          description: JWT issuer (iss claim)
+        audience:
+          type: string
+          title: Audience
+          description: JWT audience (aud claim)
+        subject:
+          type: string
+          title: Subject
+          description: JWT subject (sub claim)
+        expiration_seconds:
+          type: integer
+          maximum: 86400.0
+          minimum: 60.0
+          title: Expiration Seconds
+          description: Token expiration time in seconds
+          default: 3600
+        extra_params:
+          additionalProperties:
+            type: string
+          type: object
+          title: Extra Params
+          description: Additional custom claims to include in the JWT
+        token_url:
+          type: string
+          title: Token Url
+          description: Token endpoint URL for exchanging JWT for access token
+        scopes:
+          items:
+            type: string
+          type: array
+          title: Scopes
+          description: OAuth2 scopes to request when exchanging JWT for access token
+        token_response_field:
+          type: string
+          enum:
+          - access_token
+          - id_token
+          title: Token Response Field
+          description: Token field to extract from the token endpoint response.
+          default: access_token
+        id:
+          type: string
+          title: Id
+        used_by:
           anyOf:
-          - items:
-              type: string
-            type: array
+          - $ref: '#/components/schemas/AuthConnectionDependencies'
           - type: 'null'
-          title: X Forwarded For
-          description: X-Forwarded-For header as a list
-      additionalProperties: false
+        status:
+          $ref: '#/components/schemas/AuthConnectionStatus'
+          default: active
+        status_detail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status Detail
+        status_updated_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status Updated At
       type: object
       required:
-      - http_method
-      - url
-      title: HttpRequestModel
-      description: 'HTTP request details.
+      - name
+      - provider
+      - issuer
+      - audience
+      - subject
+      - token_url
+      - id
+      title: OAuth2JWTResponse
+      description: Response model for OAuth2 JWT auth connections
+    ResourceMetadataResponseModel:
+      properties:
+        resource_id:
+          type: string
+          title: Resource Id
+          description: The ID of the resource.
+        resource_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Resource Name
+          description: The name of the resource, if available.
+        resource_type:
+          $ref: '#/components/schemas/WorkspaceResourceType'
+          description: The type of the resource.
+        creator_user_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Creator User Id
+          description: The ID of the user who created the resource.
+        anonymous_access_level_override:
+          anyOf:
+          - type: string
+            enum:
+            - admin
+            - editor
+            - commenter
+            - viewer
+          - type: 'null'
+          title: Anonymous Access Level Override
+          description: The access level for anonymous users. If None, the resource is not shared publicly.
+        role_to_group_ids:
+          additionalProperties:
+            items:
+              type: string
+            type: array
+          type: object
+          title: Role To Group Ids
+          description: A mapping of grant slots to group IDs. Keys are the preset access roles plus workspace custom-role ids ('role_...'). When the resource is shared with a user, the group id is the user's id.
+        share_options:
+          items:
+            $ref: '#/components/schemas/ShareOptionResponseModel'
+          type: array
+          title: Share Options
+          description: List of options for sharing the resource further in the workspace. These are users who don't have access to the resource yet.
+      type: object
+      required:
+      - resource_id
+      - resource_name
+      - resource_type
+      - creator_user_id
+      - anonymous_access_level_override
+      - role_to_group_ids
+      - share_options
+      title: ResourceMetadataResponseModel
+      example:
+        anonymous_access_level_override: viewer
+        creator_user_id: 5zavrE1kZXv2lFw9BKgEkf0B5Wqo
+        resource_id: 4ZUqyldxf71HqUbcP2Lc
+        resource_name: My Custom Voice
+        resource_type: voice
+        role_to_group_ids:
+          admin:
+          - 5zavrE1kZXv2lFw9BKgEkf0B5Wqo
+          editor:
+          - 8ruQDGM2R4w1mFbHI5aROCUjIpJZ
+          role_01jd7yq2k8f0abcd1234wxyz:
+          - 9mQrTx4vNb2wKpLs6ZyE1cHgUdFa
+          viewer: []
+        share_options:
+        - id: i2YYI6huwBmcgYydAXARmQJc3pmX
+          name: user@example.com
+          type: user
+        - id: x1AfvYKAmiqxCnbvZeNXHqqthJaC
+          name: mygroup
+          type: group
+    WorkspaceResourceType:
+      type: string
+      enum:
+      - voice
+      - voice_collection
+      - pronunciation_dictionary
+      - dubbing
+      - dubbing_project
+      - project
+      - convai_agents
+      - convai_knowledge_base_documents
+      - convai_tools
+      - convai_settings
+      - convai_secrets
+      - workspace_auth_connections
+      - convai_phone_numbers
+      - convai_mcp_servers
+      - convai_api_integration_connections
+      - convai_api_integration_trigger_connections
+      - convai_batch_calls
+      - convai_agent_response_tests
+      - convai_test_suite_invocations
+      - convai_crawl_jobs
+      - convai_crawl_tasks
+      - convai_kb_external_sync_jobs
+      - convai_whatsapp_accounts
+      - convai_agent_versions
+      - convai_agent_branches
+      - convai_agent_versions_deployments
+      - convai_agent_experiments
+      - convai_memory_entries
+      - convai_templates
+      - dashboard
+      - dashboard_configuration
+      - convai_agent_drafts
+      - resource_locators
+      - assets
+      - content_generations
+      - content_templates
+      - content_skills
+      - songs
+      - transcription_tasks
+      - avatars
+      - avatar_video_generations
+      - resource_collection
+      - studio_projects
+      - convai_analysis_items
+      title: WorkspaceResourceType
+      description: Resource types that can be shared in the workspace. The name always need to match the collection names
+    AccountChangeActivityId:
+      type: integer
+      enum:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 10
+      - 11
+      - 12
+      - 99
+      title: AccountChangeActivityId
+      description: 'OCSF Activity IDs for Account Change [3001] events.
 
 
-        Spec: https://schema.ocsf.io/1.6.0/objects/http_request'
+        Spec: https://schema.ocsf.io/1.6.0/classes/account_change'
+    OAuth2ClientCredsResponse:
+      properties:
+        name:
+          type: string
+          title: Name
+        auth_type:
+          type: string
+          const: oauth2_client_credentials
+          title: Auth Type
+          default: oauth2_client_credentials
+        provider:
+          type: string
+          title: Provider
+        client_id:
+          type: string
+          title: Client Id
+        token_url:
+          type: string
+          title: Token Url
+        scopes:
+          items:
+            type: string
+          type: array
+          title: Scopes
+          default: []
+        extra_params:
+          additionalProperties:
+            type: string
+          type: object
+          title: Extra Params
+          default: {}
+        basic_auth_in_header:
+          type: boolean
+          title: Basic Auth In Header
+          description: If True, send client credentials in Authorization header as Basic Auth instead of request body
+          default: false
+        id:
+          type: string
+          title: Id
+        used_by:
+          anyOf:
+          - $ref: '#/components/schemas/AuthConnectionDependencies'
+          - type: 'null'
+        status:
+          $ref: '#/components/schemas/AuthConnectionStatus'
+          default: active
+        status_detail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status Detail
+        status_updated_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status Updated At
+        custom_headers:
+          additionalProperties:
+            type: string
+          type: object
+          title: Custom Headers
+          description: Custom headers configured for OAuth2 token requests
+      type: object
+      required:
+      - name
+      - provider
+      - client_id
+      - token_url
+      - id
+      title: OAuth2ClientCredsResponse
+      description: Response model for oauth2 client creds

@@ -776,336 +776,6 @@ paths:
       x-fern-sdk-method-name: request
 components:
   schemas:
-    UtteranceResponseModel:
-      properties:
-        start:
-          type: number
-          title: Start
-          description: The start time of the utterance in seconds.
-        end:
-          type: number
-          title: End
-          description: The end time of the utterance in seconds.
-      type: object
-      required:
-      - start
-      - end
-      title: UtteranceResponseModel
-      example:
-        end: 1.0
-        start: 0.0
-    AddVoiceResponseModel:
-      properties:
-        voice_id:
-          type: string
-          title: Voice Id
-          description: The ID of the voice.
-      type: object
-      required:
-      - voice_id
-      title: AddVoiceResponseModel
-      example:
-        voice_id: b38kUX8pkfYO2kHyqfFy
-    Body_Edit_PVC_voice_v1_voices_pvc__voice_id__post:
-      properties:
-        name:
-          type: string
-          maxLength: 100
-          title: Name
-          description: The name that identifies this voice. This will be displayed in the dropdown of the website.
-          examples:
-          - John Smith
-        language:
-          type: string
-          title: Language
-          description: Language used in the samples.
-          examples:
-          - en
-        description:
-          anyOf:
-          - type: string
-            maxLength: 500
-          - type: 'null'
-          title: Description
-          description: Description to use for the created voice.
-          examples:
-          - An old American male voice with a slight hoarseness in his throat. Perfect for news.
-        labels:
-          anyOf:
-          - additionalProperties:
-              type: string
-            type: object
-          - type: 'null'
-          title: Labels
-          description: Labels for the voice. Keys can be language, accent, gender, or age.
-          examples:
-          - '{"language": "en", "accent": "en-US", "gender": "male", "age": "middle-aged"}'
-      type: object
-      title: Body_Edit_PVC_voice_v1_voices_pvc__voice_id__post
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    SpeakerAudioResponseModel:
-      properties:
-        audio_base_64:
-          type: string
-          title: Audio Base 64
-          description: The base64 encoded audio.
-        media_type:
-          type: string
-          title: Media Type
-          description: The media type of the audio.
-        duration_secs:
-          type: number
-          title: Duration Secs
-          description: The duration of the audio in seconds.
-      type: object
-      required:
-      - audio_base_64
-      - media_type
-      - duration_secs
-      title: SpeakerAudioResponseModel
-      example:
-        audio_base_64: audio_base_64
-        duration_secs: 5.0
-        media_type: audio/mpeg
-    VerifyPVCVoiceCaptchaResponseModel:
-      properties:
-        status:
-          type: string
-          title: Status
-          description: The status of the verify PVC captcha request. If the request was successful, the status will be 'ok'. Otherwise an error message with status 500 will be returned.
-      type: object
-      required:
-      - status
-      title: VerifyPVCVoiceCaptchaResponseModel
-      example:
-        status: ok
-    Body_Add_samples_to_PVC_voice_v1_voices_pvc__voice_id__samples_post:
-      properties:
-        files:
-          items:
-            type: string
-            format: binary
-          type: array
-          title: Files
-          description: Audio files used to create the voice.
-        remove_background_noise:
-          type: boolean
-          title: Remove Background Noise
-          description: If set will remove background noise for voice samples using our audio isolation model. If the samples do not include background noise, it can make the quality worse.
-          default: false
-          examples:
-          - true
-      type: object
-      required:
-      - files
-      title: Body_Add_samples_to_PVC_voice_v1_voices_pvc__voice_id__samples_post
-    Body_Create_PVC_voice_v1_voices_pvc_post:
-      properties:
-        name:
-          type: string
-          maxLength: 100
-          title: Name
-          description: The name that identifies this voice. This will be displayed in the dropdown of the website.
-          examples:
-          - John Smith
-        language:
-          type: string
-          title: Language
-          description: Language used in the samples.
-          examples:
-          - en
-        description:
-          anyOf:
-          - type: string
-            maxLength: 500
-          - type: 'null'
-          title: Description
-          description: Description to use for the created voice.
-          examples:
-          - An old American male voice with a slight hoarseness in his throat. Perfect for news.
-        labels:
-          anyOf:
-          - additionalProperties:
-              type: string
-            type: object
-          - type: 'null'
-          title: Labels
-          description: Labels for the voice. Keys can be language, accent, gender, or age.
-          examples:
-          - '{"language": "en", "accent": "en-US", "gender": "male", "age": "middle-aged"}'
-      type: object
-      required:
-      - name
-      - language
-      title: Body_Create_PVC_voice_v1_voices_pvc_post
-    Body_Request_manual_verification_v1_voices_pvc__voice_id__verification_post:
-      properties:
-        files:
-          items:
-            type: string
-            format: binary
-          type: array
-          title: Files
-          description: Verification documents
-        extra_text:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Extra Text
-          description: Extra text to be used in the manual verification process.
-      type: object
-      required:
-      - files
-      title: Body_Request_manual_verification_v1_voices_pvc__voice_id__verification_post
-    Body_Update_PVC_voice_sample_v1_voices_pvc__voice_id__samples__sample_id__post:
-      properties:
-        remove_background_noise:
-          type: boolean
-          title: Remove Background Noise
-          description: If set will remove background noise for voice samples using our audio isolation model. If the samples do not include background noise, it can make the quality worse.
-          default: false
-          examples:
-          - true
-        selected_speaker_ids:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Selected Speaker Ids
-          description: Speaker IDs to be used for PVC training. Make sure you send all the speaker IDs you want to use for PVC training in one request because the last request will override the previous ones.
-          examples:
-          - speaker_0
-        trim_start_time:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Trim Start Time
-          description: The start time of the audio to be used for PVC training. Time should be in milliseconds
-          examples:
-          - 0
-        trim_end_time:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Trim End Time
-          description: The end time of the audio to be used for PVC training. Time should be in milliseconds
-          examples:
-          - 10
-        file_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: File Name
-          description: The name of the audio file to be used for PVC training.
-          examples:
-          - sample.mp3
-      type: object
-      title: Body_Update_PVC_voice_sample_v1_voices_pvc__voice_id__samples__sample_id__post
-    Body_Run_PVC_training_v1_voices_pvc__voice_id__train_post:
-      properties:
-        model_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Model Id
-          description: The model ID to use for the conversion.
-          examples:
-          - eleven_turbo_v2
-      type: object
-      title: Body_Run_PVC_training_v1_voices_pvc__voice_id__train_post
-    SpeakerResponseModel:
-      properties:
-        speaker_id:
-          type: string
-          title: Speaker Id
-          description: The ID of the speaker.
-        duration_secs:
-          type: number
-          title: Duration Secs
-          description: The duration of the speaker segment in seconds.
-        utterances:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/UtteranceResponseModel'
-            type: array
-          - type: 'null'
-          title: Utterances
-          description: The utterances of the speaker.
-      type: object
-      required:
-      - speaker_id
-      - duration_secs
-      title: SpeakerResponseModel
-      example:
-        duration_secs: 5.0
-        speaker_id: DCwhRBWXzGAHq8TQ4Fs18
-    VoiceSampleVisualWaveformResponseModel:
-      properties:
-        sample_id:
-          type: string
-          title: Sample Id
-          description: The ID of the sample.
-        visual_waveform:
-          items:
-            type: number
-          type: array
-          title: Visual Waveform
-          description: The visual waveform of the sample, represented as a list of floats.
-      type: object
-      required:
-      - sample_id
-      - visual_waveform
-      title: VoiceSampleVisualWaveformResponseModel
-      example:
-        sample_id: DCwhRBWXzGAHq8TQ4Fs18
-        visual_waveform:
-        - 0.1
-        - 0.2
-        - 0.3
-        - 0.4
-        - 0.5
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    StartSpeakerSeparationResponseModel:
-      properties:
-        status:
-          type: string
-          title: Status
-          description: The status of the start speaker seperation request. If the request was successful, the status will be 'ok'. Otherwise an error message with status 500 will be returned.
-      type: object
-      required:
-      - status
-      title: StartSpeakerSeparationResponseModel
-      example:
-        status: ok
     SampleResponseModel:
       properties:
         sample_id:
@@ -1176,78 +846,45 @@ components:
         mime_type: audio/mpeg
         sample_id: DCwhRBWXzGAHq8TQ4Fs18
         size_bytes: 1000000
-    Body_Verify_PVC_voice_captcha_v1_voices_pvc__voice_id__captcha_post:
+    Body_Create_PVC_voice_v1_voices_pvc_post:
       properties:
-        recording:
+        name:
           type: string
-          title: Recording
-          description: Audio recording of the user
-          format: binary
-      type: object
-      required:
-      - recording
-      title: Body_Verify_PVC_voice_captcha_v1_voices_pvc__voice_id__captcha_post
-    DeleteVoiceSampleResponseModel:
-      properties:
-        status:
+          maxLength: 100
+          title: Name
+          description: The name that identifies this voice. This will be displayed in the dropdown of the website.
+          examples:
+          - John Smith
+        language:
           type: string
-          title: Status
-          description: The status of the voice sample deletion request. If the request was successful, the status will be 'ok'. Otherwise an error message with status 500 will be returned.
-      type: object
-      required:
-      - status
-      title: DeleteVoiceSampleResponseModel
-      example:
-        status: ok
-    RequestPVCManualVerificationResponseModel:
-      properties:
-        status:
-          type: string
-          title: Status
-          description: The status of the request PVC manual verification request. If the request was successful, the status will be 'ok'. Otherwise an error message with status 500 will be returned.
-      type: object
-      required:
-      - status
-      title: RequestPVCManualVerificationResponseModel
-      example:
-        status: ok
-    VoiceSamplePreviewResponseModel:
-      properties:
-        audio_base_64:
-          type: string
-          title: Audio Base 64
-          description: The base64 encoded audio.
-        voice_id:
-          type: string
-          title: Voice Id
-          description: The ID of the voice.
-        sample_id:
-          type: string
-          title: Sample Id
-          description: The ID of the sample.
-        media_type:
-          type: string
-          title: Media Type
-          description: The media type of the audio.
-        duration_secs:
+          title: Language
+          description: Language used in the samples.
+          examples:
+          - en
+        description:
           anyOf:
-          - type: number
+          - type: string
+            maxLength: 500
           - type: 'null'
-          title: Duration Secs
-          description: The duration of the audio in seconds.
+          title: Description
+          description: Description to use for the created voice.
+          examples:
+          - An old American male voice with a slight hoarseness in his throat. Perfect for news.
+        labels:
+          anyOf:
+          - additionalProperties:
+              type: string
+            type: object
+          - type: 'null'
+          title: Labels
+          description: Labels for the voice. Keys can be language, accent, gender, or age.
+          examples:
+          - '{"language": "en", "accent": "en-US", "gender": "male", "age": "middle-aged"}'
       type: object
       required:
-      - audio_base_64
-      - voice_id
-      - sample_id
-      - media_type
-      title: VoiceSamplePreviewResponseModel
-      example:
-        audio_base_64: audio_base_64
-        duration_secs: 5.0
-        media_type: audio/mpeg
-        sample_id: DCwhRBWXzGAHq8TQ4Fs18
-        voice_id: DCwhRBWXzGAHq8TQ4Fs18
+      - name
+      - language
+      title: Body_Create_PVC_voice_v1_voices_pvc_post
     SpeakerSeparationResponseModel:
       properties:
         voice_id:
@@ -1293,6 +930,333 @@ components:
         sample_id: DCwhRBWXzGAHq8TQ4Fs18
         status: not_started
         voice_id: DCwhRBWXzGAHq8TQ4Fs18
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    SpeakerResponseModel:
+      properties:
+        speaker_id:
+          type: string
+          title: Speaker Id
+          description: The ID of the speaker.
+        duration_secs:
+          type: number
+          title: Duration Secs
+          description: The duration of the speaker segment in seconds.
+        utterances:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/UtteranceResponseModel'
+            type: array
+          - type: 'null'
+          title: Utterances
+          description: The utterances of the speaker.
+      type: object
+      required:
+      - speaker_id
+      - duration_secs
+      title: SpeakerResponseModel
+      example:
+        duration_secs: 5.0
+        speaker_id: DCwhRBWXzGAHq8TQ4Fs18
+    Body_Request_manual_verification_v1_voices_pvc__voice_id__verification_post:
+      properties:
+        files:
+          items:
+            type: string
+            format: binary
+          type: array
+          title: Files
+          description: Verification documents
+        extra_text:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Extra Text
+          description: Extra text to be used in the manual verification process.
+      type: object
+      required:
+      - files
+      title: Body_Request_manual_verification_v1_voices_pvc__voice_id__verification_post
+    StartSpeakerSeparationResponseModel:
+      properties:
+        status:
+          type: string
+          title: Status
+          description: The status of the start speaker seperation request. If the request was successful, the status will be 'ok'. Otherwise an error message with status 500 will be returned.
+      type: object
+      required:
+      - status
+      title: StartSpeakerSeparationResponseModel
+      example:
+        status: ok
+    Body_Run_PVC_training_v1_voices_pvc__voice_id__train_post:
+      properties:
+        model_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Model Id
+          description: The model ID to use for the conversion.
+          examples:
+          - eleven_turbo_v2
+      type: object
+      title: Body_Run_PVC_training_v1_voices_pvc__voice_id__train_post
+    Body_Update_PVC_voice_sample_v1_voices_pvc__voice_id__samples__sample_id__post:
+      properties:
+        remove_background_noise:
+          type: boolean
+          title: Remove Background Noise
+          description: If set will remove background noise for voice samples using our audio isolation model. If the samples do not include background noise, it can make the quality worse.
+          default: false
+          examples:
+          - true
+        selected_speaker_ids:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Selected Speaker Ids
+          description: Speaker IDs to be used for PVC training. Make sure you send all the speaker IDs you want to use for PVC training in one request because the last request will override the previous ones.
+          examples:
+          - speaker_0
+        trim_start_time:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Trim Start Time
+          description: The start time of the audio to be used for PVC training. Time should be in milliseconds
+          examples:
+          - 0
+        trim_end_time:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Trim End Time
+          description: The end time of the audio to be used for PVC training. Time should be in milliseconds
+          examples:
+          - 10
+        file_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: File Name
+          description: The name of the audio file to be used for PVC training.
+          examples:
+          - sample.mp3
+      type: object
+      title: Body_Update_PVC_voice_sample_v1_voices_pvc__voice_id__samples__sample_id__post
+    DeleteVoiceSampleResponseModel:
+      properties:
+        status:
+          type: string
+          title: Status
+          description: The status of the voice sample deletion request. If the request was successful, the status will be 'ok'. Otherwise an error message with status 500 will be returned.
+      type: object
+      required:
+      - status
+      title: DeleteVoiceSampleResponseModel
+      example:
+        status: ok
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    VerifyPVCVoiceCaptchaResponseModel:
+      properties:
+        status:
+          type: string
+          title: Status
+          description: The status of the verify PVC captcha request. If the request was successful, the status will be 'ok'. Otherwise an error message with status 500 will be returned.
+      type: object
+      required:
+      - status
+      title: VerifyPVCVoiceCaptchaResponseModel
+      example:
+        status: ok
+    VoiceSamplePreviewResponseModel:
+      properties:
+        audio_base_64:
+          type: string
+          title: Audio Base 64
+          description: The base64 encoded audio.
+        voice_id:
+          type: string
+          title: Voice Id
+          description: The ID of the voice.
+        sample_id:
+          type: string
+          title: Sample Id
+          description: The ID of the sample.
+        media_type:
+          type: string
+          title: Media Type
+          description: The media type of the audio.
+        duration_secs:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Duration Secs
+          description: The duration of the audio in seconds.
+      type: object
+      required:
+      - audio_base_64
+      - voice_id
+      - sample_id
+      - media_type
+      title: VoiceSamplePreviewResponseModel
+      example:
+        audio_base_64: audio_base_64
+        duration_secs: 5.0
+        media_type: audio/mpeg
+        sample_id: DCwhRBWXzGAHq8TQ4Fs18
+        voice_id: DCwhRBWXzGAHq8TQ4Fs18
+    UtteranceResponseModel:
+      properties:
+        start:
+          type: number
+          title: Start
+          description: The start time of the utterance in seconds.
+        end:
+          type: number
+          title: End
+          description: The end time of the utterance in seconds.
+      type: object
+      required:
+      - start
+      - end
+      title: UtteranceResponseModel
+      example:
+        end: 1.0
+        start: 0.0
+    RequestPVCManualVerificationResponseModel:
+      properties:
+        status:
+          type: string
+          title: Status
+          description: The status of the request PVC manual verification request. If the request was successful, the status will be 'ok'. Otherwise an error message with status 500 will be returned.
+      type: object
+      required:
+      - status
+      title: RequestPVCManualVerificationResponseModel
+      example:
+        status: ok
+    VoiceSampleVisualWaveformResponseModel:
+      properties:
+        sample_id:
+          type: string
+          title: Sample Id
+          description: The ID of the sample.
+        visual_waveform:
+          items:
+            type: number
+          type: array
+          title: Visual Waveform
+          description: The visual waveform of the sample, represented as a list of floats.
+      type: object
+      required:
+      - sample_id
+      - visual_waveform
+      title: VoiceSampleVisualWaveformResponseModel
+      example:
+        sample_id: DCwhRBWXzGAHq8TQ4Fs18
+        visual_waveform:
+        - 0.1
+        - 0.2
+        - 0.3
+        - 0.4
+        - 0.5
+    AddVoiceResponseModel:
+      properties:
+        voice_id:
+          type: string
+          title: Voice Id
+          description: The ID of the voice.
+      type: object
+      required:
+      - voice_id
+      title: AddVoiceResponseModel
+      example:
+        voice_id: b38kUX8pkfYO2kHyqfFy
+    SpeakerAudioResponseModel:
+      properties:
+        audio_base_64:
+          type: string
+          title: Audio Base 64
+          description: The base64 encoded audio.
+        media_type:
+          type: string
+          title: Media Type
+          description: The media type of the audio.
+        duration_secs:
+          type: number
+          title: Duration Secs
+          description: The duration of the audio in seconds.
+      type: object
+      required:
+      - audio_base_64
+      - media_type
+      - duration_secs
+      title: SpeakerAudioResponseModel
+      example:
+        audio_base_64: audio_base_64
+        duration_secs: 5.0
+        media_type: audio/mpeg
+    Body_Add_samples_to_PVC_voice_v1_voices_pvc__voice_id__samples_post:
+      properties:
+        files:
+          items:
+            type: string
+            format: binary
+          type: array
+          title: Files
+          description: Audio files used to create the voice.
+        remove_background_noise:
+          type: boolean
+          title: Remove Background Noise
+          description: If set will remove background noise for voice samples using our audio isolation model. If the samples do not include background noise, it can make the quality worse.
+          default: false
+          examples:
+          - true
+      type: object
+      required:
+      - files
+      title: Body_Add_samples_to_PVC_voice_v1_voices_pvc__voice_id__samples_post
+    Body_Verify_PVC_voice_captcha_v1_voices_pvc__voice_id__captcha_post:
+      properties:
+        recording:
+          type: string
+          title: Recording
+          description: Audio recording of the user
+          format: binary
+      type: object
+      required:
+      - recording
+      title: Body_Verify_PVC_voice_captcha_v1_voices_pvc__voice_id__captcha_post
     StartPVCVoiceTrainingResponseModel:
       properties:
         status:
@@ -1305,3 +1269,39 @@ components:
       title: StartPVCVoiceTrainingResponseModel
       example:
         status: ok
+    Body_Edit_PVC_voice_v1_voices_pvc__voice_id__post:
+      properties:
+        name:
+          type: string
+          maxLength: 100
+          title: Name
+          description: The name that identifies this voice. This will be displayed in the dropdown of the website.
+          examples:
+          - John Smith
+        language:
+          type: string
+          title: Language
+          description: Language used in the samples.
+          examples:
+          - en
+        description:
+          anyOf:
+          - type: string
+            maxLength: 500
+          - type: 'null'
+          title: Description
+          description: Description to use for the created voice.
+          examples:
+          - An old American male voice with a slight hoarseness in his throat. Perfect for news.
+        labels:
+          anyOf:
+          - additionalProperties:
+              type: string
+            type: object
+          - type: 'null'
+          title: Labels
+          description: Labels for the voice. Keys can be language, accent, gender, or age.
+          examples:
+          - '{"language": "en", "accent": "en-US", "gender": "male", "age": "middle-aged"}'
+      type: object
+      title: Body_Edit_PVC_voice_v1_voices_pvc__voice_id__post

@@ -76,30 +76,6 @@ paths:
       - User
 components:
   schemas:
-    DiscountResponseModel:
-      properties:
-        discount_percent_off:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Discount Percent Off
-          description: The discount applied to the invoice. E.g. [20.0f] for 20% off.
-        discount_amount_off:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Discount Amount Off
-          description: The discount applied to the invoice. E.g. [20.0f] for 20 cents off.
-      type: object
-      title: DiscountResponseModel
-    BillingPeriod:
-      type: string
-      enum:
-      - monthly_period
-      - 3_month_period
-      - 6_month_period
-      - annual_period
-      title: BillingPeriod
     HTTPValidationError:
       properties:
         detail:
@@ -109,59 +85,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    CharacterRefreshPeriod:
-      type: string
-      enum:
-      - monthly_period
-      - 3_month_period
-      - 6_month_period
-      - annual_period
-      title: CharacterRefreshPeriod
-    SeatType:
-      type: string
-      enum:
-      - workspace_admin
-      - workspace_member
-      - workspace_lite_member
-      title: SeatType
-      description: Seat types for workspace members.
-    PendingSubscriptionSwitchResponseModel:
-      properties:
-        kind:
-          type: string
-          const: change
-          title: Kind
-          default: change
-        next_tier:
-          type: string
-          enum:
-          - free
-          - starter
-          - go
-          - creator
-          - pro
-          - growing_business
-          - scale_2024_08_10
-          - grant_tier_1_2025_07_23
-          - grant_tier_2_2025_07_23
-          - grant
-          - trial
-          - enterprise
-          title: Next Tier
-          description: The tier to change to.
-        next_billing_period:
-          $ref: '#/components/schemas/BillingPeriod'
-          description: The billing period to change to.
-        timestamp_seconds:
-          type: integer
-          title: Timestamp Seconds
-          description: The timestamp of the change.
-      type: object
-      required:
-      - next_tier
-      - next_billing_period
-      - timestamp_seconds
-      title: PendingSubscriptionSwitchResponseModel
     UserResponseModel:
       properties:
         user_id:
@@ -278,6 +201,51 @@ components:
           voice_limit: 120
           voice_slots_used: 1
         user_id: '1234567890'
+    SeatType:
+      type: string
+      enum:
+      - workspace_admin
+      - workspace_member
+      - workspace_lite_member
+      title: SeatType
+      description: Seat types for workspace members.
+    PendingSubscriptionSwitchResponseModel:
+      properties:
+        kind:
+          type: string
+          const: change
+          title: Kind
+          default: change
+        next_tier:
+          type: string
+          enum:
+          - free
+          - starter
+          - go
+          - creator
+          - pro
+          - growing_business
+          - scale_2024_08_10
+          - grant_tier_1_2025_07_23
+          - grant_tier_2_2025_07_23
+          - grant
+          - trial
+          - enterprise
+          title: Next Tier
+          description: The tier to change to.
+        next_billing_period:
+          $ref: '#/components/schemas/BillingPeriod'
+          description: The billing period to change to.
+        timestamp_seconds:
+          type: integer
+          title: Timestamp Seconds
+          description: The timestamp of the change.
+      type: object
+      required:
+      - next_tier
+      - next_billing_period
+      - timestamp_seconds
+      title: PendingSubscriptionSwitchResponseModel
     SubscriptionResponseModel:
       properties:
         tier:
@@ -429,153 +397,14 @@ components:
         voice_add_edit_counter: 212
         voice_limit: 120
         voice_slots_used: 1
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    PendingCancellationResponseModel:
-      properties:
-        kind:
-          type: string
-          const: cancellation
-          title: Kind
-          default: cancellation
-        timestamp_seconds:
-          type: integer
-          title: Timestamp Seconds
-          description: The timestamp of the cancellation.
-      type: object
-      required:
-      - timestamp_seconds
-      title: PendingCancellationResponseModel
-    SubscriptionStatusType:
+    CharacterRefreshPeriod:
       type: string
       enum:
-      - trialing
-      - active
-      - incomplete
-      - past_due
-      - free
-      - free_disabled
-      title: SubscriptionStatusType
-    Price:
-      properties:
-        amount:
-          type: string
-          pattern: ^(?!^[-+.]*$)[+-]?0*\d*\.?\d*$
-          title: Amount
-        currency:
-          $ref: '#/components/schemas/Currency'
-      type: object
-      required:
-      - amount
-      - currency
-      title: Price
-      description: Currency/amount pair.
-    InvoiceResponseModel:
-      properties:
-        amount_due_cents:
-          type: integer
-          title: Amount Due Cents
-          description: The amount due in cents.
-        subtotal_cents:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Subtotal Cents
-          description: The subtotal amount in cents before tax (exclusive of tax and discounts).
-        tax_cents:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Tax Cents
-          description: The tax amount in cents.
-        discount_percent_off:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Discount Percent Off
-          description: Deprecated. Use [discounts] instead. The discount applied to the invoice. E.g. [20.0f] for 20% off.
-        discount_amount_off:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Discount Amount Off
-          description: Deprecated. Use [discounts] instead. The discount applied to the invoice. E.g. [20.0f] for 20 cents off.
-        discounts:
-          items:
-            $ref: '#/components/schemas/DiscountResponseModel'
-          type: array
-          title: Discounts
-          description: The discounts applied to the invoice.
-        next_payment_attempt_unix:
-          type: integer
-          title: Next Payment Attempt Unix
-          description: The Unix timestamp of the next payment attempt. -1 when there is no next payment attempt.
-        payment_intent_status:
-          anyOf:
-          - type: string
-            enum:
-            - canceled
-            - processing
-            - requires_action
-            - requires_capture
-            - requires_confirmation
-            - requires_payment_method
-            - succeeded
-          - type: 'null'
-          title: Payment Intent Status
-          description: Deprecated. Use [payment_intent_statusses] instead. The status of this invoice's first payment intent. None when there is no payment intent.
-        payment_intent_statusses:
-          items:
-            type: string
-            enum:
-            - canceled
-            - processing
-            - requires_action
-            - requires_capture
-            - requires_confirmation
-            - requires_payment_method
-            - succeeded
-          type: array
-          title: Payment Intent Statusses
-          description: The statuses of this invoice's payment intents. Empty list when there are no payment intents.
-      type: object
-      required:
-      - amount_due_cents
-      - discounts
-      - next_payment_attempt_unix
-      - payment_intent_status
-      - payment_intent_statusses
-      title: InvoiceResponseModel
-      example:
-        amount_due_cents: 1000
-        discounts:
-        - discount_percent_off: 20.0
-        next_payment_attempt_unix: 1738356858
-        payment_intent_status: processing
-        payment_intent_statusses:
-        - processing
-        - succeeded
-        subtotal_cents: 900
-        tax_cents: 100
+      - monthly_period
+      - 3_month_period
+      - 6_month_period
+      - annual_period
+      title: CharacterRefreshPeriod
     ExtendedSubscriptionResponseModel:
       properties:
         tier:
@@ -785,6 +614,60 @@ components:
         voice_add_edit_counter: 0
         voice_limit: 10
         voice_slots_used: 1
+    SubscriptionStatusType:
+      type: string
+      enum:
+      - trialing
+      - active
+      - incomplete
+      - past_due
+      - free
+      - free_disabled
+      title: SubscriptionStatusType
+    PendingCancellationResponseModel:
+      properties:
+        kind:
+          type: string
+          const: cancellation
+          title: Kind
+          default: cancellation
+        timestamp_seconds:
+          type: integer
+          title: Timestamp Seconds
+          description: The timestamp of the cancellation.
+      type: object
+      required:
+      - timestamp_seconds
+      title: PendingCancellationResponseModel
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    BillingPeriod:
+      type: string
+      enum:
+      - monthly_period
+      - 3_month_period
+      - 6_month_period
+      - annual_period
+      title: BillingPeriod
     Currency:
       type: string
       enum:
@@ -794,3 +677,120 @@ components:
       - pln
       - gbp
       title: Currency
+    DiscountResponseModel:
+      properties:
+        discount_percent_off:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Discount Percent Off
+          description: The discount applied to the invoice. E.g. [20.0f] for 20% off.
+        discount_amount_off:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Discount Amount Off
+          description: The discount applied to the invoice. E.g. [20.0f] for 20 cents off.
+      type: object
+      title: DiscountResponseModel
+    InvoiceResponseModel:
+      properties:
+        amount_due_cents:
+          type: integer
+          title: Amount Due Cents
+          description: The amount due in cents.
+        subtotal_cents:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Subtotal Cents
+          description: The subtotal amount in cents before tax (exclusive of tax and discounts).
+        tax_cents:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Tax Cents
+          description: The tax amount in cents.
+        discount_percent_off:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Discount Percent Off
+          description: Deprecated. Use [discounts] instead. The discount applied to the invoice. E.g. [20.0f] for 20% off.
+        discount_amount_off:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Discount Amount Off
+          description: Deprecated. Use [discounts] instead. The discount applied to the invoice. E.g. [20.0f] for 20 cents off.
+        discounts:
+          items:
+            $ref: '#/components/schemas/DiscountResponseModel'
+          type: array
+          title: Discounts
+          description: The discounts applied to the invoice.
+        next_payment_attempt_unix:
+          type: integer
+          title: Next Payment Attempt Unix
+          description: The Unix timestamp of the next payment attempt. -1 when there is no next payment attempt.
+        payment_intent_status:
+          anyOf:
+          - type: string
+            enum:
+            - canceled
+            - processing
+            - requires_action
+            - requires_capture
+            - requires_confirmation
+            - requires_payment_method
+            - succeeded
+          - type: 'null'
+          title: Payment Intent Status
+          description: Deprecated. Use [payment_intent_statusses] instead. The status of this invoice's first payment intent. None when there is no payment intent.
+        payment_intent_statusses:
+          items:
+            type: string
+            enum:
+            - canceled
+            - processing
+            - requires_action
+            - requires_capture
+            - requires_confirmation
+            - requires_payment_method
+            - succeeded
+          type: array
+          title: Payment Intent Statusses
+          description: The statuses of this invoice's payment intents. Empty list when there are no payment intents.
+      type: object
+      required:
+      - amount_due_cents
+      - discounts
+      - next_payment_attempt_unix
+      - payment_intent_status
+      - payment_intent_statusses
+      title: InvoiceResponseModel
+      example:
+        amount_due_cents: 1000
+        discounts:
+        - discount_percent_off: 20.0
+        next_payment_attempt_unix: 1738356858
+        payment_intent_status: processing
+        payment_intent_statusses:
+        - processing
+        - succeeded
+        subtotal_cents: 900
+        tax_cents: 100
+    Price:
+      properties:
+        amount:
+          type: string
+          pattern: ^(?!^[-+.]*$)[+-]?0*\d*\.?\d*$
+          title: Amount
+        currency:
+          $ref: '#/components/schemas/Currency'
+      type: object
+      required:
+      - amount
+      - currency
+      title: Price
+      description: Currency/amount pair.

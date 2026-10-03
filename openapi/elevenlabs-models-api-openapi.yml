@@ -72,45 +72,6 @@ components:
       example:
         language_id: en
         name: English
-    ModelRatesResponseModel:
-      properties:
-        character_cost_multiplier:
-          type: number
-          title: Character Cost Multiplier
-          description: The cost multiplier for characters.
-        cost_discount_multiplier:
-          type: number
-          title: Cost Discount Multiplier
-          description: Discount multiplier applied to cost estimates. Defaults to 1.0 (no discount).
-          default: 1.0
-      type: object
-      required:
-      - character_cost_multiplier
-      title: ModelRatesResponseModel
-      example:
-        character_cost_multiplier: 1.0
-        cost_discount_multiplier: 1.0
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     ModelResponseModel:
       properties:
         model_id:
@@ -224,3 +185,42 @@ components:
         requires_alpha_access: false
         serves_pro_voices: false
         token_cost_factor: 1.0
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ModelRatesResponseModel:
+      properties:
+        character_cost_multiplier:
+          type: number
+          title: Character Cost Multiplier
+          description: The cost multiplier for characters.
+        cost_discount_multiplier:
+          type: number
+          title: Cost Discount Multiplier
+          description: Discount multiplier applied to cost estimates. Defaults to 1.0 (no discount).
+          default: 1.0
+      type: object
+      required:
+      - character_cost_multiplier
+      title: ModelRatesResponseModel
+      example:
+        character_cost_multiplier: 1.0
+        cost_discount_multiplier: 1.0

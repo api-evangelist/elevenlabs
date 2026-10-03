@@ -121,26 +121,6 @@ components:
           type: string
           format: date-time
           description: Timestamp when the agent was created.
-    KnowledgeBaseDocument:
-      type: object
-      properties:
-        document_id:
-          type: string
-          description: Unique identifier for the document.
-        name:
-          type: string
-          description: Display name of the document.
-        type:
-          type: string
-          description: The type of the knowledge base document.
-          enum:
-          - file
-          - url
-          - text
-        created_at:
-          type: string
-          format: date-time
-          description: Timestamp when the document was added.
     KnowledgeBaseListResponse:
       type: object
       properties:
@@ -163,6 +143,26 @@ components:
         name:
           type: string
           description: Display name for the knowledge base document.
+    KnowledgeBaseDocument:
+      type: object
+      properties:
+        document_id:
+          type: string
+          description: Unique identifier for the document.
+        name:
+          type: string
+          description: Display name of the document.
+        type:
+          type: string
+          description: The type of the knowledge base document.
+          enum:
+          - file
+          - url
+          - text
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the document was added.
   securitySchemes:
     apiKeyAuth:
       type: apiKey

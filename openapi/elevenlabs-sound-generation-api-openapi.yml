@@ -154,6 +154,12 @@ components:
       - opus_48000_96
       - opus_48000_128
       - opus_48000_192
+    SFXModelId:
+      type: string
+      enum:
+      - eleven_text_to_sound_v2
+      title: SFXModelId
+      default: eleven_text_to_sound_v2
     ValidationError:
       properties:
         loc:
@@ -175,9 +181,3 @@ components:
       - msg
       - type
       title: ValidationError
-    SFXModelId:
-      type: string
-      enum:
-      - eleven_text_to_sound_v2
-      title: SFXModelId
-      default: eleven_text_to_sound_v2

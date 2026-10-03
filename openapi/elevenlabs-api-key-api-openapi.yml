@@ -95,6 +95,16 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    Body_Set_workspace_Third_Party_Disabling_policy_v1_workspaces_api_keys_third_party_disabling_post:
+      properties:
+        third_party_disable_allowed:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Third Party Disable Allowed
+          description: '`true` forces every key in the workspace to be disable-able by its holder; `false` forbids it for every key; `null` clears the override (per-key values and the plan default apply).'
+      type: object
+      title: Body_Set_workspace_Third_Party_Disabling_policy_v1_workspaces_api_keys_third_party_disabling_post
     ValidationError:
       properties:
         loc:
@@ -116,13 +126,3 @@ components:
       - msg
       - type
       title: ValidationError
-    Body_Set_workspace_Third_Party_Disabling_policy_v1_workspaces_api_keys_third_party_disabling_post:
-      properties:
-        third_party_disable_allowed:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Third Party Disable Allowed
-          description: '`true` forces every key in the workspace to be disable-able by its holder; `false` forbids it for every key; `null` clears the override (per-key values and the plan default apply).'
-      type: object
-      title: Body_Set_workspace_Third_Party_Disabling_policy_v1_workspaces_api_keys_third_party_disabling_post
