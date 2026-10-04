@@ -1082,503 +1082,291 @@ paths:
       x-fern-sdk-method-name: get_shared
 components:
   schemas:
-    ReplicateVoiceToIsolatedEnvironmentResponseModel:
+    Body_Edit_voice_v1_voices__voice_id__edit_post:
       properties:
-        voice_id:
+        name:
           type: string
-          title: Voice Id
-          description: Voice ID of the replicated voice in the target residency.
-      type: object
-      required:
-      - voice_id
-      title: ReplicateVoiceToIsolatedEnvironmentResponseModel
-      example:
-        voice_id: 21m00Tcm4TlvDq8ikWAM
-    SampleResponseModel:
-      properties:
-        sample_id:
-          type: string
-          title: Sample Id
-          description: The ID of the sample.
-        file_name:
-          type: string
-          title: File Name
-          description: The name of the sample file.
-        mime_type:
-          type: string
-          title: Mime Type
-          description: The MIME type of the sample file.
-        size_bytes:
-          type: integer
-          title: Size Bytes
-          description: The size of the sample file in bytes.
-        hash:
-          type: string
-          title: Hash
-          description: The hash of the sample file.
-        duration_secs:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Duration Secs
-        remove_background_noise:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Remove Background Noise
-        has_isolated_audio:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Has Isolated Audio
-        has_isolated_audio_preview:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Has Isolated Audio Preview
-        speaker_separation:
-          anyOf:
-          - $ref: '#/components/schemas/SpeakerSeparationResponseModel'
-          - type: 'null'
-        trim_start:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Trim Start
-        trim_end:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Trim End
-      type: object
-      required:
-      - sample_id
-      - file_name
-      - mime_type
-      - size_bytes
-      - hash
-      title: SampleResponseModel
-      example:
-        file_name: sample.mp3
-        hash: '1234567890'
-        mime_type: audio/mpeg
-        sample_id: DCwhRBWXzGAHq8TQ4Fs18
-        size_bytes: 1000000
-    EditVoiceSettingsResponseModel:
-      properties:
-        status:
-          type: string
-          title: Status
-          description: The status of the voice settings edit request. If the request was successful, the status will be 'ok'. Otherwise an error message with status 500 will be returned.
-      type: object
-      required:
-      - status
-      title: EditVoiceSettingsResponseModel
-      example:
-        status: ok
-    ManualVerificationResponseModel:
-      properties:
-        extra_text:
-          type: string
-          title: Extra Text
-          description: The extra text of the manual verification.
-        request_time_unix:
-          type: integer
-          title: Request Time Unix
-          description: The date of the manual verification in Unix time.
+          title: Name
+          description: The name that identifies this voice. This will be displayed in the dropdown of the website.
+          examples:
+          - John Smith
         files:
-          items:
-            $ref: '#/components/schemas/ManualVerificationFileResponseModel'
-          type: array
-          title: Files
-          description: The files of the manual verification.
-      type: object
-      required:
-      - extra_text
-      - request_time_unix
-      - files
-      title: ManualVerificationResponseModel
-      example:
-        extra_text: Please verify the voice is that of a female.
-        files:
-        - file_id: CwhRBWXzGAHq8TQ4Fs18
-          file_name: file.mp3
-          mime_type: audio/mpeg
-          size_bytes: 1000000
-          upload_date_unix: 1714204800
-        request_time_unix: 1714204800
-    SpeakerSeparationResponseModel:
-      properties:
-        voice_id:
-          type: string
-          title: Voice Id
-          description: The ID of the voice.
-        sample_id:
-          type: string
-          title: Sample Id
-          description: The ID of the sample.
-        status:
-          type: string
-          enum:
-          - not_started
-          - pending
-          - completed
-          - failed
-          title: Status
-          description: The status of the speaker separation.
-        speakers:
-          anyOf:
-          - additionalProperties:
-              $ref: '#/components/schemas/SpeakerResponseModel'
-            type: object
-          - type: 'null'
-          title: Speakers
-          description: The speakers of the sample.
-        selected_speaker_ids:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Selected Speaker Ids
-          description: The IDs of the selected speakers.
-      type: object
-      required:
-      - voice_id
-      - sample_id
-      - status
-      title: SpeakerSeparationResponseModel
-      example:
-        sample_id: DCwhRBWXzGAHq8TQ4Fs18
-        status: not_started
-        voice_id: DCwhRBWXzGAHq8TQ4Fs18
-    VoiceSharingModerationCheckResponseModel:
-      properties:
-        date_checked_unix:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Date Checked Unix
-          description: The date the moderation check was made in Unix time.
-        name_value:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name Value
-          description: The name value of the voice.
-        name_check:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Name Check
-          description: Whether the name check was successful.
-        description_value:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description Value
-          description: The description value of the voice.
-        description_check:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Description Check
-          description: Whether the description check was successful.
-        sample_ids:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Sample Ids
-          description: A list of sample IDs.
-        sample_checks:
-          anyOf:
-          - items:
-              type: number
-            type: array
-          - type: 'null'
-          title: Sample Checks
-          description: A list of sample checks.
-        captcha_ids:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Captcha Ids
-          description: A list of captcha IDs.
-        captcha_checks:
-          anyOf:
-          - items:
-              type: number
-            type: array
-          - type: 'null'
-          title: Captcha Checks
-          description: A list of CAPTCHA check values.
-      type: object
-      title: VoiceSharingModerationCheckResponseModel
-      example:
-        captcha_checks:
-        - 0.95
-        - 0.98
-        captcha_ids:
-        - captcha1
-        - captcha2
-        date_checked_unix: 1714204800
-        description_check: true
-        description_value: A female voice with a soft and friendly tone.
-        name_check: true
-        name_value: Rachel
-        sample_checks:
-        - 0.95
-        - 0.98
-        sample_ids:
-        - sample1
-        - sample2
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    VoiceSettingsResponseModel:
-      properties:
-        stability:
-          anyOf:
-          - type: number
-            maximum: 1.0
-            minimum: 0.0
-          - type: 'null'
-          title: Stability
-          description: Determines how stable the voice is and the randomness between each generation. Lower values introduce broader emotional range for the voice. Higher values can result in a monotonous voice with limited emotion.
-          default: 0.5
-        use_speaker_boost:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Use Speaker Boost
-          description: This setting boosts the similarity to the original speaker. Using this setting requires a slightly higher computational load, which in turn increases latency.
-          default: true
-        similarity_boost:
-          anyOf:
-          - type: number
-            maximum: 1.0
-            minimum: 0.0
-          - type: 'null'
-          title: Similarity Boost
-          description: Determines how closely the AI should adhere to the original voice when attempting to replicate it.
-          default: 0.75
-        style:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Style
-          description: Determines the style exaggeration of the voice. This setting attempts to amplify the style of the original speaker. It does consume additional computational resources and might increase latency if set to anything other than 0.
-          default: 0.0
-        speed:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Speed
-          description: Adjusts the speed of the voice. A value of 1.0 is the default speed, while values less than 1.0 slow down the speech, and values greater than 1.0 speed it up.
-          default: 1.0
-      type: object
-      title: VoiceSettingsResponseModel
-      example:
-        similarity_boost: 1.0
-        speed: 1.0
-        stability: 1.0
-        style: 0.0
-        use_speaker_boost: true
-    EditVoiceResponseModel:
-      properties:
-        status:
-          type: string
-          title: Status
-          description: The status of the voice edit request. If the request was successful, the status will be 'ok'. Otherwise an error message with status 500 will be returned.
-      type: object
-      required:
-      - status
-      title: EditVoiceResponseModel
-      example:
-        status: ok
-    VoiceVerificationResponseModel:
-      properties:
-        requires_verification:
-          type: boolean
-          title: Requires Verification
-          description: Whether the voice requires verification.
-        is_verified:
-          type: boolean
-          title: Is Verified
-          description: Whether the voice has been verified.
-        verification_failures:
           items:
             type: string
+            format: binary
           type: array
-          title: Verification Failures
-          description: List of verification failures.
-        verification_attempts_count:
+          title: Files
+          description: Audio files to add to the voice
+        remove_background_noise:
+          type: boolean
+          title: Remove Background Noise
+          description: If set will remove background noise for voice samples using our audio isolation model. If the samples do not include background noise, it can make the quality worse.
+          default: false
+          examples:
+          - true
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: A description of the voice.
+          examples:
+          - An old American male voice with a slight hoarseness in his throat. Perfect for news.
+        labels:
+          anyOf:
+          - additionalProperties:
+              type: string
+            type: object
+          - type: string
+          - type: 'null'
+          title: Labels
+          description: Labels for the voice. Keys can be language, accent, gender, or age.
+          examples:
+          - '{"language": "en", "accent": "en-US", "gender": "male", "age": "middle-aged"}'
+        moderate_metadata:
+          type: boolean
+          title: Moderate Metadata
+          description: Run synchronous LLM moderation over the voice name and description when they change. Has no effect unless the voice_library_metadata_moderation feature flag is enabled for the user.
+          default: false
+      type: object
+      required:
+      - name
+      title: Body_Edit_voice_v1_voices__voice_id__edit_post
+    LibraryVoiceResponseModel:
+      properties:
+        public_owner_id:
+          type: string
+          title: Public Owner Id
+          description: The public owner id of the voice.
+        voice_id:
+          type: string
+          title: Voice Id
+          description: The id of the voice.
+        date_unix:
           type: integer
-          title: Verification Attempts Count
-          description: The number of verification attempts.
+          title: Date Unix
+          description: The date the voice was added to the library in Unix time.
+        name:
+          type: string
+          title: Name
+          description: The name of the voice.
+        accent:
+          type: string
+          title: Accent
+          description: The accent of the voice.
+        gender:
+          type: string
+          title: Gender
+          description: The gender of the voice.
+        age:
+          type: string
+          title: Age
+          description: The age of the voice.
+        descriptive:
+          type: string
+          title: Descriptive
+          description: The descriptive of the voice.
+        use_case:
+          type: string
+          title: Use Case
+          description: The use case of the voice.
+        category:
+          type: string
+          enum:
+          - generated
+          - cloned
+          - premade
+          - professional
+          - famous
+          - high_quality
+          title: Category
+          description: The category of the voice.
         language:
           anyOf:
           - type: string
           - type: 'null'
           title: Language
           description: The language of the voice.
-        verification_attempts:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/VerificationAttemptResponseModel'
-            type: array
-          - type: 'null'
-          title: Verification Attempts
-          description: Number of times a verification was attempted.
-      type: object
-      required:
-      - requires_verification
-      - is_verified
-      - verification_failures
-      - verification_attempts_count
-      title: VoiceVerificationResponseModel
-      example:
-        is_verified: true
-        language: en
-        requires_verification: false
-        verification_attempts:
-        - accepted: true
-          date_unix: 1714204800
-          levenshtein_distance: 2
-          recording:
-            mime_type: audio/mpeg
-            recording_id: CwhRBWXzGAHq8TQ4Fs17
-            size_bytes: 1000000
-            transcription: Hello, how are you?
-            upload_date_unix: 1714204800
-          similarity: 0.95
-          text: Hello, how are you?
-        verification_attempts_count: 0
-        verification_failures: []
-    GetVoicesV2ResponseModel:
-      properties:
-        voices:
-          items:
-            $ref: '#/components/schemas/VoiceResponseModel'
-          type: array
-          title: Voices
-          description: The list of voices matching the query.
-        has_more:
-          type: boolean
-          title: Has More
-          description: Indicates whether there are more voices available in subsequent pages. Use this flag (and next_page_token) for reliable pagination instead of relying on total_count.
-        total_count:
-          type: integer
-          title: Total Count
-          description: The total count of voices matching the query. This value is a live snapshot that reflects the current state of the database and may change between requests as users create, modify, or delete voices. For reliable pagination, use the has_more flag instead of relying on this value. Only request this field when you actually need the total count (e.g., for display purposes), as calculating it incurs a performance cost.
-        next_page_token:
+        locale:
           anyOf:
           - type: string
           - type: 'null'
-          title: Next Page Token
-          description: Token to retrieve the next page of results. Pass this value to the next request to continue pagination. Null if there are no more results.
-      type: object
-      required:
-      - voices
-      - has_more
-      - total_count
-      title: GetVoicesV2ResponseModel
-    SpeakerResponseModel:
-      properties:
-        speaker_id:
-          type: string
-          title: Speaker Id
-          description: The ID of the speaker.
-        duration_secs:
-          type: number
-          title: Duration Secs
-          description: The duration of the speaker segment in seconds.
-        utterances:
+          title: Locale
+          description: The locale of the voice.
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: The description of the voice.
+        preview_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Preview Url
+          description: The preview URL of the voice.
+        usage_character_count_1y:
+          type: integer
+          title: Usage Character Count 1Y
+          description: The usage character count of the voice in the last year.
+        usage_character_count_7d:
+          type: integer
+          title: Usage Character Count 7D
+          description: The usage character count of the voice in the last 7 days.
+        play_api_usage_character_count_1y:
+          type: integer
+          title: Play Api Usage Character Count 1Y
+          description: The play API usage character count of the voice in the last year.
+        cloned_by_count:
+          type: integer
+          title: Cloned By Count
+          description: The number of times the voice has been cloned.
+        rate:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Rate
+          description: The rate multiplier of the voice.
+        fiat_rate:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Fiat Rate
+          description: The rate of the voice in USD per 1000 credits. null if default
+        free_users_allowed:
+          type: boolean
+          title: Free Users Allowed
+          description: Whether free users are allowed to use the voice.
+        live_moderation_enabled:
+          type: boolean
+          title: Live Moderation Enabled
+          description: Whether live moderation is enabled for the voice.
+        featured:
+          type: boolean
+          title: Featured
+          description: Whether the voice is featured.
+        verified_languages:
           anyOf:
           - items:
-              $ref: '#/components/schemas/UtteranceResponseModel'
+              $ref: '#/components/schemas/VerifiedVoiceLanguageResponseModel'
             type: array
           - type: 'null'
-          title: Utterances
-          description: The utterances of the speaker.
+          title: Verified Languages
+          description: The verified languages of the voice.
+        notice_period:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Notice Period
+          description: The notice period of the voice.
+        instagram_username:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Instagram Username
+          description: The Instagram username of the voice.
+        twitter_username:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Twitter Username
+          description: The Twitter username of the voice.
+        youtube_username:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Youtube Username
+          description: The YouTube username of the voice.
+        tiktok_username:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Tiktok Username
+          description: The TikTok username of the voice.
+        image_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Image Url
+          description: The image URL of the voice.
+        is_added_by_user:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Added By User
+          description: Whether the voice was added by the user.
+        is_bookmarked:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Bookmarked
+          description: Whether the voice is bookmarked by the current user. Only relevant when is_added_by_user is True.
       type: object
       required:
-      - speaker_id
-      - duration_secs
-      title: SpeakerResponseModel
-      example:
-        duration_secs: 5.0
-        speaker_id: DCwhRBWXzGAHq8TQ4Fs18
-    VoiceAccentResponseModel:
-      properties:
-        accent:
-          type: string
-          title: Accent
-          description: The accent value used for filtering shared voices via the `accent` query parameter on `GET /v1/shared-voices`.
-        language:
-          type: string
-          title: Language
-          description: The language code this accent belongs to, e.g. `en`.
-        code:
-          type: string
-          title: Code
-          description: The full accent code, e.g. `en-american`.
-        name:
-          type: string
-          title: Name
-          description: The human-readable accent name, e.g. `American`.
-      type: object
-      required:
-      - accent
-      - language
-      - code
+      - public_owner_id
+      - voice_id
+      - date_unix
       - name
-      title: VoiceAccentResponseModel
+      - accent
+      - gender
+      - age
+      - descriptive
+      - use_case
+      - category
+      - usage_character_count_1y
+      - usage_character_count_7d
+      - play_api_usage_character_count_1y
+      - cloned_by_count
+      - free_users_allowed
+      - live_moderation_enabled
+      - featured
+      title: LibraryVoiceResponseModel
       example:
         accent: american
-        code: en-american
+        age: young
+        category: professional
+        cloned_by_count: 11
+        date_unix: 1714423232
+        description: Perfectly calm, neutral and strong voice. Great for a young female protagonist.
+        descriptive: calm
+        featured: false
+        free_users_allowed: true
+        gender: Female
         language: en
-        name: American
-    AddVoiceIVCResponseModel:
+        live_moderation_enabled: false
+        name: Alita
+        play_api_usage_character_count_1y: 12852
+        preview_url: https://storage.googleapis.com/eleven-public-prod/wqkMCd9huxXHX1dy5mLJn4QEQHj1/voices/sB1b5zUrxQVAFl2PhZFp/55e71aac-5cb7-4b3d-8241-429388160509.mp3
+        public_owner_id: 63e84100a6bf7874ba37a1bab9a31828a379ec94b891b401653b655c5110880f
+        rate: 1
+        usage_character_count_1y: 12852
+        usage_character_count_7d: 12852
+        use_case: characters_animation
+        verified_languages:
+        - accent: american
+          language: en
+          locale: en-US
+          model_id: eleven_multilingual_v2
+          preview_url: https://storage.googleapis.com/eleven-public-prod/wqkMCd9huxXHX1dy5mLJn4QEQHj1/voices/sB1b5zUrxQVAFl2PhZFp/55e71aac-5cb7-4b3d-8241-429388160509.mp3
+        voice_id: sB1b5zUrxQVAFl2PhZFp
+    UtteranceResponseModel:
       properties:
-        voice_id:
-          type: string
-          title: Voice Id
-          description: The ID of the newly created voice.
-        requires_verification:
-          type: boolean
-          title: Requires Verification
-          description: Whether the voice requires verification
+        start:
+          type: number
+          title: Start
+          description: The start time of the utterance in seconds.
+        end:
+          type: number
+          title: End
+          description: The end time of the utterance in seconds.
       type: object
       required:
-      - voice_id
-      - requires_verification
-      title: AddVoiceIVCResponseModel
+      - start
+      - end
+      title: UtteranceResponseModel
       example:
-        requires_verification: false
-        voice_id: c38kUX8pkfYO2kHyqfFy
+        end: 1.0
+        start: 0.0
     VoiceResponseModel:
       properties:
         voice_id:
@@ -1873,202 +1661,72 @@ components:
             text: Hello, how are you?
           verification_attempts_count: 0
           verification_failures: []
-    FineTuningResponseModel:
+    VoiceAccentResponseModel:
       properties:
-        is_allowed_to_fine_tune:
-          type: boolean
-          title: Is Allowed To Fine Tune
-          description: Whether the user is allowed to fine-tune the voice.
-        state:
-          additionalProperties:
-            type: string
-            enum:
-            - not_started
-            - queued
-            - fine_tuning
-            - fine_tuned
-            - failed
-            - delayed
-          type: object
-          title: State
-          description: The state of the fine-tuning process for each model.
-        verification_failures:
-          items:
-            type: string
-          type: array
-          title: Verification Failures
-          description: List of verification failures in the fine-tuning process.
-        verification_attempts_count:
-          type: integer
-          title: Verification Attempts Count
-          description: The number of verification attempts in the fine-tuning process.
-        manual_verification_requested:
-          type: boolean
-          title: Manual Verification Requested
-          description: Whether a manual verification was requested for the fine-tuning process.
+        accent:
+          type: string
+          title: Accent
+          description: The accent value used for filtering shared voices via the `accent` query parameter on `GET /v1/shared-voices`.
         language:
-          anyOf:
-          - type: string
-          - type: 'null'
+          type: string
           title: Language
-          description: The language of the fine-tuning process.
-        progress:
-          anyOf:
-          - additionalProperties:
-              type: number
-            type: object
-          - type: 'null'
-          title: Progress
-          description: The progress of the fine-tuning process.
-        message:
-          anyOf:
-          - additionalProperties:
-              type: string
-            type: object
-          - type: 'null'
-          title: Message
-          description: The message of the fine-tuning process.
-        dataset_duration_seconds:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Dataset Duration Seconds
-          description: The duration of the dataset in seconds.
-        verification_attempts:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/VerificationAttemptResponseModel'
-            type: array
-          - type: 'null'
-          title: Verification Attempts
-          description: The number of verification attempts.
-        slice_ids:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Slice Ids
-          description: List of slice IDs.
-        manual_verification:
-          anyOf:
-          - $ref: '#/components/schemas/ManualVerificationResponseModel'
-          - type: 'null'
-          description: The manual verification of the fine-tuning process.
-        max_verification_attempts:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Max Verification Attempts
-          description: The maximum number of verification attempts.
-        next_max_verification_attempts_reset_unix_ms:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Next Max Verification Attempts Reset Unix Ms
-          description: The next maximum verification attempts reset time in Unix milliseconds.
+          description: The language code this accent belongs to, e.g. `en`.
+        code:
+          type: string
+          title: Code
+          description: The full accent code, e.g. `en-american`.
+        name:
+          type: string
+          title: Name
+          description: The human-readable accent name, e.g. `American`.
       type: object
       required:
-      - is_allowed_to_fine_tune
-      - state
-      - verification_failures
-      - verification_attempts_count
-      - manual_verification_requested
-      title: FineTuningResponseModel
+      - accent
+      - language
+      - code
+      - name
+      title: VoiceAccentResponseModel
       example:
-        is_allowed_to_fine_tune: true
-        manual_verification_requested: false
-        state:
-          eleven_multilingual_v2: fine_tuned
-        verification_attempts_count: 2
-        verification_failures: []
-    VerificationAttemptResponseModel:
+        accent: american
+        code: en-american
+        language: en
+        name: American
+    ManualVerificationFileResponseModel:
       properties:
-        text:
+        file_id:
           type: string
-          title: Text
-          description: The text of the verification attempt.
-        date_unix:
+          title: File Id
+          description: The ID of the file.
+        file_name:
+          type: string
+          title: File Name
+          description: The name of the file.
+        mime_type:
+          type: string
+          title: Mime Type
+          description: The MIME type of the file.
+        size_bytes:
           type: integer
-          title: Date Unix
-          description: The date of the verification attempt in Unix time.
-        accepted:
-          type: boolean
-          title: Accepted
-          description: Whether the verification attempt was accepted.
-        similarity:
-          type: number
-          title: Similarity
-          description: The similarity of the verification attempt.
-        levenshtein_distance:
-          type: number
-          title: Levenshtein Distance
-          description: The Levenshtein distance of the verification attempt.
-        recording:
-          anyOf:
-          - $ref: '#/components/schemas/RecordingResponseModel'
-          - type: 'null'
-          description: The recording of the verification attempt.
+          title: Size Bytes
+          description: The size of the file in bytes.
+        upload_date_unix:
+          type: integer
+          title: Upload Date Unix
+          description: The date of the file in Unix time.
       type: object
       required:
-      - text
-      - date_unix
-      - accepted
-      - similarity
-      - levenshtein_distance
-      title: VerificationAttemptResponseModel
+      - file_id
+      - file_name
+      - mime_type
+      - size_bytes
+      - upload_date_unix
+      title: ManualVerificationFileResponseModel
       example:
-        accepted: true
-        date_unix: 1714204800
-        levenshtein_distance: 2
-        recording:
-          mime_type: audio/mpeg
-          recording_id: CwhRBWXzGAHq8TQ4Fs17
-          size_bytes: 1000000
-          transcription: Hello, how are you?
-          upload_date_unix: 1714204800
-        similarity: 0.95
-        text: Hello, how are you?
-    Body_Get_similar_library_voices_v1_similar_voices_post:
-      properties:
-        audio_file:
-          type: string
-          title: Audio File
-          format: binary
-        similarity_threshold:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Similarity Threshold
-          description: Threshold for voice similarity between provided sample and library voices. Values range from 0 to 2. The smaller the value the more similar voices will be returned.
-          examples:
-          - 0.5
-        top_k:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Top K
-          description: Number of most similar voices to return. If similarity_threshold is provided, less than this number of voices may be returned. Values range from 1 to 100.
-          examples:
-          - 10
-      type: object
-      title: Body_Get_similar_library_voices_v1_similar_voices_post
-    Body_Add_shared_voice_v1_voices_add__public_user_id___voice_id__post:
-      properties:
-        new_name:
-          type: string
-          title: New Name
-          description: The name that identifies this voice. This will be displayed in the dropdown of the website.
-          examples:
-          - John Smith
-        bookmarked:
-          type: boolean
-          title: Bookmarked
-          default: true
-      type: object
-      required:
-      - new_name
-      title: Body_Add_shared_voice_v1_voices_add__public_user_id___voice_id__post
+        file_id: CwhRBWXzGAHq8TQ4Fs18
+        file_name: file.mp3
+        mime_type: audio/mpeg
+        size_bytes: 1000000
+        upload_date_unix: 1714204800
     GetVoicesResponseModel:
       properties:
         voices:
@@ -2193,105 +1851,266 @@ components:
               text: Hello, how are you?
             verification_attempts_count: 0
             verification_failures: []
-    ReaderResourceResponseModel:
+    AddVoiceIVCResponseModel:
       properties:
-        resource_type:
+        voice_id:
           type: string
-          enum:
-          - read
-          - collection
-          title: Resource Type
-          description: The type of resource.
-        resource_id:
-          type: string
-          title: Resource Id
-          description: The ID of the resource.
-      type: object
-      required:
-      - resource_type
-      - resource_id
-      title: ReaderResourceResponseModel
-      example:
-        resource_id: FCwhRBWXzGAHq8TQ4Fs18
-        resource_type: read
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    RecordingResponseModel:
-      properties:
-        recording_id:
-          type: string
-          title: Recording Id
-          description: The ID of the recording.
-        mime_type:
-          type: string
-          title: Mime Type
-          description: The MIME type of the recording.
-        size_bytes:
-          type: integer
-          title: Size Bytes
-          description: The size of the recording in bytes.
-        upload_date_unix:
-          type: integer
-          title: Upload Date Unix
-          description: The date of the recording in Unix time.
-        transcription:
-          type: string
-          title: Transcription
-          description: The transcription of the recording.
-      type: object
-      required:
-      - recording_id
-      - mime_type
-      - size_bytes
-      - upload_date_unix
-      - transcription
-      title: RecordingResponseModel
-      example:
-        mime_type: audio/mpeg
-        recording_id: CwhRBWXzGAHq8TQ4Fs17
-        size_bytes: 1000000
-        transcription: Hello, how are you?
-        upload_date_unix: 1714204800
-    UtteranceResponseModel:
-      properties:
-        start:
-          type: number
-          title: Start
-          description: The start time of the utterance in seconds.
-        end:
-          type: number
-          title: End
-          description: The end time of the utterance in seconds.
-      type: object
-      required:
-      - start
-      - end
-      title: UtteranceResponseModel
-      example:
-        end: 1.0
-        start: 0.0
-    ReplicateVoiceToIsolatedEnvironmentRequestModel:
-      properties:
-        target_workspace_id:
-          type: string
-          title: Target Workspace Id
-          description: ID of the workspace to replicate the voice into. It must belong to the same consolidated billing group as the calling workspace; the target's data residency is derived from that link.
-        preserve_voice_id:
+          title: Voice Id
+          description: The ID of the newly created voice.
+        requires_verification:
           type: boolean
-          title: Preserve Voice Id
-          description: When true (default) the replicated voice keeps the same voice ID in the target residency; set to false to assign a new voice ID.
+          title: Requires Verification
+          description: Whether the voice requires verification
+      type: object
+      required:
+      - voice_id
+      - requires_verification
+      title: AddVoiceIVCResponseModel
+      example:
+        requires_verification: false
+        voice_id: c38kUX8pkfYO2kHyqfFy
+    VoiceVerificationResponseModel:
+      properties:
+        requires_verification:
+          type: boolean
+          title: Requires Verification
+          description: Whether the voice requires verification.
+        is_verified:
+          type: boolean
+          title: Is Verified
+          description: Whether the voice has been verified.
+        verification_failures:
+          items:
+            type: string
+          type: array
+          title: Verification Failures
+          description: List of verification failures.
+        verification_attempts_count:
+          type: integer
+          title: Verification Attempts Count
+          description: The number of verification attempts.
+        language:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Language
+          description: The language of the voice.
+        verification_attempts:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/VerificationAttemptResponseModel'
+            type: array
+          - type: 'null'
+          title: Verification Attempts
+          description: Number of times a verification was attempted.
+      type: object
+      required:
+      - requires_verification
+      - is_verified
+      - verification_failures
+      - verification_attempts_count
+      title: VoiceVerificationResponseModel
+      example:
+        is_verified: true
+        language: en
+        requires_verification: false
+        verification_attempts:
+        - accepted: true
+          date_unix: 1714204800
+          levenshtein_distance: 2
+          recording:
+            mime_type: audio/mpeg
+            recording_id: CwhRBWXzGAHq8TQ4Fs17
+            size_bytes: 1000000
+            transcription: Hello, how are you?
+            upload_date_unix: 1714204800
+          similarity: 0.95
+          text: Hello, how are you?
+        verification_attempts_count: 0
+        verification_failures: []
+    Body_Add_shared_voice_v1_voices_add__public_user_id___voice_id__post:
+      properties:
+        new_name:
+          type: string
+          title: New Name
+          description: The name that identifies this voice. This will be displayed in the dropdown of the website.
+          examples:
+          - John Smith
+        bookmarked:
+          type: boolean
+          title: Bookmarked
           default: true
       type: object
       required:
-      - target_workspace_id
-      title: ReplicateVoiceToIsolatedEnvironmentRequestModel
+      - new_name
+      title: Body_Add_shared_voice_v1_voices_add__public_user_id___voice_id__post
+    SampleResponseModel:
+      properties:
+        sample_id:
+          type: string
+          title: Sample Id
+          description: The ID of the sample.
+        file_name:
+          type: string
+          title: File Name
+          description: The name of the sample file.
+        mime_type:
+          type: string
+          title: Mime Type
+          description: The MIME type of the sample file.
+        size_bytes:
+          type: integer
+          title: Size Bytes
+          description: The size of the sample file in bytes.
+        hash:
+          type: string
+          title: Hash
+          description: The hash of the sample file.
+        duration_secs:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Duration Secs
+        remove_background_noise:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Remove Background Noise
+        has_isolated_audio:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Has Isolated Audio
+        has_isolated_audio_preview:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Has Isolated Audio Preview
+        speaker_separation:
+          anyOf:
+          - $ref: '#/components/schemas/SpeakerSeparationResponseModel'
+          - type: 'null'
+        trim_start:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Trim Start
+        trim_end:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Trim End
+      type: object
+      required:
+      - sample_id
+      - file_name
+      - mime_type
+      - size_bytes
+      - hash
+      title: SampleResponseModel
+      example:
+        file_name: sample.mp3
+        hash: '1234567890'
+        mime_type: audio/mpeg
+        sample_id: DCwhRBWXzGAHq8TQ4Fs18
+        size_bytes: 1000000
+    GetLibraryVoicesResponseModel:
+      properties:
+        voices:
+          items:
+            $ref: '#/components/schemas/LibraryVoiceResponseModel'
+          type: array
+          title: Voices
+          description: The list of shared voices
+        has_more:
+          type: boolean
+          title: Has More
+          description: Whether there are more shared voices in subsequent pages.
+        total_count:
+          type: integer
+          title: Total Count
+          description: The total number of shared voices matching the query.
+          default: 0
+        last_sort_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Last Sort Id
+      type: object
+      required:
+      - voices
+      - has_more
+      title: GetLibraryVoicesResponseModel
+      example:
+        has_more: false
+        total_count: 0
+        voices:
+        - accent: american
+          age: young
+          category: professional
+          cloned_by_count: 11
+          date_unix: 1714423232
+          description: Perfectly calm, neutral and strong voice. Great for a young female protagonist.
+          descriptive: calm
+          featured: false
+          free_users_allowed: true
+          gender: Female
+          language: en
+          live_moderation_enabled: false
+          name: Alita
+          play_api_usage_character_count_1y: 12852
+          preview_url: https://storage.googleapis.com/eleven-public-prod/wqkMCd9huxXHX1dy5mLJn4QEQHj1/voices/sB1b5zUrxQVAFl2PhZFp/55e71aac-5cb7-4b3d-8241-429388160509.mp3
+          public_owner_id: 63e84100a6bf7874ba37a1bab9a31828a379ec94b891b401653b655c5110880f
+          rate: 1
+          usage_character_count_1y: 12852
+          usage_character_count_7d: 12852
+          use_case: characters_animation
+          verified_languages:
+          - accent: american
+            language: en
+            locale: en-US
+            model_id: eleven_multilingual_v2
+            preview_url: https://storage.googleapis.com/eleven-public-prod/wqkMCd9huxXHX1dy5mLJn4QEQHj1/voices/sB1b5zUrxQVAFl2PhZFp/55e71aac-5cb7-4b3d-8241-429388160509.mp3
+          voice_id: sB1b5zUrxQVAFl2PhZFp
+    GetVoiceAccentsResponseModel:
+      properties:
+        accents:
+          items:
+            $ref: '#/components/schemas/VoiceAccentResponseModel'
+          type: array
+          title: Accents
+          description: A list of available voice accents.
+      type: object
+      required:
+      - accents
+      title: GetVoiceAccentsResponseModel
+      example:
+        accents:
+        - accent: american
+          code: en-american
+          language: en
+          name: American
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     Body_Add_voice_v1_voices_add_post:
       properties:
         name:
@@ -2387,132 +2206,115 @@ components:
         accent: American
         language: en
         model_id: eleven_turbo_v2_5
-    GetLibraryVoicesResponseModel:
+    VerificationAttemptResponseModel:
       properties:
-        voices:
-          items:
-            $ref: '#/components/schemas/LibraryVoiceResponseModel'
-          type: array
-          title: Voices
-          description: The list of shared voices
-        has_more:
-          type: boolean
-          title: Has More
-          description: Whether there are more shared voices in subsequent pages.
-        total_count:
-          type: integer
-          title: Total Count
-          description: The total number of shared voices matching the query.
-          default: 0
-        last_sort_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Last Sort Id
-      type: object
-      required:
-      - voices
-      - has_more
-      title: GetLibraryVoicesResponseModel
-      example:
-        has_more: false
-        total_count: 0
-        voices:
-        - accent: american
-          age: young
-          category: professional
-          cloned_by_count: 11
-          date_unix: 1714423232
-          description: Perfectly calm, neutral and strong voice. Great for a young female protagonist.
-          descriptive: calm
-          featured: false
-          free_users_allowed: true
-          gender: Female
-          language: en
-          live_moderation_enabled: false
-          name: Alita
-          play_api_usage_character_count_1y: 12852
-          preview_url: https://storage.googleapis.com/eleven-public-prod/wqkMCd9huxXHX1dy5mLJn4QEQHj1/voices/sB1b5zUrxQVAFl2PhZFp/55e71aac-5cb7-4b3d-8241-429388160509.mp3
-          public_owner_id: 63e84100a6bf7874ba37a1bab9a31828a379ec94b891b401653b655c5110880f
-          rate: 1
-          usage_character_count_1y: 12852
-          usage_character_count_7d: 12852
-          use_case: characters_animation
-          verified_languages:
-          - accent: american
-            language: en
-            locale: en-US
-            model_id: eleven_multilingual_v2
-            preview_url: https://storage.googleapis.com/eleven-public-prod/wqkMCd9huxXHX1dy5mLJn4QEQHj1/voices/sB1b5zUrxQVAFl2PhZFp/55e71aac-5cb7-4b3d-8241-429388160509.mp3
-          voice_id: sB1b5zUrxQVAFl2PhZFp
-    GetVoiceAccentsResponseModel:
-      properties:
-        accents:
-          items:
-            $ref: '#/components/schemas/VoiceAccentResponseModel'
-          type: array
-          title: Accents
-          description: A list of available voice accents.
-      type: object
-      required:
-      - accents
-      title: GetVoiceAccentsResponseModel
-      example:
-        accents:
-        - accent: american
-          code: en-american
-          language: en
-          name: American
-    Body_Edit_voice_v1_voices__voice_id__edit_post:
-      properties:
-        name:
+        text:
           type: string
-          title: Name
-          description: The name that identifies this voice. This will be displayed in the dropdown of the website.
-          examples:
-          - John Smith
-        files:
-          items:
-            type: string
-            format: binary
-          type: array
-          title: Files
-          description: Audio files to add to the voice
-        remove_background_noise:
+          title: Text
+          description: The text of the verification attempt.
+        date_unix:
+          type: integer
+          title: Date Unix
+          description: The date of the verification attempt in Unix time.
+        accepted:
           type: boolean
-          title: Remove Background Noise
-          description: If set will remove background noise for voice samples using our audio isolation model. If the samples do not include background noise, it can make the quality worse.
-          default: false
-          examples:
-          - true
-        description:
+          title: Accepted
+          description: Whether the verification attempt was accepted.
+        similarity:
+          type: number
+          title: Similarity
+          description: The similarity of the verification attempt.
+        levenshtein_distance:
+          type: number
+          title: Levenshtein Distance
+          description: The Levenshtein distance of the verification attempt.
+        recording:
           anyOf:
-          - type: string
+          - $ref: '#/components/schemas/RecordingResponseModel'
           - type: 'null'
-          title: Description
-          description: A description of the voice.
-          examples:
-          - An old American male voice with a slight hoarseness in his throat. Perfect for news.
-        labels:
-          anyOf:
-          - additionalProperties:
-              type: string
-            type: object
-          - type: string
-          - type: 'null'
-          title: Labels
-          description: Labels for the voice. Keys can be language, accent, gender, or age.
-          examples:
-          - '{"language": "en", "accent": "en-US", "gender": "male", "age": "middle-aged"}'
-        moderate_metadata:
-          type: boolean
-          title: Moderate Metadata
-          description: Run synchronous LLM moderation over the voice name and description when they change. Has no effect unless the voice_library_metadata_moderation feature flag is enabled for the user.
-          default: false
+          description: The recording of the verification attempt.
       type: object
       required:
-      - name
-      title: Body_Edit_voice_v1_voices__voice_id__edit_post
+      - text
+      - date_unix
+      - accepted
+      - similarity
+      - levenshtein_distance
+      title: VerificationAttemptResponseModel
+      example:
+        accepted: true
+        date_unix: 1714204800
+        levenshtein_distance: 2
+        recording:
+          mime_type: audio/mpeg
+          recording_id: CwhRBWXzGAHq8TQ4Fs17
+          size_bytes: 1000000
+          transcription: Hello, how are you?
+          upload_date_unix: 1714204800
+        similarity: 0.95
+        text: Hello, how are you?
+    RecordingResponseModel:
+      properties:
+        recording_id:
+          type: string
+          title: Recording Id
+          description: The ID of the recording.
+        mime_type:
+          type: string
+          title: Mime Type
+          description: The MIME type of the recording.
+        size_bytes:
+          type: integer
+          title: Size Bytes
+          description: The size of the recording in bytes.
+        upload_date_unix:
+          type: integer
+          title: Upload Date Unix
+          description: The date of the recording in Unix time.
+        transcription:
+          type: string
+          title: Transcription
+          description: The transcription of the recording.
+      type: object
+      required:
+      - recording_id
+      - mime_type
+      - size_bytes
+      - upload_date_unix
+      - transcription
+      title: RecordingResponseModel
+      example:
+        mime_type: audio/mpeg
+        recording_id: CwhRBWXzGAHq8TQ4Fs17
+        size_bytes: 1000000
+        transcription: Hello, how are you?
+        upload_date_unix: 1714204800
+    SpeakerResponseModel:
+      properties:
+        speaker_id:
+          type: string
+          title: Speaker Id
+          description: The ID of the speaker.
+        duration_secs:
+          type: number
+          title: Duration Secs
+          description: The duration of the speaker segment in seconds.
+        utterances:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/UtteranceResponseModel'
+            type: array
+          - type: 'null'
+          title: Utterances
+          description: The utterances of the speaker.
+      type: object
+      required:
+      - speaker_id
+      - duration_secs
+      title: SpeakerResponseModel
+      example:
+        duration_secs: 5.0
+        speaker_id: DCwhRBWXzGAHq8TQ4Fs18
     VoiceSharingResponseModel:
       properties:
         status:
@@ -2769,259 +2571,170 @@ components:
         voice_mixing_allowed: false
         whitelisted_emails:
         - example@example.com
-    ManualVerificationFileResponseModel:
+    FineTuningResponseModel:
       properties:
-        file_id:
-          type: string
-          title: File Id
-          description: The ID of the file.
-        file_name:
-          type: string
-          title: File Name
-          description: The name of the file.
-        mime_type:
-          type: string
-          title: Mime Type
-          description: The MIME type of the file.
-        size_bytes:
+        is_allowed_to_fine_tune:
+          type: boolean
+          title: Is Allowed To Fine Tune
+          description: Whether the user is allowed to fine-tune the voice.
+        state:
+          additionalProperties:
+            type: string
+            enum:
+            - not_started
+            - queued
+            - fine_tuning
+            - fine_tuned
+            - failed
+            - delayed
+          type: object
+          title: State
+          description: The state of the fine-tuning process for each model.
+        verification_failures:
+          items:
+            type: string
+          type: array
+          title: Verification Failures
+          description: List of verification failures in the fine-tuning process.
+        verification_attempts_count:
           type: integer
-          title: Size Bytes
-          description: The size of the file in bytes.
-        upload_date_unix:
-          type: integer
-          title: Upload Date Unix
-          description: The date of the file in Unix time.
-      type: object
-      required:
-      - file_id
-      - file_name
-      - mime_type
-      - size_bytes
-      - upload_date_unix
-      title: ManualVerificationFileResponseModel
-      example:
-        file_id: CwhRBWXzGAHq8TQ4Fs18
-        file_name: file.mp3
-        mime_type: audio/mpeg
-        size_bytes: 1000000
-        upload_date_unix: 1714204800
-    LibraryVoiceResponseModel:
-      properties:
-        public_owner_id:
-          type: string
-          title: Public Owner Id
-          description: The public owner id of the voice.
-        voice_id:
-          type: string
-          title: Voice Id
-          description: The id of the voice.
-        date_unix:
-          type: integer
-          title: Date Unix
-          description: The date the voice was added to the library in Unix time.
-        name:
-          type: string
-          title: Name
-          description: The name of the voice.
-        accent:
-          type: string
-          title: Accent
-          description: The accent of the voice.
-        gender:
-          type: string
-          title: Gender
-          description: The gender of the voice.
-        age:
-          type: string
-          title: Age
-          description: The age of the voice.
-        descriptive:
-          type: string
-          title: Descriptive
-          description: The descriptive of the voice.
-        use_case:
-          type: string
-          title: Use Case
-          description: The use case of the voice.
-        category:
-          type: string
-          enum:
-          - generated
-          - cloned
-          - premade
-          - professional
-          - famous
-          - high_quality
-          title: Category
-          description: The category of the voice.
+          title: Verification Attempts Count
+          description: The number of verification attempts in the fine-tuning process.
+        manual_verification_requested:
+          type: boolean
+          title: Manual Verification Requested
+          description: Whether a manual verification was requested for the fine-tuning process.
         language:
           anyOf:
           - type: string
           - type: 'null'
           title: Language
-          description: The language of the voice.
-        locale:
+          description: The language of the fine-tuning process.
+        progress:
           anyOf:
-          - type: string
+          - additionalProperties:
+              type: number
+            type: object
           - type: 'null'
-          title: Locale
-          description: The locale of the voice.
-        description:
+          title: Progress
+          description: The progress of the fine-tuning process.
+        message:
           anyOf:
-          - type: string
+          - additionalProperties:
+              type: string
+            type: object
           - type: 'null'
-          title: Description
-          description: The description of the voice.
-        preview_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Preview Url
-          description: The preview URL of the voice.
-        usage_character_count_1y:
-          type: integer
-          title: Usage Character Count 1Y
-          description: The usage character count of the voice in the last year.
-        usage_character_count_7d:
-          type: integer
-          title: Usage Character Count 7D
-          description: The usage character count of the voice in the last 7 days.
-        play_api_usage_character_count_1y:
-          type: integer
-          title: Play Api Usage Character Count 1Y
-          description: The play API usage character count of the voice in the last year.
-        cloned_by_count:
-          type: integer
-          title: Cloned By Count
-          description: The number of times the voice has been cloned.
-        rate:
+          title: Message
+          description: The message of the fine-tuning process.
+        dataset_duration_seconds:
           anyOf:
           - type: number
           - type: 'null'
-          title: Rate
-          description: The rate multiplier of the voice.
-        fiat_rate:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Fiat Rate
-          description: The rate of the voice in USD per 1000 credits. null if default
-        free_users_allowed:
-          type: boolean
-          title: Free Users Allowed
-          description: Whether free users are allowed to use the voice.
-        live_moderation_enabled:
-          type: boolean
-          title: Live Moderation Enabled
-          description: Whether live moderation is enabled for the voice.
-        featured:
-          type: boolean
-          title: Featured
-          description: Whether the voice is featured.
-        verified_languages:
+          title: Dataset Duration Seconds
+          description: The duration of the dataset in seconds.
+        verification_attempts:
           anyOf:
           - items:
-              $ref: '#/components/schemas/VerifiedVoiceLanguageResponseModel'
+              $ref: '#/components/schemas/VerificationAttemptResponseModel'
             type: array
           - type: 'null'
-          title: Verified Languages
-          description: The verified languages of the voice.
-        notice_period:
+          title: Verification Attempts
+          description: The number of verification attempts.
+        slice_ids:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Slice Ids
+          description: List of slice IDs.
+        manual_verification:
+          anyOf:
+          - $ref: '#/components/schemas/ManualVerificationResponseModel'
+          - type: 'null'
+          description: The manual verification of the fine-tuning process.
+        max_verification_attempts:
           anyOf:
           - type: integer
           - type: 'null'
-          title: Notice Period
-          description: The notice period of the voice.
-        instagram_username:
+          title: Max Verification Attempts
+          description: The maximum number of verification attempts.
+        next_max_verification_attempts_reset_unix_ms:
           anyOf:
-          - type: string
+          - type: integer
           - type: 'null'
-          title: Instagram Username
-          description: The Instagram username of the voice.
-        twitter_username:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Twitter Username
-          description: The Twitter username of the voice.
-        youtube_username:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Youtube Username
-          description: The YouTube username of the voice.
-        tiktok_username:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Tiktok Username
-          description: The TikTok username of the voice.
-        image_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Image Url
-          description: The image URL of the voice.
-        is_added_by_user:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Is Added By User
-          description: Whether the voice was added by the user.
-        is_bookmarked:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Is Bookmarked
-          description: Whether the voice is bookmarked by the current user. Only relevant when is_added_by_user is True.
+          title: Next Max Verification Attempts Reset Unix Ms
+          description: The next maximum verification attempts reset time in Unix milliseconds.
       type: object
       required:
-      - public_owner_id
-      - voice_id
-      - date_unix
-      - name
-      - accent
-      - gender
-      - age
-      - descriptive
-      - use_case
-      - category
-      - usage_character_count_1y
-      - usage_character_count_7d
-      - play_api_usage_character_count_1y
-      - cloned_by_count
-      - free_users_allowed
-      - live_moderation_enabled
-      - featured
-      title: LibraryVoiceResponseModel
+      - is_allowed_to_fine_tune
+      - state
+      - verification_failures
+      - verification_attempts_count
+      - manual_verification_requested
+      title: FineTuningResponseModel
       example:
-        accent: american
-        age: young
-        category: professional
-        cloned_by_count: 11
-        date_unix: 1714423232
-        description: Perfectly calm, neutral and strong voice. Great for a young female protagonist.
-        descriptive: calm
-        featured: false
-        free_users_allowed: true
-        gender: Female
-        language: en
-        live_moderation_enabled: false
-        name: Alita
-        play_api_usage_character_count_1y: 12852
-        preview_url: https://storage.googleapis.com/eleven-public-prod/wqkMCd9huxXHX1dy5mLJn4QEQHj1/voices/sB1b5zUrxQVAFl2PhZFp/55e71aac-5cb7-4b3d-8241-429388160509.mp3
-        public_owner_id: 63e84100a6bf7874ba37a1bab9a31828a379ec94b891b401653b655c5110880f
-        rate: 1
-        usage_character_count_1y: 12852
-        usage_character_count_7d: 12852
-        use_case: characters_animation
-        verified_languages:
-        - accent: american
-          language: en
-          locale: en-US
-          model_id: eleven_multilingual_v2
-          preview_url: https://storage.googleapis.com/eleven-public-prod/wqkMCd9huxXHX1dy5mLJn4QEQHj1/voices/sB1b5zUrxQVAFl2PhZFp/55e71aac-5cb7-4b3d-8241-429388160509.mp3
-        voice_id: sB1b5zUrxQVAFl2PhZFp
+        is_allowed_to_fine_tune: true
+        manual_verification_requested: false
+        state:
+          eleven_multilingual_v2: fine_tuned
+        verification_attempts_count: 2
+        verification_failures: []
+    ReplicateVoiceToIsolatedEnvironmentRequestModel:
+      properties:
+        target_workspace_id:
+          type: string
+          title: Target Workspace Id
+          description: ID of the workspace to replicate the voice into. It must belong to the same consolidated billing group as the calling workspace; the target's data residency is derived from that link.
+        preserve_voice_id:
+          type: boolean
+          title: Preserve Voice Id
+          description: When true (default) the replicated voice keeps the same voice ID in the target residency; set to false to assign a new voice ID.
+          default: true
+      type: object
+      required:
+      - target_workspace_id
+      title: ReplicateVoiceToIsolatedEnvironmentRequestModel
+    ReplicateVoiceToIsolatedEnvironmentResponseModel:
+      properties:
+        voice_id:
+          type: string
+          title: Voice Id
+          description: Voice ID of the replicated voice in the target residency.
+      type: object
+      required:
+      - voice_id
+      title: ReplicateVoiceToIsolatedEnvironmentResponseModel
+      example:
+        voice_id: 21m00Tcm4TlvDq8ikWAM
+    GetVoicesV2ResponseModel:
+      properties:
+        voices:
+          items:
+            $ref: '#/components/schemas/VoiceResponseModel'
+          type: array
+          title: Voices
+          description: The list of voices matching the query.
+        has_more:
+          type: boolean
+          title: Has More
+          description: Indicates whether there are more voices available in subsequent pages. Use this flag (and next_page_token) for reliable pagination instead of relying on total_count.
+        total_count:
+          type: integer
+          title: Total Count
+          description: The total count of voices matching the query. This value is a live snapshot that reflects the current state of the database and may change between requests as users create, modify, or delete voices. For reliable pagination, use the has_more flag instead of relying on this value. Only request this field when you actually need the total count (e.g., for display purposes), as calculating it incurs a performance cost.
+        next_page_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Next Page Token
+          description: Token to retrieve the next page of results. Pass this value to the next request to continue pagination. Null if there are no more results.
+      type: object
+      required:
+      - voices
+      - has_more
+      - total_count
+      title: GetVoicesV2ResponseModel
     DeleteVoiceResponseModel:
       properties:
         status:
@@ -3034,6 +2747,293 @@ components:
       title: DeleteVoiceResponseModel
       example:
         status: ok
+    ReaderResourceResponseModel:
+      properties:
+        resource_type:
+          type: string
+          enum:
+          - read
+          - collection
+          title: Resource Type
+          description: The type of resource.
+        resource_id:
+          type: string
+          title: Resource Id
+          description: The ID of the resource.
+      type: object
+      required:
+      - resource_type
+      - resource_id
+      title: ReaderResourceResponseModel
+      example:
+        resource_id: FCwhRBWXzGAHq8TQ4Fs18
+        resource_type: read
+    ManualVerificationResponseModel:
+      properties:
+        extra_text:
+          type: string
+          title: Extra Text
+          description: The extra text of the manual verification.
+        request_time_unix:
+          type: integer
+          title: Request Time Unix
+          description: The date of the manual verification in Unix time.
+        files:
+          items:
+            $ref: '#/components/schemas/ManualVerificationFileResponseModel'
+          type: array
+          title: Files
+          description: The files of the manual verification.
+      type: object
+      required:
+      - extra_text
+      - request_time_unix
+      - files
+      title: ManualVerificationResponseModel
+      example:
+        extra_text: Please verify the voice is that of a female.
+        files:
+        - file_id: CwhRBWXzGAHq8TQ4Fs18
+          file_name: file.mp3
+          mime_type: audio/mpeg
+          size_bytes: 1000000
+          upload_date_unix: 1714204800
+        request_time_unix: 1714204800
+    Body_Get_similar_library_voices_v1_similar_voices_post:
+      properties:
+        audio_file:
+          type: string
+          title: Audio File
+          format: binary
+        similarity_threshold:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Similarity Threshold
+          description: Threshold for voice similarity between provided sample and library voices. Values range from 0 to 2. The smaller the value the more similar voices will be returned.
+          examples:
+          - 0.5
+        top_k:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Top K
+          description: Number of most similar voices to return. If similarity_threshold is provided, less than this number of voices may be returned. Values range from 1 to 100.
+          examples:
+          - 10
+      type: object
+      title: Body_Get_similar_library_voices_v1_similar_voices_post
+    VoiceSharingModerationCheckResponseModel:
+      properties:
+        date_checked_unix:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Date Checked Unix
+          description: The date the moderation check was made in Unix time.
+        name_value:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name Value
+          description: The name value of the voice.
+        name_check:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Name Check
+          description: Whether the name check was successful.
+        description_value:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description Value
+          description: The description value of the voice.
+        description_check:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Description Check
+          description: Whether the description check was successful.
+        sample_ids:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Sample Ids
+          description: A list of sample IDs.
+        sample_checks:
+          anyOf:
+          - items:
+              type: number
+            type: array
+          - type: 'null'
+          title: Sample Checks
+          description: A list of sample checks.
+        captcha_ids:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Captcha Ids
+          description: A list of captcha IDs.
+        captcha_checks:
+          anyOf:
+          - items:
+              type: number
+            type: array
+          - type: 'null'
+          title: Captcha Checks
+          description: A list of CAPTCHA check values.
+      type: object
+      title: VoiceSharingModerationCheckResponseModel
+      example:
+        captcha_checks:
+        - 0.95
+        - 0.98
+        captcha_ids:
+        - captcha1
+        - captcha2
+        date_checked_unix: 1714204800
+        description_check: true
+        description_value: A female voice with a soft and friendly tone.
+        name_check: true
+        name_value: Rachel
+        sample_checks:
+        - 0.95
+        - 0.98
+        sample_ids:
+        - sample1
+        - sample2
+    SpeakerSeparationResponseModel:
+      properties:
+        voice_id:
+          type: string
+          title: Voice Id
+          description: The ID of the voice.
+        sample_id:
+          type: string
+          title: Sample Id
+          description: The ID of the sample.
+        status:
+          type: string
+          enum:
+          - not_started
+          - pending
+          - completed
+          - failed
+          title: Status
+          description: The status of the speaker separation.
+        speakers:
+          anyOf:
+          - additionalProperties:
+              $ref: '#/components/schemas/SpeakerResponseModel'
+            type: object
+          - type: 'null'
+          title: Speakers
+          description: The speakers of the sample.
+        selected_speaker_ids:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Selected Speaker Ids
+          description: The IDs of the selected speakers.
+      type: object
+      required:
+      - voice_id
+      - sample_id
+      - status
+      title: SpeakerSeparationResponseModel
+      example:
+        sample_id: DCwhRBWXzGAHq8TQ4Fs18
+        status: not_started
+        voice_id: DCwhRBWXzGAHq8TQ4Fs18
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    EditVoiceResponseModel:
+      properties:
+        status:
+          type: string
+          title: Status
+          description: The status of the voice edit request. If the request was successful, the status will be 'ok'. Otherwise an error message with status 500 will be returned.
+      type: object
+      required:
+      - status
+      title: EditVoiceResponseModel
+      example:
+        status: ok
+    EditVoiceSettingsResponseModel:
+      properties:
+        status:
+          type: string
+          title: Status
+          description: The status of the voice settings edit request. If the request was successful, the status will be 'ok'. Otherwise an error message with status 500 will be returned.
+      type: object
+      required:
+      - status
+      title: EditVoiceSettingsResponseModel
+      example:
+        status: ok
+    VoiceSettingsResponseModel:
+      properties:
+        stability:
+          anyOf:
+          - type: number
+            maximum: 1.0
+            minimum: 0.0
+          - type: 'null'
+          title: Stability
+          description: Determines how stable the voice is and the randomness between each generation. Lower values introduce broader emotional range for the voice. Higher values can result in a monotonous voice with limited emotion.
+          default: 0.5
+        use_speaker_boost:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Use Speaker Boost
+          description: This setting boosts the similarity to the original speaker. Using this setting requires a slightly higher computational load, which in turn increases latency.
+          default: true
+        similarity_boost:
+          anyOf:
+          - type: number
+            maximum: 1.0
+            minimum: 0.0
+          - type: 'null'
+          title: Similarity Boost
+          description: Determines how closely the AI should adhere to the original voice when attempting to replicate it.
+          default: 0.75
+        style:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Style
+          description: Determines the style exaggeration of the voice. This setting attempts to amplify the style of the original speaker. It does consume additional computational resources and might increase latency if set to anything other than 0.
+          default: 0.0
+        speed:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Speed
+          description: Adjusts the speed of the voice. A value of 1.0 is the default speed, while values less than 1.0 slow down the speech, and values greater than 1.0 speed it up.
+          default: 1.0
+      type: object
+      title: VoiceSettingsResponseModel
+      example:
+        similarity_boost: 1.0
+        speed: 1.0
+        stability: 1.0
+        style: 0.0
+        use_speaker_boost: true
     AddVoiceRequest:
       type: object
       required:
@@ -3055,6 +3055,73 @@ components:
           items:
             type: string
             format: binary
+    VoiceListResponse:
+      type: object
+      properties:
+        voices:
+          type: array
+          description: List of available voices.
+          items:
+            $ref: '#/components/schemas/Voice'
+    VoiceSettings:
+      type: object
+      properties:
+        stability:
+          type: number
+          description: Controls the stability of the generated voice output.
+          minimum: 0
+          maximum: 1
+        similarity_boost:
+          type: number
+          description: Controls how closely the AI adheres to the original voice.
+          minimum: 0
+          maximum: 1
+        style:
+          type: number
+          description: Controls the expressiveness and style of the speech delivery.
+          minimum: 0
+          maximum: 1
+          default: 0
+        use_speaker_boost:
+          type: boolean
+          description: Enables speaker boost to increase voice clarity.
+          default: true
+    Voice:
+      type: object
+      properties:
+        voice_id:
+          type: string
+          description: Unique identifier for the voice.
+        name:
+          type: string
+          description: Display name of the voice.
+        category:
+          type: string
+          description: Category of the voice such as premade, cloned, or designed.
+          enum:
+          - premade
+          - cloned
+          - designed
+          - professional
+        labels:
+          type: object
+          description: Key-value labels describing voice characteristics such as accent, age, gender, and use case.
+          additionalProperties:
+            type: string
+        description:
+          type: string
+          description: Human-readable description of the voice.
+        preview_url:
+          type: string
+          format: uri
+          description: URL to a preview audio sample of the voice.
+        settings:
+          $ref: '#/components/schemas/VoiceSettings'
+        samples:
+          type: array
+          description: Audio samples associated with the voice.
+          items:
+            $ref: '#/components/schemas/VoiceSample'
     AddVoiceResponse:
       type: object
       properties:
@@ -3096,73 +3163,6 @@ components:
           items:
             type: string
             format: binary
-    VoiceListResponse:
-      type: object
-      properties:
-        voices:
-          type: array
-          description: List of available voices.
-          items:
-            $ref: '#/components/schemas/Voice'
-    Voice:
-      type: object
-      properties:
-        voice_id:
-          type: string
-          description: Unique identifier for the voice.
-        name:
-          type: string
-          description: Display name of the voice.
-        category:
-          type: string
-          description: Category of the voice such as premade, cloned, or designed.
-          enum:
-          - premade
-          - cloned
-          - designed
-          - professional
-        labels:
-          type: object
-          description: Key-value labels describing voice characteristics such as accent, age, gender, and use case.
-          additionalProperties:
-            type: string
-        description:
-          type: string
-          description: Human-readable description of the voice.
-        preview_url:
-          type: string
-          format: uri
-          description: URL to a preview audio sample of the voice.
-        settings:
-          $ref: '#/components/schemas/VoiceSettings'
-        samples:
-          type: array
-          description: Audio samples associated with the voice.
-          items:
-            $ref: '#/components/schemas/VoiceSample'
-    VoiceSettings:
-      type: object
-      properties:
-        stability:
-          type: number
-          description: Controls the stability of the generated voice output.
-          minimum: 0
-          maximum: 1
-        similarity_boost:
-          type: number
-          description: Controls how closely the AI adheres to the original voice.
-          minimum: 0
-          maximum: 1
-        style:
-          type: number
-          description: Controls the expressiveness and style of the speech delivery.
-          minimum: 0
-          maximum: 1
-          default: 0
-        use_speaker_boost:
-          type: boolean
-          description: Enables speaker boost to increase voice clarity.
-          default: true
   parameters:
     voiceId:
       name: voice_id

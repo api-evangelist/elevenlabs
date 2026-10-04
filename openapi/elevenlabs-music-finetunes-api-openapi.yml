@@ -292,6 +292,154 @@ paths:
       x-fern-sdk-method-name: delete
 components:
   schemas:
+    MusicFinetuneFailureReason:
+      type: string
+      enum:
+      - audio_processing_failed
+      - copyright_violation
+      - training_failed
+      title: MusicFinetuneFailureReason
+    FinetuneCreatedBy:
+      type: string
+      enum:
+      - self
+      - workspace
+      - elevenlabs
+      title: FinetuneCreatedBy
+    FinetuneVisibility:
+      type: string
+      enum:
+      - private
+      - workspace
+      - public
+      title: FinetuneVisibility
+    UpdateMusicFinetuneRequestModel:
+      properties:
+        name:
+          anyOf:
+          - type: string
+            maxLength: 200
+            minLength: 5
+          - type: 'null'
+          title: Name
+          description: Updated name for the finetune.
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+            maxItems: 5
+          - type: 'null'
+          title: Tags
+          description: Replacement set of tags.
+        primary_genre:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Primary Genre
+          description: Updated primary musical genre.
+        visibility:
+          anyOf:
+          - type: string
+            enum:
+            - private
+            - workspace
+          - type: 'null'
+          title: Visibility
+          description: Finetune visibility. Only 'private' and 'workspace' can be set.
+      type: object
+      title: UpdateMusicFinetuneRequestModel
+    MusicFinetunePageResponseModel:
+      properties:
+        finetunes:
+          items:
+            $ref: '#/components/schemas/MusicFinetuneResponseModel'
+          type: array
+          title: Finetunes
+          description: The finetunes in this page.
+        next_cursor:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Next Cursor
+          description: Cursor to pass as `cursor` to fetch the next page; `null` when there are no more results.
+        has_more:
+          type: boolean
+          title: Has More
+          description: Whether more finetunes are available beyond this page.
+      type: object
+      required:
+      - finetunes
+      - next_cursor
+      - has_more
+      title: MusicFinetunePageResponseModel
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    Body_Create_Music_Finetune_v1_music_finetunes_post:
+      properties:
+        name:
+          type: string
+          maxLength: 200
+          minLength: 5
+          title: Name
+          description: Name for the finetune (5-200 characters).
+        primary_genre:
+          type: string
+          title: Primary Genre
+          description: Primary musical genre of the finetune.
+        files:
+          items:
+            type: string
+            format: binary
+          type: array
+          maxItems: 50
+          title: Files
+          description: Audio files to train on.
+          default: []
+        tags:
+          items:
+            type: string
+          type: array
+          title: Tags
+          description: Tags to associate with the finetune.
+          default: []
+        visibility:
+          anyOf:
+          - type: string
+            enum:
+            - private
+            - workspace
+          - type: 'null'
+          title: Visibility
+          description: Finetune visibility. Only 'private' and 'workspace' can be set.
+        model_id:
+          $ref: '#/components/schemas/MusicModelID'
+          description: The model to create a finetune for.
+          default: music_v1
+      type: object
+      required:
+      - name
+      - primary_genre
+      title: Body_Create_Music_Finetune_v1_music_finetunes_post
     HTTPValidationError:
       properties:
         detail:
@@ -301,18 +449,15 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    MusicModelID:
+    MusicFinetuneStatus:
       type: string
       enum:
-      - music_v1
-      - music_v2
-      - music_v2_5
-      title: MusicModelID
-      x-fern-enum:
-        music_v1:
-          description: 'Deprecated: Deprecated.'
-          deprecated: true
-      default: music_v1
+      - pending
+      - in_progress
+      - completed
+      - failed
+      - blocked
+      title: MusicFinetuneStatus
     MusicFinetuneResponseModel:
       properties:
         id:
@@ -378,160 +523,15 @@ components:
       - status
       - training_progress
       title: MusicFinetuneResponseModel
-    Body_Create_Music_Finetune_v1_music_finetunes_post:
-      properties:
-        name:
-          type: string
-          maxLength: 200
-          minLength: 5
-          title: Name
-          description: Name for the finetune (5-200 characters).
-        primary_genre:
-          type: string
-          title: Primary Genre
-          description: Primary musical genre of the finetune.
-        files:
-          items:
-            type: string
-            format: binary
-          type: array
-          maxItems: 50
-          title: Files
-          description: Audio files to train on.
-          default: []
-        tags:
-          items:
-            type: string
-          type: array
-          title: Tags
-          description: Tags to associate with the finetune.
-          default: []
-        visibility:
-          anyOf:
-          - type: string
-            enum:
-            - private
-            - workspace
-          - type: 'null'
-          title: Visibility
-          description: Finetune visibility. Only 'private' and 'workspace' can be set.
-        model_id:
-          $ref: '#/components/schemas/MusicModelID'
-          description: The model to create a finetune for.
-          default: music_v1
-      type: object
-      required:
-      - name
-      - primary_genre
-      title: Body_Create_Music_Finetune_v1_music_finetunes_post
-    FinetuneCreatedBy:
+    MusicModelID:
       type: string
       enum:
-      - self
-      - workspace
-      - elevenlabs
-      title: FinetuneCreatedBy
-    MusicFinetunePageResponseModel:
-      properties:
-        finetunes:
-          items:
-            $ref: '#/components/schemas/MusicFinetuneResponseModel'
-          type: array
-          title: Finetunes
-          description: The finetunes in this page.
-        next_cursor:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Next Cursor
-          description: Cursor to pass as `cursor` to fetch the next page; `null` when there are no more results.
-        has_more:
-          type: boolean
-          title: Has More
-          description: Whether more finetunes are available beyond this page.
-      type: object
-      required:
-      - finetunes
-      - next_cursor
-      - has_more
-      title: MusicFinetunePageResponseModel
-    FinetuneVisibility:
-      type: string
-      enum:
-      - private
-      - workspace
-      - public
-      title: FinetuneVisibility
-    UpdateMusicFinetuneRequestModel:
-      properties:
-        name:
-          anyOf:
-          - type: string
-            maxLength: 200
-            minLength: 5
-          - type: 'null'
-          title: Name
-          description: Updated name for the finetune.
-        tags:
-          anyOf:
-          - items:
-              type: string
-            type: array
-            maxItems: 5
-          - type: 'null'
-          title: Tags
-          description: Replacement set of tags.
-        primary_genre:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Primary Genre
-          description: Updated primary musical genre.
-        visibility:
-          anyOf:
-          - type: string
-            enum:
-            - private
-            - workspace
-          - type: 'null'
-          title: Visibility
-          description: Finetune visibility. Only 'private' and 'workspace' can be set.
-      type: object
-      title: UpdateMusicFinetuneRequestModel
-    MusicFinetuneFailureReason:
-      type: string
-      enum:
-      - audio_processing_failed
-      - copyright_violation
-      - training_failed
-      title: MusicFinetuneFailureReason
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    MusicFinetuneStatus:
-      type: string
-      enum:
-      - pending
-      - in_progress
-      - completed
-      - failed
-      - blocked
-      title: MusicFinetuneStatus
+      - music_v1
+      - music_v2
+      - music_v2_5
+      title: MusicModelID
+      x-fern-enum:
+        music_v1:
+          description: 'Deprecated: Deprecated.'
+          deprecated: true
+      default: music_v1

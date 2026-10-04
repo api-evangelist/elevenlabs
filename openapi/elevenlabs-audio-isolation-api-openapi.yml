@@ -188,105 +188,6 @@ paths:
       x-fern-streaming: true
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    GetAudioIsolationHistoryResponseModel:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/AudioIsolationHistoryItemResponseModel'
-          type: array
-          title: Items
-        has_more:
-          type: boolean
-          title: Has More
-      type: object
-      required:
-      - items
-      - has_more
-      title: GetAudioIsolationHistoryResponseModel
-    Body_Audio_Isolation_v1_audio_isolation_post:
-      properties:
-        audio:
-          type: string
-          title: Audio
-          description: The audio file from which vocals/speech will be isolated from.
-          format: binary
-        file_format:
-          anyOf:
-          - type: string
-            enum:
-            - pcm_s16le_16
-            - other
-          - type: 'null'
-          title: File Format
-          description: The format of input audio. Options are 'pcm_s16le_16' or 'other' For `pcm_s16le_16`, the input audio must be 16-bit PCM at a 16kHz sample rate, single channel (mono), and little-endian byte order. Latency will be lower than with passing an encoded waveform.
-          default: other
-          examples:
-          - pcm_s16le_16
-          - other
-        preview_b64:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Preview B64
-          description: Optional preview image base64 for tracking this generation.
-      type: object
-      required:
-      - audio
-      title: Body_Audio_Isolation_v1_audio_isolation_post
-    Body_Audio_Isolation_Stream_v1_audio_isolation_stream_post:
-      properties:
-        audio:
-          type: string
-          title: Audio
-          description: The audio file from which vocals/speech will be isolated from.
-          format: binary
-        file_format:
-          anyOf:
-          - type: string
-            enum:
-            - pcm_s16le_16
-            - other
-          - type: 'null'
-          title: File Format
-          description: The format of input audio. Options are 'pcm_s16le_16' or 'other' For `pcm_s16le_16`, the input audio must be 16-bit PCM at a 16kHz sample rate, single channel (mono), and little-endian byte order. Latency will be lower than with passing an encoded waveform.
-          default: other
-          examples:
-          - pcm_s16le_16
-          - other
-      type: object
-      required:
-      - audio
-      title: Body_Audio_Isolation_Stream_v1_audio_isolation_stream_post
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     AudioIsolationHistoryItemResponseModel:
       properties:
         id:
@@ -352,3 +253,102 @@ components:
       - video_processing_failed
       - preview_b64
       title: AudioIsolationHistoryItemResponseModel
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    GetAudioIsolationHistoryResponseModel:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/AudioIsolationHistoryItemResponseModel'
+          type: array
+          title: Items
+        has_more:
+          type: boolean
+          title: Has More
+      type: object
+      required:
+      - items
+      - has_more
+      title: GetAudioIsolationHistoryResponseModel
+    Body_Audio_Isolation_Stream_v1_audio_isolation_stream_post:
+      properties:
+        audio:
+          type: string
+          title: Audio
+          description: The audio file from which vocals/speech will be isolated from.
+          format: binary
+        file_format:
+          anyOf:
+          - type: string
+            enum:
+            - pcm_s16le_16
+            - other
+          - type: 'null'
+          title: File Format
+          description: The format of input audio. Options are 'pcm_s16le_16' or 'other' For `pcm_s16le_16`, the input audio must be 16-bit PCM at a 16kHz sample rate, single channel (mono), and little-endian byte order. Latency will be lower than with passing an encoded waveform.
+          default: other
+          examples:
+          - pcm_s16le_16
+          - other
+      type: object
+      required:
+      - audio
+      title: Body_Audio_Isolation_Stream_v1_audio_isolation_stream_post
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    Body_Audio_Isolation_v1_audio_isolation_post:
+      properties:
+        audio:
+          type: string
+          title: Audio
+          description: The audio file from which vocals/speech will be isolated from.
+          format: binary
+        file_format:
+          anyOf:
+          - type: string
+            enum:
+            - pcm_s16le_16
+            - other
+          - type: 'null'
+          title: File Format
+          description: The format of input audio. Options are 'pcm_s16le_16' or 'other' For `pcm_s16le_16`, the input audio must be 16-bit PCM at a 16kHz sample rate, single channel (mono), and little-endian byte order. Latency will be lower than with passing an encoded waveform.
+          default: other
+          examples:
+          - pcm_s16le_16
+          - other
+        preview_b64:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Preview B64
+          description: Optional preview image base64 for tracking this generation.
+      type: object
+      required:
+      - audio
+      title: Body_Audio_Isolation_v1_audio_isolation_post

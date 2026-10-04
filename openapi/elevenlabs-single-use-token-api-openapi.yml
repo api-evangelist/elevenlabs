@@ -58,6 +58,18 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    SingleUseTokenResponseModel:
+      properties:
+        token:
+          type: string
+          title: Token
+          description: A time bound single use token that expires after 15 minutes. Will be consumed on use.
+      type: object
+      required:
+      - token
+      title: SingleUseTokenResponseModel
+      example:
+        token: sutkn_1234567890
     ValidationError:
       properties:
         loc:
@@ -86,15 +98,3 @@ components:
       - batch_scribe
       - tts_websocket
       title: SingleUseTokenType
-    SingleUseTokenResponseModel:
-      properties:
-        token:
-          type: string
-          title: Token
-          description: A time bound single use token that expires after 15 minutes. Will be consumed on use.
-      type: object
-      required:
-      - token
-      title: SingleUseTokenResponseModel
-      example:
-        token: sutkn_1234567890

@@ -483,74 +483,7 @@ paths:
       x-fern-sdk-method-name: list
 components:
   schemas:
-    ? Body_Remove_rules_from_the_pronunciation_dictionary_v1_pronunciation_dictionaries__pronunciation_dictionary_id__remove_rules_post
-    : properties:
-        rule_strings:
-          items:
-            type: string
-          type: array
-          title: Rule Strings
-          description: List of strings to remove from the pronunciation dictionary.
-          examples:
-          - '[''a'', ''b'']'
-      type: object
-      required:
-      - rule_strings
-      title: Body_Remove_rules_from_the_pronunciation_dictionary_v1_pronunciation_dictionaries__pronunciation_dictionary_id__remove_rules_post
-    Body_Add_a_pronunciation_dictionary_v1_pronunciation_dictionaries_add_from_rules_post:
-      properties:
-        rules:
-          items:
-            anyOf:
-            - $ref: '#/components/schemas/PronunciationDictionaryAliasRuleRequestModel'
-            - $ref: '#/components/schemas/PronunciationDictionaryPhonemeRuleRequestModel'
-          type: array
-          title: Rules
-          description: "List of pronunciation rules. Rule can be either:\n    an alias rule: {'string_to_replace': 'a', 'type': 'alias', 'alias': 'b', }\n    or a phoneme rule: {'string_to_replace': 'a', 'type': 'phoneme', 'phoneme': 'b', 'alphabet': 'ipa' }"
-          examples:
-          - "\n    [\n        {'string_to_replace': 'a', 'type': 'alias', 'alias': 'b' },\n        {'string_to_replace': 'c', 'type': 'phoneme', 'phoneme': 'd', 'alphabet': 'ipa' }\n    ]"
-        name:
-          type: string
-          title: Name
-          description: The name of the pronunciation dictionary, used for identification only.
-          examples:
-          - My Dictionary
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-          description: A description of the pronunciation dictionary, used for identification only.
-          examples:
-          - Contains pronunciation's of our character names
-        workspace_access:
-          anyOf:
-          - type: string
-            enum:
-            - admin
-            - editor
-            - commenter
-            - viewer
-          - type: 'null'
-          title: Workspace Access
-          description: Should be one of 'admin', 'editor' or 'viewer'. If not provided, defaults to no access.
-          examples:
-          - viewer
-      type: object
-      required:
-      - rules
-      - name
-      title: Body_Add_a_pronunciation_dictionary_v1_pronunciation_dictionaries_add_from_rules_post
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    PronunciationDictionaryPhonemeRuleRequestModel:
+    PronunciationDictionaryAliasRuleRequestModel:
       properties:
         string_to_replace:
           type: string
@@ -568,79 +501,63 @@ components:
           default: true
         type:
           type: string
-          const: phoneme
+          const: alias
           title: Type
           description: The type of the rule.
-        phoneme:
+        alias:
           type: string
-          title: Phoneme
-          description: The phoneme rule.
-        alphabet:
-          type: string
-          title: Alphabet
-          description: The alphabet to use with the phoneme rule.
+          title: Alias
+          description: The alias for the string to be replaced.
       type: object
       required:
       - string_to_replace
       - type
-      - phoneme
-      - alphabet
-      title: PronunciationDictionaryPhonemeRuleRequestModel
+      - alias
+      title: PronunciationDictionaryAliasRuleRequestModel
       example:
-        alphabet: ipa
+        alias: tie-land
         case_sensitive: true
-        phoneme: /ˈtaɪ.lænd/
         string_to_replace: Thailand
-        type: phoneme
+        type: alias
         word_boundaries: true
-    Body_Add_rules_to_the_pronunciation_dictionary_v1_pronunciation_dictionaries__pronunciation_dictionary_id__add_rules_post:
+    PronunciationDictionaryRulesResponseModel:
       properties:
-        rules:
+        id:
+          type: string
+          title: Id
+          description: The ID of the pronunciation dictionary.
+        version_id:
+          type: string
+          title: Version Id
+          description: The version ID of the pronunciation dictionary.
+        version_rules_num:
+          type: integer
+          title: Version Rules Num
+          description: The number of rules in the version of the pronunciation dictionary.
+      type: object
+      required:
+      - id
+      - version_id
+      - version_rules_num
+      title: PronunciationDictionaryRulesResponseModel
+      example:
+        id: 5xM3yVvZQKV0EfqQpLrJ
+        version_id: 5xM3yVvZQKV0EfqQpLr2
+        version_rules_num: 5
+    ? Body_Remove_rules_from_the_pronunciation_dictionary_v1_pronunciation_dictionaries__pronunciation_dictionary_id__remove_rules_post
+    : properties:
+        rule_strings:
           items:
-            anyOf:
-            - $ref: '#/components/schemas/PronunciationDictionaryAliasRuleRequestModel'
-            - $ref: '#/components/schemas/PronunciationDictionaryPhonemeRuleRequestModel'
+            type: string
           type: array
-          title: Rules
-          description: "List of pronunciation rules. Rule can be either:\n    an alias rule: {'string_to_replace': 'a', 'type': 'alias', 'alias': 'b', }\n    or a phoneme rule: {'string_to_replace': 'a', 'type': 'phoneme', 'phoneme': 'b', 'alphabet': 'ipa' }"
+          title: Rule Strings
+          description: List of strings to remove from the pronunciation dictionary.
           examples:
-          - "\n    [\n        {'string_to_replace': 'a', 'type': 'alias', 'alias': 'b' },\n        {'string_to_replace': 'c', 'type': 'phoneme', 'phoneme': 'd', 'alphabet': 'ipa' }\n    ]"
+          - '[''a'', ''b'']'
       type: object
       required:
-      - rules
-      title: Body_Add_rules_to_the_pronunciation_dictionary_v1_pronunciation_dictionaries__pronunciation_dictionary_id__add_rules_post
-    PronunciationDictionaryPhonemeRuleResponseModel:
-      properties:
-        string_to_replace:
-          type: string
-          title: String To Replace
-        case_sensitive:
-          type: boolean
-          title: Case Sensitive
-          description: Whether the rule matches case-sensitively.
-          default: true
-        word_boundaries:
-          type: boolean
-          title: Word Boundaries
-          description: Whether the rule only matches at word boundaries.
-          default: true
-        type:
-          type: string
-          const: phoneme
-          title: Type
-        phoneme:
-          type: string
-          title: Phoneme
-        alphabet:
-          type: string
-          title: Alphabet
-      type: object
-      required:
-      - string_to_replace
-      - type
-      - phoneme
-      - alphabet
-      title: PronunciationDictionaryPhonemeRuleResponseModel
+      - rule_strings
+      title: Body_Remove_rules_from_the_pronunciation_dictionary_v1_pronunciation_dictionaries__pronunciation_dictionary_id__remove_rules_post
     GetPronunciationDictionaryMetadataResponseModel:
       properties:
         id:
@@ -709,120 +626,6 @@ components:
         latest_version_rules_num: 2
         name: My Dictionary
         permission_on_resource: admin
-    PronunciationDictionaryRulesResponseModel:
-      properties:
-        id:
-          type: string
-          title: Id
-          description: The ID of the pronunciation dictionary.
-        version_id:
-          type: string
-          title: Version Id
-          description: The version ID of the pronunciation dictionary.
-        version_rules_num:
-          type: integer
-          title: Version Rules Num
-          description: The number of rules in the version of the pronunciation dictionary.
-      type: object
-      required:
-      - id
-      - version_id
-      - version_rules_num
-      title: PronunciationDictionaryRulesResponseModel
-      example:
-        id: 5xM3yVvZQKV0EfqQpLrJ
-        version_id: 5xM3yVvZQKV0EfqQpLr2
-        version_rules_num: 5
-    Body_Update_pronunciation_dictionary_v1_pronunciation_dictionaries__pronunciation_dictionary_id__patch:
-      properties:
-        archived:
-          type: boolean
-          title: Archived
-          description: Whether to archive the pronunciation dictionary.
-          examples:
-          - true
-        name:
-          type: string
-          title: Name
-          description: The name of the pronunciation dictionary, used for identification only.
-          examples:
-          - My Dictionary
-      type: object
-      title: Body_Update_pronunciation_dictionary_v1_pronunciation_dictionaries__pronunciation_dictionary_id__patch
-    PronunciationDictionaryAliasRuleRequestModel:
-      properties:
-        string_to_replace:
-          type: string
-          title: String To Replace
-          description: The string to replace. Must be a non-empty string.
-        case_sensitive:
-          type: boolean
-          title: Case Sensitive
-          description: Whether the rule should match case-sensitively.
-          default: true
-        word_boundaries:
-          type: boolean
-          title: Word Boundaries
-          description: Whether the rule should only match at word boundaries.
-          default: true
-        type:
-          type: string
-          const: alias
-          title: Type
-          description: The type of the rule.
-        alias:
-          type: string
-          title: Alias
-          description: The alias for the string to be replaced.
-      type: object
-      required:
-      - string_to_replace
-      - type
-      - alias
-      title: PronunciationDictionaryAliasRuleRequestModel
-      example:
-        alias: tie-land
-        case_sensitive: true
-        string_to_replace: Thailand
-        type: alias
-        word_boundaries: true
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    Body_Set_rules_on_the_pronunciation_dictionary_v1_pronunciation_dictionaries__pronunciation_dictionary_id__set_rules_post:
-      properties:
-        rules:
-          items:
-            anyOf:
-            - $ref: '#/components/schemas/PronunciationDictionaryAliasRuleRequestModel'
-            - $ref: '#/components/schemas/PronunciationDictionaryPhonemeRuleRequestModel'
-          type: array
-          title: Rules
-          description: "List of pronunciation rules. Rule can be either:\n    an alias rule: {'string_to_replace': 'a', 'type': 'alias', 'alias': 'b', }\n    or a phoneme rule: {'string_to_replace': 'a', 'type': 'phoneme', 'phoneme': 'b', 'alphabet': 'ipa' }"
-          examples:
-          - "\n    [\n        {'string_to_replace': 'a', 'type': 'alias', 'alias': 'b' },\n        {'string_to_replace': 'c', 'type': 'phoneme', 'phoneme': 'd', 'alphabet': 'ipa' }\n    ]"
-      type: object
-      required:
-      - rules
-      title: Body_Set_rules_on_the_pronunciation_dictionary_v1_pronunciation_dictionaries__pronunciation_dictionary_id__set_rules_post
     PronunciationDictionaryAliasRuleResponseModel:
       properties:
         string_to_replace:
@@ -851,6 +654,111 @@ components:
       - type
       - alias
       title: PronunciationDictionaryAliasRuleResponseModel
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    PronunciationDictionaryPhonemeRuleResponseModel:
+      properties:
+        string_to_replace:
+          type: string
+          title: String To Replace
+        case_sensitive:
+          type: boolean
+          title: Case Sensitive
+          description: Whether the rule matches case-sensitively.
+          default: true
+        word_boundaries:
+          type: boolean
+          title: Word Boundaries
+          description: Whether the rule only matches at word boundaries.
+          default: true
+        type:
+          type: string
+          const: phoneme
+          title: Type
+        phoneme:
+          type: string
+          title: Phoneme
+        alphabet:
+          type: string
+          title: Alphabet
+      type: object
+      required:
+      - string_to_replace
+      - type
+      - phoneme
+      - alphabet
+      title: PronunciationDictionaryPhonemeRuleResponseModel
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    PronunciationDictionaryPhonemeRuleRequestModel:
+      properties:
+        string_to_replace:
+          type: string
+          title: String To Replace
+          description: The string to replace. Must be a non-empty string.
+        case_sensitive:
+          type: boolean
+          title: Case Sensitive
+          description: Whether the rule should match case-sensitively.
+          default: true
+        word_boundaries:
+          type: boolean
+          title: Word Boundaries
+          description: Whether the rule should only match at word boundaries.
+          default: true
+        type:
+          type: string
+          const: phoneme
+          title: Type
+          description: The type of the rule.
+        phoneme:
+          type: string
+          title: Phoneme
+          description: The phoneme rule.
+        alphabet:
+          type: string
+          title: Alphabet
+          description: The alphabet to use with the phoneme rule.
+      type: object
+      required:
+      - string_to_replace
+      - type
+      - phoneme
+      - alphabet
+      title: PronunciationDictionaryPhonemeRuleRequestModel
+      example:
+        alphabet: ipa
+        case_sensitive: true
+        phoneme: /ˈtaɪ.lænd/
+        string_to_replace: Thailand
+        type: phoneme
+        word_boundaries: true
     GetPronunciationDictionaryWithRulesResponseModel:
       properties:
         id:
@@ -936,46 +844,6 @@ components:
           phoneme: /təˈmeɪtoʊ/
           string_to_replace: Tomato
           type: phoneme
-    Body_Add_a_pronunciation_dictionary_v1_pronunciation_dictionaries_add_from_file_post:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: The name of the pronunciation dictionary, used for identification only.
-          examples:
-          - My Dictionary
-        file:
-          anyOf:
-          - type: string
-            format: binary
-          - type: 'null'
-          title: File
-          description: A lexicon .pls file which we will use to initialize the project with.
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-          description: A description of the pronunciation dictionary, used for identification only.
-          examples:
-          - Contains pronunciation's of our character names
-        workspace_access:
-          anyOf:
-          - type: string
-            enum:
-            - admin
-            - editor
-            - commenter
-            - viewer
-          - type: 'null'
-          title: Workspace Access
-          description: Should be one of 'admin', 'editor' or 'viewer'. If not provided, defaults to no access.
-          examples:
-          - viewer
-      type: object
-      required:
-      - name
-      title: Body_Add_a_pronunciation_dictionary_v1_pronunciation_dictionaries_add_from_file_post
     AddPronunciationDictionaryResponseModel:
       properties:
         id:
@@ -1073,3 +941,135 @@ components:
           latest_version_rules_num: 2
           name: My Dictionary
           permission_on_resource: admin
+    Body_Add_a_pronunciation_dictionary_v1_pronunciation_dictionaries_add_from_rules_post:
+      properties:
+        rules:
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/PronunciationDictionaryAliasRuleRequestModel'
+            - $ref: '#/components/schemas/PronunciationDictionaryPhonemeRuleRequestModel'
+          type: array
+          title: Rules
+          description: "List of pronunciation rules. Rule can be either:\n    an alias rule: {'string_to_replace': 'a', 'type': 'alias', 'alias': 'b', }\n    or a phoneme rule: {'string_to_replace': 'a', 'type': 'phoneme', 'phoneme': 'b', 'alphabet': 'ipa' }"
+          examples:
+          - "\n    [\n        {'string_to_replace': 'a', 'type': 'alias', 'alias': 'b' },\n        {'string_to_replace': 'c', 'type': 'phoneme', 'phoneme': 'd', 'alphabet': 'ipa' }\n    ]"
+        name:
+          type: string
+          title: Name
+          description: The name of the pronunciation dictionary, used for identification only.
+          examples:
+          - My Dictionary
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: A description of the pronunciation dictionary, used for identification only.
+          examples:
+          - Contains pronunciation's of our character names
+        workspace_access:
+          anyOf:
+          - type: string
+            enum:
+            - admin
+            - editor
+            - commenter
+            - viewer
+          - type: 'null'
+          title: Workspace Access
+          description: Should be one of 'admin', 'editor' or 'viewer'. If not provided, defaults to no access.
+          examples:
+          - viewer
+      type: object
+      required:
+      - rules
+      - name
+      title: Body_Add_a_pronunciation_dictionary_v1_pronunciation_dictionaries_add_from_rules_post
+    Body_Add_a_pronunciation_dictionary_v1_pronunciation_dictionaries_add_from_file_post:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: The name of the pronunciation dictionary, used for identification only.
+          examples:
+          - My Dictionary
+        file:
+          anyOf:
+          - type: string
+            format: binary
+          - type: 'null'
+          title: File
+          description: A lexicon .pls file which we will use to initialize the project with.
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: A description of the pronunciation dictionary, used for identification only.
+          examples:
+          - Contains pronunciation's of our character names
+        workspace_access:
+          anyOf:
+          - type: string
+            enum:
+            - admin
+            - editor
+            - commenter
+            - viewer
+          - type: 'null'
+          title: Workspace Access
+          description: Should be one of 'admin', 'editor' or 'viewer'. If not provided, defaults to no access.
+          examples:
+          - viewer
+      type: object
+      required:
+      - name
+      title: Body_Add_a_pronunciation_dictionary_v1_pronunciation_dictionaries_add_from_file_post
+    Body_Add_rules_to_the_pronunciation_dictionary_v1_pronunciation_dictionaries__pronunciation_dictionary_id__add_rules_post:
+      properties:
+        rules:
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/PronunciationDictionaryAliasRuleRequestModel'
+            - $ref: '#/components/schemas/PronunciationDictionaryPhonemeRuleRequestModel'
+          type: array
+          title: Rules
+          description: "List of pronunciation rules. Rule can be either:\n    an alias rule: {'string_to_replace': 'a', 'type': 'alias', 'alias': 'b', }\n    or a phoneme rule: {'string_to_replace': 'a', 'type': 'phoneme', 'phoneme': 'b', 'alphabet': 'ipa' }"
+          examples:
+          - "\n    [\n        {'string_to_replace': 'a', 'type': 'alias', 'alias': 'b' },\n        {'string_to_replace': 'c', 'type': 'phoneme', 'phoneme': 'd', 'alphabet': 'ipa' }\n    ]"
+      type: object
+      required:
+      - rules
+      title: Body_Add_rules_to_the_pronunciation_dictionary_v1_pronunciation_dictionaries__pronunciation_dictionary_id__add_rules_post
+    Body_Update_pronunciation_dictionary_v1_pronunciation_dictionaries__pronunciation_dictionary_id__patch:
+      properties:
+        archived:
+          type: boolean
+          title: Archived
+          description: Whether to archive the pronunciation dictionary.
+          examples:
+          - true
+        name:
+          type: string
+          title: Name
+          description: The name of the pronunciation dictionary, used for identification only.
+          examples:
+          - My Dictionary
+      type: object
+      title: Body_Update_pronunciation_dictionary_v1_pronunciation_dictionaries__pronunciation_dictionary_id__patch
+    Body_Set_rules_on_the_pronunciation_dictionary_v1_pronunciation_dictionaries__pronunciation_dictionary_id__set_rules_post:
+      properties:
+        rules:
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/PronunciationDictionaryAliasRuleRequestModel'
+            - $ref: '#/components/schemas/PronunciationDictionaryPhonemeRuleRequestModel'
+          type: array
+          title: Rules
+          description: "List of pronunciation rules. Rule can be either:\n    an alias rule: {'string_to_replace': 'a', 'type': 'alias', 'alias': 'b', }\n    or a phoneme rule: {'string_to_replace': 'a', 'type': 'phoneme', 'phoneme': 'b', 'alphabet': 'ipa' }"
+          examples:
+          - "\n    [\n        {'string_to_replace': 'a', 'type': 'alias', 'alias': 'b' },\n        {'string_to_replace': 'c', 'type': 'phoneme', 'phoneme': 'd', 'alphabet': 'ipa' }\n    ]"
+      type: object
+      required:
+      - rules
+      title: Body_Set_rules_on_the_pronunciation_dictionary_v1_pronunciation_dictionaries__pronunciation_dictionary_id__set_rules_post

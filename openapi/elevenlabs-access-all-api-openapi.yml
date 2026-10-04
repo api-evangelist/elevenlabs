@@ -91,115 +91,6 @@ paths:
       x-fern-sdk-method-name: get
 components:
   schemas:
-    ColumnFilter:
-      properties:
-        column:
-          type: string
-          title: Column
-        operation:
-          type: string
-          enum:
-          - in
-          - not_in
-          - le
-          - ge
-          - lt
-          - gt
-          - eq
-          - neq
-          title: Operation
-        values:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-            - type: number
-            - type: string
-              format: date-time
-            - type: boolean
-            - type: 'null'
-          type: array
-          title: Values
-      type: object
-      required:
-      - column
-      - operation
-      - values
-      title: ColumnFilter
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    WorkspaceAnalyticsQueryResponseModel:
-      properties:
-        columns:
-          items:
-            type: string
-          type: array
-          title: Columns
-        column_types:
-          items:
-            type: string
-            enum:
-            - String
-            - Float
-            - DateTime
-            - Int
-            - Bool
-            - JSON
-            - Map
-            - Array
-          type: array
-          title: Column Types
-        rows:
-          items:
-            items:
-              anyOf:
-              - type: string
-              - type: integer
-              - type: number
-              - type: boolean
-              - type: string
-                format: date-time
-              - type: 'null'
-            type: array
-          type: array
-          title: Rows
-        column_units:
-          items:
-            anyOf:
-            - $ref: '#/components/schemas/ColumnUnit'
-            - type: 'null'
-          type: array
-          title: Column Units
-      type: object
-      required:
-      - columns
-      - column_types
-      - rows
-      - column_units
-      title: WorkspaceAnalyticsQueryResponseModel
-    ColumnUnit:
-      type: string
-      enum:
-      - ms
-      - s
-      - min
-      - duration
-      - credits
-      - usd
-      - eur
-      - inr
-      - pln
-      - gbp
-      - ratio
-      - rating
-      title: ColumnUnit
     ValidationError:
       properties:
         loc:
@@ -266,6 +157,115 @@ components:
           title: Search
       type: object
       title: Body_List_API_requests_v1_workspace_analytics_requests_post
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ColumnUnit:
+      type: string
+      enum:
+      - ms
+      - s
+      - min
+      - duration
+      - credits
+      - usd
+      - eur
+      - inr
+      - pln
+      - gbp
+      - ratio
+      - rating
+      title: ColumnUnit
+    ColumnFilter:
+      properties:
+        column:
+          type: string
+          title: Column
+        operation:
+          type: string
+          enum:
+          - in
+          - not_in
+          - le
+          - ge
+          - lt
+          - gt
+          - eq
+          - neq
+          title: Operation
+        values:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+            - type: number
+            - type: string
+              format: date-time
+            - type: boolean
+            - type: 'null'
+          type: array
+          title: Values
+      type: object
+      required:
+      - column
+      - operation
+      - values
+      title: ColumnFilter
+    WorkspaceAnalyticsQueryResponseModel:
+      properties:
+        columns:
+          items:
+            type: string
+          type: array
+          title: Columns
+        column_types:
+          items:
+            type: string
+            enum:
+            - String
+            - Float
+            - DateTime
+            - Int
+            - Bool
+            - JSON
+            - Map
+            - Array
+          type: array
+          title: Column Types
+        rows:
+          items:
+            items:
+              anyOf:
+              - type: string
+              - type: integer
+              - type: number
+              - type: boolean
+              - type: string
+                format: date-time
+              - type: 'null'
+            type: array
+          type: array
+          title: Rows
+        column_units:
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/ColumnUnit'
+            - type: 'null'
+          type: array
+          title: Column Units
+      type: object
+      required:
+      - columns
+      - column_types
+      - rows
+      - column_units
+      title: WorkspaceAnalyticsQueryResponseModel
     Body_Get_Workspace_Usage_v1_workspace_analytics_query_usage_by_product_over_time_post:
       properties:
         start_time:

@@ -48,31 +48,6 @@ paths:
       x-fern-sdk-method-name: create
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    Body_Create_forced_alignment_v1_forced_alignment_post:
-      properties:
-        file:
-          type: string
-          title: File
-          description: The file to align. All major audio formats are supported. The file size must be less than 1GB.
-          format: binary
-        text:
-          type: string
-          title: Text
-          description: The text to align with the audio. The input text can be in any format, however diarization is not supported at this time.
-      type: object
-      required:
-      - file
-      - text
-      title: Body_Create_forced_alignment_v1_forced_alignment_post
     ForcedAlignmentWordResponseModel:
       properties:
         text:
@@ -104,31 +79,6 @@ components:
         loss: 0.12
         start: 0.0
         text: Hello
-    ForcedAlignmentResponseModel:
-      properties:
-        characters:
-          items:
-            $ref: '#/components/schemas/ForcedAlignmentCharacterResponseModel'
-          type: array
-          title: Characters
-          description: List of characters with their timing information.
-        words:
-          items:
-            $ref: '#/components/schemas/ForcedAlignmentWordResponseModel'
-          type: array
-          title: Words
-          description: List of words with their timing information.
-        loss:
-          type: number
-          title: Loss
-          description: The average alignment loss/confidence score for the entire transcript, calculated from all characters.
-      type: object
-      required:
-      - characters
-      - words
-      - loss
-      title: ForcedAlignmentResponseModel
-      description: Model representing the response from the aligner service.
     ValidationError:
       properties:
         loc:
@@ -150,6 +100,22 @@ components:
       - msg
       - type
       title: ValidationError
+    Body_Create_forced_alignment_v1_forced_alignment_post:
+      properties:
+        file:
+          type: string
+          title: File
+          description: The file to align. All major audio formats are supported. The file size must be less than 1GB.
+          format: binary
+        text:
+          type: string
+          title: Text
+          description: The text to align with the audio. The input text can be in any format, however diarization is not supported at this time.
+      type: object
+      required:
+      - file
+      - text
+      title: Body_Create_forced_alignment_v1_forced_alignment_post
     ForcedAlignmentCharacterResponseModel:
       properties:
         text:
@@ -175,3 +141,37 @@ components:
         end: 0.02
         start: 0.0
         text: H
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ForcedAlignmentResponseModel:
+      properties:
+        characters:
+          items:
+            $ref: '#/components/schemas/ForcedAlignmentCharacterResponseModel'
+          type: array
+          title: Characters
+          description: List of characters with their timing information.
+        words:
+          items:
+            $ref: '#/components/schemas/ForcedAlignmentWordResponseModel'
+          type: array
+          title: Words
+          description: List of words with their timing information.
+        loss:
+          type: number
+          title: Loss
+          description: The average alignment loss/confidence score for the entire transcript, calculated from all characters.
+      type: object
+      required:
+      - characters
+      - words
+      - loss
+      title: ForcedAlignmentResponseModel
+      description: Model representing the response from the aligner service.

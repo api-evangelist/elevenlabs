@@ -336,6 +336,40 @@ paths:
       x-fern-sdk-method-name: download
 components:
   schemas:
+    HistoryAlignmentsResponseModel:
+      properties:
+        alignment:
+          $ref: '#/components/schemas/HistoryAlignmentResponseModel'
+          description: The alignment of the text.
+        normalized_alignment:
+          $ref: '#/components/schemas/HistoryAlignmentResponseModel'
+          description: The normalized alignment of the text.
+      type: object
+      required:
+      - alignment
+      - normalized_alignment
+      title: HistoryAlignmentsResponseModel
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     HTTPValidationError:
       properties:
         detail:
@@ -494,59 +528,32 @@ components:
         voice_category: premade
         voice_id: 21m00Tcm4TlvDq8ikWAM
         voice_name: Rachel
-    DialogueInputResponseModel:
+    HistoryAlignmentResponseModel:
       properties:
-        text:
-          type: string
-          title: Text
-          description: The text of the dialogue input line.
-        voice_id:
-          type: string
-          title: Voice Id
-          description: The ID of the voice used for this dialogue input line.
-        voice_name:
-          type: string
-          title: Voice Name
-          description: The name of the voice used for this dialogue input line.
-      type: object
-      required:
-      - text
-      - voice_id
-      - voice_name
-      title: DialogueInputResponseModel
-    DeleteHistoryItemResponse:
-      properties:
-        status:
-          type: string
-          title: Status
-          description: The status of the deletion request. If the request was successful, the status will be 'ok'. Otherwise an error message with http code 500 will be returned.
-      type: object
-      required:
-      - status
-      title: DeleteHistoryItemResponse
-      example:
-        status: ok
-    ValidationError:
-      properties:
-        loc:
+        characters:
           items:
-            anyOf:
-            - type: string
-            - type: integer
+            type: string
           type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
+          title: Characters
+          description: The characters in the alignment.
+        character_start_times_seconds:
+          items:
+            type: number
+          type: array
+          title: Character Start Times Seconds
+          description: The start times of the characters in seconds.
+        character_end_times_seconds:
+          items:
+            type: number
+          type: array
+          title: Character End Times Seconds
+          description: The end times of the characters in seconds.
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - characters
+      - character_start_times_seconds
+      - character_end_times_seconds
+      title: HistoryAlignmentResponseModel
     GetSpeechHistoryResponseModel:
       properties:
         history:
@@ -599,45 +606,18 @@ components:
           voice_name: Rachel
         last_history_item_id: ja9xsmfGhxYcymxGcOGB
         scanned_until: 1714650306
-    HistoryAlignmentResponseModel:
+    DeleteHistoryItemResponse:
       properties:
-        characters:
-          items:
-            type: string
-          type: array
-          title: Characters
-          description: The characters in the alignment.
-        character_start_times_seconds:
-          items:
-            type: number
-          type: array
-          title: Character Start Times Seconds
-          description: The start times of the characters in seconds.
-        character_end_times_seconds:
-          items:
-            type: number
-          type: array
-          title: Character End Times Seconds
-          description: The end times of the characters in seconds.
+        status:
+          type: string
+          title: Status
+          description: The status of the deletion request. If the request was successful, the status will be 'ok'. Otherwise an error message with http code 500 will be returned.
       type: object
       required:
-      - characters
-      - character_start_times_seconds
-      - character_end_times_seconds
-      title: HistoryAlignmentResponseModel
-    HistoryAlignmentsResponseModel:
-      properties:
-        alignment:
-          $ref: '#/components/schemas/HistoryAlignmentResponseModel'
-          description: The alignment of the text.
-        normalized_alignment:
-          $ref: '#/components/schemas/HistoryAlignmentResponseModel'
-          description: The normalized alignment of the text.
-      type: object
-      required:
-      - alignment
-      - normalized_alignment
-      title: HistoryAlignmentsResponseModel
+      - status
+      title: DeleteHistoryItemResponse
+      example:
+        status: ok
     Body_Download_history_items_v1_history_download_post:
       properties:
         history_item_ids:
@@ -656,3 +636,23 @@ components:
       required:
       - history_item_ids
       title: Body_Download_history_items_v1_history_download_post
+    DialogueInputResponseModel:
+      properties:
+        text:
+          type: string
+          title: Text
+          description: The text of the dialogue input line.
+        voice_id:
+          type: string
+          title: Voice Id
+          description: The ID of the voice used for this dialogue input line.
+        voice_name:
+          type: string
+          title: Voice Name
+          description: The name of the voice used for this dialogue input line.
+      type: object
+      required:
+      - text
+      - voice_id
+      - voice_name
+      title: DialogueInputResponseModel

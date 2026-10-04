@@ -178,190 +178,6 @@ paths:
       x-fern-sdk-method-name: update_content_from_url
 components:
   schemas:
-    GetAudioNativeProjectSettingsResponseModel:
-      properties:
-        enabled:
-          type: boolean
-          title: Enabled
-          description: Whether the project is enabled.
-        snapshot_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Snapshot Id
-          description: The ID of the latest snapshot of the project.
-        settings:
-          anyOf:
-          - $ref: '#/components/schemas/AudioNativeProjectSettingsResponseModel'
-          - type: 'null'
-          description: The settings of the project.
-      type: object
-      required:
-      - enabled
-      title: GetAudioNativeProjectSettingsResponseModel
-      example:
-        enabled: true
-        settings:
-          audio_path: audio/my_project.mp3
-          audio_url: https://example.com/audio/my_project.mp3
-          author: John Doe
-          background_color: '#FFFFFF'
-          image: https://example.com/image.jpg
-          sessionization: 1
-          small: false
-          status: ready
-          text_color: '#000000'
-          title: My Project
-        snapshot_id: JBFqnCBsd6RMkjVDRZzb
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    AudioNativeCreateProjectResponseModel:
-      properties:
-        project_id:
-          type: string
-          title: Project Id
-          description: The ID of the created Audio Native project.
-        converting:
-          type: boolean
-          title: Converting
-          description: Whether the project is currently being converted.
-        html_snippet:
-          type: string
-          title: Html Snippet
-          description: The HTML snippet to embed the Audio Native player.
-      type: object
-      required:
-      - project_id
-      - converting
-      - html_snippet
-      title: AudioNativeCreateProjectResponseModel
-      example:
-        converting: false
-        html_snippet: <div id='audio-native-player'></div>
-        project_id: JBFqnCBsd6RMkjVDRZzb
-    Body_Update_audio_native_content_from_URL_v1_audio_native_content_post:
-      properties:
-        url:
-          type: string
-          title: Url
-          description: URL of the page to extract content from.
-          examples:
-          - https://elevenlabs.io/blog/the_first_ai_that_can_laugh/
-        author:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Author
-          description: Author used in the player and inserted at the start of the uploaded article. If not provided, the default author set in the Player settings is used.
-        title:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Title
-          description: Title used in the player and inserted at the top of the uploaded article. If not provided, the default title set in the Player settings is used.
-      type: object
-      required:
-      - url
-      title: Body_Update_audio_native_content_from_URL_v1_audio_native_content_post
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    AudioNativeProjectSettingsResponseModel:
-      properties:
-        title:
-          type: string
-          title: Title
-          description: The title of the project.
-        image:
-          type: string
-          title: Image
-          description: The image of the project.
-        author:
-          type: string
-          title: Author
-          description: The author of the project.
-        small:
-          type: boolean
-          title: Small
-          description: Whether the project is small.
-        text_color:
-          type: string
-          title: Text Color
-          description: The text color of the project.
-        background_color:
-          type: string
-          title: Background Color
-          description: The background color of the project.
-        sessionization:
-          type: integer
-          title: Sessionization
-          description: The sessionization of the project. Specifies for how many minutes to persist the session across page reloads.
-        audio_path:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Audio Path
-          description: The path of the audio file.
-        audio_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Audio Url
-          description: The URL of the audio file.
-        status:
-          type: string
-          enum:
-          - processing
-          - ready
-          title: Status
-          description: Current state of the project
-          default: ready
-      type: object
-      required:
-      - title
-      - image
-      - author
-      - small
-      - text_color
-      - background_color
-      - sessionization
-      title: AudioNativeProjectSettingsResponseModel
-      example:
-        audio_path: audio/my_project.mp3
-        audio_url: https://example.com/audio/my_project.mp3
-        author: John Doe
-        background_color: '#FFFFFF'
-        image: https://example.com/image.jpg
-        sessionization: 1
-        small: false
-        status: ready
-        text_color: '#000000'
-        title: My Project
     Body_Creates_Audio_Native_enabled_project__v1_audio_native_post:
       properties:
         name:
@@ -456,6 +272,209 @@ components:
       required:
       - name
       title: Body_Creates_Audio_Native_enabled_project__v1_audio_native_post
+    Body_Update_audio_native_Project_content_v1_audio_native__project_id__content_post:
+      properties:
+        file:
+          type: string
+          title: File
+          description: Either txt or HTML input file containing the article content. HTML should be formatted as follows '&lt;html&gt;&lt;body&gt;&lt;div&gt;&lt;p&gt;Your content&lt;/p&gt;&lt;h5&gt;More of your content&lt;/h5&gt;&lt;p&gt;Some more of your content&lt;/p&gt;&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;'
+          format: binary
+        auto_convert:
+          type: boolean
+          title: Auto Convert
+          description: Whether to auto convert the project to audio or not.
+          default: false
+        auto_publish:
+          type: boolean
+          title: Auto Publish
+          description: Whether to auto publish the new project snapshot after it's converted.
+          default: false
+      type: object
+      title: Body_Update_audio_native_Project_content_v1_audio_native__project_id__content_post
+    GetAudioNativeProjectSettingsResponseModel:
+      properties:
+        enabled:
+          type: boolean
+          title: Enabled
+          description: Whether the project is enabled.
+        snapshot_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Snapshot Id
+          description: The ID of the latest snapshot of the project.
+        settings:
+          anyOf:
+          - $ref: '#/components/schemas/AudioNativeProjectSettingsResponseModel'
+          - type: 'null'
+          description: The settings of the project.
+      type: object
+      required:
+      - enabled
+      title: GetAudioNativeProjectSettingsResponseModel
+      example:
+        enabled: true
+        settings:
+          audio_path: audio/my_project.mp3
+          audio_url: https://example.com/audio/my_project.mp3
+          author: John Doe
+          background_color: '#FFFFFF'
+          image: https://example.com/image.jpg
+          sessionization: 1
+          small: false
+          status: ready
+          text_color: '#000000'
+          title: My Project
+        snapshot_id: JBFqnCBsd6RMkjVDRZzb
+    AudioNativeProjectSettingsResponseModel:
+      properties:
+        title:
+          type: string
+          title: Title
+          description: The title of the project.
+        image:
+          type: string
+          title: Image
+          description: The image of the project.
+        author:
+          type: string
+          title: Author
+          description: The author of the project.
+        small:
+          type: boolean
+          title: Small
+          description: Whether the project is small.
+        text_color:
+          type: string
+          title: Text Color
+          description: The text color of the project.
+        background_color:
+          type: string
+          title: Background Color
+          description: The background color of the project.
+        sessionization:
+          type: integer
+          title: Sessionization
+          description: The sessionization of the project. Specifies for how many minutes to persist the session across page reloads.
+        audio_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Audio Path
+          description: The path of the audio file.
+        audio_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Audio Url
+          description: The URL of the audio file.
+        status:
+          type: string
+          enum:
+          - processing
+          - ready
+          title: Status
+          description: Current state of the project
+          default: ready
+      type: object
+      required:
+      - title
+      - image
+      - author
+      - small
+      - text_color
+      - background_color
+      - sessionization
+      title: AudioNativeProjectSettingsResponseModel
+      example:
+        audio_path: audio/my_project.mp3
+        audio_url: https://example.com/audio/my_project.mp3
+        author: John Doe
+        background_color: '#FFFFFF'
+        image: https://example.com/image.jpg
+        sessionization: 1
+        small: false
+        status: ready
+        text_color: '#000000'
+        title: My Project
+    AudioNativeCreateProjectResponseModel:
+      properties:
+        project_id:
+          type: string
+          title: Project Id
+          description: The ID of the created Audio Native project.
+        converting:
+          type: boolean
+          title: Converting
+          description: Whether the project is currently being converted.
+        html_snippet:
+          type: string
+          title: Html Snippet
+          description: The HTML snippet to embed the Audio Native player.
+      type: object
+      required:
+      - project_id
+      - converting
+      - html_snippet
+      title: AudioNativeCreateProjectResponseModel
+      example:
+        converting: false
+        html_snippet: <div id='audio-native-player'></div>
+        project_id: JBFqnCBsd6RMkjVDRZzb
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    Body_Update_audio_native_content_from_URL_v1_audio_native_content_post:
+      properties:
+        url:
+          type: string
+          title: Url
+          description: URL of the page to extract content from.
+          examples:
+          - https://elevenlabs.io/blog/the_first_ai_that_can_laugh/
+        author:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Author
+          description: Author used in the player and inserted at the start of the uploaded article. If not provided, the default author set in the Player settings is used.
+        title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Title
+          description: Title used in the player and inserted at the top of the uploaded article. If not provided, the default title set in the Player settings is used.
+      type: object
+      required:
+      - url
+      title: Body_Update_audio_native_content_from_URL_v1_audio_native_content_post
     AudioNativeEditContentResponseModel:
       properties:
         project_id:
@@ -486,22 +505,3 @@ components:
         html_snippet: <div id='audio-native-player'></div>
         project_id: JBFqnCBsd6RMkjVDRZzb
         publishing: false
-    Body_Update_audio_native_Project_content_v1_audio_native__project_id__content_post:
-      properties:
-        file:
-          type: string
-          title: File
-          description: Either txt or HTML input file containing the article content. HTML should be formatted as follows '&lt;html&gt;&lt;body&gt;&lt;div&gt;&lt;p&gt;Your content&lt;/p&gt;&lt;h5&gt;More of your content&lt;/h5&gt;&lt;p&gt;Some more of your content&lt;/p&gt;&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;'
-          format: binary
-        auto_convert:
-          type: boolean
-          title: Auto Convert
-          description: Whether to auto convert the project to audio or not.
-          default: false
-        auto_publish:
-          type: boolean
-          title: Auto Publish
-          description: Whether to auto publish the new project snapshot after it's converted.
-          default: false
-      type: object
-      title: Body_Update_audio_native_Project_content_v1_audio_native__project_id__content_post

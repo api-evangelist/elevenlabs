@@ -336,85 +336,6 @@ paths:
       x-fern-sdk-method-name: bulk_move
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    KnowledgeBaseFolderPathSegmentSummaryResponseModel:
-      properties:
-        id:
-          type: string
-          title: Id
-      type: object
-      required:
-      - id
-      title: KnowledgeBaseFolderPathSegmentSummaryResponseModel
-    ListCrawlJobsResponseModel:
-      properties:
-        crawl_jobs:
-          items:
-            $ref: '#/components/schemas/GetCrawlJobResponseModel'
-          type: array
-          title: Crawl Jobs
-        next_cursor:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Next Cursor
-      type: object
-      required:
-      - crawl_jobs
-      title: ListCrawlJobsResponseModel
-    CrawlStatus:
-      type: string
-      enum:
-      - queued
-      - processing
-      - succeeded
-      - failed
-      - skipped
-      - cancelled
-      title: CrawlStatus
-      default: queued
-    Body_Bulk_move_entities_to_folder_v1_convai_knowledge_base_bulk_move_post:
-      properties:
-        document_ids:
-          items:
-            type: string
-          type: array
-          maxItems: 20
-          minItems: 1
-          uniqueItems: true
-          title: Document Ids
-          description: The ids of documents or folders from the knowledge base.
-          examples:
-          - - 21m00Tcm4TlvDq8ikWAM
-            - 31m00Tcm4TlvDq8ikWBM
-        move_to:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Move To
-          description: The folder to move the entities to. If not set, the entities will be moved to the root folder.
-      type: object
-      required:
-      - document_ids
-      title: Body_Bulk_move_entities_to_folder_v1_convai_knowledge_base_bulk_move_post
-    Body_Move_entity_to_folder_v1_convai_knowledge_base__document_id__move_post:
-      properties:
-        move_to:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Move To
-          description: The folder to move the entities to. If not set, the entities will be moved to the root folder.
-      type: object
-      title: Body_Move_entity_to_folder_v1_convai_knowledge_base__document_id__move_post
     Body_Create_crawl_job_v1_convai_knowledge_base_crawl_post:
       properties:
         url:
@@ -478,6 +399,161 @@ components:
       required:
       - url
       title: Body_Create_crawl_job_v1_convai_knowledge_base_crawl_post
+    Body_Bulk_move_entities_to_folder_v1_convai_knowledge_base_bulk_move_post:
+      properties:
+        document_ids:
+          items:
+            type: string
+          type: array
+          maxItems: 20
+          minItems: 1
+          uniqueItems: true
+          title: Document Ids
+          description: The ids of documents or folders from the knowledge base.
+          examples:
+          - - 21m00Tcm4TlvDq8ikWAM
+            - 31m00Tcm4TlvDq8ikWBM
+        move_to:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Move To
+          description: The folder to move the entities to. If not set, the entities will be moved to the root folder.
+      type: object
+      required:
+      - document_ids
+      title: Body_Bulk_move_entities_to_folder_v1_convai_knowledge_base_bulk_move_post
+    Body_Create_folder_v1_convai_knowledge_base_folder_post:
+      properties:
+        name:
+          type: string
+          minLength: 1
+          title: Name
+          description: A custom, human-readable name for the document.
+        parent_folder_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Parent Folder Id
+          description: If set, the created document or folder will be placed inside the given folder.
+        enable_auto_sync:
+          type: boolean
+          title: Enable Auto Sync
+          description: Whether to enable auto-sync for this URL document.
+          default: false
+        auto_remove:
+          type: boolean
+          title: Auto Remove
+          description: Whether to automatically remove the document if the URL becomes unavailable. Only applicable when auto-sync is enabled.
+          default: false
+        minimum_frequency_days:
+          anyOf:
+          - type: integer
+            maximum: 180.0
+            minimum: 1.0
+          - type: 'null'
+          title: Minimum Frequency Days
+          description: Minimum frequency (in days) at which the underlying eligible documents are refreshed. The actual interval may be shorter, never longer. Defaults to 7, tightened to the parent folder's frequency if that is stricter. Only applicable when auto-sync is enabled.
+      type: object
+      required:
+      - name
+      title: Body_Create_folder_v1_convai_knowledge_base_folder_post
+    AddKnowledgeBaseResponseModel:
+      properties:
+        id:
+          type: string
+          title: Id
+        name:
+          type: string
+          title: Name
+        folder_path:
+          items:
+            $ref: '#/components/schemas/KnowledgeBaseFolderPathSegmentSummaryResponseModel'
+          type: array
+          title: Folder Path
+          description: The folder path segments leading to this entity, from root to parent folder.
+      type: object
+      required:
+      - id
+      - name
+      title: AddKnowledgeBaseResponseModel
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    Body_Move_entity_to_folder_v1_convai_knowledge_base__document_id__move_post:
+      properties:
+        move_to:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Move To
+          description: The folder to move the entities to. If not set, the entities will be moved to the root folder.
+      type: object
+      title: Body_Move_entity_to_folder_v1_convai_knowledge_base__document_id__move_post
+    CrawlType:
+      type: string
+      enum:
+      - discovery
+      - sitemap
+      title: CrawlType
+      default: discovery
+    CreateCrawlJobResponseModel:
+      properties:
+        id:
+          type: string
+          title: Id
+        type:
+          $ref: '#/components/schemas/CrawlType'
+        root_folder_id:
+          type: string
+          title: Root Folder Id
+        status:
+          type: string
+          title: Status
+        created_at:
+          type: integer
+          title: Created At
+        folder_path:
+          items:
+            $ref: '#/components/schemas/KnowledgeBaseFolderPathSegmentSummaryResponseModel'
+          type: array
+          title: Folder Path
+          description: The folder path segments leading to the root folder, from root to parent folder.
+      type: object
+      required:
+      - id
+      - type
+      - root_folder_id
+      - status
+      - created_at
+      title: CreateCrawlJobResponseModel
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     GetCrawlJobResponseModel:
       properties:
         type:
@@ -538,115 +614,39 @@ components:
       - id
       - created_at
       title: GetCrawlJobResponseModel
-    ValidationError:
+    CrawlStatus:
+      type: string
+      enum:
+      - queued
+      - processing
+      - succeeded
+      - failed
+      - skipped
+      - cancelled
+      title: CrawlStatus
+      default: queued
+    KnowledgeBaseFolderPathSegmentSummaryResponseModel:
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
+        id:
           type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
+          title: Id
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    Body_Create_folder_v1_convai_knowledge_base_folder_post:
+      - id
+      title: KnowledgeBaseFolderPathSegmentSummaryResponseModel
+    ListCrawlJobsResponseModel:
       properties:
-        name:
-          type: string
-          minLength: 1
-          title: Name
-          description: A custom, human-readable name for the document.
-        parent_folder_id:
+        crawl_jobs:
+          items:
+            $ref: '#/components/schemas/GetCrawlJobResponseModel'
+          type: array
+          title: Crawl Jobs
+        next_cursor:
           anyOf:
           - type: string
           - type: 'null'
-          title: Parent Folder Id
-          description: If set, the created document or folder will be placed inside the given folder.
-        enable_auto_sync:
-          type: boolean
-          title: Enable Auto Sync
-          description: Whether to enable auto-sync for this URL document.
-          default: false
-        auto_remove:
-          type: boolean
-          title: Auto Remove
-          description: Whether to automatically remove the document if the URL becomes unavailable. Only applicable when auto-sync is enabled.
-          default: false
-        minimum_frequency_days:
-          anyOf:
-          - type: integer
-            maximum: 180.0
-            minimum: 1.0
-          - type: 'null'
-          title: Minimum Frequency Days
-          description: Minimum frequency (in days) at which the underlying eligible documents are refreshed. The actual interval may be shorter, never longer. Defaults to 7, tightened to the parent folder's frequency if that is stricter. Only applicable when auto-sync is enabled.
+          title: Next Cursor
       type: object
       required:
-      - name
-      title: Body_Create_folder_v1_convai_knowledge_base_folder_post
-    CreateCrawlJobResponseModel:
-      properties:
-        id:
-          type: string
-          title: Id
-        type:
-          $ref: '#/components/schemas/CrawlType'
-        root_folder_id:
-          type: string
-          title: Root Folder Id
-        status:
-          type: string
-          title: Status
-        created_at:
-          type: integer
-          title: Created At
-        folder_path:
-          items:
-            $ref: '#/components/schemas/KnowledgeBaseFolderPathSegmentSummaryResponseModel'
-          type: array
-          title: Folder Path
-          description: The folder path segments leading to the root folder, from root to parent folder.
-      type: object
-      required:
-      - id
-      - type
-      - root_folder_id
-      - status
-      - created_at
-      title: CreateCrawlJobResponseModel
-    CrawlType:
-      type: string
-      enum:
-      - discovery
-      - sitemap
-      title: CrawlType
-      default: discovery
-    AddKnowledgeBaseResponseModel:
-      properties:
-        id:
-          type: string
-          title: Id
-        name:
-          type: string
-          title: Name
-        folder_path:
-          items:
-            $ref: '#/components/schemas/KnowledgeBaseFolderPathSegmentSummaryResponseModel'
-          type: array
-          title: Folder Path
-          description: The folder path segments leading to this entity, from root to parent folder.
-      type: object
-      required:
-      - id
-      - name
-      title: AddKnowledgeBaseResponseModel
+      - crawl_jobs
+      title: ListCrawlJobsResponseModel

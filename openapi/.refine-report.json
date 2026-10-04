@@ -60,9 +60,7 @@
     "elevenlabs-voice-library-api-openapi.yml",
     "elevenlabs-voice-settings-api-openapi.yml"
   ],
-  "archived": [
-    "deleted 4 superseded output(s) from the previous generation"
-  ],
+  "archived": [],
   "errors": [],
   "warnings": [],
   "notes": [
@@ -111,8 +109,7 @@
     "tag 'Dubbing' spans 2 source specs (elevenlabs-dubbing-openapi.yml, elevenlabs-openapi.json): per-path servers applied",
     "tag 'speech-to-text' spans 2 source specs (elevenlabs-openapi.json, elevenlabs-speech-to-text-openapi.yml): per-path servers applied",
     "tag 'voices' spans 2 source specs (elevenlabs-openapi.json, elevenlabs-voices-openapi.yml): per-path servers applied",
-    "superseded outputs removed: elevenlabs-chapters-api-openapi.yml, elevenlabs-projects-api-openapi.yml, elevenlabs-pronunciation-dictionaries-api-openapi.yml, elevenlabs-sound-effects-api-openapi.yml",
-    "apis.yml register: written (+0 apis, 50 total)"
+    "apis.yml register: already-registered"
   ],
   "skipped": [
     "_original/elevenlabs-voice-changer-openapi.yml: archived document superseded by a larger archived document",
@@ -130,7 +127,6 @@
     "elevenlabs-assets-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "elevenlabs-audio-isolation-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "elevenlabs-audio-native-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "elevenlabs-chapters-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "elevenlabs-convai-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "elevenlabs-conversational-ai-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "elevenlabs-conversations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
@@ -148,15 +144,12 @@
     "elevenlabs-music-generation-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "elevenlabs-productions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "elevenlabs-professional-voice-cloning-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "elevenlabs-projects-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "elevenlabs-pronunciation-dictionaries-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "elevenlabs-pronunciation-dictionary-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "elevenlabs-pvc-voices-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "elevenlabs-resource-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "elevenlabs-samples-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "elevenlabs-segment-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "elevenlabs-single-use-token-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "elevenlabs-sound-effects-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "elevenlabs-sound-generation-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "elevenlabs-speech-engine-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "elevenlabs-speech-history-api-openapi.yml: previously refined output, superseded by openapi/_original/",

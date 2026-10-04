@@ -257,84 +257,6 @@ paths:
       x-fern-sdk-method-name: delete
 components:
   schemas:
-    ASRInputFormat:
-      type: string
-      enum:
-      - pcm_8000
-      - pcm_16000
-      - pcm_22050
-      - pcm_24000
-      - pcm_44100
-      - pcm_48000
-      - ulaw_8000
-      title: ASRInputFormat
-      default: pcm_16000
-    TurnModel:
-      type: string
-      enum:
-      - turn_v2
-      - turn_v3
-      title: TurnModel
-      description: Version of the turn detection model to use.
-      default: turn_v3
-    ConversationHistoryRedactionConfig:
-      properties:
-        enabled:
-          type: boolean
-          title: Enabled
-          description: Whether conversation history redaction is enabled
-          default: false
-        entities:
-          items:
-            $ref: '#/components/schemas/ConfigEntityType'
-          type: array
-          title: Entities
-          description: The entities to redact from the conversation transcript, audio and analysis. Use top-level types like 'name', 'email_address', or dot notation for specific subtypes like 'name.full_name'.
-      type: object
-      title: ConversationHistoryRedactionConfig
-    AgentDefinitionSource:
-      type: string
-      enum:
-      - cli
-      - ui
-      - api
-      - template
-      - unknown
-      title: AgentDefinitionSource
-      default: unknown
-    TTSModelFamily:
-      type: string
-      enum:
-      - turbo
-      - flash
-      - multilingual
-      - v3_conversational
-      title: TTSModelFamily
-      x-fern-enum:
-        turbo:
-          description: 'Deprecated: Use flash instead.'
-          deprecated: true
-    VADConfig:
-      properties:
-        background_voice_detection:
-          type: boolean
-          title: Background Voice Detection
-          description: Whether to use background voice filtering
-          default: false
-          x-fern-ignore: true
-      type: object
-      title: VADConfig
-      example:
-        background_voice_detection: false
-    TTSOptimizeStreamingLatency:
-      type: integer
-      enum:
-      - 0
-      - 1
-      - 2
-      - 3
-      - 4
-      title: TTSOptimizeStreamingLatency
     SupportedVoice:
       properties:
         label:
@@ -389,6 +311,337 @@ components:
       - label
       - voice_id
       title: SupportedVoice
+    TTSOutputFormat:
+      type: string
+      enum:
+      - pcm_8000
+      - pcm_16000
+      - pcm_22050
+      - pcm_24000
+      - pcm_44100
+      - pcm_48000
+      - ulaw_8000
+      title: TTSOutputFormat
+      default: pcm_16000
+    BackgroundSoundSourceType:
+      type: string
+      enum:
+      - preset
+      title: BackgroundSoundSourceType
+      description: The type of background sound source.
+    BaseTurnConfig:
+      properties:
+        turn_timeout:
+          type: number
+          title: Turn Timeout
+          description: Maximum wait time for the user's reply before re-engaging the user
+          default: 7.0
+        initial_wait_time:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Initial Wait Time
+          description: How long the agent will wait for the user to start the conversation if the first message is empty. If not set, uses the regular turn_timeout.
+        silence_end_call_timeout:
+          type: number
+          title: Silence End Call Timeout
+          description: Maximum wait time since the user last spoke before terminating the call
+          default: -1
+        mode:
+          $ref: '#/components/schemas/TurnMode'
+          description: The mode of turn detection
+          default: turn
+          x-fern-ignore: true
+        turn_eagerness:
+          $ref: '#/components/schemas/TurnEagerness'
+          description: Controls how eager the agent is to respond. Low = less eager (waits longer), Standard = default eagerness, High = more eager (responds sooner)
+          default: normal
+        spelling_patience:
+          $ref: '#/components/schemas/SpellingPatience'
+          description: Controls if the agent should be more patient when user is spelling numbers and named entities. Auto = model based, Off = never wait extra
+          default: auto
+        speculative_turn:
+          type: boolean
+          title: Speculative Turn
+          description: When enabled, starts generating LLM responses during silence before full turn confidence is reached, reducing perceived latency. May increase LLM costs.
+          default: false
+        retranscribe_on_turn_timeout:
+          type: boolean
+          title: Retranscribe On Turn Timeout
+          description: When enabled, if VAD detects no speech, attempts to re-transcribe accumulated audio at turn timeout. Disables silence discount billing for affected turns.
+          default: false
+        turn_model:
+          $ref: '#/components/schemas/TurnModel'
+          default: turn_v3
+        interruption_ignore_terms:
+          items:
+            type: string
+          type: array
+          title: Interruption Ignore Terms
+          description: List of terms that should not trigger an interruption when spoken by the user (e.g. 'gotcha', 'understood'). Uses case-insensitive exact matching.
+        interruption_ignore_term_languages:
+          items:
+            type: string
+          type: array
+          title: Interruption Ignore Term Languages
+          description: Language codes for which preset ignore-term categories have been activated. Stored explicitly so display is not inferred from term overlap.
+        merge_with_default_ignore_terms:
+          type: boolean
+          title: Merge With Default Ignore Terms
+          description: When enabled, the curated default terms for interruption_ignore_term_languages are used in addition to interruption_ignore_terms.
+          default: false
+        transcribe_on_disabled_interruptions:
+          type: boolean
+          title: Transcribe On Disabled Interruptions
+          description: When interruptions are disabled, still transcribe what the user says so it can carry into the next turn. When off, user speech during a non-interruptible turn is ignored and won't trigger a turn.
+          default: false
+      type: object
+      title: BaseTurnConfig
+      example:
+        interruption_ignore_term_languages: []
+        interruption_ignore_terms: []
+        merge_with_default_ignore_terms: false
+        mode: turn
+        retranscribe_on_turn_timeout: false
+        silence_end_call_timeout: -1.0
+        speculative_turn: false
+        spelling_patience: auto
+        transcribe_on_disabled_interruptions: false
+        turn_eagerness: normal
+        turn_timeout: 7.0
+    TTSModelFamily:
+      type: string
+      enum:
+      - turbo
+      - flash
+      - multilingual
+      - v3_conversational
+      title: TTSModelFamily
+      x-fern-enum:
+        turbo:
+          description: 'Deprecated: Use flash instead.'
+          deprecated: true
+    AgentCallLimits:
+      properties:
+        agent_concurrency_limit:
+          type: integer
+          title: Agent Concurrency Limit
+          description: The maximum number of concurrent conversations. -1 indicates that there is no maximum
+          default: -1
+        daily_limit:
+          type: integer
+          title: Daily Limit
+          description: The maximum number of conversations per day
+          default: 100000
+        bursting_enabled:
+          type: boolean
+          title: Bursting Enabled
+          description: Whether to enable bursting. If true, exceeding workspace concurrency limit will be allowed up to 3 times the limit. Calls will be charged at double rate when exceeding the limit.
+          default: true
+      type: object
+      title: AgentCallLimits
+      example:
+        agent_concurrency_limit: -1
+        bursting_enabled: true
+        daily_limit: 100000
+    TurnModel:
+      type: string
+      enum:
+      - turn_v2
+      - turn_v3
+      title: TurnModel
+      description: Version of the turn detection model to use.
+      default: turn_v3
+    ConversationConfig-Input:
+      properties:
+        text_only:
+          type: boolean
+          title: Text Only
+          description: If enabled audio will not be processed and only text will be used, use to avoid audio pricing.
+          default: false
+          x-convai-client-override: true
+        max_duration_seconds:
+          type: integer
+          title: Max Duration Seconds
+          description: The maximum duration of a conversation in seconds
+          default: 600
+          x-convai-client-override: true
+        client_events:
+          items:
+            $ref: '#/components/schemas/ClientEvent'
+          type: array
+          title: Client Events
+          description: The events that will be sent to the client
+        file_input:
+          $ref: '#/components/schemas/FileInputConfig'
+          description: Configuration for file input (image/PDF uploads) during conversations.
+          x-convai-client-override: true
+        monitoring_enabled:
+          type: boolean
+          title: Monitoring Enabled
+          description: Enable real-time monitoring of conversations via WebSocket
+          default: false
+        monitoring_events:
+          items:
+            $ref: '#/components/schemas/ClientEvent'
+          type: array
+          title: Monitoring Events
+          description: The events that will be sent to monitoring connections.
+        dtmf_input_settings:
+          anyOf:
+          - $ref: '#/components/schemas/DTMFInputConfig'
+          - type: 'null'
+          description: Configure DTMF (keypad) input collection during phone calls
+        background_sound:
+          $ref: '#/components/schemas/BackgroundSoundConfig'
+          description: Configuration for background sound during conversations.
+        source_attribution:
+          type: boolean
+          title: Source Attribution
+          description: When enabled and knowledge base content is present, the LLM is instructed to report which sources it used.
+          default: false
+      type: object
+      title: ConversationConfig
+      example:
+        client_events:
+        - audio
+        - interruption
+        max_duration_seconds: 600
+    PrivacyConfig-Input:
+      properties:
+        record_voice:
+          type: boolean
+          title: Record Voice
+          description: Whether to record the conversation
+          default: true
+        retention_days:
+          type: integer
+          title: Retention Days
+          description: The number of days to retain the conversation. -1 indicates there is no retention limit
+          default: -1
+        delete_transcript_and_pii:
+          type: boolean
+          title: Delete Transcript And Pii
+          description: Whether to delete the transcript and PII
+          default: false
+        delete_audio:
+          type: boolean
+          title: Delete Audio
+          description: Whether to delete the audio
+          default: false
+        apply_to_existing_conversations:
+          type: boolean
+          title: Apply To Existing Conversations
+          description: Whether to apply the privacy settings to existing conversations
+          default: false
+        zero_retention_mode:
+          type: boolean
+          title: Zero Retention Mode
+          description: Whether to enable zero retention mode - no PII data is stored
+          default: false
+        conversation_history_redaction:
+          $ref: '#/components/schemas/ConversationHistoryRedactionConfig'
+          description: Config for PII redaction in the conversation history
+      type: object
+      title: PrivacyConfig
+      example:
+        apply_to_existing_conversations: false
+        delete_audio: false
+        delete_transcript_and_pii: false
+        record_voice: true
+        retention_days: -1
+        zero_retention_mode: false
+    ConvAISecretLocator:
+      properties:
+        secret_id:
+          type: string
+          title: Secret Id
+      type: object
+      required:
+      - secret_id
+      title: ConvAISecretLocator
+      description: Used to reference a secret from the agent's secret store.
+    SortDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: SortDirection
+    ASRQuality:
+      type: string
+      enum:
+      - high
+      title: ASRQuality
+      default: high
+    ListSpeechEnginesResponse:
+      properties:
+        speech_engines:
+          items:
+            $ref: '#/components/schemas/SpeechEngineSummaryResponse'
+          type: array
+          title: Speech Engines
+          description: The speech engines matching the query
+        next_cursor:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Next Cursor
+          description: Cursor for fetching the next page
+        has_more:
+          type: boolean
+          title: Has More
+          description: Whether there are more results
+      type: object
+      required:
+      - speech_engines
+      - has_more
+      title: ListSpeechEnginesResponse
+      example:
+        has_more: false
+        speech_engines:
+        - access_info:
+            creator_email: john@example.com
+            creator_name: John Doe
+            is_creator: true
+            role: admin
+          created_at_unix_secs: 1714000000
+          name: My Speech Engine
+          speech_engine_id: seng_3701k3ttaq12ewp8b7qv5rfyszkz
+          tags:
+          - production
+          - v1
+          voice_id: UCaNsl8F6Xh4GALkVMLS
+    ASRConversationalConfig:
+      properties:
+        quality:
+          $ref: '#/components/schemas/ASRQuality'
+          description: The quality of the transcription
+          default: high
+        provider:
+          $ref: '#/components/schemas/ASRProvider'
+          description: The provider of the transcription service
+          default: scribe_realtime
+        user_input_audio_format:
+          $ref: '#/components/schemas/ASRInputFormat'
+          description: The format of the audio to be transcribed
+          default: pcm_16000
+        keywords:
+          items:
+            type: string
+          type: array
+          title: Keywords
+          description: Keywords to boost prediction probability for
+          x-convai-client-override: true
+          x-convai-soft-override-disallowed: true
+      type: object
+      title: ASRConversationalConfig
+      example:
+        keywords:
+        - hello
+        - world
+        provider: scribe_realtime
+        quality: high
+        user_input_audio_format: pcm_16000
     ValidationError:
       properties:
         loc:
@@ -410,24 +663,469 @@ components:
       - msg
       - type
       title: ValidationError
-    TTSConversationalModel:
+    AgentSortBy:
       type: string
       enum:
-      - eleven_turbo_v2
-      - eleven_turbo_v2_5
-      - eleven_flash_v2
-      - eleven_flash_v2_5
-      - eleven_multilingual_v2
-      - eleven_v3_conversational
-      title: TTSConversationalModel
-      x-fern-enum:
-        eleven_turbo_v2:
-          description: 'Deprecated: Use eleven_flash_v2 instead.'
+      - name
+      - created_at
+      - call_count_7d
+      title: AgentSortBy
+    ConfigEntityType:
+      type: string
+      enum:
+      - name
+      - name.name_given
+      - name.name_family
+      - name.name_other
+      - email_address
+      - contact_number
+      - dob
+      - age
+      - religious_belief
+      - political_opinion
+      - sexual_orientation
+      - ethnicity_race
+      - marital_status
+      - occupation
+      - physical_attribute
+      - language
+      - username
+      - password
+      - url
+      - organization
+      - financial_id
+      - financial_id.payment_card
+      - financial_id.payment_card.payment_card_number
+      - financial_id.payment_card.payment_card_expiration_date
+      - financial_id.payment_card.payment_card_cvv
+      - financial_id.bank_account
+      - financial_id.bank_account.bank_account_number
+      - financial_id.bank_account.bank_routing_number
+      - financial_id.bank_account.swift_bic_code
+      - financial_id.financial_id_other
+      - location
+      - location.location_address
+      - location.location_city
+      - location.location_postal_code
+      - location.location_coordinate
+      - location.location_state
+      - location.location_country
+      - location.location_other
+      - date
+      - date_interval
+      - unique_id
+      - unique_id.government_issued_id
+      - unique_id.account_number
+      - unique_id.vehicle_id
+      - unique_id.healthcare_number
+      - unique_id.healthcare_number.medical_record_number
+      - unique_id.healthcare_number.health_plan_beneficiary_number
+      - unique_id.device_id
+      - unique_id.unique_id_other
+      - medical
+      - medical.medical_condition
+      - medical.medication
+      - medical.medical_procedure
+      - medical.medical_measurement
+      - medical.medical_other
+      title: ConfigEntityType
+      description: 'Entity types for the API configuration.
+
+
+        This enum contains all valid entity type configurations that users can specify:
+
+        - Parent types (e.g., "name", "financial_id") that expand to all subtypes
+
+        - Specific subtypes using dot notation (e.g., "name.full_name")
+
+        - Standalone terminal types (e.g., "email_address")
+
+
+        When converted for service use, parent types expand to all their terminal subtypes.'
+    SpellingPatience:
+      type: string
+      enum:
+      - auto
+      - 'off'
+      title: SpellingPatience
+      description: Controls if the agent should be more patient when user is spelling numbers and named entities.
+      default: auto
+    DTMFInputConfig:
+      properties:
+        dtmf_input_timeout:
+          type: number
+          maximum: 10.0
+          minimum: 0.5
+          title: Dtmf Input Timeout
+          description: Timeout in seconds to wait for additional DTMF digits
+          default: 2.0
+        hash_terminator:
+          type: boolean
+          title: Hash Terminator
+          description: 'If true, pressing # immediately completes DTMF input'
+          default: true
+        redact_input:
+          type: boolean
+          title: Redact Input
+          description: If true, replace the caller's DTMF (keypad) entries with a redaction marker in the transcript, conversation log and analysis. Digits the agent repeats back or passes to a tool are not affected.
+          default: false
+      type: object
+      title: DTMFInputConfig
+      description: Configuration for DTMF (keypad) input collection during phone calls.
+    ResourceAccessInfo:
+      properties:
+        is_creator:
+          type: boolean
+          title: Is Creator
+          description: Whether the user making the request is the creator of the agent
+        creator_name:
+          type: string
+          title: Creator Name
+          description: Name of the agent's creator
+        creator_email:
+          type: string
+          title: Creator Email
+          description: Email of the agent's creator
+        role:
+          type: string
+          enum:
+          - admin
+          - editor
+          - commenter
+          - viewer
+          title: Role
+          description: The role of the user making the request
+        anonymous_access_level_override:
+          anyOf:
+          - type: string
+            enum:
+            - admin
+            - editor
+            - commenter
+            - viewer
+          - type: 'null'
+          title: Anonymous Access Level Override
+          description: The access level for anonymous users. If None, the resource is not shared publicly.
+        access_source:
+          anyOf:
+          - type: string
+            enum:
+            - creator
+            - explicit
+            - workspace_admin
+            - workspace_default
+          - type: 'null'
+          title: Access Source
+          description: Why the requesting user has access to this resource. 'creator' = caller is the owner. 'explicit' = caller (or one of their workspace groups) is listed in role_to_group_ids beyond the workspace-wide everyone group. 'workspace_default' = the workspace-wide everyone group is listed in role_to_group_ids (every non-anon workspace member, including admins, sees this resource). 'workspace_admin' = caller is a workspace admin and the admin seat is the *only* path to access; reserved for docs nobody else can see. Lets the UI disclose why an admin-bypass viewer sees a doc that wasn't explicitly shared with them.
+      type: object
+      required:
+      - is_creator
+      - creator_name
+      - creator_email
+      - role
+      title: ResourceAccessInfo
+      example:
+        access_source: creator
+        creator_email: john.doe@example.com
+        creator_name: John Doe
+        is_creator: true
+        role: admin
+    EffectsSpec-Input:
+      properties:
+        filter_preset_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Filter Preset Id
+        distance:
+          type: number
+          maximum: 1.0
+          minimum: 0.0
+          title: Distance
+          default: 0.0
+        environment_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Environment Id
+        background_noise_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Background Noise Id
+        send_level:
+          type: number
+          maximum: 1.0
+          minimum: 0.0
+          title: Send Level
+          default: 1.0
+        seed:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Seed
+      type: object
+      title: EffectsSpec
+      description: Filter preset, distance (proximity EQ), and environment (convolution reverb).
+    ClientEvent:
+      type: string
+      enum:
+      - conversation_initiation_metadata
+      - asr_initiation_metadata
+      - ping
+      - audio
+      - interruption
+      - user_transcript
+      - tentative_user_transcript
+      - agent_response
+      - agent_response_correction
+      - client_tool_call
+      - mcp_tool_call
+      - mcp_connection_status
+      - agent_tool_request
+      - agent_tool_response
+      - agent_tool_response_full_payload
+      - agent_response_metadata
+      - vad_score
+      - agent_chat_response_part
+      - client_error
+      - guardrail_triggered
+      - dtmf_request
+      - agent_response_complete
+      - context_usage
+      - internal_turn_probability
+      - internal_tentative_agent_response
+      title: ClientEvent
+    TTSConversationalConfig-Output:
+      properties:
+        model_id:
+          $ref: '#/components/schemas/TTSConversationalModel'
+          description: The model to use for TTS
+          default: eleven_flash_v2
+          x-convai-client-override: true
+        voice_id:
+          type: string
+          minLength: 0
+          title: Voice Id
+          description: The voice ID to use for TTS
+          default: cjVigY5qzO86Huf0OWal
+          x-convai-client-override: true
+          x-convai-language-override: true
+        supported_voices:
+          items:
+            $ref: '#/components/schemas/SupportedVoice'
+          type: array
+          title: Supported Voices
+          description: Additional supported voices for the agent
+          x-convai-client-override: true
+          x-convai-soft-override-disallowed: true
+        expressive_mode:
+          type: boolean
+          title: Expressive Mode
+          description: When enabled, applies expressive audio tags prompt. Automatically disabled for non-v3 models.
+          default: true
+        suggested_audio_tags:
+          items:
+            $ref: '#/components/schemas/SuggestedAudioTag'
+          type: array
+          maxItems: 20
+          title: Suggested Audio Tags
+          description: Suggested audio tags to boost expressive speech (for eleven_v3 and eleven_v3_conversational models). The agent can still use other tags not listed here.
+        agent_output_audio_format:
+          $ref: '#/components/schemas/TTSOutputFormat'
+          description: The audio format to use for TTS
+          default: pcm_16000
+        optimize_streaming_latency:
+          $ref: '#/components/schemas/TTSOptimizeStreamingLatency'
+          description: 'Deprecated: this field is a no-op and is ignored.'
+          default: 3
           deprecated: true
-        eleven_turbo_v2_5:
-          description: 'Deprecated: Use eleven_flash_v2_5 instead.'
-          deprecated: true
-      default: eleven_flash_v2
+        stability:
+          type: number
+          maximum: 1.0
+          minimum: 0.0
+          title: Stability
+          description: The stability of generated speech
+          default: 0.5
+          x-convai-client-override: true
+        speed:
+          type: number
+          maximum: 1.2
+          minimum: 0.7
+          title: Speed
+          description: The speed of generated speech
+          default: 1.0
+          x-convai-client-override: true
+        similarity_boost:
+          type: number
+          maximum: 1.0
+          minimum: 0.0
+          title: Similarity Boost
+          description: The similarity boost for generated speech
+          default: 0.8
+          x-convai-client-override: true
+        text_normalisation_type:
+          $ref: '#/components/schemas/TextNormalisationType'
+          description: Method for converting numbers to words before converting text to speech. If set to SYSTEM_PROMPT, the system prompt will be updated to include normalization instructions. If set to ELEVENLABS, the text will be normalized after generation, incurring slight additional latency.
+          default: system_prompt
+        pronunciation_dictionary_locators:
+          items:
+            $ref: '#/components/schemas/PydanticPronunciationDictionaryVersionLocator'
+          type: array
+          title: Pronunciation Dictionary Locators
+          description: The pronunciation dictionary locators
+          x-convai-client-override: true
+        enable_phoneme_tags:
+          type: boolean
+          title: Enable Phoneme Tags
+          description: Opt-in to SSML phoneme tag handling for V3 models. When enabled, phoneme tags (inline and from pronunciation dictionaries) are parsed into inline IPA before being sent to the model.
+          default: true
+        audio_effects:
+          anyOf:
+          - $ref: '#/components/schemas/EffectsSpec-Output'
+          - type: 'null'
+          description: 'Optional TTS effects spec: filter preset, distance (proximity EQ), and environment (convolution reverb).'
+      type: object
+      title: TTSConversationalConfig
+      example:
+        agent_output_audio_format: pcm_16000
+        model_id: eleven_turbo_v2
+        optimize_streaming_latency: 3
+        pronunciation_dictionary_locators: []
+        similarity_boost: 0.8
+        speed: 1.0
+        stability: 0.5
+        voice_id: cjVigY5qzO86Huf0OWal
+    VADConfig:
+      properties:
+        background_voice_detection:
+          type: boolean
+          title: Background Voice Detection
+          description: Whether to use background voice filtering
+          default: false
+          x-fern-ignore: true
+      type: object
+      title: VADConfig
+      example:
+        background_voice_detection: false
+    TurnEagerness:
+      type: string
+      enum:
+      - patient
+      - normal
+      - eager
+      title: TurnEagerness
+      description: Agent's eagerness to respond. Higher values make agent wait for higher turn probability.
+      default: normal
+    SpeechEngineConversationInitiationClientDataConfig:
+      properties:
+        first_message:
+          type: boolean
+          title: First Message
+          description: Whether the first message can be overridden by the client
+          default: false
+      type: object
+      title: SpeechEngineConversationInitiationClientDataConfig
+    SpeechEngineSummaryResponse:
+      properties:
+        speech_engine_id:
+          type: string
+          title: Speech Engine Id
+          description: The speech engine resource ID
+        name:
+          type: string
+          title: Name
+          description: Human-readable name for the speech engine
+        voice_id:
+          type: string
+          title: Voice Id
+          description: Voice ID assigned to this speech engine
+        created_at_unix_secs:
+          type: integer
+          title: Created At Unix Secs
+          description: Creation time in Unix seconds
+        tags:
+          items:
+            type: string
+          type: array
+          title: Tags
+          description: Arbitrary tags for categorization and filtering
+        access_info:
+          $ref: '#/components/schemas/ResourceAccessInfo'
+          description: The access information of the speech engine for the user
+      type: object
+      required:
+      - speech_engine_id
+      - name
+      - voice_id
+      - created_at_unix_secs
+      - tags
+      - access_info
+      title: SpeechEngineSummaryResponse
+      example:
+        access_info:
+          creator_email: john@example.com
+          creator_name: John Doe
+          is_creator: true
+          role: admin
+        created_at_unix_secs: 1714000000
+        name: My Speech Engine
+        speech_engine_id: seng_3701k3ttaq12ewp8b7qv5rfyszkz
+        tags:
+        - production
+        - v1
+        voice_id: UCaNsl8F6Xh4GALkVMLS
+    EffectsSpec-Output:
+      properties:
+        filter_preset_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Filter Preset Id
+        distance:
+          type: number
+          maximum: 1.0
+          minimum: 0.0
+          title: Distance
+          default: 0.0
+        environment_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Environment Id
+        background_noise_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Background Noise Id
+        send_level:
+          type: number
+          maximum: 1.0
+          minimum: 0.0
+          title: Send Level
+          default: 1.0
+        seed:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Seed
+      type: object
+      required:
+      - filter_preset_id
+      - distance
+      - environment_id
+      - background_noise_id
+      - send_level
+      - seed
+      title: EffectsSpec
+      description: Filter preset, distance (proximity EQ), and environment (convolution reverb).
+    TurnMode:
+      type: string
+      enum:
+      - silence
+      - turn
+      title: TurnMode
+      default: turn
     TTSConversationalConfig-Input:
       properties:
         model_id:
@@ -528,50 +1226,348 @@ components:
         speed: 1.0
         stability: 0.5
         voice_id: cjVigY5qzO86Huf0OWal
-    PrivacyConfig-Input:
+    TTSConversationalModel:
+      type: string
+      enum:
+      - eleven_turbo_v2
+      - eleven_turbo_v2_5
+      - eleven_flash_v2
+      - eleven_flash_v2_5
+      - eleven_multilingual_v2
+      - eleven_v3_conversational
+      title: TTSConversationalModel
+      x-fern-enum:
+        eleven_turbo_v2:
+          description: 'Deprecated: Use eleven_flash_v2 instead.'
+          deprecated: true
+        eleven_turbo_v2_5:
+          description: 'Deprecated: Use eleven_flash_v2_5 instead.'
+          deprecated: true
+      default: eleven_flash_v2
+    ConversationHistoryRedactionConfig:
       properties:
-        record_voice:
+        enabled:
           type: boolean
-          title: Record Voice
-          description: Whether to record the conversation
-          default: true
-        retention_days:
-          type: integer
-          title: Retention Days
-          description: The number of days to retain the conversation. -1 indicates there is no retention limit
-          default: -1
-        delete_transcript_and_pii:
-          type: boolean
-          title: Delete Transcript And Pii
-          description: Whether to delete the transcript and PII
+          title: Enabled
+          description: Whether conversation history redaction is enabled
           default: false
-        delete_audio:
-          type: boolean
-          title: Delete Audio
-          description: Whether to delete the audio
-          default: false
-        apply_to_existing_conversations:
-          type: boolean
-          title: Apply To Existing Conversations
-          description: Whether to apply the privacy settings to existing conversations
-          default: false
-        zero_retention_mode:
-          type: boolean
-          title: Zero Retention Mode
-          description: Whether to enable zero retention mode - no PII data is stored
-          default: false
-        conversation_history_redaction:
-          $ref: '#/components/schemas/ConversationHistoryRedactionConfig'
-          description: Config for PII redaction in the conversation history
+        entities:
+          items:
+            $ref: '#/components/schemas/ConfigEntityType'
+          type: array
+          title: Entities
+          description: The entities to redact from the conversation transcript, audio and analysis. Use top-level types like 'name', 'email_address', or dot notation for specific subtypes like 'name.full_name'.
       type: object
-      title: PrivacyConfig
+      title: ConversationHistoryRedactionConfig
+    PydanticPronunciationDictionaryVersionLocator:
+      properties:
+        pronunciation_dictionary_id:
+          type: string
+          title: Pronunciation Dictionary Id
+          description: The ID of the pronunciation dictionary
+        version_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Version Id
+          description: The ID of the version of the pronunciation dictionary
+      type: object
+      required:
+      - pronunciation_dictionary_id
+      - version_id
+      title: PydanticPronunciationDictionaryVersionLocator
+      description: 'A locator for other documents to be able to reference a specific dictionary and it''s version.
+
+        This is a pydantic version of PronunciationDictionaryVersionLocatorDBModel.
+
+        Required to ensure compat with the rest of the agent data models.'
+    TTSOptimizeStreamingLatency:
+      type: integer
+      enum:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      title: TTSOptimizeStreamingLatency
+    ASRInputFormat:
+      type: string
+      enum:
+      - pcm_8000
+      - pcm_16000
+      - pcm_22050
+      - pcm_24000
+      - pcm_44100
+      - pcm_48000
+      - ulaw_8000
+      title: ASRInputFormat
+      default: pcm_16000
+    SpeechEngineConfig:
+      properties:
+        ws_url:
+          type: string
+          title: Ws Url
+          description: The WebSocket URL for the transcript server
+        request_headers:
+          additionalProperties:
+            anyOf:
+            - type: string
+            - $ref: '#/components/schemas/ConvAISecretLocator'
+            - $ref: '#/components/schemas/ConvAIDynamicVariable'
+          type: object
+          title: Request Headers
+          description: Headers to include in the WebSocket connection request
+      type: object
+      required:
+      - ws_url
+      title: SpeechEngineConfig
+    ConversationConfig-Output:
+      properties:
+        text_only:
+          type: boolean
+          title: Text Only
+          description: If enabled audio will not be processed and only text will be used, use to avoid audio pricing.
+          default: false
+          x-convai-client-override: true
+        max_duration_seconds:
+          type: integer
+          title: Max Duration Seconds
+          description: The maximum duration of a conversation in seconds
+          default: 600
+          x-convai-client-override: true
+        client_events:
+          items:
+            $ref: '#/components/schemas/ClientEvent'
+          type: array
+          title: Client Events
+          description: The events that will be sent to the client
+        file_input:
+          $ref: '#/components/schemas/FileInputConfig'
+          description: Configuration for file input (image/PDF uploads) during conversations.
+          x-convai-client-override: true
+        monitoring_enabled:
+          type: boolean
+          title: Monitoring Enabled
+          description: Enable real-time monitoring of conversations via WebSocket
+          default: false
+        monitoring_events:
+          items:
+            $ref: '#/components/schemas/ClientEvent'
+          type: array
+          title: Monitoring Events
+          description: The events that will be sent to monitoring connections.
+        dtmf_input_settings:
+          anyOf:
+          - $ref: '#/components/schemas/DTMFInputConfig'
+          - type: 'null'
+          description: Configure DTMF (keypad) input collection during phone calls
+        background_sound:
+          $ref: '#/components/schemas/BackgroundSoundConfig'
+          description: Configuration for background sound during conversations.
+        source_attribution:
+          type: boolean
+          title: Source Attribution
+          description: When enabled and knowledge base content is present, the LLM is instructed to report which sources it used.
+          default: false
+      type: object
+      title: ConversationConfig
       example:
-        apply_to_existing_conversations: false
-        delete_audio: false
-        delete_transcript_and_pii: false
-        record_voice: true
-        retention_days: -1
-        zero_retention_mode: false
+        client_events:
+        - audio
+        - interruption
+        max_duration_seconds: 600
+    SuggestedAudioTag:
+      properties:
+        tag:
+          type: string
+          maxLength: 30
+          minLength: 1
+          title: Tag
+          description: Audio tag to use (for best performance, 1-2 words, e.g., 'happy', 'excited')
+        description:
+          anyOf:
+          - type: string
+            maxLength: 200
+          - type: 'null'
+          title: Description
+          description: Optional description of when to use this tag
+      type: object
+      required:
+      - tag
+      title: SuggestedAudioTag
+    UpdateSpeechEngineRequest:
+      properties:
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        speech_engine:
+          anyOf:
+          - $ref: '#/components/schemas/SpeechEngineConfig'
+          - type: 'null'
+        asr:
+          anyOf:
+          - $ref: '#/components/schemas/ASRConversationalConfig'
+          - type: 'null'
+        tts:
+          anyOf:
+          - $ref: '#/components/schemas/TTSConversationalConfig-Input'
+          - type: 'null'
+        turn:
+          anyOf:
+          - $ref: '#/components/schemas/BaseTurnConfig'
+          - type: 'null'
+        vad:
+          anyOf:
+          - $ref: '#/components/schemas/VADConfig'
+          - type: 'null'
+        conversation:
+          anyOf:
+          - $ref: '#/components/schemas/ConversationConfig-Input'
+          - type: 'null'
+        privacy:
+          anyOf:
+          - $ref: '#/components/schemas/PrivacyConfig-Input'
+          - type: 'null'
+        call_limits:
+          anyOf:
+          - $ref: '#/components/schemas/AgentCallLimits'
+          - type: 'null'
+        language:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Language
+        cascade_timeout_seconds:
+          anyOf:
+          - type: number
+            maximum: 15.0
+            minimum: 2.0
+          - type: 'null'
+          title: Cascade Timeout Seconds
+          description: Time in seconds to wait for the upstream speech engine endpoint to respond before the attempt is abandoned and retried. Must be between 2 and 15 seconds.
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+        overrides:
+          anyOf:
+          - $ref: '#/components/schemas/SpeechEngineConversationInitiationClientDataConfig'
+          - type: 'null'
+      type: object
+      title: UpdateSpeechEngineRequest
+    ConvAIDynamicVariable:
+      properties:
+        variable_name:
+          type: string
+          title: Variable Name
+      type: object
+      required:
+      - variable_name
+      title: ConvAIDynamicVariable
+      description: Used to reference a dynamic variable.
+    AgentMetadataDBModel:
+      properties:
+        created_at_unix_secs:
+          type: integer
+          title: Created At Unix Secs
+        updated_at_unix_secs:
+          type: integer
+          title: Updated At Unix Secs
+        created_from:
+          $ref: '#/components/schemas/AgentDefinitionSource'
+          default: unknown
+        last_updated_from:
+          $ref: '#/components/schemas/AgentDefinitionSource'
+          default: unknown
+      type: object
+      required:
+      - created_at_unix_secs
+      - updated_at_unix_secs
+      title: AgentMetadataDBModel
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    BackgroundSoundPresetId:
+      type: string
+      enum:
+      - office2
+      - office1
+      - restaurant
+      - city
+      - typing
+      - elevator1
+      - elevator2
+      - elevator3
+      - elevator4
+      title: BackgroundSoundPresetId
+      description: Predefined background sound preset identifiers.
+    CreateSpeechEngineRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Name of the speech engine
+          default: Speech Engine
+        speech_engine:
+          $ref: '#/components/schemas/SpeechEngineConfig'
+          description: Speech engine WebSocket configuration
+        asr:
+          $ref: '#/components/schemas/ASRConversationalConfig'
+          description: ASR configuration
+        tts:
+          $ref: '#/components/schemas/TTSConversationalConfig-Input'
+          description: TTS configuration
+        turn:
+          $ref: '#/components/schemas/BaseTurnConfig'
+          description: Turn detection configuration
+        vad:
+          $ref: '#/components/schemas/VADConfig'
+          description: Configuration for voice activity detection
+        conversation:
+          $ref: '#/components/schemas/ConversationConfig-Input'
+          description: Conversation configuration (client events, etc.)
+        privacy:
+          $ref: '#/components/schemas/PrivacyConfig-Input'
+          description: Privacy settings (recording, retention, zero retention mode)
+        call_limits:
+          $ref: '#/components/schemas/AgentCallLimits'
+          description: Concurrency and daily conversation limits for this speech engine
+        language:
+          type: string
+          title: Language
+          description: Language for the speech engine
+          default: en
+        cascade_timeout_seconds:
+          type: number
+          maximum: 15.0
+          minimum: 2.0
+          title: Cascade Timeout Seconds
+          description: Time in seconds to wait for the upstream speech engine endpoint to respond before the attempt is abandoned and retried. Must be between 2 and 15 seconds.
+          default: 4.0
+        tags:
+          items:
+            type: string
+          type: array
+          title: Tags
+          description: Tags for categorization
+        overrides:
+          $ref: '#/components/schemas/SpeechEngineConversationInitiationClientDataConfig'
+          description: Override settings the client may set during conversation initiation
+      type: object
+      required:
+      - speech_engine
+      title: CreateSpeechEngineRequest
     FileInputConfig:
       properties:
         enabled:
@@ -593,132 +1589,6 @@ components:
           default: 10
       type: object
       title: FileInputConfig
-    ASRProvider:
-      type: string
-      enum:
-      - elevenlabs
-      - scribe_realtime
-      title: ASRProvider
-      x-fern-enum:
-        elevenlabs:
-          description: 'Deprecated: Use scribe_realtime instead.'
-          deprecated: true
-      default: scribe_realtime
-    SpeechEngineConversationInitiationClientDataConfig:
-      properties:
-        first_message:
-          type: boolean
-          title: First Message
-          description: Whether the first message can be overridden by the client
-          default: false
-      type: object
-      title: SpeechEngineConversationInitiationClientDataConfig
-    SuggestedAudioTag:
-      properties:
-        tag:
-          type: string
-          maxLength: 30
-          minLength: 1
-          title: Tag
-          description: Audio tag to use (for best performance, 1-2 words, e.g., 'happy', 'excited')
-        description:
-          anyOf:
-          - type: string
-            maxLength: 200
-          - type: 'null'
-          title: Description
-          description: Optional description of when to use this tag
-      type: object
-      required:
-      - tag
-      title: SuggestedAudioTag
-    AgentMetadataDBModel:
-      properties:
-        created_at_unix_secs:
-          type: integer
-          title: Created At Unix Secs
-        updated_at_unix_secs:
-          type: integer
-          title: Updated At Unix Secs
-        created_from:
-          $ref: '#/components/schemas/AgentDefinitionSource'
-          default: unknown
-        last_updated_from:
-          $ref: '#/components/schemas/AgentDefinitionSource'
-          default: unknown
-      type: object
-      required:
-      - created_at_unix_secs
-      - updated_at_unix_secs
-      title: AgentMetadataDBModel
-    BackgroundSoundPresetId:
-      type: string
-      enum:
-      - office2
-      - office1
-      - restaurant
-      - city
-      - typing
-      - elevator1
-      - elevator2
-      - elevator3
-      - elevator4
-      title: BackgroundSoundPresetId
-      description: Predefined background sound preset identifiers.
-    ConvAISecretLocator:
-      properties:
-        secret_id:
-          type: string
-          title: Secret Id
-      type: object
-      required:
-      - secret_id
-      title: ConvAISecretLocator
-      description: Used to reference a secret from the agent's secret store.
-    ListSpeechEnginesResponse:
-      properties:
-        speech_engines:
-          items:
-            $ref: '#/components/schemas/SpeechEngineSummaryResponse'
-          type: array
-          title: Speech Engines
-          description: The speech engines matching the query
-        next_cursor:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Next Cursor
-          description: Cursor for fetching the next page
-        has_more:
-          type: boolean
-          title: Has More
-          description: Whether there are more results
-      type: object
-      required:
-      - speech_engines
-      - has_more
-      title: ListSpeechEnginesResponse
-      example:
-        has_more: false
-        speech_engines:
-        - access_info:
-            creator_email: john@example.com
-            creator_name: John Doe
-            is_creator: true
-            role: admin
-          created_at_unix_secs: 1714000000
-          name: My Speech Engine
-          speech_engine_id: seng_3701k3ttaq12ewp8b7qv5rfyszkz
-          tags:
-          - production
-          - v1
-          voice_id: UCaNsl8F6Xh4GALkVMLS
-    SortDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: SortDirection
     PrivacyConfig-Output:
       properties:
         record_voice:
@@ -763,242 +1633,61 @@ components:
         record_voice: true
         retention_days: -1
         zero_retention_mode: false
-    EffectsSpec-Output:
+    ASRProvider:
+      type: string
+      enum:
+      - elevenlabs
+      - scribe_realtime
+      title: ASRProvider
+      x-fern-enum:
+        elevenlabs:
+          description: 'Deprecated: Use scribe_realtime instead.'
+          deprecated: true
+      default: scribe_realtime
+    AgentDefinitionSource:
+      type: string
+      enum:
+      - cli
+      - ui
+      - api
+      - template
+      - unknown
+      title: AgentDefinitionSource
+      default: unknown
+    BackgroundSoundConfig:
       properties:
-        filter_preset_id:
+        source_type:
           anyOf:
-          - type: string
+          - $ref: '#/components/schemas/BackgroundSoundSourceType'
           - type: 'null'
-          title: Filter Preset Id
-        distance:
+          description: The type of background sound source.
+        source_id:
+          anyOf:
+          - $ref: '#/components/schemas/BackgroundSoundPresetId'
+          - type: 'null'
+          description: Identifier for the sound source.
+        volume:
           type: number
           maximum: 1.0
-          minimum: 0.0
-          title: Distance
-          default: 0.0
-        environment_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Environment Id
-        background_noise_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Background Noise Id
-        send_level:
-          type: number
-          maximum: 1.0
-          minimum: 0.0
-          title: Send Level
-          default: 1.0
-        seed:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Seed
-      type: object
-      required:
-      - filter_preset_id
-      - distance
-      - environment_id
-      - background_noise_id
-      - send_level
-      - seed
-      title: EffectsSpec
-      description: Filter preset, distance (proximity EQ), and environment (convolution reverb).
-    AgentCallLimits:
-      properties:
-        agent_concurrency_limit:
-          type: integer
-          title: Agent Concurrency Limit
-          description: The maximum number of concurrent conversations. -1 indicates that there is no maximum
-          default: -1
-        daily_limit:
-          type: integer
-          title: Daily Limit
-          description: The maximum number of conversations per day
-          default: 100000
-        bursting_enabled:
+          minimum: 0.01
+          title: Volume
+          description: Volume level for background sound (0.01 to 1.0).
+          default: 0.15
+        crossfade_loop:
           type: boolean
-          title: Bursting Enabled
-          description: Whether to enable bursting. If true, exceeding workspace concurrency limit will be allowed up to 3 times the limit. Calls will be charged at double rate when exceeding the limit.
+          title: Crossfade Loop
+          description: Apply a crossfade at the loop boundary to avoid audible pops when the sound loops.
           default: true
       type: object
-      title: AgentCallLimits
-      example:
-        agent_concurrency_limit: -1
-        bursting_enabled: true
-        daily_limit: 100000
-    AgentSortBy:
+      title: BackgroundSoundConfig
+    TextNormalisationType:
       type: string
       enum:
-      - name
-      - created_at
-      - call_count_7d
-      title: AgentSortBy
-    TTSOutputFormat:
-      type: string
-      enum:
-      - pcm_8000
-      - pcm_16000
-      - pcm_22050
-      - pcm_24000
-      - pcm_44100
-      - pcm_48000
-      - ulaw_8000
-      title: TTSOutputFormat
-      default: pcm_16000
-    BackgroundSoundSourceType:
-      type: string
-      enum:
-      - preset
-      title: BackgroundSoundSourceType
-      description: The type of background sound source.
-    TurnEagerness:
-      type: string
-      enum:
-      - patient
-      - normal
-      - eager
-      title: TurnEagerness
-      description: Agent's eagerness to respond. Higher values make agent wait for higher turn probability.
-      default: normal
-    EffectsSpec-Input:
-      properties:
-        filter_preset_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Filter Preset Id
-        distance:
-          type: number
-          maximum: 1.0
-          minimum: 0.0
-          title: Distance
-          default: 0.0
-        environment_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Environment Id
-        background_noise_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Background Noise Id
-        send_level:
-          type: number
-          maximum: 1.0
-          minimum: 0.0
-          title: Send Level
-          default: 1.0
-        seed:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Seed
-      type: object
-      title: EffectsSpec
-      description: Filter preset, distance (proximity EQ), and environment (convolution reverb).
-    ResourceAccessInfo:
-      properties:
-        is_creator:
-          type: boolean
-          title: Is Creator
-          description: Whether the user making the request is the creator of the agent
-        creator_name:
-          type: string
-          title: Creator Name
-          description: Name of the agent's creator
-        creator_email:
-          type: string
-          title: Creator Email
-          description: Email of the agent's creator
-        role:
-          type: string
-          enum:
-          - admin
-          - editor
-          - commenter
-          - viewer
-          title: Role
-          description: The role of the user making the request
-        anonymous_access_level_override:
-          anyOf:
-          - type: string
-            enum:
-            - admin
-            - editor
-            - commenter
-            - viewer
-          - type: 'null'
-          title: Anonymous Access Level Override
-          description: The access level for anonymous users. If None, the resource is not shared publicly.
-        access_source:
-          anyOf:
-          - type: string
-            enum:
-            - creator
-            - explicit
-            - workspace_admin
-            - workspace_default
-          - type: 'null'
-          title: Access Source
-          description: Why the requesting user has access to this resource. 'creator' = caller is the owner. 'explicit' = caller (or one of their workspace groups) is listed in role_to_group_ids beyond the workspace-wide everyone group. 'workspace_default' = the workspace-wide everyone group is listed in role_to_group_ids (every non-anon workspace member, including admins, sees this resource). 'workspace_admin' = caller is a workspace admin and the admin seat is the *only* path to access; reserved for docs nobody else can see. Lets the UI disclose why an admin-bypass viewer sees a doc that wasn't explicitly shared with them.
-      type: object
-      required:
-      - is_creator
-      - creator_name
-      - creator_email
-      - role
-      title: ResourceAccessInfo
-      example:
-        access_source: creator
-        creator_email: john.doe@example.com
-        creator_name: John Doe
-        is_creator: true
-        role: admin
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ASRConversationalConfig:
-      properties:
-        quality:
-          $ref: '#/components/schemas/ASRQuality'
-          description: The quality of the transcription
-          default: high
-        provider:
-          $ref: '#/components/schemas/ASRProvider'
-          description: The provider of the transcription service
-          default: scribe_realtime
-        user_input_audio_format:
-          $ref: '#/components/schemas/ASRInputFormat'
-          description: The format of the audio to be transcribed
-          default: pcm_16000
-        keywords:
-          items:
-            type: string
-          type: array
-          title: Keywords
-          description: Keywords to boost prediction probability for
-          x-convai-client-override: true
-          x-convai-soft-override-disallowed: true
-      type: object
-      title: ASRConversationalConfig
-      example:
-        keywords:
-        - hello
-        - world
-        provider: scribe_realtime
-        quality: high
-        user_input_audio_format: pcm_16000
+      - system_prompt
+      - elevenlabs
+      title: TextNormalisationType
+      description: Method for converting numbers to words before sending to TTS
+      default: system_prompt
     SpeechEngineResponse:
       properties:
         speech_engine_id:
@@ -1132,692 +1821,3 @@ components:
           turn_timeout: 7.0
         vad:
           background_voice_detection: false
-    ClientEvent:
-      type: string
-      enum:
-      - conversation_initiation_metadata
-      - asr_initiation_metadata
-      - ping
-      - audio
-      - interruption
-      - user_transcript
-      - tentative_user_transcript
-      - agent_response
-      - agent_response_correction
-      - client_tool_call
-      - mcp_tool_call
-      - mcp_connection_status
-      - agent_tool_request
-      - agent_tool_response
-      - agent_tool_response_full_payload
-      - agent_response_metadata
-      - vad_score
-      - agent_chat_response_part
-      - client_error
-      - guardrail_triggered
-      - dtmf_request
-      - agent_response_complete
-      - context_usage
-      - internal_turn_probability
-      - internal_tentative_agent_response
-      title: ClientEvent
-    SpellingPatience:
-      type: string
-      enum:
-      - auto
-      - 'off'
-      title: SpellingPatience
-      description: Controls if the agent should be more patient when user is spelling numbers and named entities.
-      default: auto
-    TurnMode:
-      type: string
-      enum:
-      - silence
-      - turn
-      title: TurnMode
-      default: turn
-    UpdateSpeechEngineRequest:
-      properties:
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-        speech_engine:
-          anyOf:
-          - $ref: '#/components/schemas/SpeechEngineConfig'
-          - type: 'null'
-        asr:
-          anyOf:
-          - $ref: '#/components/schemas/ASRConversationalConfig'
-          - type: 'null'
-        tts:
-          anyOf:
-          - $ref: '#/components/schemas/TTSConversationalConfig-Input'
-          - type: 'null'
-        turn:
-          anyOf:
-          - $ref: '#/components/schemas/BaseTurnConfig'
-          - type: 'null'
-        vad:
-          anyOf:
-          - $ref: '#/components/schemas/VADConfig'
-          - type: 'null'
-        conversation:
-          anyOf:
-          - $ref: '#/components/schemas/ConversationConfig-Input'
-          - type: 'null'
-        privacy:
-          anyOf:
-          - $ref: '#/components/schemas/PrivacyConfig-Input'
-          - type: 'null'
-        call_limits:
-          anyOf:
-          - $ref: '#/components/schemas/AgentCallLimits'
-          - type: 'null'
-        language:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Language
-        cascade_timeout_seconds:
-          anyOf:
-          - type: number
-            maximum: 15.0
-            minimum: 2.0
-          - type: 'null'
-          title: Cascade Timeout Seconds
-          description: Time in seconds to wait for the upstream speech engine endpoint to respond before the attempt is abandoned and retried. Must be between 2 and 15 seconds.
-        tags:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Tags
-        overrides:
-          anyOf:
-          - $ref: '#/components/schemas/SpeechEngineConversationInitiationClientDataConfig'
-          - type: 'null'
-      type: object
-      title: UpdateSpeechEngineRequest
-    ConversationConfig-Output:
-      properties:
-        text_only:
-          type: boolean
-          title: Text Only
-          description: If enabled audio will not be processed and only text will be used, use to avoid audio pricing.
-          default: false
-          x-convai-client-override: true
-        max_duration_seconds:
-          type: integer
-          title: Max Duration Seconds
-          description: The maximum duration of a conversation in seconds
-          default: 600
-          x-convai-client-override: true
-        client_events:
-          items:
-            $ref: '#/components/schemas/ClientEvent'
-          type: array
-          title: Client Events
-          description: The events that will be sent to the client
-        file_input:
-          $ref: '#/components/schemas/FileInputConfig'
-          description: Configuration for file input (image/PDF uploads) during conversations.
-          x-convai-client-override: true
-        monitoring_enabled:
-          type: boolean
-          title: Monitoring Enabled
-          description: Enable real-time monitoring of conversations via WebSocket
-          default: false
-        monitoring_events:
-          items:
-            $ref: '#/components/schemas/ClientEvent'
-          type: array
-          title: Monitoring Events
-          description: The events that will be sent to monitoring connections.
-        dtmf_input_settings:
-          anyOf:
-          - $ref: '#/components/schemas/DTMFInputConfig'
-          - type: 'null'
-          description: Configure DTMF (keypad) input collection during phone calls
-        background_sound:
-          $ref: '#/components/schemas/BackgroundSoundConfig'
-          description: Configuration for background sound during conversations.
-        source_attribution:
-          type: boolean
-          title: Source Attribution
-          description: When enabled and knowledge base content is present, the LLM is instructed to report which sources it used.
-          default: false
-      type: object
-      title: ConversationConfig
-      example:
-        client_events:
-        - audio
-        - interruption
-        max_duration_seconds: 600
-    TTSConversationalConfig-Output:
-      properties:
-        model_id:
-          $ref: '#/components/schemas/TTSConversationalModel'
-          description: The model to use for TTS
-          default: eleven_flash_v2
-          x-convai-client-override: true
-        voice_id:
-          type: string
-          minLength: 0
-          title: Voice Id
-          description: The voice ID to use for TTS
-          default: cjVigY5qzO86Huf0OWal
-          x-convai-client-override: true
-          x-convai-language-override: true
-        supported_voices:
-          items:
-            $ref: '#/components/schemas/SupportedVoice'
-          type: array
-          title: Supported Voices
-          description: Additional supported voices for the agent
-          x-convai-client-override: true
-          x-convai-soft-override-disallowed: true
-        expressive_mode:
-          type: boolean
-          title: Expressive Mode
-          description: When enabled, applies expressive audio tags prompt. Automatically disabled for non-v3 models.
-          default: true
-        suggested_audio_tags:
-          items:
-            $ref: '#/components/schemas/SuggestedAudioTag'
-          type: array
-          maxItems: 20
-          title: Suggested Audio Tags
-          description: Suggested audio tags to boost expressive speech (for eleven_v3 and eleven_v3_conversational models). The agent can still use other tags not listed here.
-        agent_output_audio_format:
-          $ref: '#/components/schemas/TTSOutputFormat'
-          description: The audio format to use for TTS
-          default: pcm_16000
-        optimize_streaming_latency:
-          $ref: '#/components/schemas/TTSOptimizeStreamingLatency'
-          description: 'Deprecated: this field is a no-op and is ignored.'
-          default: 3
-          deprecated: true
-        stability:
-          type: number
-          maximum: 1.0
-          minimum: 0.0
-          title: Stability
-          description: The stability of generated speech
-          default: 0.5
-          x-convai-client-override: true
-        speed:
-          type: number
-          maximum: 1.2
-          minimum: 0.7
-          title: Speed
-          description: The speed of generated speech
-          default: 1.0
-          x-convai-client-override: true
-        similarity_boost:
-          type: number
-          maximum: 1.0
-          minimum: 0.0
-          title: Similarity Boost
-          description: The similarity boost for generated speech
-          default: 0.8
-          x-convai-client-override: true
-        text_normalisation_type:
-          $ref: '#/components/schemas/TextNormalisationType'
-          description: Method for converting numbers to words before converting text to speech. If set to SYSTEM_PROMPT, the system prompt will be updated to include normalization instructions. If set to ELEVENLABS, the text will be normalized after generation, incurring slight additional latency.
-          default: system_prompt
-        pronunciation_dictionary_locators:
-          items:
-            $ref: '#/components/schemas/PydanticPronunciationDictionaryVersionLocator'
-          type: array
-          title: Pronunciation Dictionary Locators
-          description: The pronunciation dictionary locators
-          x-convai-client-override: true
-        enable_phoneme_tags:
-          type: boolean
-          title: Enable Phoneme Tags
-          description: Opt-in to SSML phoneme tag handling for V3 models. When enabled, phoneme tags (inline and from pronunciation dictionaries) are parsed into inline IPA before being sent to the model.
-          default: true
-        audio_effects:
-          anyOf:
-          - $ref: '#/components/schemas/EffectsSpec-Output'
-          - type: 'null'
-          description: 'Optional TTS effects spec: filter preset, distance (proximity EQ), and environment (convolution reverb).'
-      type: object
-      title: TTSConversationalConfig
-      example:
-        agent_output_audio_format: pcm_16000
-        model_id: eleven_turbo_v2
-        optimize_streaming_latency: 3
-        pronunciation_dictionary_locators: []
-        similarity_boost: 0.8
-        speed: 1.0
-        stability: 0.5
-        voice_id: cjVigY5qzO86Huf0OWal
-    SpeechEngineConfig:
-      properties:
-        ws_url:
-          type: string
-          title: Ws Url
-          description: The WebSocket URL for the transcript server
-        request_headers:
-          additionalProperties:
-            anyOf:
-            - type: string
-            - $ref: '#/components/schemas/ConvAISecretLocator'
-            - $ref: '#/components/schemas/ConvAIDynamicVariable'
-          type: object
-          title: Request Headers
-          description: Headers to include in the WebSocket connection request
-      type: object
-      required:
-      - ws_url
-      title: SpeechEngineConfig
-    BackgroundSoundConfig:
-      properties:
-        source_type:
-          anyOf:
-          - $ref: '#/components/schemas/BackgroundSoundSourceType'
-          - type: 'null'
-          description: The type of background sound source.
-        source_id:
-          anyOf:
-          - $ref: '#/components/schemas/BackgroundSoundPresetId'
-          - type: 'null'
-          description: Identifier for the sound source.
-        volume:
-          type: number
-          maximum: 1.0
-          minimum: 0.01
-          title: Volume
-          description: Volume level for background sound (0.01 to 1.0).
-          default: 0.15
-        crossfade_loop:
-          type: boolean
-          title: Crossfade Loop
-          description: Apply a crossfade at the loop boundary to avoid audible pops when the sound loops.
-          default: true
-      type: object
-      title: BackgroundSoundConfig
-    CreateSpeechEngineRequest:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: Name of the speech engine
-          default: Speech Engine
-        speech_engine:
-          $ref: '#/components/schemas/SpeechEngineConfig'
-          description: Speech engine WebSocket configuration
-        asr:
-          $ref: '#/components/schemas/ASRConversationalConfig'
-          description: ASR configuration
-        tts:
-          $ref: '#/components/schemas/TTSConversationalConfig-Input'
-          description: TTS configuration
-        turn:
-          $ref: '#/components/schemas/BaseTurnConfig'
-          description: Turn detection configuration
-        vad:
-          $ref: '#/components/schemas/VADConfig'
-          description: Configuration for voice activity detection
-        conversation:
-          $ref: '#/components/schemas/ConversationConfig-Input'
-          description: Conversation configuration (client events, etc.)
-        privacy:
-          $ref: '#/components/schemas/PrivacyConfig-Input'
-          description: Privacy settings (recording, retention, zero retention mode)
-        call_limits:
-          $ref: '#/components/schemas/AgentCallLimits'
-          description: Concurrency and daily conversation limits for this speech engine
-        language:
-          type: string
-          title: Language
-          description: Language for the speech engine
-          default: en
-        cascade_timeout_seconds:
-          type: number
-          maximum: 15.0
-          minimum: 2.0
-          title: Cascade Timeout Seconds
-          description: Time in seconds to wait for the upstream speech engine endpoint to respond before the attempt is abandoned and retried. Must be between 2 and 15 seconds.
-          default: 4.0
-        tags:
-          items:
-            type: string
-          type: array
-          title: Tags
-          description: Tags for categorization
-        overrides:
-          $ref: '#/components/schemas/SpeechEngineConversationInitiationClientDataConfig'
-          description: Override settings the client may set during conversation initiation
-      type: object
-      required:
-      - speech_engine
-      title: CreateSpeechEngineRequest
-    ASRQuality:
-      type: string
-      enum:
-      - high
-      title: ASRQuality
-      default: high
-    TextNormalisationType:
-      type: string
-      enum:
-      - system_prompt
-      - elevenlabs
-      title: TextNormalisationType
-      description: Method for converting numbers to words before sending to TTS
-      default: system_prompt
-    DTMFInputConfig:
-      properties:
-        dtmf_input_timeout:
-          type: number
-          maximum: 10.0
-          minimum: 0.5
-          title: Dtmf Input Timeout
-          description: Timeout in seconds to wait for additional DTMF digits
-          default: 2.0
-        hash_terminator:
-          type: boolean
-          title: Hash Terminator
-          description: 'If true, pressing # immediately completes DTMF input'
-          default: true
-        redact_input:
-          type: boolean
-          title: Redact Input
-          description: If true, replace the caller's DTMF (keypad) entries with a redaction marker in the transcript, conversation log and analysis. Digits the agent repeats back or passes to a tool are not affected.
-          default: false
-      type: object
-      title: DTMFInputConfig
-      description: Configuration for DTMF (keypad) input collection during phone calls.
-    ConfigEntityType:
-      type: string
-      enum:
-      - name
-      - name.name_given
-      - name.name_family
-      - name.name_other
-      - email_address
-      - contact_number
-      - dob
-      - age
-      - religious_belief
-      - political_opinion
-      - sexual_orientation
-      - ethnicity_race
-      - marital_status
-      - occupation
-      - physical_attribute
-      - language
-      - username
-      - password
-      - url
-      - organization
-      - financial_id
-      - financial_id.payment_card
-      - financial_id.payment_card.payment_card_number
-      - financial_id.payment_card.payment_card_expiration_date
-      - financial_id.payment_card.payment_card_cvv
-      - financial_id.bank_account
-      - financial_id.bank_account.bank_account_number
-      - financial_id.bank_account.bank_routing_number
-      - financial_id.bank_account.swift_bic_code
-      - financial_id.financial_id_other
-      - location
-      - location.location_address
-      - location.location_city
-      - location.location_postal_code
-      - location.location_coordinate
-      - location.location_state
-      - location.location_country
-      - location.location_other
-      - date
-      - date_interval
-      - unique_id
-      - unique_id.government_issued_id
-      - unique_id.account_number
-      - unique_id.vehicle_id
-      - unique_id.healthcare_number
-      - unique_id.healthcare_number.medical_record_number
-      - unique_id.healthcare_number.health_plan_beneficiary_number
-      - unique_id.device_id
-      - unique_id.unique_id_other
-      - medical
-      - medical.medical_condition
-      - medical.medication
-      - medical.medical_procedure
-      - medical.medical_measurement
-      - medical.medical_other
-      title: ConfigEntityType
-      description: 'Entity types for the API configuration.
-
-
-        This enum contains all valid entity type configurations that users can specify:
-
-        - Parent types (e.g., "name", "financial_id") that expand to all subtypes
-
-        - Specific subtypes using dot notation (e.g., "name.full_name")
-
-        - Standalone terminal types (e.g., "email_address")
-
-
-        When converted for service use, parent types expand to all their terminal subtypes.'
-    ConversationConfig-Input:
-      properties:
-        text_only:
-          type: boolean
-          title: Text Only
-          description: If enabled audio will not be processed and only text will be used, use to avoid audio pricing.
-          default: false
-          x-convai-client-override: true
-        max_duration_seconds:
-          type: integer
-          title: Max Duration Seconds
-          description: The maximum duration of a conversation in seconds
-          default: 600
-          x-convai-client-override: true
-        client_events:
-          items:
-            $ref: '#/components/schemas/ClientEvent'
-          type: array
-          title: Client Events
-          description: The events that will be sent to the client
-        file_input:
-          $ref: '#/components/schemas/FileInputConfig'
-          description: Configuration for file input (image/PDF uploads) during conversations.
-          x-convai-client-override: true
-        monitoring_enabled:
-          type: boolean
-          title: Monitoring Enabled
-          description: Enable real-time monitoring of conversations via WebSocket
-          default: false
-        monitoring_events:
-          items:
-            $ref: '#/components/schemas/ClientEvent'
-          type: array
-          title: Monitoring Events
-          description: The events that will be sent to monitoring connections.
-        dtmf_input_settings:
-          anyOf:
-          - $ref: '#/components/schemas/DTMFInputConfig'
-          - type: 'null'
-          description: Configure DTMF (keypad) input collection during phone calls
-        background_sound:
-          $ref: '#/components/schemas/BackgroundSoundConfig'
-          description: Configuration for background sound during conversations.
-        source_attribution:
-          type: boolean
-          title: Source Attribution
-          description: When enabled and knowledge base content is present, the LLM is instructed to report which sources it used.
-          default: false
-      type: object
-      title: ConversationConfig
-      example:
-        client_events:
-        - audio
-        - interruption
-        max_duration_seconds: 600
-    BaseTurnConfig:
-      properties:
-        turn_timeout:
-          type: number
-          title: Turn Timeout
-          description: Maximum wait time for the user's reply before re-engaging the user
-          default: 7.0
-        initial_wait_time:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Initial Wait Time
-          description: How long the agent will wait for the user to start the conversation if the first message is empty. If not set, uses the regular turn_timeout.
-        silence_end_call_timeout:
-          type: number
-          title: Silence End Call Timeout
-          description: Maximum wait time since the user last spoke before terminating the call
-          default: -1
-        mode:
-          $ref: '#/components/schemas/TurnMode'
-          description: The mode of turn detection
-          default: turn
-          x-fern-ignore: true
-        turn_eagerness:
-          $ref: '#/components/schemas/TurnEagerness'
-          description: Controls how eager the agent is to respond. Low = less eager (waits longer), Standard = default eagerness, High = more eager (responds sooner)
-          default: normal
-        spelling_patience:
-          $ref: '#/components/schemas/SpellingPatience'
-          description: Controls if the agent should be more patient when user is spelling numbers and named entities. Auto = model based, Off = never wait extra
-          default: auto
-        speculative_turn:
-          type: boolean
-          title: Speculative Turn
-          description: When enabled, starts generating LLM responses during silence before full turn confidence is reached, reducing perceived latency. May increase LLM costs.
-          default: false
-        retranscribe_on_turn_timeout:
-          type: boolean
-          title: Retranscribe On Turn Timeout
-          description: When enabled, if VAD detects no speech, attempts to re-transcribe accumulated audio at turn timeout. Disables silence discount billing for affected turns.
-          default: false
-        turn_model:
-          $ref: '#/components/schemas/TurnModel'
-          default: turn_v3
-        interruption_ignore_terms:
-          items:
-            type: string
-          type: array
-          title: Interruption Ignore Terms
-          description: List of terms that should not trigger an interruption when spoken by the user (e.g. 'gotcha', 'understood'). Uses case-insensitive exact matching.
-        interruption_ignore_term_languages:
-          items:
-            type: string
-          type: array
-          title: Interruption Ignore Term Languages
-          description: Language codes for which preset ignore-term categories have been activated. Stored explicitly so display is not inferred from term overlap.
-        merge_with_default_ignore_terms:
-          type: boolean
-          title: Merge With Default Ignore Terms
-          description: When enabled, the curated default terms for interruption_ignore_term_languages are used in addition to interruption_ignore_terms.
-          default: false
-        transcribe_on_disabled_interruptions:
-          type: boolean
-          title: Transcribe On Disabled Interruptions
-          description: When interruptions are disabled, still transcribe what the user says so it can carry into the next turn. When off, user speech during a non-interruptible turn is ignored and won't trigger a turn.
-          default: false
-      type: object
-      title: BaseTurnConfig
-      example:
-        interruption_ignore_term_languages: []
-        interruption_ignore_terms: []
-        merge_with_default_ignore_terms: false
-        mode: turn
-        retranscribe_on_turn_timeout: false
-        silence_end_call_timeout: -1.0
-        speculative_turn: false
-        spelling_patience: auto
-        transcribe_on_disabled_interruptions: false
-        turn_eagerness: normal
-        turn_timeout: 7.0
-    SpeechEngineSummaryResponse:
-      properties:
-        speech_engine_id:
-          type: string
-          title: Speech Engine Id
-          description: The speech engine resource ID
-        name:
-          type: string
-          title: Name
-          description: Human-readable name for the speech engine
-        voice_id:
-          type: string
-          title: Voice Id
-          description: Voice ID assigned to this speech engine
-        created_at_unix_secs:
-          type: integer
-          title: Created At Unix Secs
-          description: Creation time in Unix seconds
-        tags:
-          items:
-            type: string
-          type: array
-          title: Tags
-          description: Arbitrary tags for categorization and filtering
-        access_info:
-          $ref: '#/components/schemas/ResourceAccessInfo'
-          description: The access information of the speech engine for the user
-      type: object
-      required:
-      - speech_engine_id
-      - name
-      - voice_id
-      - created_at_unix_secs
-      - tags
-      - access_info
-      title: SpeechEngineSummaryResponse
-      example:
-        access_info:
-          creator_email: john@example.com
-          creator_name: John Doe
-          is_creator: true
-          role: admin
-        created_at_unix_secs: 1714000000
-        name: My Speech Engine
-        speech_engine_id: seng_3701k3ttaq12ewp8b7qv5rfyszkz
-        tags:
-        - production
-        - v1
-        voice_id: UCaNsl8F6Xh4GALkVMLS
-    PydanticPronunciationDictionaryVersionLocator:
-      properties:
-        pronunciation_dictionary_id:
-          type: string
-          title: Pronunciation Dictionary Id
-          description: The ID of the pronunciation dictionary
-        version_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Version Id
-          description: The ID of the version of the pronunciation dictionary
-      type: object
-      required:
-      - pronunciation_dictionary_id
-      - version_id
-      title: PydanticPronunciationDictionaryVersionLocator
-      description: 'A locator for other documents to be able to reference a specific dictionary and it''s version.
-
-        This is a pydantic version of PronunciationDictionaryVersionLocatorDBModel.
-
-        Required to ensure compat with the rest of the agent data models.'
-    ConvAIDynamicVariable:
-      properties:
-        variable_name:
-          type: string
-          title: Variable Name
-      type: object
-      required:
-      - variable_name
-      title: ConvAIDynamicVariable
-      description: Used to reference a dynamic variable.

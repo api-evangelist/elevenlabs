@@ -105,15 +105,16 @@ paths:
       - Usage
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
+    UsageAggregationInterval:
+      type: string
+      enum:
+      - hour
+      - day
+      - week
+      - month
+      - cumulative
+      title: UsageAggregationInterval
+      description: The time interval over which to aggregate the usage data.
     MetricType:
       type: string
       enum:
@@ -148,27 +149,6 @@ components:
       - request_source
       title: BreakdownTypes
       description: How to break down the information. Cannot be "user" or "api_key" if include_workspace_metrics is False.
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     UsageCharactersResponseModel:
       properties:
         time:
@@ -198,13 +178,33 @@ components:
           All:
           - 49
           - 1053
-    UsageAggregationInterval:
-      type: string
-      enum:
-      - hour
-      - day
-      - week
-      - month
-      - cumulative
-      title: UsageAggregationInterval
-      description: The time interval over which to aggregate the usage data.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError

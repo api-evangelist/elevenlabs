@@ -109,14 +109,6 @@ paths:
         '404':
           description: Conversation audio not found
 components:
-  parameters:
-    conversationId:
-      name: conversation_id
-      in: path
-      required: true
-      description: The unique identifier of the conversation.
-      schema:
-        type: string
   schemas:
     Conversation:
       type: object
@@ -164,20 +156,6 @@ components:
           description: Additional metadata about the conversation.
           additionalProperties:
             type: string
-    ConversationListResponse:
-      type: object
-      properties:
-        conversations:
-          type: array
-          description: List of conversations.
-          items:
-            $ref: '#/components/schemas/ConversationSummary'
-        has_more:
-          type: boolean
-          description: Whether there are more conversations available.
-        next_cursor:
-          type: string
-          description: Cursor for pagination.
     ConversationSummary:
       type: object
       properties:
@@ -201,6 +179,28 @@ components:
         duration_seconds:
           type: number
           description: Duration of the conversation in seconds.
+    ConversationListResponse:
+      type: object
+      properties:
+        conversations:
+          type: array
+          description: List of conversations.
+          items:
+            $ref: '#/components/schemas/ConversationSummary'
+        has_more:
+          type: boolean
+          description: Whether there are more conversations available.
+        next_cursor:
+          type: string
+          description: Cursor for pagination.
+  parameters:
+    conversationId:
+      name: conversation_id
+      in: path
+      required: true
+      description: The unique identifier of the conversation.
+      schema:
+        type: string
   securitySchemes:
     apiKeyAuth:
       type: apiKey

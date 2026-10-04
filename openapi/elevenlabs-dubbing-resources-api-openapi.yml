@@ -148,49 +148,6 @@ paths:
           description: Dubbing project or segment not found
 components:
   schemas:
-    DubbingResource:
-      type: object
-      properties:
-        dubbing_id:
-          type: string
-          description: The unique identifier of the dubbing project.
-        segments:
-          type: array
-          description: All segments in the dubbing project.
-          items:
-            $ref: '#/components/schemas/TranscriptSegment'
-        speakers:
-          type: array
-          description: List of detected speakers in the source audio.
-          items:
-            type: object
-            properties:
-              speaker_id:
-                type: string
-                description: Unique identifier for the detected speaker.
-              name:
-                type: string
-                description: Assigned name for the speaker.
-    DubSegmentRequest:
-      type: object
-      required:
-      - segment_id
-      - language_code
-      properties:
-        segment_id:
-          type: string
-          description: The identifier of the segment to dub.
-        language_code:
-          type: string
-          description: The language code for the dubbed output.
-    DubbingTranscript:
-      type: object
-      properties:
-        segments:
-          type: array
-          description: Transcript segments with timing information.
-          items:
-            $ref: '#/components/schemas/TranscriptSegment'
     TranslateSegmentRequest:
       type: object
       required:
@@ -218,6 +175,49 @@ components:
         speaker:
           type: string
           description: The speaker identifier for this segment.
+    DubSegmentRequest:
+      type: object
+      required:
+      - segment_id
+      - language_code
+      properties:
+        segment_id:
+          type: string
+          description: The identifier of the segment to dub.
+        language_code:
+          type: string
+          description: The language code for the dubbed output.
+    DubbingTranscript:
+      type: object
+      properties:
+        segments:
+          type: array
+          description: Transcript segments with timing information.
+          items:
+            $ref: '#/components/schemas/TranscriptSegment'
+    DubbingResource:
+      type: object
+      properties:
+        dubbing_id:
+          type: string
+          description: The unique identifier of the dubbing project.
+        segments:
+          type: array
+          description: All segments in the dubbing project.
+          items:
+            $ref: '#/components/schemas/TranscriptSegment'
+        speakers:
+          type: array
+          description: List of detected speakers in the source audio.
+          items:
+            type: object
+            properties:
+              speaker_id:
+                type: string
+                description: Unique identifier for the detected speaker.
+              name:
+                type: string
+                description: Assigned name for the speaker.
   parameters:
     dubbingId:
       name: dubbing_id

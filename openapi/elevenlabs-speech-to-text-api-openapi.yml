@@ -356,6 +356,180 @@ components:
           start: 0.5
           text: world!
           type: word
+    AdditionalFormatResponseModel:
+      properties:
+        requested_format:
+          type: string
+          title: Requested Format
+          description: The requested format.
+        file_extension:
+          type: string
+          title: File Extension
+          description: The file extension of the additional format.
+        content_type:
+          type: string
+          title: Content Type
+          description: The content type of the additional format.
+        is_base64_encoded:
+          type: boolean
+          title: Is Base64 Encoded
+          description: Whether the content is base64 encoded.
+        content:
+          type: string
+          title: Content
+          description: The content of the additional format.
+      type: object
+      required:
+      - requested_format
+      - file_extension
+      - content_type
+      - is_base64_encoded
+      - content
+      title: AdditionalFormatResponseModel
+    ExportOptions:
+      oneOf:
+      - $ref: '#/components/schemas/SegmentedJsonExportOptions'
+      - $ref: '#/components/schemas/DocxExportOptions'
+      - $ref: '#/components/schemas/PdfExportOptions'
+      - $ref: '#/components/schemas/TxtExportOptions'
+      - $ref: '#/components/schemas/HtmlExportOptions'
+      - $ref: '#/components/schemas/SrtExportOptions'
+      title: ExportOptions
+      discriminator:
+        propertyName: format
+        mapping:
+          docx: '#/components/schemas/DocxExportOptions'
+          html: '#/components/schemas/HtmlExportOptions'
+          pdf: '#/components/schemas/PdfExportOptions'
+          segmented_json: '#/components/schemas/SegmentedJsonExportOptions'
+          srt: '#/components/schemas/SrtExportOptions'
+          txt: '#/components/schemas/TxtExportOptions'
+    SegmentedJsonExportOptions:
+      properties:
+        include_speakers:
+          type: boolean
+          title: Include Speakers
+          default: true
+        include_timestamps:
+          type: boolean
+          title: Include Timestamps
+          default: true
+        format:
+          type: string
+          const: segmented_json
+          title: Format
+        segment_on_silence_longer_than_s:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Segment On Silence Longer Than S
+        max_segment_duration_s:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Max Segment Duration S
+        max_segment_chars:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Max Segment Chars
+      type: object
+      required:
+      - format
+      title: SegmentedJsonExportOptions
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HtmlExportOptions:
+      properties:
+        include_speakers:
+          type: boolean
+          title: Include Speakers
+          default: true
+        include_timestamps:
+          type: boolean
+          title: Include Timestamps
+          default: true
+        format:
+          type: string
+          const: html
+          title: Format
+        segment_on_silence_longer_than_s:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Segment On Silence Longer Than S
+        max_segment_duration_s:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Max Segment Duration S
+        max_segment_chars:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Max Segment Chars
+      type: object
+      required:
+      - format
+      title: HtmlExportOptions
+    TxtExportOptions:
+      properties:
+        max_characters_per_line:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Max Characters Per Line
+          default: 100
+        include_speakers:
+          type: boolean
+          title: Include Speakers
+          default: true
+        include_timestamps:
+          type: boolean
+          title: Include Timestamps
+          default: true
+        format:
+          type: string
+          const: txt
+          title: Format
+        segment_on_silence_longer_than_s:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Segment On Silence Longer Than S
+        max_segment_duration_s:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Max Segment Duration S
+        max_segment_chars:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Max Segment Chars
+      type: object
+      required:
+      - format
+      title: TxtExportOptions
     DocxExportOptions:
       properties:
         include_speakers:
@@ -398,45 +572,48 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    TxtExportOptions:
+    SrtExportOptions:
       properties:
         max_characters_per_line:
           anyOf:
           - type: integer
           - type: 'null'
           title: Max Characters Per Line
-          default: 100
+          default: 42
         include_speakers:
           type: boolean
           title: Include Speakers
-          default: true
+          default: false
         include_timestamps:
           type: boolean
           title: Include Timestamps
           default: true
         format:
           type: string
-          const: txt
+          const: srt
           title: Format
         segment_on_silence_longer_than_s:
           anyOf:
           - type: number
           - type: 'null'
           title: Segment On Silence Longer Than S
+          default: 0.8
         max_segment_duration_s:
           anyOf:
           - type: number
           - type: 'null'
           title: Max Segment Duration S
+          default: 4
         max_segment_chars:
           anyOf:
           - type: integer
           - type: 'null'
           title: Max Segment Chars
+          default: 84
       type: object
       required:
       - format
-      title: TxtExportOptions
+      title: SrtExportOptions
     SpeechToTextWebhookResponseModel:
       properties:
         message:
@@ -461,77 +638,6 @@ components:
       example:
         message: Request accepted. Transcription result will be sent to the webhook endpoint.
         request_id: '1234567890'
-    MultichannelSpeechToTextResponseModel:
-      properties:
-        transcripts:
-          items:
-            $ref: '#/components/schemas/SpeechToTextChunkResponseModel'
-          type: array
-          title: Transcripts
-          description: List of transcripts, one for each audio channel. Each transcript contains the text and word-level details for its respective channel.
-        transcription_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Transcription Id
-          description: The transcription ID of the response.
-        audio_duration_secs:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Audio Duration Secs
-          description: The duration of the audio that was transcribed across all channels in seconds.
-      type: object
-      required:
-      - transcripts
-      title: MultichannelSpeechToTextResponseModel
-      description: Response model for multichannel speech-to-text transcription.
-      example:
-        transcripts:
-        - language_code: en
-          language_probability: 0.98
-          text: Hello from channel one.
-          words:
-          - end: 0.5
-            logprob: -0.124
-            speaker_id: speaker_0
-            start: 0.0
-            text: Hello
-            type: word
-          - end: 0.5
-            logprob: 0.0
-            speaker_id: speaker_0
-            start: 0.5
-            text: ' '
-            type: spacing
-          - end: 0.8
-            logprob: -0.089
-            speaker_id: speaker_0
-            start: 0.5
-            text: from
-            type: word
-        - language_code: en
-          language_probability: 0.97
-          text: Greetings from channel two.
-          words:
-          - end: 0.7
-            logprob: -0.156
-            speaker_id: speaker_1
-            start: 0.1
-            text: Greetings
-            type: word
-          - end: 0.7
-            logprob: 0.0
-            speaker_id: speaker_1
-            start: 0.7
-            text: ' '
-            type: spacing
-          - end: 1.0
-            logprob: -0.078
-            speaker_id: speaker_1
-            start: 0.7
-            text: from
-            type: word
     SpeechToTextWordResponseModel:
       properties:
         text:
@@ -612,6 +718,96 @@ components:
         start: 0.0
         text: Hello
         type: word
+    SpeechToTextCharacterResponseModel:
+      properties:
+        text:
+          type: string
+          title: Text
+          description: The character that was transcribed.
+        start:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Start
+          description: The start time of the character in seconds.
+        end:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: End
+          description: The end time of the character in seconds.
+      type: object
+      required:
+      - text
+      title: SpeechToTextCharacterResponseModel
+      example:
+        end: 0.1
+        start: 0.0
+        text: H
+    AdditionalFormats:
+      items:
+        $ref: '#/components/schemas/ExportOptions'
+      type: array
+      maxItems: 10
+      title: AdditionalFormats
+    DetectedEntity:
+      properties:
+        text:
+          type: string
+          title: Text
+          description: The text that was identified as an entity.
+        entity_type:
+          type: string
+          title: Entity Type
+          description: The type of entity detected (e.g., 'credit_card', 'email_address', 'person_name').
+        start_char:
+          type: integer
+          title: Start Char
+          description: Start character position in the transcript text.
+        end_char:
+          type: integer
+          title: End Char
+          description: End character position in the transcript text.
+      type: object
+      required:
+      - text
+      - entity_type
+      - start_char
+      - end_char
+      title: DetectedEntity
+    PdfExportOptions:
+      properties:
+        include_speakers:
+          type: boolean
+          title: Include Speakers
+          default: true
+        include_timestamps:
+          type: boolean
+          title: Include Timestamps
+          default: true
+        format:
+          type: string
+          const: pdf
+          title: Format
+        segment_on_silence_longer_than_s:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Segment On Silence Longer Than S
+        max_segment_duration_s:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Max Segment Duration S
+        max_segment_chars:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Max Segment Chars
+      type: object
+      required:
+      - format
+      title: PdfExportOptions
     Body_Speech_to_Text_v1_speech_to_text_post:
       properties:
         model_id:
@@ -813,295 +1009,77 @@ components:
       required:
       - model_id
       title: Body_Speech_to_Text_v1_speech_to_text_post
-    SegmentedJsonExportOptions:
+    MultichannelSpeechToTextResponseModel:
       properties:
-        include_speakers:
-          type: boolean
-          title: Include Speakers
-          default: true
-        include_timestamps:
-          type: boolean
-          title: Include Timestamps
-          default: true
-        format:
-          type: string
-          const: segmented_json
-          title: Format
-        segment_on_silence_longer_than_s:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Segment On Silence Longer Than S
-        max_segment_duration_s:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Max Segment Duration S
-        max_segment_chars:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Max Segment Chars
-      type: object
-      required:
-      - format
-      title: SegmentedJsonExportOptions
-    PdfExportOptions:
-      properties:
-        include_speakers:
-          type: boolean
-          title: Include Speakers
-          default: true
-        include_timestamps:
-          type: boolean
-          title: Include Timestamps
-          default: true
-        format:
-          type: string
-          const: pdf
-          title: Format
-        segment_on_silence_longer_than_s:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Segment On Silence Longer Than S
-        max_segment_duration_s:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Max Segment Duration S
-        max_segment_chars:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Max Segment Chars
-      type: object
-      required:
-      - format
-      title: PdfExportOptions
-    AdditionalFormats:
-      items:
-        $ref: '#/components/schemas/ExportOptions'
-      type: array
-      maxItems: 10
-      title: AdditionalFormats
-    SrtExportOptions:
-      properties:
-        max_characters_per_line:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Max Characters Per Line
-          default: 42
-        include_speakers:
-          type: boolean
-          title: Include Speakers
-          default: false
-        include_timestamps:
-          type: boolean
-          title: Include Timestamps
-          default: true
-        format:
-          type: string
-          const: srt
-          title: Format
-        segment_on_silence_longer_than_s:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Segment On Silence Longer Than S
-          default: 0.8
-        max_segment_duration_s:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Max Segment Duration S
-          default: 4
-        max_segment_chars:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Max Segment Chars
-          default: 84
-      type: object
-      required:
-      - format
-      title: SrtExportOptions
-    AdditionalFormatResponseModel:
-      properties:
-        requested_format:
-          type: string
-          title: Requested Format
-          description: The requested format.
-        file_extension:
-          type: string
-          title: File Extension
-          description: The file extension of the additional format.
-        content_type:
-          type: string
-          title: Content Type
-          description: The content type of the additional format.
-        is_base64_encoded:
-          type: boolean
-          title: Is Base64 Encoded
-          description: Whether the content is base64 encoded.
-        content:
-          type: string
-          title: Content
-          description: The content of the additional format.
-      type: object
-      required:
-      - requested_format
-      - file_extension
-      - content_type
-      - is_base64_encoded
-      - content
-      title: AdditionalFormatResponseModel
-    ValidationError:
-      properties:
-        loc:
+        transcripts:
           items:
-            anyOf:
-            - type: string
-            - type: integer
+            $ref: '#/components/schemas/SpeechToTextChunkResponseModel'
           type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    ExportOptions:
-      oneOf:
-      - $ref: '#/components/schemas/SegmentedJsonExportOptions'
-      - $ref: '#/components/schemas/DocxExportOptions'
-      - $ref: '#/components/schemas/PdfExportOptions'
-      - $ref: '#/components/schemas/TxtExportOptions'
-      - $ref: '#/components/schemas/HtmlExportOptions'
-      - $ref: '#/components/schemas/SrtExportOptions'
-      title: ExportOptions
-      discriminator:
-        propertyName: format
-        mapping:
-          docx: '#/components/schemas/DocxExportOptions'
-          html: '#/components/schemas/HtmlExportOptions'
-          pdf: '#/components/schemas/PdfExportOptions'
-          segmented_json: '#/components/schemas/SegmentedJsonExportOptions'
-          srt: '#/components/schemas/SrtExportOptions'
-          txt: '#/components/schemas/TxtExportOptions'
-    DetectedEntity:
-      properties:
-        text:
-          type: string
-          title: Text
-          description: The text that was identified as an entity.
-        entity_type:
-          type: string
-          title: Entity Type
-          description: The type of entity detected (e.g., 'credit_card', 'email_address', 'person_name').
-        start_char:
-          type: integer
-          title: Start Char
-          description: Start character position in the transcript text.
-        end_char:
-          type: integer
-          title: End Char
-          description: End character position in the transcript text.
-      type: object
-      required:
-      - text
-      - entity_type
-      - start_char
-      - end_char
-      title: DetectedEntity
-    HtmlExportOptions:
-      properties:
-        include_speakers:
-          type: boolean
-          title: Include Speakers
-          default: true
-        include_timestamps:
-          type: boolean
-          title: Include Timestamps
-          default: true
-        format:
-          type: string
-          const: html
-          title: Format
-        segment_on_silence_longer_than_s:
+          title: Transcripts
+          description: List of transcripts, one for each audio channel. Each transcript contains the text and word-level details for its respective channel.
+        transcription_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Transcription Id
+          description: The transcription ID of the response.
+        audio_duration_secs:
           anyOf:
           - type: number
           - type: 'null'
-          title: Segment On Silence Longer Than S
-        max_segment_duration_s:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Max Segment Duration S
-        max_segment_chars:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Max Segment Chars
+          title: Audio Duration Secs
+          description: The duration of the audio that was transcribed across all channels in seconds.
       type: object
       required:
-      - format
-      title: HtmlExportOptions
-    SpeechToTextCharacterResponseModel:
-      properties:
-        text:
-          type: string
-          title: Text
-          description: The character that was transcribed.
-        start:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Start
-          description: The start time of the character in seconds.
-        end:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: End
-          description: The end time of the character in seconds.
-      type: object
-      required:
-      - text
-      title: SpeechToTextCharacterResponseModel
+      - transcripts
+      title: MultichannelSpeechToTextResponseModel
+      description: Response model for multichannel speech-to-text transcription.
       example:
-        end: 0.1
-        start: 0.0
-        text: H
-    TranscriptionResponse:
-      type: object
-      properties:
-        text:
-          type: string
-          description: The full transcribed text.
-        language_code:
-          type: string
-          description: The detected language of the audio content.
-        language_probability:
-          type: number
-          description: Confidence score for the detected language.
-        words:
-          type: array
-          description: Word-level timing information when timestamps are requested.
-          items:
-            $ref: '#/components/schemas/TranscriptionWord'
-        audio_events:
-          type: array
-          description: Non-speech audio events detected in the recording.
-          items:
-            $ref: '#/components/schemas/AudioEvent'
+        transcripts:
+        - language_code: en
+          language_probability: 0.98
+          text: Hello from channel one.
+          words:
+          - end: 0.5
+            logprob: -0.124
+            speaker_id: speaker_0
+            start: 0.0
+            text: Hello
+            type: word
+          - end: 0.5
+            logprob: 0.0
+            speaker_id: speaker_0
+            start: 0.5
+            text: ' '
+            type: spacing
+          - end: 0.8
+            logprob: -0.089
+            speaker_id: speaker_0
+            start: 0.5
+            text: from
+            type: word
+        - language_code: en
+          language_probability: 0.97
+          text: Greetings from channel two.
+          words:
+          - end: 0.7
+            logprob: -0.156
+            speaker_id: speaker_1
+            start: 0.1
+            text: Greetings
+            type: word
+          - end: 0.7
+            logprob: 0.0
+            speaker_id: speaker_1
+            start: 0.7
+            text: ' '
+            type: spacing
+          - end: 1.0
+            logprob: -0.078
+            speaker_id: speaker_1
+            start: 0.7
+            text: from
+            type: word
     SpeechToTextRequest:
       type: object
       required:
@@ -1128,37 +1106,6 @@ components:
           - none
           - word
           - character
-    AsyncTranscriptionResponse:
-      type: object
-      properties:
-        task_id:
-          type: string
-          description: The identifier of the asynchronous transcription task.
-        status:
-          type: string
-          description: The current status of the transcription task.
-          enum:
-          - pending
-          - processing
-          - completed
-          - failed
-    TranscriptionWord:
-      type: object
-      properties:
-        text:
-          type: string
-          description: The transcribed word.
-        start:
-          type: number
-          description: Start time of the word in seconds.
-        end:
-          type: number
-          description: End time of the word in seconds.
-        confidence:
-          type: number
-          description: Confidence score for the word transcription.
-          minimum: 0
-          maximum: 1
     SpeechToTextAsyncRequest:
       type: object
       required:
@@ -1178,6 +1125,20 @@ components:
           type: string
           format: uri
           description: A URL to receive a webhook notification when the transcription is complete.
+    AsyncTranscriptionResponse:
+      type: object
+      properties:
+        task_id:
+          type: string
+          description: The identifier of the asynchronous transcription task.
+        status:
+          type: string
+          description: The current status of the transcription task.
+          enum:
+          - pending
+          - processing
+          - completed
+          - failed
     AudioEvent:
       type: object
       properties:
@@ -1190,6 +1151,45 @@ components:
         end:
           type: number
           description: End time of the event in seconds.
+    TranscriptionResponse:
+      type: object
+      properties:
+        text:
+          type: string
+          description: The full transcribed text.
+        language_code:
+          type: string
+          description: The detected language of the audio content.
+        language_probability:
+          type: number
+          description: Confidence score for the detected language.
+        words:
+          type: array
+          description: Word-level timing information when timestamps are requested.
+          items:
+            $ref: '#/components/schemas/TranscriptionWord'
+        audio_events:
+          type: array
+          description: Non-speech audio events detected in the recording.
+          items:
+            $ref: '#/components/schemas/AudioEvent'
+    TranscriptionWord:
+      type: object
+      properties:
+        text:
+          type: string
+          description: The transcribed word.
+        start:
+          type: number
+          description: Start time of the word in seconds.
+        end:
+          type: number
+          description: End time of the word in seconds.
+        confidence:
+          type: number
+          description: Confidence score for the word transcription.
+          minimum: 0
+          maximum: 1
   securitySchemes:
     apiKeyAuth:
       type: apiKey

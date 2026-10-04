@@ -45,33 +45,6 @@ paths:
       x-fern-sdk-method-name: list
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    LanguageResponseModel:
-      properties:
-        language_id:
-          type: string
-          title: Language Id
-          description: The unique identifier of the language.
-        name:
-          type: string
-          title: Name
-          description: The name of the language.
-      type: object
-      required:
-      - language_id
-      - name
-      title: LanguageResponseModel
-      example:
-        language_id: en
-        name: English
     ModelResponseModel:
       properties:
         model_id:
@@ -185,6 +158,42 @@ components:
         requires_alpha_access: false
         serves_pro_voices: false
         token_cost_factor: 1.0
+    ModelRatesResponseModel:
+      properties:
+        character_cost_multiplier:
+          type: number
+          title: Character Cost Multiplier
+          description: The cost multiplier for characters.
+        cost_discount_multiplier:
+          type: number
+          title: Cost Discount Multiplier
+          description: Discount multiplier applied to cost estimates. Defaults to 1.0 (no discount).
+          default: 1.0
+      type: object
+      required:
+      - character_cost_multiplier
+      title: ModelRatesResponseModel
+      example:
+        character_cost_multiplier: 1.0
+        cost_discount_multiplier: 1.0
+    LanguageResponseModel:
+      properties:
+        language_id:
+          type: string
+          title: Language Id
+          description: The unique identifier of the language.
+        name:
+          type: string
+          title: Name
+          description: The name of the language.
+      type: object
+      required:
+      - language_id
+      - name
+      title: LanguageResponseModel
+      example:
+        language_id: en
+        name: English
     ValidationError:
       properties:
         loc:
@@ -206,21 +215,12 @@ components:
       - msg
       - type
       title: ValidationError
-    ModelRatesResponseModel:
+    HTTPValidationError:
       properties:
-        character_cost_multiplier:
-          type: number
-          title: Character Cost Multiplier
-          description: The cost multiplier for characters.
-        cost_discount_multiplier:
-          type: number
-          title: Cost Discount Multiplier
-          description: Discount multiplier applied to cost estimates. Defaults to 1.0 (no discount).
-          default: 1.0
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - character_cost_multiplier
-      title: ModelRatesResponseModel
-      example:
-        character_cost_multiplier: 1.0
-        cost_discount_multiplier: 1.0
+      title: HTTPValidationError

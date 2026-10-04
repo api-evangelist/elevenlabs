@@ -116,6 +116,18 @@ paths:
       x-fern-sdk-method-name: get
 components:
   schemas:
+    DeleteSampleResponseModel:
+      properties:
+        status:
+          type: string
+          title: Status
+          description: The status of the sample deletion request. If the request was successful, the status will be 'ok'. Otherwise an error message with status 500 will be returned.
+      type: object
+      required:
+      - status
+      title: DeleteSampleResponseModel
+      example:
+        status: ok
     HTTPValidationError:
       properties:
         detail:
@@ -146,15 +158,3 @@ components:
       - msg
       - type
       title: ValidationError
-    DeleteSampleResponseModel:
-      properties:
-        status:
-          type: string
-          title: Status
-          description: The status of the sample deletion request. If the request was successful, the status will be 'ok'. Otherwise an error message with status 500 will be returned.
-      type: object
-      required:
-      - status
-      title: DeleteSampleResponseModel
-      example:
-        status: ok

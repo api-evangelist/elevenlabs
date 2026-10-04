@@ -46,6 +46,12 @@ paths:
           description: Unprocessable entity - insufficient audio quality or duration
 components:
   schemas:
+    VoiceCloneResponse:
+      type: object
+      properties:
+        voice_id:
+          type: string
+          description: The unique identifier of the newly created voice clone.
     ProfessionalVoiceCloneRequest:
       type: object
       required:
@@ -61,12 +67,6 @@ components:
           type: string
           format: binary
           description: A signed consent form or audio consent from the voice owner authorizing the creation of the voice clone.
-    VoiceCloneResponse:
-      type: object
-      properties:
-        voice_id:
-          type: string
-          description: The unique identifier of the newly created voice clone.
   parameters:
     voiceId:
       name: voice_id

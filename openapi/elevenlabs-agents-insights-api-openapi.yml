@@ -120,6 +120,68 @@ paths:
       x-fern-sdk-method-name: get
 components:
   schemas:
+    TopicEvaluationCriteriaAggregate:
+      properties:
+        criteria_id:
+          type: string
+          title: Criteria Id
+        success_count:
+          type: integer
+          title: Success Count
+          default: 0
+        failure_count:
+          type: integer
+          title: Failure Count
+          default: 0
+        unknown_count:
+          type: integer
+          title: Unknown Count
+          default: 0
+      type: object
+      required:
+      - criteria_id
+      title: TopicEvaluationCriteriaAggregate
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    TopicSentimentAggregate:
+      properties:
+        sentiment:
+          $ref: '#/components/schemas/NumericDistributionAggregate'
+        frustration:
+          $ref: '#/components/schemas/NumericDistributionAggregate'
+        positive_count:
+          type: integer
+          title: Positive Count
+          default: 0
+        neutral_count:
+          type: integer
+          title: Neutral Count
+          default: 0
+        negative_count:
+          type: integer
+          title: Negative Count
+          default: 0
+      type: object
+      title: TopicSentimentAggregate
     HTTPValidationError:
       properties:
         detail:
@@ -129,6 +191,64 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    TopicSortBy:
+      type: string
+      enum:
+      - conversations
+      - sentiment
+      - success_rate
+      - frustration
+      title: TopicSortBy
+    TopicMetricsAggregate:
+      properties:
+        conversation_count:
+          type: integer
+          title: Conversation Count
+          default: 0
+        sentiment:
+          anyOf:
+          - $ref: '#/components/schemas/TopicSentimentAggregate'
+          - type: 'null'
+        evaluation_criteria:
+          items:
+            $ref: '#/components/schemas/TopicEvaluationCriteriaAggregate'
+          type: array
+          title: Evaluation Criteria
+      type: object
+      title: TopicMetricsAggregate
+    GetAgentTopicsResponseModel:
+      properties:
+        topics:
+          items:
+            $ref: '#/components/schemas/AgentTopicResponseModel'
+          type: array
+          title: Topics
+        window_start_unix_secs:
+          type: integer
+          title: Window Start Unix Secs
+        window_end_unix_secs:
+          type: integer
+          title: Window End Unix Secs
+        aggregated_run_count:
+          type: integer
+          title: Aggregated Run Count
+          description: Number of daily topic-discovery runs the returned metrics were summed over.
+          default: 0
+        has_more:
+          type: boolean
+          title: Has More
+          default: false
+        next_cursor:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Next Cursor
+      type: object
+      required:
+      - topics
+      - window_start_unix_secs
+      - window_end_unix_secs
+      title: GetAgentTopicsResponseModel
     AgentTopicResponseModel:
       properties:
         topic_id:
@@ -175,67 +295,6 @@ components:
       - description
       - conversation_count
       title: AgentTopicResponseModel
-    TopicSortBy:
-      type: string
-      enum:
-      - conversations
-      - sentiment
-      - success_rate
-      - frustration
-      title: TopicSortBy
-    TopicSentimentAggregate:
-      properties:
-        sentiment:
-          $ref: '#/components/schemas/NumericDistributionAggregate'
-        frustration:
-          $ref: '#/components/schemas/NumericDistributionAggregate'
-        positive_count:
-          type: integer
-          title: Positive Count
-          default: 0
-        neutral_count:
-          type: integer
-          title: Neutral Count
-          default: 0
-        negative_count:
-          type: integer
-          title: Negative Count
-          default: 0
-      type: object
-      title: TopicSentimentAggregate
-    GetAgentTopicsResponseModel:
-      properties:
-        topics:
-          items:
-            $ref: '#/components/schemas/AgentTopicResponseModel'
-          type: array
-          title: Topics
-        window_start_unix_secs:
-          type: integer
-          title: Window Start Unix Secs
-        window_end_unix_secs:
-          type: integer
-          title: Window End Unix Secs
-        aggregated_run_count:
-          type: integer
-          title: Aggregated Run Count
-          description: Number of daily topic-discovery runs the returned metrics were summed over.
-          default: 0
-        has_more:
-          type: boolean
-          title: Has More
-          default: false
-        next_cursor:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Next Cursor
-      type: object
-      required:
-      - topics
-      - window_start_unix_secs
-      - window_end_unix_secs
-      title: GetAgentTopicsResponseModel
     NumericDistributionAggregate:
       properties:
         count:
@@ -264,62 +323,3 @@ components:
       - asc
       - desc
       title: SortDirection
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    TopicMetricsAggregate:
-      properties:
-        conversation_count:
-          type: integer
-          title: Conversation Count
-          default: 0
-        sentiment:
-          anyOf:
-          - $ref: '#/components/schemas/TopicSentimentAggregate'
-          - type: 'null'
-        evaluation_criteria:
-          items:
-            $ref: '#/components/schemas/TopicEvaluationCriteriaAggregate'
-          type: array
-          title: Evaluation Criteria
-      type: object
-      title: TopicMetricsAggregate
-    TopicEvaluationCriteriaAggregate:
-      properties:
-        criteria_id:
-          type: string
-          title: Criteria Id
-        success_count:
-          type: integer
-          title: Success Count
-          default: 0
-        failure_count:
-          type: integer
-          title: Failure Count
-          default: 0
-        unknown_count:
-          type: integer
-          title: Unknown Count
-          default: 0
-      type: object
-      required:
-      - criteria_id
-      title: TopicEvaluationCriteriaAggregate

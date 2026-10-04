@@ -195,50 +195,6 @@ paths:
       x-fern-sdk-method-name: delete
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    AssetListResponse:
-      properties:
-        assets:
-          items:
-            $ref: '#/components/schemas/AssetResponse'
-          type: array
-          title: Assets
-          description: List of Asset objects.
-        next_cursor:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Next Cursor
-          description: Pass as `cursor` to fetch the next page. `null` if there are no more results.
-        has_more:
-          type: boolean
-          title: Has More
-          description: Whether there are more results to fetch.
-          readOnly: true
-      type: object
-      required:
-      - assets
-      - next_cursor
-      - has_more
-      title: AssetListResponse
-      description: One page of the workspace's assets, most recently created first.
-      example:
-        assets:
-        - asset_id: 5xM2KqOnZyce22SPZ9d4
-          content_url: https://.../a1b2c3d4/content?...
-          created_at_unix: 1721520000
-          mime_type: audio/mpeg
-          name: podcast-intro.mp3
-        has_more: true
-        next_cursor: eyJvZmZzZXQiOjEwfQ
     AssetResponse:
       properties:
         asset_id:
@@ -299,6 +255,50 @@ components:
       - msg
       - type
       title: ValidationError
+    AssetListResponse:
+      properties:
+        assets:
+          items:
+            $ref: '#/components/schemas/AssetResponse'
+          type: array
+          title: Assets
+          description: List of Asset objects.
+        next_cursor:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Next Cursor
+          description: Pass as `cursor` to fetch the next page. `null` if there are no more results.
+        has_more:
+          type: boolean
+          title: Has More
+          description: Whether there are more results to fetch.
+          readOnly: true
+      type: object
+      required:
+      - assets
+      - next_cursor
+      - has_more
+      title: AssetListResponse
+      description: One page of the workspace's assets, most recently created first.
+      example:
+        assets:
+        - asset_id: 5xM2KqOnZyce22SPZ9d4
+          content_url: https://.../a1b2c3d4/content?...
+          created_at_unix: 1721520000
+          mime_type: audio/mpeg
+          name: podcast-intro.mp3
+        has_more: true
+        next_cursor: eyJvZmZzZXQiOjEwfQ
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     Body_Upload_asset_v1_assets_post:
       properties:
         asset:
