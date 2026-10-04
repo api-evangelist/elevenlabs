@@ -30,6 +30,9 @@ image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/elevenlabs
 url: https://raw.githubusercontent.com/api-evangelist/elevenlabs/refs/heads/main/apis.yml
 modified: '2026-09-17'
 common:
+- type: CapabilityMap
+  url: capabilities/elevenlabs-capability-edges.yml
+  name: ElevenLabs Business Capability Map
 - type: Website
   url: https://www.elevenlabs.io/
 - type: AgenticAccess
@@ -1015,6 +1018,8 @@ apis:
   humanURL: https://elevenlabs.io/docs/api-reference/introduction
   baseURL: https://api.elevenlabs.io
   tags:
+  - APIKeys
+  tags_raw:
   - api-key
   properties:
   - type: OpenAPI
@@ -1195,6 +1200,8 @@ apis:
   humanURL: https://elevenlabs.io/docs/api-reference/introduction
   baseURL: https://api.elevenlabs.io
   tags:
+  - Enterprise
+  tags_raw:
   - enterprise
   properties:
   - type: OpenAPI
@@ -1231,6 +1238,8 @@ apis:
   humanURL: https://elevenlabs.io/docs/api-reference/introduction
   baseURL: https://api.elevenlabs.io
   tags:
+  - Flow
+  tags_raw:
   - Flows
   properties:
   - type: OpenAPI
@@ -1270,6 +1279,8 @@ apis:
   humanURL: https://elevenlabs.io/docs/api-reference/introduction
   baseURL: https://api.elevenlabs.io
   tags:
+  - Forced Alignment
+  tags_raw:
   - forced-alignment
   properties:
   - type: OpenAPI
@@ -1342,6 +1353,8 @@ apis:
   humanURL: https://elevenlabs.io/docs/api-reference/introduction
   baseURL: https://api.elevenlabs.io
   tags:
+  - Models
+  tags_raw:
   - models
   properties:
   - type: OpenAPI
@@ -1414,6 +1427,8 @@ apis:
   humanURL: https://elevenlabs.io/docs/api-reference/introduction
   baseURL: https://api.elevenlabs.io
   tags:
+  - Productions
+  tags_raw:
   - productions
   properties:
   - type: OpenAPI
@@ -1522,6 +1537,8 @@ apis:
   humanURL: https://elevenlabs.io/docs/api-reference/introduction
   baseURL: https://api.elevenlabs.io
   tags:
+  - Resource
+  tags_raw:
   - resource
   properties:
   - type: OpenAPI
@@ -1560,6 +1577,8 @@ apis:
   humanURL: https://elevenlabs.io/docs/api-reference/introduction
   baseURL: https://api.elevenlabs.io
   tags:
+  - Samples
+  tags_raw:
   - samples
   properties:
   - type: OpenAPI
@@ -1596,6 +1615,8 @@ apis:
   humanURL: https://elevenlabs.io/docs/api-reference/introduction
   baseURL: https://api.elevenlabs.io
   tags:
+  - Segment
+  tags_raw:
   - segment
   properties:
   - type: OpenAPI
@@ -1780,6 +1801,8 @@ apis:
   humanURL: https://elevenlabs.io/docs/api-reference/introduction
   baseURL: https://api.elevenlabs.io
   tags:
+  - Studio
+  tags_raw:
   - studio
   properties:
   - type: OpenAPI
@@ -1996,6 +2019,8 @@ apis:
   humanURL: https://elevenlabs.io/docs/api-reference/introduction
   baseURL: https://api.elevenlabs.io
   tags:
+  - Workspace
+  tags_raw:
   - workspace
   properties:
   - type: OpenAPI
