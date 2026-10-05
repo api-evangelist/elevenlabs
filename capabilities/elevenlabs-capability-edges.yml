@@ -1,0 +1,38 @@
+slug: elevenlabs
+provider: ElevenLabs
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 2
+edges:
+- tag: API Key
+  spec_file: elevenlabs-api-key-api-openapi.yml
+  capability_id: BC-4270.40
+  capability_id_l1: BC-4270
+  capability_name: Developer Identity & Credential Management
+  confidence: 0.72
+  evidence: POST /v1/workspaces/api-keys/disable  disable  Disable Api Key
+  reason: Operations disable API keys and set a workspace third-party disabling policy — stewardship of
+    API credentials used by developers of this platform, which is Developer Identity & Credential Management.
+    Could alternatively be read as general enterprise IAM (BC-620.20), hence not higher confidence.
+- tag: Workspace
+  spec_file: elevenlabs-workspace-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.7
+  evidence: POST /v1/workspace/auth-connections  create_auth_connection  Create Workspace Auth Connection;
+    GET /v1/service-accounts  get_workspace_service_accounts; Body_Invite_user_v1_workspace_invites_add_post;
+    DeleteWorkspaceGroupMemberResponseModel
+  reason: Operations administer workspace members (invites, groups), service accounts, API keys and federated
+    auth connections, plus audit logs — i.e. identity and access administration for an account. Maps to
+    Identity & Access Management (IAM, federation, joiners-movers-leavers). Some overlap with tenant identity
+    federation keeps confidence moderate rather than high.
