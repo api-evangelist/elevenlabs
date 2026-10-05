@@ -1,0 +1,12 @@
+{
+ "url": "https://api.elevenlabs.io/openapi.json",
+ "requested_url": "https://api.elevenlabs.io/openapi.json",
+ "status": 200,
+ "content_type": "application/json",
+ "bytes": 2253238,
+ "sha256": "bcda2b74cf627d3fcbb5f4235bef17845fc823cb5e18a1aaa21362a7cc1702b7",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "equivalent",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the provider's current document describes the same operations (Jaccard 0.961), but the bytes differ, so the archive is an earlier or reformatted copy."
+}
