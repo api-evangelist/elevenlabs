@@ -1,60 +1,4 @@
 edges:
-- partner_name: LiteLLM
-  partner: litellm
-  partner_match: router
-  channel: partner-built
-  direction: partner-built
-  type: coverage
-  relationship: system-coverage
-  evidence: https://github.com/BerriAI/litellm/blob/main/model_prices_and_context_window.json
-  coverage_role:
-  - provider
-  router_signals:
-    provider:
-      models: 5
-      router_ids:
-      - elevenlabs
-  matched_by: verified-token-table
-  detected_by: sweep-model-routing.py
-  first_seen: '2026-10-13'
-- partner_name: LLM Gateway
-  partner: llmgateway-io
-  partner_match: router
-  channel: partner-built
-  direction: partner-built
-  type: coverage
-  relationship: system-coverage
-  evidence: https://api.llmgateway.io/v1/models
-  coverage_role:
-  - provider
-  router_signals:
-    provider:
-      models: 4
-      router_ids:
-      - elevenlabs
-      tools_share: 0.0
-      structured_output_share: 0.0
-  matched_by: verified-token-table
-  detected_by: sweep-model-routing.py
-  first_seen: '2026-10-13'
-- partner_name: Cloudflare AI Gateway
-  partner: cloudflare-ai-gateway
-  partner_match: router
-  channel: partner-built
-  direction: partner-built
-  type: coverage
-  relationship: system-coverage
-  evidence: https://github.com/cloudflare/cloudflare-docs/blob/production/src/content/docs/ai-gateway/usage/providers/elevenlabs.mdx
-  coverage_role:
-  - provider
-  router_signals:
-    provider:
-      models: null
-      router_ids:
-      - elevenlabs
-  matched_by: verified-token-table
-  detected_by: sweep-model-routing.py
-  first_seen: '2026-10-13'
 - partner_name: MCP Registry
   partner: mcp
   partner_match: register
@@ -128,6 +72,79 @@ edges:
   matched_by: verified-domain-table
   detected_by: sweep-voice-ai.py
   first_seen: '2026-10-15'
+- partner_name: Stripe (own)
+  partner: stripe
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://marketplace.stripe.com/apps/elevenlabs
+  mirror_of: stripe/integrations/stripe-integration-edges.yml
+  apps:
+  - ElevenLabs
+  listing_count: 1
+  detected: '2026-10-15'
+  detected_by: mirror-platform-listings.py
+  category: developer_tools
+- partner_name: LiteLLM
+  partner: litellm
+  partner_match: router
+  channel: partner-built
+  direction: partner-built
+  type: coverage
+  relationship: system-coverage
+  evidence: https://github.com/BerriAI/litellm/blob/main/model_prices_and_context_window.json
+  coverage_role:
+  - provider
+  router_signals:
+    provider:
+      models: 5
+      router_ids:
+      - elevenlabs
+  matched_by: verified-token-table
+  detected_by: sweep-model-routing.py
+  first_seen: '2026-10-13'
+- partner_name: LLM Gateway
+  partner: llmgateway-io
+  partner_match: router
+  channel: partner-built
+  direction: partner-built
+  type: coverage
+  relationship: system-coverage
+  evidence: https://api.llmgateway.io/v1/models
+  coverage_role:
+  - provider
+  router_signals:
+    provider:
+      models: 4
+      router_ids:
+      - elevenlabs
+      tools_share: 0.0
+      structured_output_share: 0.0
+  matched_by: verified-token-table
+  detected_by: sweep-model-routing.py
+  first_seen: '2026-10-13'
+- partner_name: Cloudflare AI Gateway
+  partner: cloudflare-ai-gateway
+  partner_match: router
+  channel: partner-built
+  direction: partner-built
+  type: coverage
+  relationship: system-coverage
+  evidence: https://github.com/cloudflare/cloudflare-docs/blob/production/src/content/docs/ai-gateway/usage/providers/elevenlabs.mdx
+  coverage_role:
+  - provider
+  router_signals:
+    provider:
+      models: null
+      router_ids:
+      - elevenlabs
+  matched_by: verified-token-table
+  detected_by: sweep-model-routing.py
+  first_seen: '2026-10-13'
 generated: '2026-10-13'
 method: searched
 checked:
@@ -137,3 +154,6 @@ checked:
 - https://github.com/livekit/agents/tree/main/livekit-plugins
 - https://github.com/pipecat-ai/pipecat/tree/main/src/pipecat/services
 - https://registry.modelcontextprotocol.io/v0/servers
+- stripe/integrations/stripe-integration-edges.yml
+source:
+- stripe/integrations/stripe-integration-edges.yml
