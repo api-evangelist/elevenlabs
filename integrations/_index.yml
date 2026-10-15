@@ -113,7 +113,7 @@
     app_slug: elevenlabs
     beta: false
     builder: unknown (not in the directory record)
-  status: pending-generation
+  status: not-a-workflow
   arazzo: null
 - slug: elevenlabs-n8n
   label: n8n
@@ -140,7 +140,7 @@
     published: '2025-05-21T16:50:26.645Z'
     matched_on: publisher-email
     builder: provider (package published from the provider's own domain)
-  status: pending-generation
+  status: not-a-workflow
   arazzo: null
 - slug: elevenlabs-pipedream
   label: Pipedream
@@ -166,7 +166,7 @@
     actions: true
     sources: true
     builder: Pipedream repo (component)
-  status: pending-generation
+  status: not-a-workflow
   arazzo: null
 - slug: elevenlabs-uk-g-cloud-15-digital-marketplace
   label: UK G-Cloud 15 (Digital Marketplace)
