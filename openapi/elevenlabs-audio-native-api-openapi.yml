@@ -178,6 +178,46 @@ paths:
       x-fern-sdk-method-name: update_content_from_url
 components:
   schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    Body_Update_audio_native_Project_content_v1_audio_native__project_id__content_post:
+      properties:
+        file:
+          type: string
+          title: File
+          description: Either txt or HTML input file containing the article content. HTML should be formatted as follows '&lt;html&gt;&lt;body&gt;&lt;div&gt;&lt;p&gt;Your content&lt;/p&gt;&lt;h5&gt;More of your content&lt;/h5&gt;&lt;p&gt;Some more of your content&lt;/p&gt;&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;'
+          format: binary
+        auto_convert:
+          type: boolean
+          title: Auto Convert
+          description: Whether to auto convert the project to audio or not.
+          default: false
+        auto_publish:
+          type: boolean
+          title: Auto Publish
+          description: Whether to auto publish the new project snapshot after it's converted.
+          default: false
+      type: object
+      title: Body_Update_audio_native_Project_content_v1_audio_native__project_id__content_post
     Body_Creates_Audio_Native_enabled_project__v1_audio_native_post:
       properties:
         name:
@@ -272,60 +312,45 @@ components:
       required:
       - name
       title: Body_Creates_Audio_Native_enabled_project__v1_audio_native_post
-    Body_Update_audio_native_Project_content_v1_audio_native__project_id__content_post:
+    HTTPValidationError:
       properties:
-        file:
-          type: string
-          title: File
-          description: Either txt or HTML input file containing the article content. HTML should be formatted as follows '&lt;html&gt;&lt;body&gt;&lt;div&gt;&lt;p&gt;Your content&lt;/p&gt;&lt;h5&gt;More of your content&lt;/h5&gt;&lt;p&gt;Some more of your content&lt;/p&gt;&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;'
-          format: binary
-        auto_convert:
-          type: boolean
-          title: Auto Convert
-          description: Whether to auto convert the project to audio or not.
-          default: false
-        auto_publish:
-          type: boolean
-          title: Auto Publish
-          description: Whether to auto publish the new project snapshot after it's converted.
-          default: false
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      title: Body_Update_audio_native_Project_content_v1_audio_native__project_id__content_post
-    GetAudioNativeProjectSettingsResponseModel:
+      title: HTTPValidationError
+    AudioNativeEditContentResponseModel:
       properties:
-        enabled:
+        project_id:
+          type: string
+          title: Project Id
+          description: The ID of the project.
+        converting:
           type: boolean
-          title: Enabled
-          description: Whether the project is enabled.
-        snapshot_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Snapshot Id
-          description: The ID of the latest snapshot of the project.
-        settings:
-          anyOf:
-          - $ref: '#/components/schemas/AudioNativeProjectSettingsResponseModel'
-          - type: 'null'
-          description: The settings of the project.
+          title: Converting
+          description: Whether the project is currently being converted.
+        publishing:
+          type: boolean
+          title: Publishing
+          description: Whether the project is currently being published.
+        html_snippet:
+          type: string
+          title: Html Snippet
+          description: The HTML snippet to embed the Audio Native player.
       type: object
       required:
-      - enabled
-      title: GetAudioNativeProjectSettingsResponseModel
+      - project_id
+      - converting
+      - publishing
+      - html_snippet
+      title: AudioNativeEditContentResponseModel
       example:
-        enabled: true
-        settings:
-          audio_path: audio/my_project.mp3
-          audio_url: https://example.com/audio/my_project.mp3
-          author: John Doe
-          background_color: '#FFFFFF'
-          image: https://example.com/image.jpg
-          sessionization: 1
-          small: false
-          status: ready
-          text_color: '#000000'
-          title: My Project
-        snapshot_id: JBFqnCBsd6RMkjVDRZzb
+        converting: false
+        html_snippet: <div id='audio-native-player'></div>
+        project_id: JBFqnCBsd6RMkjVDRZzb
+        publishing: false
     AudioNativeProjectSettingsResponseModel:
       properties:
         title:
@@ -397,6 +422,41 @@ components:
         status: ready
         text_color: '#000000'
         title: My Project
+    GetAudioNativeProjectSettingsResponseModel:
+      properties:
+        enabled:
+          type: boolean
+          title: Enabled
+          description: Whether the project is enabled.
+        snapshot_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Snapshot Id
+          description: The ID of the latest snapshot of the project.
+        settings:
+          anyOf:
+          - $ref: '#/components/schemas/AudioNativeProjectSettingsResponseModel'
+          - type: 'null'
+          description: The settings of the project.
+      type: object
+      required:
+      - enabled
+      title: GetAudioNativeProjectSettingsResponseModel
+      example:
+        enabled: true
+        settings:
+          audio_path: audio/my_project.mp3
+          audio_url: https://example.com/audio/my_project.mp3
+          author: John Doe
+          background_color: '#FFFFFF'
+          image: https://example.com/image.jpg
+          sessionization: 1
+          small: false
+          status: ready
+          text_color: '#000000'
+          title: My Project
+        snapshot_id: JBFqnCBsd6RMkjVDRZzb
     AudioNativeCreateProjectResponseModel:
       properties:
         project_id:
@@ -421,36 +481,6 @@ components:
         converting: false
         html_snippet: <div id='audio-native-player'></div>
         project_id: JBFqnCBsd6RMkjVDRZzb
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     Body_Update_audio_native_content_from_URL_v1_audio_native_content_post:
       properties:
         url:
@@ -475,33 +505,3 @@ components:
       required:
       - url
       title: Body_Update_audio_native_content_from_URL_v1_audio_native_content_post
-    AudioNativeEditContentResponseModel:
-      properties:
-        project_id:
-          type: string
-          title: Project Id
-          description: The ID of the project.
-        converting:
-          type: boolean
-          title: Converting
-          description: Whether the project is currently being converted.
-        publishing:
-          type: boolean
-          title: Publishing
-          description: Whether the project is currently being published.
-        html_snippet:
-          type: string
-          title: Html Snippet
-          description: The HTML snippet to embed the Audio Native player.
-      type: object
-      required:
-      - project_id
-      - converting
-      - publishing
-      - html_snippet
-      title: AudioNativeEditContentResponseModel
-      example:
-        converting: false
-        html_snippet: <div id='audio-native-player'></div>
-        project_id: JBFqnCBsd6RMkjVDRZzb
-        publishing: false

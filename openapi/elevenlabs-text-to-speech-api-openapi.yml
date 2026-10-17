@@ -712,7 +712,48 @@ paths:
       x-fern-streaming: true
 components:
   schemas:
-    ElevenFlashV2_5Request:
+    WebhookTargetAll:
+      properties:
+        type:
+          type: string
+          const: all
+          title: Type
+          description: Send the result to all of the workspace's configured flows webhooks.
+          default: all
+      type: object
+      title: WebhookTargetAll
+      description: Deliver the result to all of the workspace's configured flows webhooks.
+    ElevenFlashV2_5VoiceSettings:
+      properties:
+        stability:
+          anyOf:
+          - type: number
+            maximum: 1.0
+            minimum: 0.0
+          - type: 'null'
+          title: Stability
+          description: How consistent the voice stays across generations. Lower values give more expressive, varied speech.
+        similarity_boost:
+          anyOf:
+          - type: number
+            maximum: 1.0
+            minimum: 0.0
+          - type: 'null'
+          title: Similarity Boost
+          description: How closely the output adheres to the original voice.
+        speed:
+          anyOf:
+          - type: number
+            maximum: 1.2
+            minimum: 0.7
+          - type: 'null'
+          title: Speed
+          description: The speed of the generated speech, where 1.0 is the voice's natural pace.
+      additionalProperties: false
+      type: object
+      title: ElevenFlashV2_5VoiceSettings
+      description: Overrides for the voice's saved settings, applied to one generation.
+    ElevenMultilingualV2Request:
       properties:
         webhook:
           anyOf:
@@ -758,20 +799,12 @@ components:
           description: Pronunciation dictionaries to apply to the text, in order of precedence. Up to 3.
         model_id:
           type: string
-          const: eleven_flash_v2_5
+          const: eleven_multilingual_v2
           title: Model Id
           description: The model to use for the generation.
-        language_code:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Language Code
-          description: ISO 639-1 language code to enforce on the output. Omit to detect the language from the text.
-          examples:
-          - en
         voice_settings:
           anyOf:
-          - $ref: '#/components/schemas/ElevenFlashV2_5VoiceSettings'
+          - $ref: '#/components/schemas/TtsVoiceSettings'
           - type: 'null'
           description: Overrides for the voice's saved settings, applied to this generation only.
       additionalProperties: false
@@ -780,50 +813,8 @@ components:
       - text
       - voice
       - model_id
-      title: ElevenFlashV2_5Request
-      description: Request body for the ElevenLabs Flash v2.5 TTS model.
-    MediaGenerationCompletedResponse:
-      properties:
-        id:
-          type: string
-          title: Id
-          description: The unique identifier of the generation.
-          examples:
-          - JWr5N6X9ZTqf8jD2LmQb
-        status:
-          type: string
-          const: completed
-          title: Status
-          description: The lifecycle status of the generation.
-          examples:
-          - completed
-        content_url:
-          type: string
-          title: Content Url
-          description: A signed URL to download the generated media from. It expires about an hour after this response is returned; fetch the generation again for a fresh URL.
-          examples:
-          - https://storage.googleapis.com/generations/JWr5N6X9ZTqf8jD2LmQb
-        content_mime_type:
-          type: string
-          title: Content Mime Type
-          description: The MIME type of the generated media.
-          examples:
-          - video/mp4
-          - image/png
-          - audio/mpeg
-      type: object
-      required:
-      - id
-      - status
-      - content_url
-      - content_mime_type
-      title: MediaGenerationCompletedResponse
-      description: A completed media generation and its output.
-      example:
-        content_mime_type: video/mp4
-        content_url: https://storage.googleapis.com/generations/JWr5N6X9ZTqf8jD2LmQb
-        id: JWr5N6X9ZTqf8jD2LmQb
-        status: completed
+      title: ElevenMultilingualV2Request
+      description: Request body for the ElevenLabs Multilingual v2 TTS model.
     MediaGenerationResponse:
       oneOf:
       - $ref: '#/components/schemas/MediaGenerationInProgressResponse'
@@ -836,126 +827,77 @@ components:
           failed: '#/components/schemas/MediaGenerationFailedResponse'
           generating: '#/components/schemas/MediaGenerationInProgressResponse'
           pending: '#/components/schemas/MediaGenerationInProgressResponse'
-    WebhookTargetAll:
-      properties:
-        type:
-          type: string
-          const: all
-          title: Type
-          description: Send the result to all of the workspace's configured flows webhooks.
-          default: all
-      type: object
-      title: WebhookTargetAll
-      description: Deliver the result to all of the workspace's configured flows webhooks.
-    PronunciationDictionaryVersionLocator:
-      properties:
-        pronunciation_dictionary_id:
-          type: string
-          title: Pronunciation Dictionary Id
-          description: The ID of a pronunciation dictionary created via `POST /v1/pronunciation-dictionaries/add-from-file` or `POST /v1/pronunciation-dictionaries/add-from-rules`.
-          examples:
-          - 5xM3yVvZQKV0EfqQpLrJ
-        version_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Version Id
-          description: The version of the dictionary to use. Omit to use the latest version.
-      additionalProperties: false
-      type: object
-      required:
-      - pronunciation_dictionary_id
-      title: PronunciationDictionaryVersionLocator
-      description: A pronunciation dictionary to apply during speech synthesis.
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    TtsVoiceSettings:
-      properties:
-        stability:
-          anyOf:
-          - type: number
-            maximum: 1.0
-            minimum: 0.0
-          - type: 'null'
-          title: Stability
-          description: How consistent the voice stays across generations. Lower values give more expressive, varied speech.
-        similarity_boost:
-          anyOf:
-          - type: number
-            maximum: 1.0
-            minimum: 0.0
-          - type: 'null'
-          title: Similarity Boost
-          description: How closely the output adheres to the original voice.
-        style:
-          anyOf:
-          - type: number
-            maximum: 1.0
-            minimum: 0.0
-          - type: 'null'
-          title: Style
-          description: How strongly the speaking style is exaggerated.
-        use_speaker_boost:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Use Speaker Boost
-          description: Whether to boost similarity to the original speaker, at some latency cost.
-        speed:
-          anyOf:
-          - type: number
-            maximum: 1.2
-            minimum: 0.7
-          - type: 'null'
-          title: Speed
-          description: The speed of the generated speech, where 1.0 is the voice's natural pace.
-      additionalProperties: false
-      type: object
-      title: TtsVoiceSettings
-      description: Overrides for the voice's saved settings, applied to one generation.
-    MediaGenerationCreateResponse:
+    WebhookTarget:
+      oneOf:
+      - $ref: '#/components/schemas/WebhookTargetAll'
+      - $ref: '#/components/schemas/WebhookTargetIds'
+      discriminator:
+        propertyName: type
+        mapping:
+          all: '#/components/schemas/WebhookTargetAll'
+          ids: '#/components/schemas/WebhookTargetIds'
+    MediaGenerationInProgressResponse:
       properties:
         id:
           type: string
           title: Id
-          description: The unique identifier of the generation. Pass it to the corresponding GET endpoint to retrieve the output.
+          description: The unique identifier of the generation.
           examples:
           - JWr5N6X9ZTqf8jD2LmQb
         status:
           type: string
-          const: pending
-          title: Status
-          description: A newly created generation is always `pending`.
-          examples:
+          enum:
           - pending
+          - generating
+          title: Status
+          description: The lifecycle status of the generation. It ends at `completed` or `failed`.
+          examples:
+          - generating
       type: object
       required:
       - id
       - status
-      title: MediaGenerationCreateResponse
-      description: A newly queued media generation; fetch the GET endpoint for the output.
+      title: MediaGenerationInProgressResponse
+      description: A media generation that has not finished yet.
       example:
         id: JWr5N6X9ZTqf8jD2LmQb
-        status: pending
+        status: generating
+    MediaGenerationListResponse:
+      properties:
+        generations:
+          items:
+            $ref: '#/components/schemas/MediaGenerationResponse'
+          type: array
+          title: Generations
+          description: The generations on this page, newest first. Each item has the same shape as the corresponding GET endpoint's response.
+        next_cursor:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Next Cursor
+          description: Pass as `cursor` to fetch the next page. `null` when there is no further page.
+        has_more:
+          type: boolean
+          title: Has More
+          description: Whether more generations exist beyond this page.
+          readOnly: true
+      type: object
+      required:
+      - generations
+      - next_cursor
+      - has_more
+      title: MediaGenerationListResponse
+      description: One page of the caller's generations, newest first.
+      example:
+        generations:
+        - content_mime_type: video/mp4
+          content_url: https://storage.googleapis.com/generations/JWr5N6X9ZTqf8jD2LmQb
+          id: JWr5N6X9ZTqf8jD2LmQb
+          status: completed
+        - id: Kx2mP7Y4WVrg9kE3NnRc
+          status: generating
+        has_more: true
+        next_cursor: MjAyNi0wNy0xN1QxMjowMDowMHxLeDJtUDdZNFdWcmc5a0UzTm5SYw
     ElevenV3Request:
       properties:
         webhook:
@@ -1026,6 +968,42 @@ components:
       - model_id
       title: ElevenV3Request
       description: Request body for the Eleven v3 TTS model.
+    WebhookTargetIds:
+      properties:
+        type:
+          type: string
+          const: ids
+          title: Type
+          description: Send the result to the listed flows webhooks.
+          default: ids
+        ids:
+          items:
+            type: string
+          type: array
+          minItems: 1
+          title: Ids
+          description: The IDs of the workspace flows webhooks to deliver the result to. Each must be one of the workspace's configured flows webhooks.
+          examples:
+          - - Q8mVr2LpXcT4nB6yJdKw
+      type: object
+      required:
+      - ids
+      title: WebhookTargetIds
+      description: Deliver the result to specific configured flows webhooks.
+    ElevenV3VoiceSettings:
+      properties:
+        stability:
+          anyOf:
+          - type: number
+            maximum: 1.0
+            minimum: 0.0
+          - type: 'null'
+          title: Stability
+          description: How consistent the voice stays across generations. Lower values give more expressive, varied speech.
+      additionalProperties: false
+      type: object
+      title: ElevenV3VoiceSettings
+      description: Overrides for the voice's saved settings, applied to one generation.
     MediaGenerationFailedResponse:
       properties:
         id:
@@ -1074,38 +1052,114 @@ components:
         failure_reason: timeout
         id: JWr5N6X9ZTqf8jD2LmQb
         status: failed
-    WebhookTargetIds:
+    HTTPValidationError:
       properties:
-        type:
-          type: string
-          const: ids
-          title: Type
-          description: Send the result to the listed flows webhooks.
-          default: ids
-        ids:
+        detail:
           items:
-            type: string
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          minItems: 1
-          title: Ids
-          description: The IDs of the workspace flows webhooks to deliver the result to. Each must be one of the workspace's configured flows webhooks.
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    MediaGenerationCreateResponse:
+      properties:
+        id:
+          type: string
+          title: Id
+          description: The unique identifier of the generation. Pass it to the corresponding GET endpoint to retrieve the output.
           examples:
-          - - Q8mVr2LpXcT4nB6yJdKw
+          - JWr5N6X9ZTqf8jD2LmQb
+        status:
+          type: string
+          const: pending
+          title: Status
+          description: A newly created generation is always `pending`.
+          examples:
+          - pending
       type: object
       required:
-      - ids
-      title: WebhookTargetIds
-      description: Deliver the result to specific configured flows webhooks.
-    WebhookTarget:
+      - id
+      - status
+      title: MediaGenerationCreateResponse
+      description: A newly queued media generation; fetch the GET endpoint for the output.
+      example:
+        id: JWr5N6X9ZTqf8jD2LmQb
+        status: pending
+    MediaGenerationCompletedResponse:
+      properties:
+        id:
+          type: string
+          title: Id
+          description: The unique identifier of the generation.
+          examples:
+          - JWr5N6X9ZTqf8jD2LmQb
+        status:
+          type: string
+          const: completed
+          title: Status
+          description: The lifecycle status of the generation.
+          examples:
+          - completed
+        content_url:
+          type: string
+          title: Content Url
+          description: A signed URL to download the generated media from. It expires about an hour after this response is returned; fetch the generation again for a fresh URL.
+          examples:
+          - https://storage.googleapis.com/generations/JWr5N6X9ZTqf8jD2LmQb
+        content_mime_type:
+          type: string
+          title: Content Mime Type
+          description: The MIME type of the generated media.
+          examples:
+          - video/mp4
+          - image/png
+          - audio/mpeg
+      type: object
+      required:
+      - id
+      - status
+      - content_url
+      - content_mime_type
+      title: MediaGenerationCompletedResponse
+      description: A completed media generation and its output.
+      example:
+        content_mime_type: video/mp4
+        content_url: https://storage.googleapis.com/generations/JWr5N6X9ZTqf8jD2LmQb
+        id: JWr5N6X9ZTqf8jD2LmQb
+        status: completed
+    TextToSpeechGenerationRequest:
       oneOf:
-      - $ref: '#/components/schemas/WebhookTargetAll'
-      - $ref: '#/components/schemas/WebhookTargetIds'
+      - $ref: '#/components/schemas/ElevenFlashV2_5Request'
+      - $ref: '#/components/schemas/ElevenMultilingualV2Request'
+      - $ref: '#/components/schemas/ElevenV3Request'
       discriminator:
-        propertyName: type
+        propertyName: model_id
         mapping:
-          all: '#/components/schemas/WebhookTargetAll'
-          ids: '#/components/schemas/WebhookTargetIds'
-    ElevenV3VoiceSettings:
+          eleven_flash_v2_5: '#/components/schemas/ElevenFlashV2_5Request'
+          eleven_multilingual_v2: '#/components/schemas/ElevenMultilingualV2Request'
+          eleven_v3: '#/components/schemas/ElevenV3Request'
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    TtsVoiceSettings:
       properties:
         stability:
           anyOf:
@@ -1115,11 +1169,41 @@ components:
           - type: 'null'
           title: Stability
           description: How consistent the voice stays across generations. Lower values give more expressive, varied speech.
+        similarity_boost:
+          anyOf:
+          - type: number
+            maximum: 1.0
+            minimum: 0.0
+          - type: 'null'
+          title: Similarity Boost
+          description: How closely the output adheres to the original voice.
+        style:
+          anyOf:
+          - type: number
+            maximum: 1.0
+            minimum: 0.0
+          - type: 'null'
+          title: Style
+          description: How strongly the speaking style is exaggerated.
+        use_speaker_boost:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Use Speaker Boost
+          description: Whether to boost similarity to the original speaker, at some latency cost.
+        speed:
+          anyOf:
+          - type: number
+            maximum: 1.2
+            minimum: 0.7
+          - type: 'null'
+          title: Speed
+          description: The speed of the generated speech, where 1.0 is the voice's natural pace.
       additionalProperties: false
       type: object
-      title: ElevenV3VoiceSettings
+      title: TtsVoiceSettings
       description: Overrides for the voice's saved settings, applied to one generation.
-    ElevenMultilingualV2Request:
+    ElevenFlashV2_5Request:
       properties:
         webhook:
           anyOf:
@@ -1165,12 +1249,20 @@ components:
           description: Pronunciation dictionaries to apply to the text, in order of precedence. Up to 3.
         model_id:
           type: string
-          const: eleven_multilingual_v2
+          const: eleven_flash_v2_5
           title: Model Id
           description: The model to use for the generation.
+        language_code:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Language Code
+          description: ISO 639-1 language code to enforce on the output. Omit to detect the language from the text.
+          examples:
+          - en
         voice_settings:
           anyOf:
-          - $ref: '#/components/schemas/TtsVoiceSettings'
+          - $ref: '#/components/schemas/ElevenFlashV2_5VoiceSettings'
           - type: 'null'
           description: Overrides for the voice's saved settings, applied to this generation only.
       additionalProperties: false
@@ -1179,143 +1271,28 @@ components:
       - text
       - voice
       - model_id
-      title: ElevenMultilingualV2Request
-      description: Request body for the ElevenLabs Multilingual v2 TTS model.
-    TextToSpeechGenerationRequest:
-      oneOf:
-      - $ref: '#/components/schemas/ElevenFlashV2_5Request'
-      - $ref: '#/components/schemas/ElevenMultilingualV2Request'
-      - $ref: '#/components/schemas/ElevenV3Request'
-      discriminator:
-        propertyName: model_id
-        mapping:
-          eleven_flash_v2_5: '#/components/schemas/ElevenFlashV2_5Request'
-          eleven_multilingual_v2: '#/components/schemas/ElevenMultilingualV2Request'
-          eleven_v3: '#/components/schemas/ElevenV3Request'
-    HTTPValidationError:
+      title: ElevenFlashV2_5Request
+      description: Request body for the ElevenLabs Flash v2.5 TTS model.
+    PronunciationDictionaryVersionLocator:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    MediaGenerationListResponse:
-      properties:
-        generations:
-          items:
-            $ref: '#/components/schemas/MediaGenerationResponse'
-          type: array
-          title: Generations
-          description: The generations on this page, newest first. Each item has the same shape as the corresponding GET endpoint's response.
-        next_cursor:
+        pronunciation_dictionary_id:
+          type: string
+          title: Pronunciation Dictionary Id
+          description: The ID of a pronunciation dictionary created via `POST /v1/pronunciation-dictionaries/add-from-file` or `POST /v1/pronunciation-dictionaries/add-from-rules`.
+          examples:
+          - 5xM3yVvZQKV0EfqQpLrJ
+        version_id:
           anyOf:
           - type: string
           - type: 'null'
-          title: Next Cursor
-          description: Pass as `cursor` to fetch the next page. `null` when there is no further page.
-        has_more:
-          type: boolean
-          title: Has More
-          description: Whether more generations exist beyond this page.
-          readOnly: true
-      type: object
-      required:
-      - generations
-      - next_cursor
-      - has_more
-      title: MediaGenerationListResponse
-      description: One page of the caller's generations, newest first.
-      example:
-        generations:
-        - content_mime_type: video/mp4
-          content_url: https://storage.googleapis.com/generations/JWr5N6X9ZTqf8jD2LmQb
-          id: JWr5N6X9ZTqf8jD2LmQb
-          status: completed
-        - id: Kx2mP7Y4WVrg9kE3NnRc
-          status: generating
-        has_more: true
-        next_cursor: MjAyNi0wNy0xN1QxMjowMDowMHxLeDJtUDdZNFdWcmc5a0UzTm5SYw
-    ElevenFlashV2_5VoiceSettings:
-      properties:
-        stability:
-          anyOf:
-          - type: number
-            maximum: 1.0
-            minimum: 0.0
-          - type: 'null'
-          title: Stability
-          description: How consistent the voice stays across generations. Lower values give more expressive, varied speech.
-        similarity_boost:
-          anyOf:
-          - type: number
-            maximum: 1.0
-            minimum: 0.0
-          - type: 'null'
-          title: Similarity Boost
-          description: How closely the output adheres to the original voice.
-        speed:
-          anyOf:
-          - type: number
-            maximum: 1.2
-            minimum: 0.7
-          - type: 'null'
-          title: Speed
-          description: The speed of the generated speech, where 1.0 is the voice's natural pace.
+          title: Version Id
+          description: The version of the dictionary to use. Omit to use the latest version.
       additionalProperties: false
       type: object
-      title: ElevenFlashV2_5VoiceSettings
-      description: Overrides for the voice's saved settings, applied to one generation.
-    MediaGenerationInProgressResponse:
-      properties:
-        id:
-          type: string
-          title: Id
-          description: The unique identifier of the generation.
-          examples:
-          - JWr5N6X9ZTqf8jD2LmQb
-        status:
-          type: string
-          enum:
-          - pending
-          - generating
-          title: Status
-          description: The lifecycle status of the generation. It ends at `completed` or `failed`.
-          examples:
-          - generating
-      type: object
       required:
-      - id
-      - status
-      title: MediaGenerationInProgressResponse
-      description: A media generation that has not finished yet.
-      example:
-        id: JWr5N6X9ZTqf8jD2LmQb
-        status: generating
-    CharacterAlignmentResponseModel:
-      properties:
-        characters:
-          items:
-            type: string
-          type: array
-          title: Characters
-        character_start_times_seconds:
-          items:
-            type: number
-          type: array
-          title: Character Start Times Seconds
-        character_end_times_seconds:
-          items:
-            type: number
-          type: array
-          title: Character End Times Seconds
-      type: object
-      required:
-      - characters
-      - character_start_times_seconds
-      - character_end_times_seconds
-      title: CharacterAlignmentResponseModel
+      - pronunciation_dictionary_id
+      title: PronunciationDictionaryVersionLocator
+      description: A pronunciation dictionary to apply during speech synthesis.
     Body_text_to_speech_stream:
       properties:
         text:
@@ -1429,64 +1406,6 @@ components:
       required:
       - text
       title: Body_text_to_speech_stream
-    StreamingAudioChunkWithTimestampsResponseModel:
-      properties:
-        audio_base64:
-          type: string
-          title: Audio Base64
-          description: Base64 encoded audio data
-        alignment:
-          anyOf:
-          - $ref: '#/components/schemas/CharacterAlignmentResponseModel'
-          - type: 'null'
-          description: Timestamp information for each character in the original text
-        normalized_alignment:
-          anyOf:
-          - $ref: '#/components/schemas/CharacterAlignmentResponseModel'
-          - type: 'null'
-          description: Timestamp information for each character in the normalized text
-      type: object
-      required:
-      - audio_base64
-      title: StreamingAudioChunkWithTimestampsResponseModel
-      example:
-        alignment:
-          character_end_times_seconds:
-          - 0.1
-          - 0.2
-          character_start_times_seconds:
-          - 0.0
-          - 0.1
-          characters:
-          - H
-          - e
-        audio_base64: base64_encoded_audio_chunk
-        normalized_alignment:
-          character_end_times_seconds:
-          - 0.1
-          - 0.2
-          character_start_times_seconds:
-          - 0.0
-          - 0.1
-          characters:
-          - H
-          - e
-    PronunciationDictionaryVersionLocatorRequestModel:
-      properties:
-        pronunciation_dictionary_id:
-          type: string
-          title: Pronunciation Dictionary Id
-          description: The ID of the pronunciation dictionary.
-        version_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Version Id
-          description: The ID of the version of the pronunciation dictionary. If not provided, the latest version will be used.
-      type: object
-      required:
-      - pronunciation_dictionary_id
-      title: PronunciationDictionaryVersionLocatorRequestModel
     Body_text_to_speech_stream_with_timestamps:
       properties:
         text:
@@ -1600,6 +1519,261 @@ components:
       required:
       - text
       title: Body_text_to_speech_stream_with_timestamps
+    AudioWithTimestampsResponseModel:
+      properties:
+        audio_base64:
+          type: string
+          title: Audio Base64
+          description: Base64 encoded audio data
+        alignment:
+          anyOf:
+          - $ref: '#/components/schemas/CharacterAlignmentResponseModel'
+          - type: 'null'
+          description: Timestamp information for each character in the original text
+        normalized_alignment:
+          anyOf:
+          - $ref: '#/components/schemas/CharacterAlignmentResponseModel'
+          - type: 'null'
+          description: Timestamp information for each character in the normalized text
+      type: object
+      required:
+      - audio_base64
+      title: AudioWithTimestampsResponseModel
+      example:
+        alignment:
+          character_end_times_seconds:
+          - 0.1
+          - 0.2
+          - 0.3
+          - 0.4
+          - 0.5
+          character_start_times_seconds:
+          - 0.0
+          - 0.1
+          - 0.2
+          - 0.3
+          - 0.4
+          characters:
+          - H
+          - e
+          - l
+          - l
+          - o
+        audio_base64: base64_encoded_audio_string
+        normalized_alignment:
+          character_end_times_seconds:
+          - 0.1
+          - 0.2
+          - 0.3
+          - 0.4
+          - 0.5
+          character_start_times_seconds:
+          - 0.0
+          - 0.1
+          - 0.2
+          - 0.3
+          - 0.4
+          characters:
+          - H
+          - e
+          - l
+          - l
+          - o
+    CharacterAlignmentResponseModel:
+      properties:
+        characters:
+          items:
+            type: string
+          type: array
+          title: Characters
+        character_start_times_seconds:
+          items:
+            type: number
+          type: array
+          title: Character Start Times Seconds
+        character_end_times_seconds:
+          items:
+            type: number
+          type: array
+          title: Character End Times Seconds
+      type: object
+      required:
+      - characters
+      - character_start_times_seconds
+      - character_end_times_seconds
+      title: CharacterAlignmentResponseModel
+    PronunciationDictionaryVersionLocatorRequestModel:
+      properties:
+        pronunciation_dictionary_id:
+          type: string
+          title: Pronunciation Dictionary Id
+          description: The ID of the pronunciation dictionary.
+        version_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Version Id
+          description: The ID of the version of the pronunciation dictionary. If not provided, the latest version will be used.
+      type: object
+      required:
+      - pronunciation_dictionary_id
+      title: PronunciationDictionaryVersionLocatorRequestModel
+    Body_text_to_speech_full_with_timestamps:
+      properties:
+        text:
+          type: string
+          title: Text
+          description: The text that will get converted into speech.
+          examples:
+          - This is a test for the API of ElevenLabs.
+        model_id:
+          type: string
+          title: Model Id
+          description: Identifier of the model that will be used, you can query them using GET /v1/models. The model needs to have support for text to speech, you can check this using the can_do_text_to_speech property.
+          default: eleven_multilingual_v2
+        language_code:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Language Code
+          description: Language code (ISO 639-1) used to enforce a language for the model and text normalization. If the model does not support the provided language code, it will be ignored. This parameter is not supported for multilingual_v2 models.
+        voice_settings:
+          anyOf:
+          - $ref: '#/components/schemas/VoiceSettingsResponseModel'
+          - type: 'null'
+          description: Voice settings overriding stored settings for the given voice. They are applied only on the given request.
+        pronunciation_dictionary_locators:
+          items:
+            $ref: '#/components/schemas/PronunciationDictionaryVersionLocatorRequestModel'
+          type: array
+          title: Pronunciation Dictionary Locators
+          description: A list of pronunciation dictionary locators (id, version_id) to be applied to the text. They will be applied in order. You may have up to 3 locators per request
+          examples:
+          - - pronunciation_dictionary_id: test
+              version_id: id2
+        seed:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Seed
+          description: If specified, our system will make a best effort to sample deterministically, such that repeated requests with the same seed and parameters should return the same result. Determinism is not guaranteed. Must be integer between 0 and 4294967295.
+          examples:
+          - 12345
+        previous_text:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Previous Text
+          description: The text that came before the text of the current request. Can be used to improve the speech's continuity when concatenating together multiple generations or to influence the speech's continuity in the current generation.
+          examples:
+          - In the heart of a lush valley surrounded by towering mountains lies the quaint village of Willowbrook.
+        next_text:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Next Text
+          description: The text that comes after the text of the current request. Can be used to improve the speech's continuity when concatenating together multiple generations or to influence the speech's continuity in the current generation.
+          examples:
+          - The Willowbrook Festival, held every spring, celebrates the blossoming of the wild bluebells that carpet the nearby forest floors, creating a breathtaking sea of blue under the canopy of fresh green leaves.
+        previous_request_ids:
+          items:
+            type: string
+          type: array
+          title: Previous Request Ids
+          description: A list of request_id of the samples that were generated before this generation. Can be used to improve the speech's continuity when splitting up a large task into multiple requests. The results will be best when the same model is used across the generations. In case both previous_text and previous_request_ids is send, previous_text will be ignored. A maximum of 3 request_ids can be send.
+          examples:
+          - - 09bOJkdYVjKy2oOiiVtR
+            - 0p2uKqOnZyce22SPZ9d5
+            - 1KYvY8WZAKmcjCJ1mvVB
+        next_request_ids:
+          items:
+            type: string
+          type: array
+          title: Next Request Ids
+          description: A list of request_id of the samples that come after this generation. next_request_ids is especially useful for maintaining the speech's continuity when regenerating a sample that has had some audio quality issues. For example, if you have generated 3 speech clips, and you want to improve clip 2, passing the request id of clip 3 as a next_request_id (and that of clip 1 as a previous_request_id) will help maintain natural flow in the combined speech. The results will be best when the same model is used across the generations. In case both next_text and next_request_ids is send, next_text will be ignored. A maximum of 3 request_ids can be send.
+          examples:
+          - - 3tPgBrD1UdW3snUkGw1K
+            - 4D1jAxiRFkolBNUGzXkU
+            - 4c8Z4aWliVR2oipYRXhj
+        use_pvc_as_ivc:
+          type: boolean
+          title: Use Pvc As Ivc
+          description: If true, we won't use PVC version of the voice for the generation but the IVC version. This is a temporary workaround for higher latency in PVC versions.
+          default: false
+          deprecated: true
+          examples:
+          - true
+        apply_text_normalization:
+          type: string
+          enum:
+          - auto
+          - 'on'
+          - 'off'
+          title: Apply Text Normalization
+          description: 'This parameter controls text normalization with three modes: ''auto'', ''on'', and ''off''. When set to ''auto'', the system will automatically decide whether to apply text normalization (e.g., spelling out numbers). With ''on'', text normalization will always be applied, while with ''off'', it will be skipped.'
+          default: auto
+          examples:
+          - true
+        apply_language_text_normalization:
+          type: boolean
+          title: Apply Language Text Normalization
+          description: 'This parameter controls language text normalization. This helps with proper pronunciation of text in some supported languages. WARNING: This parameter can heavily increase the latency of the request. Currently only supported for Japanese.'
+          default: false
+          examples:
+          - true
+      type: object
+      required:
+      - text
+      title: Body_text_to_speech_full_with_timestamps
+    VoiceSettingsResponseModel:
+      properties:
+        stability:
+          anyOf:
+          - type: number
+            maximum: 1.0
+            minimum: 0.0
+          - type: 'null'
+          title: Stability
+          description: Determines how stable the voice is and the randomness between each generation. Lower values introduce broader emotional range for the voice. Higher values can result in a monotonous voice with limited emotion.
+          default: 0.5
+        use_speaker_boost:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Use Speaker Boost
+          description: This setting boosts the similarity to the original speaker. Using this setting requires a slightly higher computational load, which in turn increases latency.
+          default: true
+        similarity_boost:
+          anyOf:
+          - type: number
+            maximum: 1.0
+            minimum: 0.0
+          - type: 'null'
+          title: Similarity Boost
+          description: Determines how closely the AI should adhere to the original voice when attempting to replicate it.
+          default: 0.75
+        style:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Style
+          description: Determines the style exaggeration of the voice. This setting attempts to amplify the style of the original speaker. It does consume additional computational resources and might increase latency if set to anything other than 0.
+          default: 0.0
+        speed:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Speed
+          description: Adjusts the speed of the voice. A value of 1.0 is the default speed, while values less than 1.0 slow down the speech, and values greater than 1.0 speed it up.
+          default: 1.0
+      type: object
+      title: VoiceSettingsResponseModel
+      example:
+        similarity_boost: 1.0
+        speed: 1.0
+        stability: 1.0
+        style: 0.0
+        use_speaker_boost: true
     Body_text_to_speech_full:
       properties:
         text:
@@ -1713,114 +1887,7 @@ components:
       required:
       - text
       title: Body_text_to_speech_full
-    Body_text_to_speech_full_with_timestamps:
-      properties:
-        text:
-          type: string
-          title: Text
-          description: The text that will get converted into speech.
-          examples:
-          - This is a test for the API of ElevenLabs.
-        model_id:
-          type: string
-          title: Model Id
-          description: Identifier of the model that will be used, you can query them using GET /v1/models. The model needs to have support for text to speech, you can check this using the can_do_text_to_speech property.
-          default: eleven_multilingual_v2
-        language_code:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Language Code
-          description: Language code (ISO 639-1) used to enforce a language for the model and text normalization. If the model does not support the provided language code, it will be ignored. This parameter is not supported for multilingual_v2 models.
-        voice_settings:
-          anyOf:
-          - $ref: '#/components/schemas/VoiceSettingsResponseModel'
-          - type: 'null'
-          description: Voice settings overriding stored settings for the given voice. They are applied only on the given request.
-        pronunciation_dictionary_locators:
-          items:
-            $ref: '#/components/schemas/PronunciationDictionaryVersionLocatorRequestModel'
-          type: array
-          title: Pronunciation Dictionary Locators
-          description: A list of pronunciation dictionary locators (id, version_id) to be applied to the text. They will be applied in order. You may have up to 3 locators per request
-          examples:
-          - - pronunciation_dictionary_id: test
-              version_id: id2
-        seed:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Seed
-          description: If specified, our system will make a best effort to sample deterministically, such that repeated requests with the same seed and parameters should return the same result. Determinism is not guaranteed. Must be integer between 0 and 4294967295.
-          examples:
-          - 12345
-        previous_text:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Previous Text
-          description: The text that came before the text of the current request. Can be used to improve the speech's continuity when concatenating together multiple generations or to influence the speech's continuity in the current generation.
-          examples:
-          - In the heart of a lush valley surrounded by towering mountains lies the quaint village of Willowbrook.
-        next_text:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Next Text
-          description: The text that comes after the text of the current request. Can be used to improve the speech's continuity when concatenating together multiple generations or to influence the speech's continuity in the current generation.
-          examples:
-          - The Willowbrook Festival, held every spring, celebrates the blossoming of the wild bluebells that carpet the nearby forest floors, creating a breathtaking sea of blue under the canopy of fresh green leaves.
-        previous_request_ids:
-          items:
-            type: string
-          type: array
-          title: Previous Request Ids
-          description: A list of request_id of the samples that were generated before this generation. Can be used to improve the speech's continuity when splitting up a large task into multiple requests. The results will be best when the same model is used across the generations. In case both previous_text and previous_request_ids is send, previous_text will be ignored. A maximum of 3 request_ids can be send.
-          examples:
-          - - 09bOJkdYVjKy2oOiiVtR
-            - 0p2uKqOnZyce22SPZ9d5
-            - 1KYvY8WZAKmcjCJ1mvVB
-        next_request_ids:
-          items:
-            type: string
-          type: array
-          title: Next Request Ids
-          description: A list of request_id of the samples that come after this generation. next_request_ids is especially useful for maintaining the speech's continuity when regenerating a sample that has had some audio quality issues. For example, if you have generated 3 speech clips, and you want to improve clip 2, passing the request id of clip 3 as a next_request_id (and that of clip 1 as a previous_request_id) will help maintain natural flow in the combined speech. The results will be best when the same model is used across the generations. In case both next_text and next_request_ids is send, next_text will be ignored. A maximum of 3 request_ids can be send.
-          examples:
-          - - 3tPgBrD1UdW3snUkGw1K
-            - 4D1jAxiRFkolBNUGzXkU
-            - 4c8Z4aWliVR2oipYRXhj
-        use_pvc_as_ivc:
-          type: boolean
-          title: Use Pvc As Ivc
-          description: If true, we won't use PVC version of the voice for the generation but the IVC version. This is a temporary workaround for higher latency in PVC versions.
-          default: false
-          deprecated: true
-          examples:
-          - true
-        apply_text_normalization:
-          type: string
-          enum:
-          - auto
-          - 'on'
-          - 'off'
-          title: Apply Text Normalization
-          description: 'This parameter controls text normalization with three modes: ''auto'', ''on'', and ''off''. When set to ''auto'', the system will automatically decide whether to apply text normalization (e.g., spelling out numbers). With ''on'', text normalization will always be applied, while with ''off'', it will be skipped.'
-          default: auto
-          examples:
-          - true
-        apply_language_text_normalization:
-          type: boolean
-          title: Apply Language Text Normalization
-          description: 'This parameter controls language text normalization. This helps with proper pronunciation of text in some supported languages. WARNING: This parameter can heavily increase the latency of the request. Currently only supported for Japanese.'
-          default: false
-          examples:
-          - true
-      type: object
-      required:
-      - text
-      title: Body_text_to_speech_full_with_timestamps
-    AudioWithTimestampsResponseModel:
+    StreamingAudioChunkWithTimestampsResponseModel:
       properties:
         audio_base64:
           type: string
@@ -1839,93 +1906,26 @@ components:
       type: object
       required:
       - audio_base64
-      title: AudioWithTimestampsResponseModel
+      title: StreamingAudioChunkWithTimestampsResponseModel
       example:
         alignment:
           character_end_times_seconds:
           - 0.1
           - 0.2
-          - 0.3
-          - 0.4
-          - 0.5
           character_start_times_seconds:
           - 0.0
           - 0.1
-          - 0.2
-          - 0.3
-          - 0.4
           characters:
           - H
           - e
-          - l
-          - l
-          - o
-        audio_base64: base64_encoded_audio_string
+        audio_base64: base64_encoded_audio_chunk
         normalized_alignment:
           character_end_times_seconds:
           - 0.1
           - 0.2
-          - 0.3
-          - 0.4
-          - 0.5
           character_start_times_seconds:
           - 0.0
           - 0.1
-          - 0.2
-          - 0.3
-          - 0.4
           characters:
           - H
           - e
-          - l
-          - l
-          - o
-    VoiceSettingsResponseModel:
-      properties:
-        stability:
-          anyOf:
-          - type: number
-            maximum: 1.0
-            minimum: 0.0
-          - type: 'null'
-          title: Stability
-          description: Determines how stable the voice is and the randomness between each generation. Lower values introduce broader emotional range for the voice. Higher values can result in a monotonous voice with limited emotion.
-          default: 0.5
-        use_speaker_boost:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Use Speaker Boost
-          description: This setting boosts the similarity to the original speaker. Using this setting requires a slightly higher computational load, which in turn increases latency.
-          default: true
-        similarity_boost:
-          anyOf:
-          - type: number
-            maximum: 1.0
-            minimum: 0.0
-          - type: 'null'
-          title: Similarity Boost
-          description: Determines how closely the AI should adhere to the original voice when attempting to replicate it.
-          default: 0.75
-        style:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Style
-          description: Determines the style exaggeration of the voice. This setting attempts to amplify the style of the original speaker. It does consume additional computational resources and might increase latency if set to anything other than 0.
-          default: 0.0
-        speed:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Speed
-          description: Adjusts the speed of the voice. A value of 1.0 is the default speed, while values less than 1.0 slow down the speech, and values greater than 1.0 speed it up.
-          default: 1.0
-      type: object
-      title: VoiceSettingsResponseModel
-      example:
-        similarity_boost: 1.0
-        speed: 1.0
-        stability: 1.0
-        style: 0.0
-        use_speaker_boost: true

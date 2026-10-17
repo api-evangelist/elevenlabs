@@ -48,6 +48,77 @@ paths:
       x-fern-sdk-method-name: create
 components:
   schemas:
+    ForcedAlignmentCharacterResponseModel:
+      properties:
+        text:
+          type: string
+          title: Text
+          description: The character that was transcribed.
+        start:
+          type: number
+          title: Start
+          description: The start time of the character in seconds.
+        end:
+          type: number
+          title: End
+          description: The end time of the character in seconds.
+      type: object
+      required:
+      - text
+      - start
+      - end
+      title: ForcedAlignmentCharacterResponseModel
+      description: Model representing a single character with its timing information from the aligner.
+      example:
+        end: 0.02
+        start: 0.0
+        text: H
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ForcedAlignmentResponseModel:
+      properties:
+        characters:
+          items:
+            $ref: '#/components/schemas/ForcedAlignmentCharacterResponseModel'
+          type: array
+          title: Characters
+          description: List of characters with their timing information.
+        words:
+          items:
+            $ref: '#/components/schemas/ForcedAlignmentWordResponseModel'
+          type: array
+          title: Words
+          description: List of words with their timing information.
+        loss:
+          type: number
+          title: Loss
+          description: The average alignment loss/confidence score for the entire transcript, calculated from all characters.
+      type: object
+      required:
+      - characters
+      - words
+      - loss
+      title: ForcedAlignmentResponseModel
+      description: Model representing the response from the aligner service.
     ForcedAlignmentWordResponseModel:
       properties:
         text:
@@ -79,27 +150,15 @@ components:
         loss: 0.12
         start: 0.0
         text: Hello
-    ValidationError:
+    HTTPValidationError:
       properties:
-        loc:
+        detail:
           items:
-            anyOf:
-            - type: string
-            - type: integer
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
+          title: Detail
       type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      title: HTTPValidationError
     Body_Create_forced_alignment_v1_forced_alignment_post:
       properties:
         file:
@@ -116,62 +175,3 @@ components:
       - file
       - text
       title: Body_Create_forced_alignment_v1_forced_alignment_post
-    ForcedAlignmentCharacterResponseModel:
-      properties:
-        text:
-          type: string
-          title: Text
-          description: The character that was transcribed.
-        start:
-          type: number
-          title: Start
-          description: The start time of the character in seconds.
-        end:
-          type: number
-          title: End
-          description: The end time of the character in seconds.
-      type: object
-      required:
-      - text
-      - start
-      - end
-      title: ForcedAlignmentCharacterResponseModel
-      description: Model representing a single character with its timing information from the aligner.
-      example:
-        end: 0.02
-        start: 0.0
-        text: H
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ForcedAlignmentResponseModel:
-      properties:
-        characters:
-          items:
-            $ref: '#/components/schemas/ForcedAlignmentCharacterResponseModel'
-          type: array
-          title: Characters
-          description: List of characters with their timing information.
-        words:
-          items:
-            $ref: '#/components/schemas/ForcedAlignmentWordResponseModel'
-          type: array
-          title: Words
-          description: List of words with their timing information.
-        loss:
-          type: number
-          title: Loss
-          description: The average alignment loss/confidence score for the entire transcript, calculated from all characters.
-      type: object
-      required:
-      - characters
-      - words
-      - loss
-      title: ForcedAlignmentResponseModel
-      description: Model representing the response from the aligner service.

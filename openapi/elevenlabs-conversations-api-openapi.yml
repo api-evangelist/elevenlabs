@@ -109,6 +109,14 @@ paths:
         '404':
           description: Conversation audio not found
 components:
+  parameters:
+    conversationId:
+      name: conversation_id
+      in: path
+      required: true
+      description: The unique identifier of the conversation.
+      schema:
+        type: string
   schemas:
     Conversation:
       type: object
@@ -193,14 +201,6 @@ components:
         next_cursor:
           type: string
           description: Cursor for pagination.
-  parameters:
-    conversationId:
-      name: conversation_id
-      in: path
-      required: true
-      description: The unique identifier of the conversation.
-      schema:
-        type: string
   securitySchemes:
     apiKeyAuth:
       type: apiKey

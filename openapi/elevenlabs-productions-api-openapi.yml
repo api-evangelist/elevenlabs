@@ -561,110 +561,86 @@ paths:
       x-fern-sdk-method-name: list
 components:
   schemas:
-    Body_Register_media_v1_productions_orders__order_id__media_post:
+    LanguageInfo:
       properties:
-        declared_language:
+        code:
           type: string
-          title: Declared Language
-          description: The language code of the media content (e.g. 'en', 'es-ES'). Must be a supported source language for some order item kind.
-        media:
-          anyOf:
-          - type: string
-            format: binary
-          - type: 'null'
-          title: Media
-          description: The media file to upload. Mutually exclusive with media_url.
-        media_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Media Url
-          description: A URL to fetch the media file from. Mutually exclusive with media.
-        media_url_filename:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Media Url Filename
-          description: The filename for URL-sourced media (e.g. 'example.mp4'). Required when using media_url.
-        media_url_content_type:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Media Url Content Type
-          description: The MIME type for URL-sourced media (e.g. 'video/mp4'). Required when using media_url.
+          title: Code
+          description: The language code (e.g. 'en', 'fr', 'es-ES').
+        label:
+          type: string
+          title: Label
+          description: The human-readable language name (e.g. 'English', 'French', 'Spanish (Spain)').
       type: object
       required:
-      - declared_language
-      title: Body_Register_media_v1_productions_orders__order_id__media_post
-    MediaId:
-      type: string
-      pattern: ^prodmedia_[a-z0-9]{26}$
-    DeliverableInfo:
-      properties:
-        signed_url:
-          type: string
-          title: Signed Url
-          description: A time-limited URL to download the delivered file.
-        content_type:
-          type: string
-          title: Content Type
-          description: The MIME type of the delivered file (e.g. 'video/mp4').
-        name:
-          type: string
-          title: Name
-          description: The name of the delivered file.
-        version:
-          type: integer
-          title: Version
-          description: The version number of the deliverable.
-          default: 1
-      type: object
-      required:
-      - signed_url
-      - content_type
-      - name
-      title: DeliverableInfo
+      - code
+      - label
+      title: LanguageInfo
       example:
-        content_type: video/mp4
-        name: '[fr][mp4] Item #cbaba1fe'
-        signed_url: https://storage.googleapis.com/example-bucket/deliverables/output_fr.mp4?X-Goog-Signature=...
-        version: 1
-    UpsertOrderItemResponse:
+        code: es-ES
+        label: Spanish (Spain)
+    PairedLanguagesResponse:
       properties:
-        item_id:
-          $ref: '#/components/schemas/ItemId'
-          description: The ID of the upserted order item.
-        quote:
-          anyOf:
-          - $ref: '#/components/schemas/QuoteInfo'
-          - type: 'null'
-          description: The quoted price for this item.
-      type: object
-      required:
-      - item_id
-      title: UpsertOrderItemResponse
-      example:
-        item_id: proditem_01jgd3qhejfs7rm6swknz2ytjb
-        quote:
-          amount_usd: 11.0
-    OrderDeliverablesResponse:
-      properties:
-        deliverables:
+        kind:
+          type: string
+          const: pair
+          title: Kind
+          description: Indicates this response contains source-to-destination language pairs.
+          default: pair
+        language_pairs:
           items:
-            $ref: '#/components/schemas/DeliverableInfo'
+            $ref: '#/components/schemas/LanguagePairInfo'
           type: array
-          title: Deliverables
-          description: The list of delivered files for the order. Empty if the order is not yet completed.
+          title: Language Pairs
+          description: The list of available source-to-destination language mappings.
       type: object
       required:
-      - deliverables
-      title: OrderDeliverablesResponse
+      - language_pairs
+      title: PairedLanguagesResponse
       example:
-        deliverables:
-        - content_type: video/mp4
-          name: output_fr.mp4
-          signed_url: https://storage.googleapis.com/example-bucket/deliverables/output_fr.mp4?X-Goog-Signature=...
-          version: 1
+        kind: pair
+        language_pairs:
+        - destination_languages:
+          - code: es
+            label: Spanish
+          - code: es-ES
+            label: Spanish (Spain)
+          - code: fr
+            label: French
+          source_language:
+            code: en
+            label: English
+        - destination_languages:
+          - code: en
+            label: English
+          source_language:
+            code: es-ES
+            label: Spanish (Spain)
+    RegisterMediaResponse:
+      properties:
+        media_id:
+          $ref: '#/components/schemas/MediaId'
+          description: The ID of the uploaded media file.
+      type: object
+      required:
+      - media_id
+      title: RegisterMediaResponse
+      example:
+        media_id: prodmedia_01jgb2zd68f8f9tfvbb968wb8z
+    OrderState:
+      type: string
+      enum:
+      - open
+      - submitted
+      - paid
+      - accepted
+      - rejected
+      - done
+      - cancelling
+      - cancelled
+      - expired
+      - merged
+      title: OrderState
     OrderResponse:
       properties:
         order_id:
@@ -764,6 +740,112 @@ components:
         sandbox: false
         state: open
         total_amount_usd: 11.0
+    Body_Upsert_order_item_v1_productions_orders__order_id__items_post:
+      properties:
+        request:
+          $ref: '#/components/schemas/UpsertOrderItemRequest'
+      type: object
+      required:
+      - request
+      title: Body_Upsert_order_item_v1_productions_orders__order_id__items_post
+    OrderItemKind:
+      type: string
+      enum:
+      - dub
+      - subtitles
+      - transcription
+      title: OrderItemKind
+    OrderItemRequest-Input:
+      oneOf:
+      - $ref: '#/components/schemas/DubOrderItemRequest'
+      - $ref: '#/components/schemas/SubtitleOrderItemRequest'
+      - $ref: '#/components/schemas/TranscriptionOrderItemRequest'
+      discriminator:
+        propertyName: kind
+        mapping:
+          dub: '#/components/schemas/DubOrderItemRequest'
+          subtitles: '#/components/schemas/SubtitleOrderItemRequest'
+          transcription: '#/components/schemas/TranscriptionOrderItemRequest'
+    ListOrdersResponse:
+      properties:
+        orders:
+          items:
+            $ref: '#/components/schemas/OrderSummary'
+          type: array
+          title: Orders
+          description: The list of orders matching the query.
+      type: object
+      required:
+      - orders
+      title: ListOrdersResponse
+      example:
+        orders:
+        - name: Spanish Dubs
+          order_id: prodorder_01jgatk6h0fwxrtbjade61yqhx
+          state: submitted
+          submitted_at: '2025-03-15T10:30:00Z'
+          total_amount_usd: 11.0
+          updated_at: '2025-03-15T10:30:00Z'
+    LanguagePairInfo:
+      properties:
+        source_language:
+          $ref: '#/components/schemas/LanguageInfo'
+          description: The source language.
+        destination_languages:
+          items:
+            $ref: '#/components/schemas/LanguageInfo'
+          type: array
+          title: Destination Languages
+          description: The available destination languages for this source language.
+      type: object
+      required:
+      - source_language
+      - destination_languages
+      title: LanguagePairInfo
+      example:
+        destination_languages:
+        - code: es-ES
+          label: Spanish (Spain)
+        - code: fr
+          label: French
+        source_language:
+          code: en
+          label: English
+    QuoteInfo:
+      properties:
+        amount_usd:
+          type: number
+          title: Amount Usd
+          description: The quoted price for this item in USD. Use the order's total_amount_usd for the combined order total.
+      type: object
+      required:
+      - amount_usd
+      title: QuoteInfo
+      example:
+        amount_usd: 11.0
+    SubmitOrderResponse:
+      properties:
+        order_id:
+          $ref: '#/components/schemas/OrderId'
+          description: The ID of the submitted order.
+        state:
+          $ref: '#/components/schemas/OrderState'
+          description: The current state of the order after submission.
+        submitted_at:
+          type: string
+          format: date-time
+          title: Submitted At
+          description: The timestamp when the order was submitted.
+      type: object
+      required:
+      - order_id
+      - state
+      - submitted_at
+      title: SubmitOrderResponse
+      example:
+        order_id: prodorder_01jgatk6h0fwxrtbjade61yqhx
+        state: submitted
+        submitted_at: '2025-03-15T10:30:00Z'
     CueOptionsRequest:
       properties:
         min_duration_ms:
@@ -815,43 +897,84 @@ components:
         max_duration_ms: 7000
         max_lines_per_cue: 2
         min_duration_ms: 1000
-    PairedLanguagesResponse:
+    Body_Update_order_v1_productions_orders__order_id__patch:
       properties:
-        kind:
-          type: string
-          const: pair
-          title: Kind
-          description: Indicates this response contains source-to-destination language pairs.
-          default: pair
-        language_pairs:
-          items:
-            $ref: '#/components/schemas/LanguagePairInfo'
-          type: array
-          title: Language Pairs
-          description: The list of available source-to-destination language mappings.
+        request:
+          $ref: '#/components/schemas/UpdateOrderRequest'
       type: object
       required:
-      - language_pairs
-      title: PairedLanguagesResponse
+      - request
+      title: Body_Update_order_v1_productions_orders__order_id__patch
+    UpdateOrderRequest:
+      properties:
+        name:
+          type: string
+          maxLength: 120
+          minLength: 1
+          title: Name
+          description: The new name for the order.
+      type: object
+      required:
+      - name
+      title: UpdateOrderRequest
       example:
-        kind: pair
-        language_pairs:
-        - destination_languages:
-          - code: es
-            label: Spanish
-          - code: es-ES
-            label: Spanish (Spain)
-          - code: fr
-            label: French
-          source_language:
-            code: en
-            label: English
-        - destination_languages:
-          - code: en
-            label: English
-          source_language:
-            code: es-ES
-            label: Spanish (Spain)
+        name: Spanish Dubs
+    CreateOrderResponse:
+      properties:
+        order_id:
+          $ref: '#/components/schemas/OrderId'
+          description: The ID of the newly created order.
+        sandbox:
+          type: boolean
+          title: Sandbox
+          description: Whether this is a sandbox order.
+          default: false
+      type: object
+      required:
+      - order_id
+      title: CreateOrderResponse
+      example:
+        order_id: prodorder_01jgatk6h0fwxrtbjade61yqhx
+        sandbox: false
+    OrderMediaResponse:
+      properties:
+        media_id:
+          $ref: '#/components/schemas/MediaId'
+          description: The ID of the media file.
+        name:
+          type: string
+          title: Name
+          description: The original filename of the uploaded media.
+        content_type:
+          type: string
+          title: Content Type
+          description: The MIME type of the media file (e.g. 'video/mp4').
+        language:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Language
+          description: The detected or declared language of the media, if available.
+        signed_url:
+          type: string
+          title: Signed Url
+          description: A time-limited URL to download the media file.
+      type: object
+      required:
+      - media_id
+      - name
+      - content_type
+      - signed_url
+      title: OrderMediaResponse
+      example:
+        content_type: video/mp4
+        language: en
+        media_id: prodmedia_01jgb2zd68f8f9tfvbb968wb8z
+        name: example.mp4
+        signed_url: https://storage.googleapis.com/example-bucket/media/example.mp4?X-Goog-Signature=...
+    ItemId:
+      type: string
+      pattern: ^proditem_[a-z0-9]{26}$
     OrderSummary:
       properties:
         order_id:
@@ -909,92 +1032,141 @@ components:
         submitted_at: '2025-03-15T10:30:00Z'
         total_amount_usd: 11.0
         updated_at: '2025-03-15T10:30:00Z'
-    ListOrdersResponse:
+    UpsertOrderItemRequest:
       properties:
-        orders:
-          items:
-            $ref: '#/components/schemas/OrderSummary'
-          type: array
-          title: Orders
-          description: The list of orders matching the query.
-      type: object
-      required:
-      - orders
-      title: ListOrdersResponse
-      example:
-        orders:
-        - name: Spanish Dubs
-          order_id: prodorder_01jgatk6h0fwxrtbjade61yqhx
-          state: submitted
-          submitted_at: '2025-03-15T10:30:00Z'
-          total_amount_usd: 11.0
-          updated_at: '2025-03-15T10:30:00Z'
-    ItemId:
-      type: string
-      pattern: ^proditem_[a-z0-9]{26}$
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    TranscriptionOrderItemRequest:
-      properties:
-        kind:
-          type: string
-          const: transcription
-          title: Kind
-          description: The type of order item.
-          default: transcription
-        media_ids:
-          items:
-            $ref: '#/components/schemas/MediaId'
-          type: array
-          title: Media Ids
-          description: The IDs of the uploaded media files to transcribe.
-        source_language:
-          type: string
-          title: Source Language
-          description: The language code of the source media (e.g. 'en', 'es').
-        verbatim:
-          type: boolean
-          title: Verbatim
-          description: Whether to transcribe every word exactly, including filler words.
-          default: false
-        instructions:
+        item:
+          $ref: '#/components/schemas/OrderItemRequest-Input'
+          description: The order item to add or update.
+        item_id:
           anyOf:
-          - type: string
+          - $ref: '#/components/schemas/ItemId'
           - type: 'null'
-          title: Instructions
-          description: Optional free-text instructions for the transcription team.
+          description: The ID of an existing item to update. Omit to create a new item.
       type: object
       required:
-      - media_ids
-      - source_language
-      title: TranscriptionOrderItemRequest
+      - item
+      title: UpsertOrderItemRequest
+      examples:
+      - item:
+          captions_sdh: false
+          destination_languages:
+          - hi
+          - fr-FR
+          - de
+          include_captions: true
+          include_source_captions: false
+          instructions: Voices don't need to match the originals, prioritize native-sounding voices
+          kind: dub
+          media_id: prodmedia_01jgatk6h0fwxrtbjade61yqhx
+          source_language: en
+      - item:
+          cue_options:
+            max_chars_per_line: 42
+            max_lines_per_cue: 2
+          destination_languages:
+          - hi
+          - fr-FR
+          - de
+          instructions: Avoid splitting noun phrases across lines.
+          kind: subtitles
+          media_ids:
+          - prodmedia_01jgatk6h0fwxrtbjade61yqhx
+          - prodmedia_01jgb2zd68f8f9tfvbb968wb8z
+          sdh: false
+          source_language: en
+    OrderItemInfo:
+      properties:
+        item_id:
+          $ref: '#/components/schemas/ItemId'
+          description: The ID of the order item.
+        item:
+          $ref: '#/components/schemas/OrderItemRequest-Output'
+          description: The item configuration details.
+        quote:
+          anyOf:
+          - $ref: '#/components/schemas/QuoteInfo'
+          - type: 'null'
+          description: The quoted price for this item.
+      type: object
+      required:
+      - item_id
+      - item
+      title: OrderItemInfo
       example:
-        instructions: Use speaker labels where possible.
-        kind: transcription
-        media_ids:
-        - prodmedia_01jgatk6h0fwxrtbjade61yqhx
-        - prodmedia_01jgb2zd68f8f9tfvbb968wb8z
-        source_language: en
-        verbatim: false
+        item:
+          captions_sdh: false
+          destination_languages:
+          - hi
+          - fr-FR
+          - de
+          include_captions: true
+          include_source_captions: false
+          instructions: Voices don't need to match the originals, prioritize native-sounding voices
+          kind: dub
+          media_id: prodmedia_01jgatk6h0fwxrtbjade61yqhx
+          source_language: en
+        item_id: proditem_01jgd3qhejfs7rm6swknz2ytjb
+        quote:
+          amount_usd: 11.0
+    LanguagesResponse:
+      oneOf:
+      - $ref: '#/components/schemas/PairedLanguagesResponse'
+      - $ref: '#/components/schemas/SingleLanguagesResponse'
+      discriminator:
+        propertyName: kind
+        mapping:
+          pair: '#/components/schemas/PairedLanguagesResponse'
+          single: '#/components/schemas/SingleLanguagesResponse'
+    UpdateOrderResponse:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: The updated order name.
+      type: object
+      required:
+      - name
+      title: UpdateOrderResponse
+      example:
+        name: Spanish Dubs
+    OrderDeliverablesResponse:
+      properties:
+        deliverables:
+          items:
+            $ref: '#/components/schemas/DeliverableInfo'
+          type: array
+          title: Deliverables
+          description: The list of delivered files for the order. Empty if the order is not yet completed.
+      type: object
+      required:
+      - deliverables
+      title: OrderDeliverablesResponse
+      example:
+        deliverables:
+        - content_type: video/mp4
+          name: output_fr.mp4
+          signed_url: https://storage.googleapis.com/example-bucket/deliverables/output_fr.mp4?X-Goog-Signature=...
+          version: 1
+    CreateOrderRequest:
+      properties:
+        sandbox:
+          type: boolean
+          title: Sandbox
+          description: When true, creates a sandbox order that auto-progresses without producer intervention.
+          default: false
+      type: object
+      title: CreateOrderRequest
+      example:
+        sandbox: false
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     DubOrderItemRequest:
       properties:
         kind:
@@ -1056,17 +1228,24 @@ components:
         kind: dub
         media_id: prodmedia_01jgatk6h0fwxrtbjade61yqhx
         source_language: en
-    OrderItemRequest-Output:
-      oneOf:
-      - $ref: '#/components/schemas/DubOrderItemRequest'
-      - $ref: '#/components/schemas/SubtitleOrderItemRequest'
-      - $ref: '#/components/schemas/TranscriptionOrderItemRequest'
-      discriminator:
-        propertyName: kind
-        mapping:
-          dub: '#/components/schemas/DubOrderItemRequest'
-          subtitles: '#/components/schemas/SubtitleOrderItemRequest'
-          transcription: '#/components/schemas/TranscriptionOrderItemRequest'
+    UpsertOrderItemResponse:
+      properties:
+        item_id:
+          $ref: '#/components/schemas/ItemId'
+          description: The ID of the upserted order item.
+        quote:
+          anyOf:
+          - $ref: '#/components/schemas/QuoteInfo'
+          - type: 'null'
+          description: The quoted price for this item.
+      type: object
+      required:
+      - item_id
+      title: UpsertOrderItemResponse
+      example:
+        item_id: proditem_01jgd3qhejfs7rm6swknz2ytjb
+        quote:
+          amount_usd: 11.0
     SingleLanguagesResponse:
       properties:
         kind:
@@ -1094,80 +1273,31 @@ components:
           label: Spanish (Spain)
         - code: fr
           label: French
-    UpsertOrderItemRequest:
+    ValidationError:
       properties:
-        item:
-          $ref: '#/components/schemas/OrderItemRequest-Input'
-          description: The order item to add or update.
-        item_id:
-          anyOf:
-          - $ref: '#/components/schemas/ItemId'
-          - type: 'null'
-          description: The ID of an existing item to update. Omit to create a new item.
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
       type: object
       required:
-      - item
-      title: UpsertOrderItemRequest
-      examples:
-      - item:
-          captions_sdh: false
-          destination_languages:
-          - hi
-          - fr-FR
-          - de
-          include_captions: true
-          include_source_captions: false
-          instructions: Voices don't need to match the originals, prioritize native-sounding voices
-          kind: dub
-          media_id: prodmedia_01jgatk6h0fwxrtbjade61yqhx
-          source_language: en
-      - item:
-          cue_options:
-            max_chars_per_line: 42
-            max_lines_per_cue: 2
-          destination_languages:
-          - hi
-          - fr-FR
-          - de
-          instructions: Avoid splitting noun phrases across lines.
-          kind: subtitles
-          media_ids:
-          - prodmedia_01jgatk6h0fwxrtbjade61yqhx
-          - prodmedia_01jgb2zd68f8f9tfvbb968wb8z
-          sdh: false
-          source_language: en
-    OrderState:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    OrderId:
       type: string
-      enum:
-      - open
-      - submitted
-      - paid
-      - accepted
-      - rejected
-      - done
-      - cancelling
-      - cancelled
-      - expired
-      - merged
-      title: OrderState
-    CreateOrderResponse:
-      properties:
-        order_id:
-          $ref: '#/components/schemas/OrderId'
-          description: The ID of the newly created order.
-        sandbox:
-          type: boolean
-          title: Sandbox
-          description: Whether this is a sandbox order.
-          default: false
-      type: object
-      required:
-      - order_id
-      title: CreateOrderResponse
-      example:
-        order_id: prodorder_01jgatk6h0fwxrtbjade61yqhx
-        sandbox: false
-    OrderItemRequest-Input:
+      pattern: ^prodorder_[a-z0-9]{26}$
+    OrderItemRequest-Output:
       oneOf:
       - $ref: '#/components/schemas/DubOrderItemRequest'
       - $ref: '#/components/schemas/SubtitleOrderItemRequest'
@@ -1178,102 +1308,21 @@ components:
           dub: '#/components/schemas/DubOrderItemRequest'
           subtitles: '#/components/schemas/SubtitleOrderItemRequest'
           transcription: '#/components/schemas/TranscriptionOrderItemRequest'
-    LanguageInfo:
+    MediaId:
+      type: string
+      pattern: ^prodmedia_[a-z0-9]{26}$
+    RemoveOrderItemResponse:
       properties:
-        code:
-          type: string
-          title: Code
-          description: The language code (e.g. 'en', 'fr', 'es-ES').
-        label:
-          type: string
-          title: Label
-          description: The human-readable language name (e.g. 'English', 'French', 'Spanish (Spain)').
+        success:
+          type: boolean
+          title: Success
+          description: Whether the item was successfully removed.
       type: object
       required:
-      - code
-      - label
-      title: LanguageInfo
+      - success
+      title: RemoveOrderItemResponse
       example:
-        code: es-ES
-        label: Spanish (Spain)
-    RegisterMediaResponse:
-      properties:
-        media_id:
-          $ref: '#/components/schemas/MediaId'
-          description: The ID of the uploaded media file.
-      type: object
-      required:
-      - media_id
-      title: RegisterMediaResponse
-      example:
-        media_id: prodmedia_01jgb2zd68f8f9tfvbb968wb8z
-    Body_Upsert_order_item_v1_productions_orders__order_id__items_post:
-      properties:
-        request:
-          $ref: '#/components/schemas/UpsertOrderItemRequest'
-      type: object
-      required:
-      - request
-      title: Body_Upsert_order_item_v1_productions_orders__order_id__items_post
-    OrderItemInfo:
-      properties:
-        item_id:
-          $ref: '#/components/schemas/ItemId'
-          description: The ID of the order item.
-        item:
-          $ref: '#/components/schemas/OrderItemRequest-Output'
-          description: The item configuration details.
-        quote:
-          anyOf:
-          - $ref: '#/components/schemas/QuoteInfo'
-          - type: 'null'
-          description: The quoted price for this item.
-      type: object
-      required:
-      - item_id
-      - item
-      title: OrderItemInfo
-      example:
-        item:
-          captions_sdh: false
-          destination_languages:
-          - hi
-          - fr-FR
-          - de
-          include_captions: true
-          include_source_captions: false
-          instructions: Voices don't need to match the originals, prioritize native-sounding voices
-          kind: dub
-          media_id: prodmedia_01jgatk6h0fwxrtbjade61yqhx
-          source_language: en
-        item_id: proditem_01jgd3qhejfs7rm6swknz2ytjb
-        quote:
-          amount_usd: 11.0
-    LanguagePairInfo:
-      properties:
-        source_language:
-          $ref: '#/components/schemas/LanguageInfo'
-          description: The source language.
-        destination_languages:
-          items:
-            $ref: '#/components/schemas/LanguageInfo'
-          type: array
-          title: Destination Languages
-          description: The available destination languages for this source language.
-      type: object
-      required:
-      - source_language
-      - destination_languages
-      title: LanguagePairInfo
-      example:
-        destination_languages:
-        - code: es-ES
-          label: Spanish (Spain)
-        - code: fr
-          label: French
-        source_language:
-          code: en
-          label: English
+        success: true
     SubtitleOrderItemRequest:
       properties:
         kind:
@@ -1335,159 +1384,110 @@ components:
         - prodmedia_01jgb2zd68f8f9tfvbb968wb8z
         sdh: false
         source_language: en
-    RemoveOrderItemResponse:
+    Body_Register_media_v1_productions_orders__order_id__media_post:
       properties:
-        success:
-          type: boolean
-          title: Success
-          description: Whether the item was successfully removed.
-      type: object
-      required:
-      - success
-      title: RemoveOrderItemResponse
-      example:
-        success: true
-    OrderId:
-      type: string
-      pattern: ^prodorder_[a-z0-9]{26}$
-    OrderItemKind:
-      type: string
-      enum:
-      - dub
-      - subtitles
-      - transcription
-      title: OrderItemKind
-    LanguagesResponse:
-      oneOf:
-      - $ref: '#/components/schemas/PairedLanguagesResponse'
-      - $ref: '#/components/schemas/SingleLanguagesResponse'
-      discriminator:
-        propertyName: kind
-        mapping:
-          pair: '#/components/schemas/PairedLanguagesResponse'
-          single: '#/components/schemas/SingleLanguagesResponse'
-    SubmitOrderResponse:
-      properties:
-        order_id:
-          $ref: '#/components/schemas/OrderId'
-          description: The ID of the submitted order.
-        state:
-          $ref: '#/components/schemas/OrderState'
-          description: The current state of the order after submission.
-        submitted_at:
+        declared_language:
           type: string
-          format: date-time
-          title: Submitted At
-          description: The timestamp when the order was submitted.
-      type: object
-      required:
-      - order_id
-      - state
-      - submitted_at
-      title: SubmitOrderResponse
-      example:
-        order_id: prodorder_01jgatk6h0fwxrtbjade61yqhx
-        state: submitted
-        submitted_at: '2025-03-15T10:30:00Z'
-    UpdateOrderResponse:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: The updated order name.
-      type: object
-      required:
-      - name
-      title: UpdateOrderResponse
-      example:
-        name: Spanish Dubs
-    QuoteInfo:
-      properties:
-        amount_usd:
-          type: number
-          title: Amount Usd
-          description: The quoted price for this item in USD. Use the order's total_amount_usd for the combined order total.
-      type: object
-      required:
-      - amount_usd
-      title: QuoteInfo
-      example:
-        amount_usd: 11.0
-    Body_Update_order_v1_productions_orders__order_id__patch:
-      properties:
-        request:
-          $ref: '#/components/schemas/UpdateOrderRequest'
-      type: object
-      required:
-      - request
-      title: Body_Update_order_v1_productions_orders__order_id__patch
-    CreateOrderRequest:
-      properties:
-        sandbox:
-          type: boolean
-          title: Sandbox
-          description: When true, creates a sandbox order that auto-progresses without producer intervention.
-          default: false
-      type: object
-      title: CreateOrderRequest
-      example:
-        sandbox: false
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    OrderMediaResponse:
-      properties:
-        media_id:
-          $ref: '#/components/schemas/MediaId'
-          description: The ID of the media file.
-        name:
-          type: string
-          title: Name
-          description: The original filename of the uploaded media.
-        content_type:
-          type: string
-          title: Content Type
-          description: The MIME type of the media file (e.g. 'video/mp4').
-        language:
+          title: Declared Language
+          description: The language code of the media content (e.g. 'en', 'es-ES'). Must be a supported source language for some order item kind.
+        media:
+          anyOf:
+          - type: string
+            format: binary
+          - type: 'null'
+          title: Media
+          description: The media file to upload. Mutually exclusive with media_url.
+        media_url:
           anyOf:
           - type: string
           - type: 'null'
-          title: Language
-          description: The detected or declared language of the media, if available.
+          title: Media Url
+          description: A URL to fetch the media file from. Mutually exclusive with media.
+        media_url_filename:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Media Url Filename
+          description: The filename for URL-sourced media (e.g. 'example.mp4'). Required when using media_url.
+        media_url_content_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Media Url Content Type
+          description: The MIME type for URL-sourced media (e.g. 'video/mp4'). Required when using media_url.
+      type: object
+      required:
+      - declared_language
+      title: Body_Register_media_v1_productions_orders__order_id__media_post
+    TranscriptionOrderItemRequest:
+      properties:
+        kind:
+          type: string
+          const: transcription
+          title: Kind
+          description: The type of order item.
+          default: transcription
+        media_ids:
+          items:
+            $ref: '#/components/schemas/MediaId'
+          type: array
+          title: Media Ids
+          description: The IDs of the uploaded media files to transcribe.
+        source_language:
+          type: string
+          title: Source Language
+          description: The language code of the source media (e.g. 'en', 'es').
+        verbatim:
+          type: boolean
+          title: Verbatim
+          description: Whether to transcribe every word exactly, including filler words.
+          default: false
+        instructions:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Instructions
+          description: Optional free-text instructions for the transcription team.
+      type: object
+      required:
+      - media_ids
+      - source_language
+      title: TranscriptionOrderItemRequest
+      example:
+        instructions: Use speaker labels where possible.
+        kind: transcription
+        media_ids:
+        - prodmedia_01jgatk6h0fwxrtbjade61yqhx
+        - prodmedia_01jgb2zd68f8f9tfvbb968wb8z
+        source_language: en
+        verbatim: false
+    DeliverableInfo:
+      properties:
         signed_url:
           type: string
           title: Signed Url
-          description: A time-limited URL to download the media file.
-      type: object
-      required:
-      - media_id
-      - name
-      - content_type
-      - signed_url
-      title: OrderMediaResponse
-      example:
-        content_type: video/mp4
-        language: en
-        media_id: prodmedia_01jgb2zd68f8f9tfvbb968wb8z
-        name: example.mp4
-        signed_url: https://storage.googleapis.com/example-bucket/media/example.mp4?X-Goog-Signature=...
-    UpdateOrderRequest:
-      properties:
+          description: A time-limited URL to download the delivered file.
+        content_type:
+          type: string
+          title: Content Type
+          description: The MIME type of the delivered file (e.g. 'video/mp4').
         name:
           type: string
-          maxLength: 120
-          minLength: 1
           title: Name
-          description: The new name for the order.
+          description: The name of the delivered file.
+        version:
+          type: integer
+          title: Version
+          description: The version number of the deliverable.
+          default: 1
       type: object
       required:
+      - signed_url
+      - content_type
       - name
-      title: UpdateOrderRequest
+      title: DeliverableInfo
       example:
-        name: Spanish Dubs
+        content_type: video/mp4
+        name: '[fr][mp4] Item #cbaba1fe'
+        signed_url: https://storage.googleapis.com/example-bucket/deliverables/output_fr.mp4?X-Goog-Signature=...
+        version: 1

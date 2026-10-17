@@ -49,15 +49,13 @@ paths:
       x-fern-sdk-method-name: create
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
+    SingleUseTokenType:
+      type: string
+      enum:
+      - realtime_scribe
+      - batch_scribe
+      - tts_websocket
+      title: SingleUseTokenType
     SingleUseTokenResponseModel:
       properties:
         token:
@@ -91,10 +89,12 @@ components:
       - msg
       - type
       title: ValidationError
-    SingleUseTokenType:
-      type: string
-      enum:
-      - realtime_scribe
-      - batch_scribe
-      - tts_websocket
-      title: SingleUseTokenType
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError

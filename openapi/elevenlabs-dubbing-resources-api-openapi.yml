@@ -160,6 +160,14 @@ components:
         target_lang:
           type: string
           description: The target language code for the translation.
+    DubbingTranscript:
+      type: object
+      properties:
+        segments:
+          type: array
+          description: Transcript segments with timing information.
+          items:
+            $ref: '#/components/schemas/TranscriptSegment'
     TranscriptSegment:
       type: object
       properties:
@@ -187,14 +195,6 @@ components:
         language_code:
           type: string
           description: The language code for the dubbed output.
-    DubbingTranscript:
-      type: object
-      properties:
-        segments:
-          type: array
-          description: Transcript segments with timing information.
-          items:
-            $ref: '#/components/schemas/TranscriptSegment'
     DubbingResource:
       type: object
       properties:

@@ -188,6 +188,27 @@ paths:
       x-fern-streaming: true
 components:
   schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     AudioIsolationHistoryItemResponseModel:
       properties:
         id:
@@ -253,27 +274,6 @@ components:
       - video_processing_failed
       - preview_b64
       title: AudioIsolationHistoryItemResponseModel
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     GetAudioIsolationHistoryResponseModel:
       properties:
         items:

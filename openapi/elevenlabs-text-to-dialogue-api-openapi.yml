@@ -347,29 +347,6 @@ paths:
       x-fern-sdk-method-name: convert_with_timestamps
 components:
   schemas:
-    CharacterAlignmentResponseModel:
-      properties:
-        characters:
-          items:
-            type: string
-          type: array
-          title: Characters
-        character_start_times_seconds:
-          items:
-            type: number
-          type: array
-          title: Character Start Times Seconds
-        character_end_times_seconds:
-          items:
-            type: number
-          type: array
-          title: Character End Times Seconds
-      type: object
-      required:
-      - characters
-      - character_start_times_seconds
-      - character_end_times_seconds
-      title: CharacterAlignmentResponseModel
     ModelSettingsResponseModel:
       properties:
         stability:
@@ -385,88 +362,27 @@ components:
       title: ModelSettingsResponseModel
       example:
         stability: 0.5
-    Body_Text_to_dialogue__multi_voice__v1_text_to_dialogue_post:
+    ValidationError:
       properties:
-        inputs:
+        loc:
           items:
-            $ref: '#/components/schemas/DialogueInput'
+            anyOf:
+            - type: string
+            - type: integer
           type: array
-          title: Inputs
-          description: A list of dialogue inputs, each containing text and a voice ID which will be converted into speech. The maximum number of unique voice IDs is 10. For reliable generation, keep the total character count across all `inputs[].text` values at or below 2,000 characters per request. Longer requests can terminate early in streaming responses or return a validation error.
-          examples:
-          - - text: Hello, how are you?
-              voice_id: bYTqZQo3Jz7LQtmGTgwi
-            - text: I'm doing well, thank you!
-              voice_id: 6lCwbsX1yVjD49QmpkTR
-        model_id:
+          title: Location
+        msg:
           type: string
-          title: Model Id
-          description: Identifier of the model that will be used, you can query them using GET /v1/models. The model needs to have support for text to speech, you can check this using the can_do_text_to_speech property.
-          default: eleven_v3
-        language_code:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Language Code
-          description: Language code (ISO 639-1) used to enforce a language for the model and text normalization. If the model does not support the provided language code, it will be ignored. This parameter is not supported for multilingual_v2 models.
-        settings:
-          anyOf:
-          - $ref: '#/components/schemas/ModelSettingsResponseModel'
-          - type: 'null'
-          title: Settings
-          description: Settings controlling the dialogue generation.
-          examples:
-          - stability: 0.5
-        pronunciation_dictionary_locators:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/PronunciationDictionaryVersionLocatorRequestModel'
-            type: array
-          - type: 'null'
-          title: Pronunciation Dictionary Locators
-          description: A list of pronunciation dictionary locators (id, version_id) to be applied to the text. They will be applied in order. You may have up to 3 locators per request
-          examples:
-          - - pronunciation_dictionary_id: test
-              version_id: id2
-        seed:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Seed
-          description: If specified, our system will make a best effort to sample deterministically, such that repeated requests with the same seed and parameters should return the same result. Determinism is not guaranteed. Must be integer between 0 and 4294967295.
-          examples:
-          - 12345
-        apply_text_normalization:
+          title: Message
+        type:
           type: string
-          enum:
-          - auto
-          - 'on'
-          - 'off'
-          title: Apply Text Normalization
-          description: 'This parameter controls text normalization with three modes: ''auto'', ''on'', and ''off''. When set to ''auto'', the system will automatically decide whether to apply text normalization (e.g., spelling out numbers). With ''on'', text normalization will always be applied, while with ''off'', it will be skipped.'
-          default: auto
-          examples:
-          - true
+          title: Error Type
       type: object
       required:
-      - inputs
-      title: Body_Text_to_dialogue__multi_voice__v1_text_to_dialogue_post
-    PronunciationDictionaryVersionLocatorRequestModel:
-      properties:
-        pronunciation_dictionary_id:
-          type: string
-          title: Pronunciation Dictionary Id
-          description: The ID of the pronunciation dictionary.
-        version_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Version Id
-          description: The ID of the version of the pronunciation dictionary. If not provided, the latest version will be used.
-      type: object
-      required:
-      - pronunciation_dictionary_id
-      title: PronunciationDictionaryVersionLocatorRequestModel
+      - loc
+      - msg
+      - type
+      title: ValidationError
     Body_text_to_dialogue_full_with_timestamps:
       properties:
         inputs:
@@ -557,6 +473,16 @@ components:
       - opus_48000_96
       - opus_48000_128
       - opus_48000_192
+    NonStreamingOutputFormats:
+      type: string
+      enum:
+      - wav_8000
+      - wav_16000
+      - wav_22050
+      - wav_24000
+      - wav_32000
+      - wav_44100
+      - wav_48000
     Body_Text_to_dialogue__multi_voice__streaming_v1_text_to_dialogue_stream_post:
       properties:
         inputs:
@@ -623,143 +549,29 @@ components:
       required:
       - inputs
       title: Body_Text_to_dialogue__multi_voice__streaming_v1_text_to_dialogue_stream_post
-    VoiceSegment:
+    CharacterAlignmentResponseModel:
       properties:
-        voice_id:
-          type: string
-          title: Voice Id
-          description: The voice ID used for this segment
-        start_time_seconds:
-          type: number
-          title: Start Time Seconds
-          description: Start time of this voice segment
-        end_time_seconds:
-          type: number
-          title: End Time Seconds
-          description: End time of this voice segment
-        character_start_index:
-          type: integer
-          title: Character Start Index
-          description: Start index in the characters array
-        character_end_index:
-          type: integer
-          title: Character End Index
-          description: End index in the characters array (exclusive)
-        dialogue_input_index:
-          type: integer
-          title: Dialogue Input Index
-          description: Line of the dialogue (script) that this segment is a part of.
-      type: object
-      required:
-      - voice_id
-      - start_time_seconds
-      - end_time_seconds
-      - character_start_index
-      - character_end_index
-      - dialogue_input_index
-      title: VoiceSegment
-    ValidationError:
-      properties:
-        loc:
+        characters:
           items:
-            anyOf:
-            - type: string
-            - type: integer
+            type: string
           type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    DialogueInput:
-      properties:
-        text:
-          type: string
-          title: Text
-          description: The text to be converted into speech.
-        voice_id:
-          type: string
-          title: Voice Id
-          description: The ID of the voice to be used for the generation.
-      type: object
-      required:
-      - text
-      - voice_id
-      title: DialogueInput
-    Body_text_to_dialogue_stream_with_timestamps:
-      properties:
-        inputs:
+          title: Characters
+        character_start_times_seconds:
           items:
-            $ref: '#/components/schemas/DialogueInput'
+            type: number
           type: array
-          title: Inputs
-          description: A list of dialogue inputs, each containing text and a voice ID which will be converted into speech. The maximum number of unique voice IDs is 10. For reliable generation, keep the total character count across all `inputs[].text` values at or below 2,000 characters per request. Longer requests can terminate early in streaming responses or return a validation error.
-          examples:
-          - - text: Hello, how are you?
-              voice_id: bYTqZQo3Jz7LQtmGTgwi
-            - text: I'm doing well, thank you!
-              voice_id: 6lCwbsX1yVjD49QmpkTR
-        model_id:
-          type: string
-          title: Model Id
-          description: Identifier of the model that will be used, you can query them using GET /v1/models. The model needs to have support for text to speech, you can check this using the can_do_text_to_speech property.
-          default: eleven_v3
-        language_code:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Language Code
-          description: Language code (ISO 639-1) used to enforce a language for the model and text normalization. If the model does not support the provided language code, it will be ignored. This parameter is not supported for multilingual_v2 models.
-        settings:
-          anyOf:
-          - $ref: '#/components/schemas/ModelSettingsResponseModel'
-          - type: 'null'
-          title: Settings
-          description: Settings controlling the dialogue generation.
-          examples:
-          - stability: 0.5
-        pronunciation_dictionary_locators:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/PronunciationDictionaryVersionLocatorRequestModel'
-            type: array
-          - type: 'null'
-          title: Pronunciation Dictionary Locators
-          description: A list of pronunciation dictionary locators (id, version_id) to be applied to the text. They will be applied in order. You may have up to 3 locators per request
-          examples:
-          - - pronunciation_dictionary_id: test
-              version_id: id2
-        seed:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Seed
-          description: If specified, our system will make a best effort to sample deterministically, such that repeated requests with the same seed and parameters should return the same result. Determinism is not guaranteed. Must be integer between 0 and 4294967295.
-          examples:
-          - 12345
-        apply_text_normalization:
-          type: string
-          enum:
-          - auto
-          - 'on'
-          - 'off'
-          title: Apply Text Normalization
-          description: 'This parameter controls text normalization with three modes: ''auto'', ''on'', and ''off''. When set to ''auto'', the system will automatically decide whether to apply text normalization (e.g., spelling out numbers). With ''on'', text normalization will always be applied, while with ''off'', it will be skipped.'
-          default: auto
-          examples:
-          - true
+          title: Character Start Times Seconds
+        character_end_times_seconds:
+          items:
+            type: number
+          type: array
+          title: Character End Times Seconds
       type: object
       required:
-      - inputs
-      title: Body_text_to_dialogue_stream_with_timestamps
+      - characters
+      - character_start_times_seconds
+      - character_end_times_seconds
+      title: CharacterAlignmentResponseModel
     StreamingAudioChunkWithTimestampsAndVoiceSegmentsResponseModel:
       properties:
         audio_base64:
@@ -816,15 +628,22 @@ components:
           end_time_seconds: 0.2
           start_time_seconds: 0.0
           voice_id: VEDscrYI8uIMttlO2Ztu
-    HTTPValidationError:
+    PronunciationDictionaryVersionLocatorRequestModel:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        pronunciation_dictionary_id:
+          type: string
+          title: Pronunciation Dictionary Id
+          description: The ID of the pronunciation dictionary.
+        version_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Version Id
+          description: The ID of the version of the pronunciation dictionary. If not provided, the latest version will be used.
       type: object
-      title: HTTPValidationError
+      required:
+      - pronunciation_dictionary_id
+      title: PronunciationDictionaryVersionLocatorRequestModel
     AudioWithTimestampsAndVoiceSegmentsResponseModel:
       properties:
         audio_base64:
@@ -917,13 +736,194 @@ components:
           end_time_seconds: 0.7
           start_time_seconds: 0.5
           voice_id: VEDscrYI8uIMttlO2Ztu
-    NonStreamingOutputFormats:
-      type: string
-      enum:
-      - wav_8000
-      - wav_16000
-      - wav_22050
-      - wav_24000
-      - wav_32000
-      - wav_44100
-      - wav_48000
+    Body_text_to_dialogue_stream_with_timestamps:
+      properties:
+        inputs:
+          items:
+            $ref: '#/components/schemas/DialogueInput'
+          type: array
+          title: Inputs
+          description: A list of dialogue inputs, each containing text and a voice ID which will be converted into speech. The maximum number of unique voice IDs is 10. For reliable generation, keep the total character count across all `inputs[].text` values at or below 2,000 characters per request. Longer requests can terminate early in streaming responses or return a validation error.
+          examples:
+          - - text: Hello, how are you?
+              voice_id: bYTqZQo3Jz7LQtmGTgwi
+            - text: I'm doing well, thank you!
+              voice_id: 6lCwbsX1yVjD49QmpkTR
+        model_id:
+          type: string
+          title: Model Id
+          description: Identifier of the model that will be used, you can query them using GET /v1/models. The model needs to have support for text to speech, you can check this using the can_do_text_to_speech property.
+          default: eleven_v3
+        language_code:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Language Code
+          description: Language code (ISO 639-1) used to enforce a language for the model and text normalization. If the model does not support the provided language code, it will be ignored. This parameter is not supported for multilingual_v2 models.
+        settings:
+          anyOf:
+          - $ref: '#/components/schemas/ModelSettingsResponseModel'
+          - type: 'null'
+          title: Settings
+          description: Settings controlling the dialogue generation.
+          examples:
+          - stability: 0.5
+        pronunciation_dictionary_locators:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/PronunciationDictionaryVersionLocatorRequestModel'
+            type: array
+          - type: 'null'
+          title: Pronunciation Dictionary Locators
+          description: A list of pronunciation dictionary locators (id, version_id) to be applied to the text. They will be applied in order. You may have up to 3 locators per request
+          examples:
+          - - pronunciation_dictionary_id: test
+              version_id: id2
+        seed:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Seed
+          description: If specified, our system will make a best effort to sample deterministically, such that repeated requests with the same seed and parameters should return the same result. Determinism is not guaranteed. Must be integer between 0 and 4294967295.
+          examples:
+          - 12345
+        apply_text_normalization:
+          type: string
+          enum:
+          - auto
+          - 'on'
+          - 'off'
+          title: Apply Text Normalization
+          description: 'This parameter controls text normalization with three modes: ''auto'', ''on'', and ''off''. When set to ''auto'', the system will automatically decide whether to apply text normalization (e.g., spelling out numbers). With ''on'', text normalization will always be applied, while with ''off'', it will be skipped.'
+          default: auto
+          examples:
+          - true
+      type: object
+      required:
+      - inputs
+      title: Body_text_to_dialogue_stream_with_timestamps
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    VoiceSegment:
+      properties:
+        voice_id:
+          type: string
+          title: Voice Id
+          description: The voice ID used for this segment
+        start_time_seconds:
+          type: number
+          title: Start Time Seconds
+          description: Start time of this voice segment
+        end_time_seconds:
+          type: number
+          title: End Time Seconds
+          description: End time of this voice segment
+        character_start_index:
+          type: integer
+          title: Character Start Index
+          description: Start index in the characters array
+        character_end_index:
+          type: integer
+          title: Character End Index
+          description: End index in the characters array (exclusive)
+        dialogue_input_index:
+          type: integer
+          title: Dialogue Input Index
+          description: Line of the dialogue (script) that this segment is a part of.
+      type: object
+      required:
+      - voice_id
+      - start_time_seconds
+      - end_time_seconds
+      - character_start_index
+      - character_end_index
+      - dialogue_input_index
+      title: VoiceSegment
+    Body_Text_to_dialogue__multi_voice__v1_text_to_dialogue_post:
+      properties:
+        inputs:
+          items:
+            $ref: '#/components/schemas/DialogueInput'
+          type: array
+          title: Inputs
+          description: A list of dialogue inputs, each containing text and a voice ID which will be converted into speech. The maximum number of unique voice IDs is 10. For reliable generation, keep the total character count across all `inputs[].text` values at or below 2,000 characters per request. Longer requests can terminate early in streaming responses or return a validation error.
+          examples:
+          - - text: Hello, how are you?
+              voice_id: bYTqZQo3Jz7LQtmGTgwi
+            - text: I'm doing well, thank you!
+              voice_id: 6lCwbsX1yVjD49QmpkTR
+        model_id:
+          type: string
+          title: Model Id
+          description: Identifier of the model that will be used, you can query them using GET /v1/models. The model needs to have support for text to speech, you can check this using the can_do_text_to_speech property.
+          default: eleven_v3
+        language_code:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Language Code
+          description: Language code (ISO 639-1) used to enforce a language for the model and text normalization. If the model does not support the provided language code, it will be ignored. This parameter is not supported for multilingual_v2 models.
+        settings:
+          anyOf:
+          - $ref: '#/components/schemas/ModelSettingsResponseModel'
+          - type: 'null'
+          title: Settings
+          description: Settings controlling the dialogue generation.
+          examples:
+          - stability: 0.5
+        pronunciation_dictionary_locators:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/PronunciationDictionaryVersionLocatorRequestModel'
+            type: array
+          - type: 'null'
+          title: Pronunciation Dictionary Locators
+          description: A list of pronunciation dictionary locators (id, version_id) to be applied to the text. They will be applied in order. You may have up to 3 locators per request
+          examples:
+          - - pronunciation_dictionary_id: test
+              version_id: id2
+        seed:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Seed
+          description: If specified, our system will make a best effort to sample deterministically, such that repeated requests with the same seed and parameters should return the same result. Determinism is not guaranteed. Must be integer between 0 and 4294967295.
+          examples:
+          - 12345
+        apply_text_normalization:
+          type: string
+          enum:
+          - auto
+          - 'on'
+          - 'off'
+          title: Apply Text Normalization
+          description: 'This parameter controls text normalization with three modes: ''auto'', ''on'', and ''off''. When set to ''auto'', the system will automatically decide whether to apply text normalization (e.g., spelling out numbers). With ''on'', text normalization will always be applied, while with ''off'', it will be skipped.'
+          default: auto
+          examples:
+          - true
+      type: object
+      required:
+      - inputs
+      title: Body_Text_to_dialogue__multi_voice__v1_text_to_dialogue_post
+    DialogueInput:
+      properties:
+        text:
+          type: string
+          title: Text
+          description: The text to be converted into speech.
+        voice_id:
+          type: string
+          title: Voice Id
+          description: The ID of the voice to be used for the generation.
+      type: object
+      required:
+      - text
+      - voice_id
+      title: DialogueInput
