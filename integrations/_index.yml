@@ -193,3 +193,110 @@
     detected: '2026-10-15'
   status: not-a-workflow
   arazzo: null
+- slug: elevenlabs-maven-central
+  label: Maven Central
+  partner: maven-central
+  partner_name: Maven Central
+  category: official SDK (Java/JVM)
+  type: register
+  channel: package-registry
+  evidence: https://central.sonatype.com/artifact/io.elevenlabs/elevenlabs-android
+  source: edge
+  relationship: distribution-channel
+  contract_reference:
+    register: Maven Central (public registry JSON)
+    spec_file: null
+    language: Java/JVM
+    packages:
+    - name: io.elevenlabs:elevenlabs-android
+      version: 0.12.2
+      released: '2026-09-02'
+      released_field: lastUpdated
+      lapsed: false
+      page: https://central.sonatype.com/artifact/io.elevenlabs/elevenlabs-android
+      repo_leg: github-org:elevenlabs
+      publisher_leg: groupId:elevenlabs.io
+      matched_by: domain
+    current: true
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-official-sdks.py
+    detected: '2026-10-18'
+  status: not-a-workflow
+  arazzo: null
+- slug: elevenlabs-npm-registry
+  label: npm registry
+  partner: npm
+  partner_name: npm registry
+  category: official SDK (JavaScript/TypeScript)
+  type: register
+  channel: package-registry
+  evidence: https://www.npmjs.com/package/@elevenlabs/cli
+  source: edge
+  relationship: distribution-channel
+  contract_reference:
+    register: npm registry (public registry JSON)
+    spec_file: null
+    language: JavaScript/TypeScript
+    packages:
+    - name: '@elevenlabs/cli'
+      version: 1.6.1
+      released: '2026-10-17'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@elevenlabs/cli
+      repo_leg: github-org:elevenlabs
+      publisher_leg: email:elevenlabs.io
+      matched_by: domain
+    - name: '@elevenlabs/client'
+      version: 1.28.0
+      released: '2026-10-13'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@elevenlabs/client
+      repo_leg: github-org:elevenlabs
+      publisher_leg: email:elevenlabs.io
+      matched_by: domain
+    - name: '@elevenlabs/convai-widget-embed'
+      version: 0.20.0
+      released: '2026-10-13'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@elevenlabs/convai-widget-embed
+      repo_leg: github-org:elevenlabs
+      publisher_leg: email:elevenlabs.io
+      matched_by: domain
+    - name: '@elevenlabs/elevenlabs-js'
+      version: 2.73.0
+      released: '2026-10-15'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@elevenlabs/elevenlabs-js
+      repo_leg: github-org:elevenlabs
+      publisher_leg: email:elevenlabs.io
+      matched_by: domain
+    - name: '@elevenlabs/react'
+      version: 1.18.0
+      released: '2026-10-13'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@elevenlabs/react
+      repo_leg: github-org:elevenlabs
+      publisher_leg: email:elevenlabs.io
+      matched_by: domain
+    - name: '@elevenlabs/react-native'
+      version: 1.2.30
+      released: '2026-10-13'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@elevenlabs/react-native
+      repo_leg: github-org:elevenlabs
+      publisher_leg: email:elevenlabs.io
+      matched_by: domain
+    current: true
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-official-sdks.py
+    detected: '2026-10-18'
+  status: not-a-workflow
+  arazzo: null
