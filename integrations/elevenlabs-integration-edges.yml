@@ -402,6 +402,23 @@ edges:
     detected: '2026-10-20'
   detected_by: sweep-compliance-assurance.py
   first_seen: '2026-10-20'
+- partner_name: Phrase (own)
+  partner: phrase
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://phrase.com/blog/posts/integration/elevenlabs/
+  mirror_of: phrase/integrations/phrase-integration-edges.yml
+  apps:
+  - ElevenLabs
+  listing_count: 1
+  detected: '2026-10-20'
+  detected_by: mirror-platform-listings.py
+  category: Developer tools
 generated: '2026-10-13'
 method: searched
 checked:
