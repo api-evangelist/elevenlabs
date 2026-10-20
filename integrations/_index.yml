@@ -346,3 +346,42 @@
     detected: '2026-10-20'
   status: not-a-workflow
   arazzo: null
+- slug: elevenlabs-phrase-own
+  label: Phrase (own)
+  partner: phrase
+  partner_name: Phrase (own)
+  category: Developer tools
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://phrase.com/blog/posts/integration/elevenlabs/
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null
+- slug: elevenlabs-ddex-digital-data-exchange
+  label: DDEX (Digital Data Exchange)
+  partner_name: DDEX (Digital Data Exchange)
+  category: music metadata and rights messaging standard
+  type: register
+  channel: standard-directory
+  evidence: https://ddex.net/membership/current-members/
+  source: edge
+  relationship: standard-participant
+  contract_reference:
+    register: DDEX current members (ddex.net/membership/current-members)
+    spec_file: null
+    role: ddex-full-member
+    registered_name: Eleven Labs Inc.
+    register_id: Eleven Labs Inc.
+    tier: full
+    matched_domain: null
+    matched_by: register-name
+    identity: register-name
+    detected_by: sweep-media.py
+    detected: '2026-10-20'
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  status: not-a-workflow
+  arazzo: null
