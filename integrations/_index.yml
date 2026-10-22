@@ -578,3 +578,38 @@
     detected: '2026-10-22'
   status: not-a-workflow
   arazzo: null
+- slug: elevenlabs-obsidian
+  label: Obsidian
+  partner: obsidian
+  partner_name: Obsidian
+  category: Obsidian community plugin
+  type: marketplace
+  marketplace: obsidian-community-plugins
+  channel: community-plugin
+  evidence: https://github.com/danialkalbasi/obsidian-vox
+  source: edge
+  relationship: connector-listing
+  contract_reference:
+    register: Obsidian community-plugins.json (obsidianmd/obsidian-releases@793b5211) + plugin repo README / manifest
+      / source
+    spec_file: null
+    role: obsidian-community-plugin:community
+    registered_name: danialkalbasi
+    register_id: https://github.com/danialkalbasi/obsidian-vox
+    matched_domain: elevenlabs.io
+    matched_by: domain+name-in-listing
+    matched_where: README
+    matched_host: elevenlabs.io
+    builder: community
+    plugins:
+    - vox-reader
+    - live-scribe
+    - note-narrator
+    downloads_context: 642
+    signal_note: 'ONE edge per provider: a community plugin names the provider in its name/description AND carries
+      the provider''s domain or API host in its README or source. Builder is a named community author (not the provider).
+      Plugin and download counts are context, never counted.'
+    detected_by: sweep-obsidian-community-plugins.py
+    detected: '2026-10-22'
+  status: not-a-workflow
+  arazzo: null
