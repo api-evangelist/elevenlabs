@@ -352,3 +352,9 @@ components:
       required:
       - audio
       title: Body_Audio_Isolation_v1_audio_isolation_post
+x-provenance:
+  method: harvested
+  publisher: ElevenLabs
+  source: https://api.elevenlabs.io/openapi.json
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)

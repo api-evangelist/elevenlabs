@@ -6963,3 +6963,9 @@ components:
           upload_date_unix: 1714204800
         similarity: 0.95
         text: Hello, how are you?
+x-provenance:
+  method: harvested
+  publisher: ElevenLabs
+  source: https://api.elevenlabs.io/openapi.json
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)

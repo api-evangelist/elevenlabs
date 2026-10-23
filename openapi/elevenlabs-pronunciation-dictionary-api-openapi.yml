@@ -1073,3 +1073,9 @@ components:
           phoneme: /təˈmeɪtoʊ/
           string_to_replace: Tomato
           type: phoneme
+x-provenance:
+  method: harvested
+  publisher: ElevenLabs
+  source: https://api.elevenlabs.io/openapi.json
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)

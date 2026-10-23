@@ -1365,3 +1365,9 @@ components:
           default: false
       type: object
       title: Body_Stream_composed_music_with_a_detailed_response_v1_music_detailed_stream_post
+x-provenance:
+  method: harvested
+  publisher: ElevenLabs
+  source: https://api.elevenlabs.io/openapi.json
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)
