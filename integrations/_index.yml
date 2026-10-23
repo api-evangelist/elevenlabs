@@ -473,70 +473,6 @@
     detected: '2026-10-21'
   status: not-a-workflow
   arazzo: null
-- slug: elevenlabs-n8n-n8n-community
-  label: n8n (n8n-community)
-  partner: n8n
-  partner_name: n8n (n8n-community)
-  type: marketplace
-  marketplace: n8n-community
-  channel: partner-built
-  evidence: https://www.npmjs.com/package/elevenlabs-n8n-node
-  source: edge
-  relationship: platform-app
-  status: not-a-workflow
-  arazzo: null
-- slug: elevenlabs-stripe-own
-  label: Stripe (own)
-  partner: stripe
-  partner_name: Stripe (own)
-  category: developer_tools
-  type: marketplace
-  marketplace: own
-  channel: partner-built
-  evidence: https://marketplace.stripe.com/apps/elevenlabs
-  source: edge
-  relationship: platform-app
-  status: not-a-workflow
-  arazzo: null
-- slug: elevenlabs-phrase-own
-  label: Phrase (own)
-  partner: phrase
-  partner_name: Phrase (own)
-  category: Developer tools
-  type: marketplace
-  marketplace: own
-  channel: partner-built
-  evidence: https://phrase.com/blog/posts/integration/elevenlabs/
-  source: edge
-  relationship: platform-app
-  status: not-a-workflow
-  arazzo: null
-- slug: elevenlabs-hubspot-own
-  label: HubSpot (own)
-  partner: hubspot
-  partner_name: HubSpot (own)
-  category: LIVE_CHAT
-  type: marketplace
-  marketplace: own
-  channel: partner-built
-  evidence: https://ecosystem.hubspot.com/marketplace/listing/reception-by-elevenagents
-  source: edge
-  relationship: platform-app
-  status: not-a-workflow
-  arazzo: null
-- slug: elevenlabs-vercel-own
-  label: Vercel (own)
-  partner: vercel
-  partner_name: Vercel (own)
-  category: AI
-  type: marketplace
-  marketplace: own
-  channel: partner-built
-  evidence: https://vercel.com/marketplace/elevenlabs
-  source: edge
-  relationship: platform-app
-  status: not-a-workflow
-  arazzo: null
 - slug: elevenlabs-raycast
   label: Raycast
   partner: raycast
@@ -696,5 +632,82 @@
       lapsed: false
     detected_by: sweep-tx-ramp-certified-cloud.py
     detected: '2026-10-22'
+  status: not-a-workflow
+  arazzo: null
+- slug: elevenlabs-n8n-n8n-community
+  label: n8n (n8n-community)
+  partner: n8n
+  partner_name: n8n (n8n-community)
+  type: marketplace
+  marketplace: n8n-community
+  channel: partner-built
+  evidence: https://www.npmjs.com/package/elevenlabs-n8n-node
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null
+- slug: elevenlabs-stripe-own
+  label: Stripe (own)
+  partner: stripe
+  partner_name: Stripe (own)
+  category: developer_tools
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://marketplace.stripe.com/apps/elevenlabs
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null
+- slug: elevenlabs-phrase-own
+  label: Phrase (own)
+  partner: phrase
+  partner_name: Phrase (own)
+  category: Developer tools
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://phrase.com/blog/posts/integration/elevenlabs/
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null
+- slug: elevenlabs-hubspot-own
+  label: HubSpot (own)
+  partner: hubspot
+  partner_name: HubSpot (own)
+  category: LIVE_CHAT
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://ecosystem.hubspot.com/marketplace/listing/reception-by-elevenagents
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null
+- slug: elevenlabs-vercel-own
+  label: Vercel (own)
+  partner: vercel
+  partner_name: Vercel (own)
+  category: AI
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://vercel.com/marketplace/elevenlabs
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null
+- slug: elevenlabs-hugging-face-hugging-face-hub
+  label: Hugging Face (hugging-face-hub)
+  partner: hugging-face
+  partner_name: Hugging Face (hugging-face-hub)
+  category: Hugging Face Hub spaces
+  type: marketplace
+  marketplace: hugging-face-hub
+  channel: partner-built
+  evidence: https://huggingface.co/elevenlabs
+  source: edge
+  relationship: platform-app
   status: not-a-workflow
   arazzo: null
