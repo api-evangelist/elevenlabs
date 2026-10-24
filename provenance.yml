@@ -18,6 +18,9 @@ artifacts:
   authentication/elevenlabs-authentication.yml:
     method: searched
     evidence: declared in the artifact
+  capabilities/elevenlabs-capability-edges.yml:
+    method: unknown
+    evidence: no authorship recorded
   changelog/elevenlabs-changelog.yml:
     method: searched
     evidence: declared in the artifact
@@ -49,17 +52,17 @@ artifacts:
     method: derived
     evidence: openapi/elevenlabs-audio-native-api
   collections/elevenlabs-chapters-api.opencollection.json:
-    method: derived
-    evidence: openapi/elevenlabs-chapters-api
+    method: unknown
+    evidence: no authorship recorded
   collections/elevenlabs-chapters-api.postman_collection.json:
-    method: derived
-    evidence: openapi/elevenlabs-chapters-api
+    method: unknown
+    evidence: no authorship recorded
   collections/elevenlabs-conversational-ai.opencollection.json:
-    method: unknown
-    evidence: no authorship recorded
+    method: derived
+    evidence: openapi/elevenlabs-conversational-ai
   collections/elevenlabs-conversational-ai.postman_collection.json:
-    method: unknown
-    evidence: no authorship recorded
+    method: derived
+    evidence: openapi/elevenlabs-conversational-ai
   collections/elevenlabs-conversations-api.opencollection.json:
     method: derived
     evidence: openapi/elevenlabs-conversations-api
@@ -115,29 +118,29 @@ artifacts:
     method: derived
     evidence: openapi/elevenlabs-professional-voice-cloning-api
   collections/elevenlabs-projects-api.opencollection.json:
-    method: derived
-    evidence: openapi/elevenlabs-projects-api
+    method: unknown
+    evidence: no authorship recorded
   collections/elevenlabs-projects-api.postman_collection.json:
-    method: derived
-    evidence: openapi/elevenlabs-projects-api
+    method: unknown
+    evidence: no authorship recorded
   collections/elevenlabs-pronunciation-dictionaries-api.opencollection.json:
-    method: derived
-    evidence: openapi/elevenlabs-pronunciation-dictionaries-api
+    method: unknown
+    evidence: no authorship recorded
   collections/elevenlabs-pronunciation-dictionaries-api.postman_collection.json:
-    method: derived
-    evidence: openapi/elevenlabs-pronunciation-dictionaries-api
+    method: unknown
+    evidence: no authorship recorded
   collections/elevenlabs-sound-effects-api.opencollection.json:
-    method: derived
-    evidence: openapi/elevenlabs-sound-effects-api
+    method: unknown
+    evidence: no authorship recorded
   collections/elevenlabs-sound-effects-api.postman_collection.json:
-    method: derived
-    evidence: openapi/elevenlabs-sound-effects-api
+    method: unknown
+    evidence: no authorship recorded
   collections/elevenlabs-sound-effects.opencollection.json:
-    method: derived
-    evidence: openapi/elevenlabs-sound-effects
+    method: unknown
+    evidence: no authorship recorded
   collections/elevenlabs-sound-effects.postman_collection.json:
-    method: derived
-    evidence: openapi/elevenlabs-sound-effects
+    method: unknown
+    evidence: no authorship recorded
   collections/elevenlabs-speech-to-speech-api.opencollection.json:
     method: derived
     evidence: openapi/elevenlabs-speech-to-speech-api
@@ -157,11 +160,11 @@ artifacts:
     method: derived
     evidence: openapi/elevenlabs-speech-to-text
   collections/elevenlabs-studio.opencollection.json:
-    method: unknown
-    evidence: no authorship recorded
+    method: derived
+    evidence: openapi/elevenlabs-studio
   collections/elevenlabs-studio.postman_collection.json:
-    method: unknown
-    evidence: no authorship recorded
+    method: derived
+    evidence: openapi/elevenlabs-studio
   collections/elevenlabs-text-to-dialogue-api.opencollection.json:
     method: derived
     evidence: openapi/elevenlabs-text-to-dialogue-api
@@ -241,6 +244,12 @@ artifacts:
     method: generated
     evidence: declared in the artifact
   front-door-ai/2026-09-17.yml:
+    method: unknown
+    evidence: no authorship recorded
+  integrations/_index.yml:
+    method: generated
+    evidence: carries an API Evangelist house phrase
+  integrations/elevenlabs-integration-edges.yml:
     method: unknown
     evidence: no authorship recorded
   json-ld/elevenlabs-context.jsonld:
@@ -444,127 +453,7 @@ artifacts:
   json-structure/elevenlabs-structure.json:
     method: unknown
     evidence: no authorship recorded
-  kin/checks-2026-09-24T161608.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-25T125852.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-25T133943.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-25T143147.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-25T154045.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-26T215308.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-27T094438.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-27T103455.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-27T123021.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-27T132314.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-27T140727.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-28T221322.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-29T213958.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-29T230545.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-30T203505.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-30T220315.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-31T223420.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-01T063623.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-01T210448.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-01T222808.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-02T211804.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-02T224043.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-03T161828.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-03T174231.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-04T062714.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-04T212454.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-04T224856.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-05T055819.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-05T072335.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-05T144739.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-05T195450.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-05T211839.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-06T011047.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-06T211804.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-06T224210.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-07T200636.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-07T213054.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-08T214843.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-08T232836.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-10T204815.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-10T222408.yml:
+  kin/checks-2026-10-11T110117.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-09-12T062655.yml:
@@ -648,6 +537,21 @@ artifacts:
   kin/score-2026-09-24T161608.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-25T210408.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-25T232841.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-10-03T000835.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-10-03T024842.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-10-11T110117.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
   lifecycle/elevenlabs-lifecycle.yml:
     method: searched
     evidence: declared in the artifact
@@ -676,6 +580,10 @@ artifacts:
     method: harvested
     evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
       to the provider's source is unverified
+  openapi/_original/elevenlabs-openapi.json:
+    method: harvested
+    evidence: the same operations as https://api.elevenlabs.io/openapi.json (sha256 bcda2b74cf62, fetched
+      2026-10-04)
   openapi/_original/elevenlabs-sound-effects-openapi.yml:
     method: harvested
     evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
@@ -704,7 +612,25 @@ artifacts:
     method: harvested
     evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
       to the provider's source is unverified
+  openapi/elevenlabs-access-all-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/elevenlabs-agents-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/elevenlabs-agents-insights-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/elevenlabs-agents-platform-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/elevenlabs-agents-workspace-analytics-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/elevenlabs-api-key-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/elevenlabs-assets-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/elevenlabs-audio-isolation-api-openapi.yml:
@@ -713,10 +639,16 @@ artifacts:
   openapi/elevenlabs-audio-native-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/elevenlabs-chapters-api-openapi.yml:
+  openapi/elevenlabs-convai-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/elevenlabs-conversational-ai-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/elevenlabs-conversations-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/elevenlabs-docs-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/elevenlabs-dubbing-api-openapi.yml:
@@ -725,28 +657,64 @@ artifacts:
   openapi/elevenlabs-dubbing-resources-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/elevenlabs-enterprise-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/elevenlabs-flows-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/elevenlabs-forced-alignment-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/elevenlabs-image-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/elevenlabs-instant-voice-cloning-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/elevenlabs-knowledge-base-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/elevenlabs-models-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/elevenlabs-music-finetunes-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/elevenlabs-music-generation-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/elevenlabs-openapi.json:
-    method: unknown
-    evidence: no authorship recorded
+  openapi/elevenlabs-productions-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/elevenlabs-professional-voice-cloning-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/elevenlabs-projects-api-openapi.yml:
+  openapi/elevenlabs-pronunciation-dictionary-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/elevenlabs-pronunciation-dictionaries-api-openapi.yml:
+  openapi/elevenlabs-pvc-voices-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/elevenlabs-sound-effects-api-openapi.yml:
+  openapi/elevenlabs-resource-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/elevenlabs-samples-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/elevenlabs-segment-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/elevenlabs-single-use-token-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/elevenlabs-sound-generation-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/elevenlabs-speech-engine-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/elevenlabs-speech-history-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/elevenlabs-speech-to-speech-api-openapi.yml:
@@ -755,13 +723,31 @@ artifacts:
   openapi/elevenlabs-speech-to-text-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/elevenlabs-studio-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/elevenlabs-text-to-dialogue-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/elevenlabs-text-to-speech-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/elevenlabs-text-to-voice-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/elevenlabs-tools-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/elevenlabs-usage-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/elevenlabs-user-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/elevenlabs-video-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/elevenlabs-video-to-music-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/elevenlabs-voice-library-api-openapi.yml:
@@ -773,7 +759,172 @@ artifacts:
   openapi/elevenlabs-voices-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/elevenlabs-workspace-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  overlays/elevenlabs-access-all-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-agents-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-agents-insights-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-agents-platform-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-agents-workspace-analytics-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-api-key-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-assets-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-audio-isolation-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-audio-native-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-chapters-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-convai-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-conversational-ai-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-conversations-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-docs-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-dubbing-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-dubbing-resources-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-enterprise-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-flows-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-forced-alignment-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-image-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-instant-voice-cloning-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-knowledge-base-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-models-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-music-finetunes-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-music-generation-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
   overlays/elevenlabs-openapi-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/elevenlabs-productions-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-professional-voice-cloning-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-projects-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-pronunciation-dictionaries-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-pronunciation-dictionary-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-pvc-voices-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-resource-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-samples-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-segment-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-single-use-token-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-sound-effects-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-sound-generation-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-speech-engine-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-speech-history-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-speech-to-speech-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-speech-to-text-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-studio-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-text-to-dialogue-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-text-to-speech-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-text-to-voice-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-tools-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-usage-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-user-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-video-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-video-to-music-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-voice-library-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-voice-settings-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-voices-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-workspace-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
   packages/elevenlabs-packages.yml:
