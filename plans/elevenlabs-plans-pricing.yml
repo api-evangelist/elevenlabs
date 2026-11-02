@@ -1,0 +1,132 @@
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-10-28'
+method: searched
+source: https://elevenlabs.io/pricing
+sources:
+- https://elevenlabs.io/pricing
+provenance:
+  tool: engine/economics/harvest_pricing.py
+  run: 20261028T120612
+  grounding: every price_text was found verbatim in the fetched page text
+audience: business-product
+pricing_basis: tiered-subscription
+delivery:
+  delivery: managed
+  method: page
+  read: '2026-10-28'
+  managed_tier: Starter
+published: true
+note: 'Credit-based subscription tiers; annual billing stated as monthly price x 10 with equivalent monthly
+  prices ($5 Starter, $18.33 Creator, $82.50 Pro, $249.17 Scale, $825 Business). Promo: 30,000 credits
+  for $1.'
+plan_count: 7
+currency: USD
+plans:
+- name: Free
+  price_text: $0
+  price: 0
+  currency: USD
+  period: month
+  included_quota: 10k credits per month; 3 Projects in Studio
+- name: Starter
+  price_text: $6
+  price: 6
+  currency: USD
+  period: month
+  included_quota: 30k credits per month; 20 Projects in Studio; Commercial License; Instant Voice Cloning
+  overage: Extra minute ~ $0.20
+- name: Creator
+  price_text: $22
+  price: 22
+  currency: USD
+  period: month
+  included_quota: 121k credits per month; Professional Voice Cloning; Additional Credits ($11 for the
+    first month)
+  overage: Extra minute ~ $0.18
+- name: Pro
+  price_text: $99
+  price: 99
+  currency: USD
+  period: month
+  included_quota: 600k credits per month; 44.1kHz PCM audio output via API; 192kbps quality audio
+  overage: Extra minute ~ $0.17
+- name: Scale
+  price_text: $299
+  price: 299
+  currency: USD
+  period: month
+  included_quota: 1.8M credits per month; 3 Workspace seats; 3 Professional Voice Clones
+  overage: Extra minute ~ $0.17
+- name: Business
+  price_text: $990
+  price: 990
+  currency: USD
+  period: month
+  included_quota: 6M credits per month; 10 Workspace seats; 10 Professional Voice Clones; Low-latency
+    TTS as low as 5c/minute
+  overage: Extra minute ~ $0.17
+- name: Enterprise
+  price_text: Custom pricing
+  period: none
+  included_quota: Custom number of credits and seats; custom terms, BAAs, SSO, elevated concurrency limits
+rate_limit_statements:
+- Elevated concurrency limits
+- Yes. There is a maximum number of credits that can be used in a single generation request. The limit
+  depends on whether you are on the Free tier or a paid subscription.
+x-canonical:
+  generated: '2026-11-01'
+  vocabulary: engine/economics/plans-canonical.yml
+  models:
+  - free
+  - hybrid
+  units: []
+  plans:
+  - name: Free
+    access: other
+    model: free
+    model_how: derived
+    units: []
+    periods:
+    - month
+  - name: Starter
+    access: other
+    model: hybrid
+    model_how: derived
+    units: []
+    periods:
+    - month
+  - name: Creator
+    access: other
+    model: hybrid
+    model_how: derived
+    units: []
+    periods:
+    - month
+  - name: Pro
+    access: other
+    model: hybrid
+    model_how: derived
+    units: []
+    periods:
+    - month
+  - name: Scale
+    access: other
+    model: hybrid
+    model_how: derived
+    units: []
+    periods:
+    - month
+  - name: Business
+    access: other
+    model: hybrid
+    model_how: derived
+    units: []
+    periods:
+    - month
+  - name: Enterprise
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods:
+    - none
