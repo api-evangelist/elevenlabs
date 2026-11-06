@@ -74,7 +74,7 @@ rate_limit_statements:
 - Yes. There is a maximum number of credits that can be used in a single generation request. The limit
   depends on whether you are on the Free tier or a paid subscription.
 x-canonical:
-  generated: '2026-11-02'
+  generated: '2026-11-06'
   vocabulary: engine/economics/plans-canonical.yml
   models:
   - free
