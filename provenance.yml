@@ -5,6 +5,9 @@ artifacts:
   agentic-access/elevenlabs-agentic-access.yml:
     method: generated
     evidence: declared in the artifact
+  ai-preferences/elevenlabs-ai-preferences.yml:
+    method: harvested
+    evidence: declared in the artifact
   asyncapi/elevenlabs-conversational-ai-asyncapi.yml:
     method: unknown
     evidence: no authorship recorded
@@ -18,6 +21,12 @@ artifacts:
     method: searched
     evidence: declared in the artifact
   capabilities/elevenlabs-capability-edges.yml:
+    method: unknown
+    evidence: no authorship recorded
+  certification/observations-2026-11-11.jsonl:
+    method: unknown
+    evidence: no authorship recorded
+  certification/status.yml:
     method: unknown
     evidence: no authorship recorded
   changelog/elevenlabs-changelog.yml:
@@ -224,6 +233,9 @@ artifacts:
   collections/elevenlabs-voices.postman_collection.json:
     method: derived
     evidence: openapi/elevenlabs-voices
+  compliance/elevenlabs-compliance.yml:
+    method: harvested
+    evidence: declared in the artifact
   components/elevenlabs-components.yml:
     method: searched
     evidence: declared in the artifact
@@ -233,8 +245,14 @@ artifacts:
   conventions/elevenlabs-conventions.yml:
     method: searched
     evidence: declared in the artifact
+  data-license/elevenlabs-data-license.yml:
+    method: harvested
+    evidence: declared in the artifact
   data-model/elevenlabs-data-model.yml:
     method: derived
+    evidence: declared in the artifact
+  eligibility/elevenlabs-eligibility.yml:
+    method: harvested
     evidence: declared in the artifact
   errors/elevenlabs-problem-types.yml:
     method: searched
@@ -249,6 +267,9 @@ artifacts:
     method: unknown
     evidence: no authorship recorded
   heartbeat/2026-11-06.yml:
+    method: unknown
+    evidence: no authorship recorded
+  heartbeat/2026-11-13.yml:
     method: unknown
     evidence: no authorship recorded
   integrations/_index.yml:
@@ -461,7 +482,7 @@ artifacts:
   kin/checks-2026-10-23T222754.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
-  kin/checks-2026-11-02T082323.yml:
+  kin/checks-2026-11-06T143934.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-09-23T000603.yml:
@@ -525,6 +546,9 @@ artifacts:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-11-02T082323.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-11-06T143934.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   lifecycle/elevenlabs-lifecycle.yml:
@@ -779,6 +803,9 @@ artifacts:
   overlays/elevenlabs-docs-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
+  overlays/elevenlabs-dubbing-api-certification-overlay.yaml:
+    method: derived
+    evidence: declared in the artifact
   overlays/elevenlabs-dubbing-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
@@ -893,8 +920,14 @@ artifacts:
   overlays/elevenlabs-voice-library-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
+  overlays/elevenlabs-voice-settings-api-certification-overlay.yaml:
+    method: derived
+    evidence: declared in the artifact
   overlays/elevenlabs-voice-settings-api-phrasing-overlay.yaml:
     method: generated
+    evidence: declared in the artifact
+  overlays/elevenlabs-voices-api-certification-overlay.yaml:
+    method: derived
     evidence: declared in the artifact
   overlays/elevenlabs-voices-api-phrasing-overlay.yaml:
     method: generated
@@ -911,6 +944,9 @@ artifacts:
   plans/elevenlabs-price-estimates.yml:
     method: unknown
     evidence: no authorship recorded
+  privacy/elevenlabs-privacy-policy.yml:
+    method: harvested
+    evidence: declared in the artifact
   rate-limits/elevenlabs-rate-limits.yml:
     method: searched
     evidence: declared in the artifact
@@ -967,6 +1003,9 @@ artifacts:
     evidence: no authorship recorded
   sla/elevenlabs-sla.yml:
     method: generated
+    evidence: declared in the artifact
+  terms/elevenlabs-terms-of-service.yml:
+    method: harvested
     evidence: declared in the artifact
   vocabulary/elevenlabs-vocabulary.yml:
     method: unknown
